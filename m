@@ -1,54 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.203
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793287573;
-	b=dZFu4wSCXtx7rYtUanowZTE9X/7k/d8qSZX2yMEsH6PFFWrOJZHzj4JK2H+/Xu5rwU5O
-	 l0/Mt3Azr3rYiGiTRWrt41VLFlgFxuvBn/3+o1GQThZVOeMRFQnji/7x2pSAVGCr9Fuhj
-	 RYIuFY08WjqlaX/ydEtalh7X7Z2Exsuv/SPGfHotEnN6Zhgpg4hXOIFoP2BfMJNCHlutp
-	 1KTGeArHRDNP+1k40dj8PA1Ibz/UKHHm/iu1KgfSSewEG/nL6iTqU/nmW7R3xiAl19qkT
-	 h3y/h8+wKKAbAqGZ0for5LnBwx50FwEyGvNbs6Lqlap6Ex6a4ZX1sXdqNbjCEYMLNrg==
+	t=1793288548;
+	b=Rza22k/SCBmNS8IEaGumov0v1FrxG8EBs7Ra+TVY7ekFSQiJOYIe20g9XoWvtCNQCk+S
+	 iFeCceWz2aQP5S51Glo3MOHuDpkx/gcHaKHe2iqSonM6SKpeXHi+L/6hCSIDxsHLPT/Bz
+	 E+O6KIfEfoviElMWbs0e34py03szfu8pG/Vi/oTSkeCADuZKDE5R2gT1JipSE6ithbmvd
+	 UWx2Y29xXb4eMI9VuuZKR/Wda8qhuBUQVuwz7+kWX6WAq9kLCQEjLZTwz59ZrA4N6ue92
+	 uv7HE2v+V+I+wpnecsH6ED7IxVipNwu7SPG4j21OKH9m+eusGpohRdfbqqguinTgwbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793287573;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=mpW7Rx8PuBJeOKNX2dQ8d9XnAjnbB8743kHyv8YBQHw=;
-	b=f0C23GuMsm/ND9YrZz0GInxzasZImif5deUYKUFyf9hugR90OkPK3p3ZK2P3H513f/b3
-	 hOLkyem3fxOxHs3KiInRyOe7olgsnM6I2DwmURAsU57jaoaTfhpWui/++hAebeiN8wmHJ
-	 pvQK9KSULc0moAzrZz1UIermsGVWrcuG6mto0Fcfoasp2nsca86Sn4st9LPmVrDpVRfJC
-	 GTF4T2XPRWPODHLBqmpPoLxzbzieN+FSUO8JkQ8wELmixvlcrEGu7OUvUdxeyCCAqoz10
-	 yTB09HXLdrFYnyQy2r3YHtBy6pSIX0/3MtFzapWNHPl1zqUwWL6K5ivWqYCYtZwWm8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793288548;
+	h=DMARC-Filter:Received:DKIM-Signature:Content-Type:MIME-Version:
+	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
+	 References:To;
+	bh=Hi1ZL/P6xTwIFqhtVwLPu3VRn9H34CRK9uafD+p4DyE=;
+	b=jDKulc0uLD4RTuM80h26iWYp6yvdDASlZ9tM77MuP7IqGiE0HJwa4NFIMJEUlxwgyWxo
+	 0Dkn2pX/tDbfriWPJKYT67+F7jvSqfP00gTZ9aJJZYkPpMeYzPqK87MBcUkURFzAsjBXG
+	 kmzeAmYH/e3Ed/y5uTx0KYqdBMyQm5cFGeDeSI0Nua2QcUnngvO9KyWky8OgIv/xpw4jA
+	 P+DpncMb166Pe01O/591ag2C6MORtOweaFwt1h3KWNKMUN8hOgv2W2cf7QwoMYd4s2Yac
+	 iO+eWP6jAO0VGU8W4/0G2tCm3BIShXmNM95OU0vCGSOktLg54jc45VXFe3HgQ9/qC3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=YBgfSxG8;
-	arc=none smtp.remote-ip=95.215.58.203
-Received: from mta1.migadu.com (out-203.mta1.migadu.com [95.215.58.203])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=chaosmail.tech;
+	spf=pass smtp.mailfrom=chaosmail.tech;
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=Nsrn3EDa;
+	arc=none smtp.remote-ip=77.81.229.115
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DDB606A31F
-	for <asahi@lists.linux.dev>; Thu, 29 Oct 2026 15:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4DDB606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC0E606A31C;
+	Thu, 29 Oct 2026 15:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0CC0E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=YBgfSxG8
-X-Envelope-To: asahi@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=vYqatMBexbASiH/pDoDg+soUpC7jr6OsHv3SiCXY0DQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793287569; v=1; x=1793892369;
- b=YBgfSxG83dv1diMdnfa5stNTtVYFbYu5M/s6nixvJfI6REU4klZeGEO2+DBDz6RS7XsOUMJa
- fcd47m13F+ytxndj7FB0JdXIczh7G4TJ84TcotWcydzDjpvSngLd0FBZPBqBQjFV+d3JRfsK3bu
- sVmaoJAaMrpEOp1prSlDJrEA=
-X-Envelope-To: asahi@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 7378328bbc0346d2;
-	Thu, 29 Oct 2026 15:26:09 +0000
-X-Mizu-Trace-ID: 7378328bbc0346d2
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <12988c8e-95ad-4989-a6de-e02af3c9ef1b@linux.dev>
-Date: Thu, 29 Oct 2026 20:55:53 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=Nsrn3EDa
+Received: by chaosmail.tech (Postfix) id A043B1C8AAF;
+	Thu, 29 Oct 2026 15:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1793288546;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hi1ZL/P6xTwIFqhtVwLPu3VRn9H34CRK9uafD+p4DyE=;
+	b=Nsrn3EDaUl1axthWNFon0U2+dA13f1L+vVnts30Oh3yVZBVUUR+B5XnWSpOkjv/V9GcWRI
+	ewb8OQpnhWxOmbTnboc3e7UVtSWF/fmXK/HbIvxXDnKKUex+Xe99DbwEOEK26ZeZ2xDlWT
+	Us7sOzT/XDhsHTcNPUT+Oeu2qg7dUjU=
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,74 +56,81 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 14/14] mfd/macsmc: add ioctl to access smc keys
-To: Sasha Finkelstein <k@chaosmail.tech>,
- Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: alexandre.belloni@bootlin.com, andy@kernel.org, asahi@lists.linux.dev,
- bhelgaas@google.com, bp@alien8.de, brgl@kernel.org,
- dave.hansen@linux.intel.com, dlechner@baylibre.com,
- dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, griffin@kroah.com,
- hansg@kernel.org, hpa@zytor.com, ilpo.jarvinen@linux.intel.com,
- j@jannau.net, jarkko@kernel.org, jic23@kernel.org, jmorris@namei.org,
- lee@kernel.org, lenb@kernel.org, linusw@kernel.org,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux@roeck-us.net, mfd@lists.linux.dev,
- mingo@redhat.com, neal@gompa.dev, nuno.sa@analog.com, paul@paul-moore.com,
- pavel@kernel.org, platform-driver-x86@vger.kernel.org, rafael@kernel.org,
- roberto.sassu@huawei.com, serge@hallyn.com, sre@kernel.org, sven@kernel.org,
- tglx@kernel.org, wim@linux-watchdog.org, x86@kernel.org, zohar@linux.ibm.com
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <12988c8e-95ad-4989-a6de-e02af3c9ef1b@linux.dev>
+Date: Thu, 29 Oct 2026 16:42:12 +0100
+Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
+ alexandre.belloni@bootlin.com,
+ andy@kernel.org,
+ asahi@lists.linux.dev,
+ bhelgaas@google.com,
+ bp@alien8.de,
+ brgl@kernel.org,
+ dave.hansen@linux.intel.com,
+ dlechner@baylibre.com,
+ dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com,
+ griffin@kroah.com,
+ hansg@kernel.org,
+ hpa@zytor.com,
+ ilpo.jarvinen@linux.intel.com,
+ j@jannau.net,
+ jarkko@kernel.org,
+ jic23@kernel.org,
+ jmorris@namei.org,
+ lee@kernel.org,
+ lenb@kernel.org,
+ linusw@kernel.org,
+ linux-acpi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org,
+ linux-watchdog@vger.kernel.org,
+ linux@roeck-us.net,
+ mfd@lists.linux.dev,
+ mingo@redhat.com,
+ neal@gompa.dev,
+ nuno.sa@analog.com,
+ paul@paul-moore.com,
+ pavel@kernel.org,
+ platform-driver-x86@vger.kernel.org,
+ rafael@kernel.org,
+ roberto.sassu@huawei.com,
+ serge@hallyn.com,
+ sre@kernel.org,
+ sven@kernel.org,
+ tglx@kernel.org,
+ wim@linux-watchdog.org,
+ x86@kernel.org,
+ zohar@linux.ibm.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <DA128414-1BB3-4D04-9361-C870E0E3B57C@chaosmail.tech>
 References: <525E5B4D-A947-4567-9FCD-5FFF2CA8B161@chaosmail.tech>
  <20261029143926.1246-1-atharvatiwarilinuxdev@gmail.com>
  <0683C803-C578-4C55-B893-BC03EBF9A9F1@chaosmail.tech>
-Content-Language: en-US
-From: Aditya Garg <aditya.garg@linux.dev>
-In-Reply-To: <0683C803-C578-4C55-B893-BC03EBF9A9F1@chaosmail.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <12988c8e-95ad-4989-a6de-e02af3c9ef1b@linux.dev>
+To: Aditya Garg <aditya.garg@linux.dev>
 
-
-
-On 10/29/26 8:23 PM, Sasha Finkelstein wrote:
-> On Oct 29, 2026, at 15:39, Atharva Tiwari <atharvatiwarilinuxdev@gmail.com> wrote:
->> 1. The patch is required, atleast on intel macs, as without writing GPU and CPU
->> states to smc, the system gives PROCHOT signal under small load
->> , and heats up a lot.
-> 
-> In that case, why are you exposing a generic smc key interface instead
-> of one that just does that? If you think that this data should be set
-> from userspace - whitelist the set of keys that are needed.
-> 
-
-Whitelisting will create an endless cycle of upstreaming new keys. But 
-considering T2 no longer is receiving updates, Asahi would be happy to 
+On Oct 29, 2026, at 16:25, Aditya Garg <aditya.garg@linux.dev> wrote:
+> Whitelisting will create an endless cycle of upstreaming new keys. But =
+considering T2 no longer is receiving updates, Asahi would be happy to =
 send their keys they wish to be whitelisted right ;)>
->> 2. the smc dosent expose keys of nature that can physically damage the system
->> it only exposes power/volt data, and the most you can poke is reboot
->> keys and gpu/cpu p-states.
-> 
-> Are you willing to make that claim for every smc-equipped device, not
-> just T2? Are you willing to make the same claim for future versions of
-> smc firmware?
 
-Fair enough. We can restrict it to T2 Macs, and Asahi can later adopt if 
-useful?>
->> 3. If a person is randomly touching keys, Its their problem and not ours.
->>
->> 4. There are a lot of things that can mess the system way more and permanently
->> than smc (undervolting for example), but they are not safe guarded, why
->> should this be then?
-> 
-> I think it is inadvisable to leave a loaded footgun around and then
-> blame the user for using it. As an "OS Vendor" you have a duty of care
-> to your users.
+Yes. We are willing to add additional entries to this list should we
+need to expose them to userspace. In addition, the current approach also
+needs more keys to be added to the list, as despite the claim in the
+commit description, it only rejects a fraction of the driver-managed
+keys (I do not see the GPIO or certain battery keys, for example). In
+addition, the read side would also need to have a list, as certain keys
+are read-sensitive.=20
 
-It would say the "duty of care" argument is more of a philosophical 
-thing than a technical argument here. Still, I respect that but there 
-needs to be a balance between adding features and respecting the duty. 
-It seems various vendors have different views in determining the 
-balance. The above 2 arguments look like a good balance. What do you think?
+> Fair enough. We can restrict it to T2 Macs, and Asahi can later adopt =
+if useful?>
+
+This outcome is acceptable.
 
