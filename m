@@ -1,89 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793345738;
-	b=PrVYXFbPgqKFtl48Bt8qhWu3m4XEOuw2Z71MHPu7AmbNS0foUi7Z3A6FiFWDpFNYhw6I
-	 rJmAaWW4wT5LnV7vA++aQMRea1yf8UjcQY7L09NCae9phz1jxkCgTlz2lmyU5L0EWwPID
-	 K/W9nkj/YkE/K4yjHHhPygOmh5m1TRETmc5UQs6aX86o4h0pggwiK0HUVut2ioneKLQ3/
-	 03Zr4K6aey9wVeWhZskvanvn9YM+BLJ6UtV51sUfOc9nuTMPxSiifpdiKJzC55Z7M1f31
-	 ROOpthDPKl+s5QEkbYQ62ntrv4jv6q0GDpbKMt39IKdJlebSgckVFciM/cO44eXiKsA==
+	t=1793345961;
+	b=uTbOvrjF3WnXz6yXDU+3CSynP6tl0bYaSX5xHwoL2z6bjaegm+45WLosJbFhXHAlAWMe
+	 wuZ9Yr8zmAYy/j6z75jvZuAgcVG2E+O/1zqpvHqGL7G4n9c5T6UflecPjjJrzSXG8TIx6
+	 DEciGG4abCV3vbwA+HAoHkZN0vU/tVDTh9NAdOeRu+IM/YsZO7zTf0JABGY2Pz+ChgthJ
+	 K5dgs3U8/4aDaIh4G7io2y0fxgTRE8t9Orouu9uOk1KrjQPdiMJy6C9bYBl67BYCBIBg2
+	 EGxv4WrazxICFoRYRadBsM7GD76ouVQi3QRfIxKFdqhVPAkHRgyTbu2fGEq6z+/gM4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793345738;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793345961;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=eGiW8RvcVr3fwqj1crm//CbfJIk1OPn7AoDBhadQcmo=;
-	b=R3qchHiBf3FA7M8tbVfsM6Y61OXZcwJwWW+ystaM1Ig5PMSuyZfc45MCRdgeyHh5VG6W
-	 yvYk5lSzRJTNLlr+zI4WgqQfVtaRqC9QYsZwwyZVcWPifHzRklVCTkau6+Do5HU4Lr+zv
-	 q5M+oRZzRQHCp0ordrjkBe1fT+HkXs/nEBhJbrfb6vmwQw0gXfDDpT09BwPxfiWoGJUVz
-	 4A/+UyFXVJTMz2RHBj1ErVlNPYCVCPtQxlIBRpjge9H0tAFxtdNhbo89Uq+OwJo+Wcftw
-	 Z6NogmBYqz9qh/W6wu5bsMUg3UvDUy19LpapHn1m4/ztDqnqpNlBYmDTKTuXMdk6Pww==
+	bh=oTDHP5iTI4lQOhbLd0Zj1JOArDqyXgTJiorChKNggjQ=;
+	b=E2YeSW8fojUApk0MtLHda/kh3sYzWT3n2V0rj5dPQQZEYeHbLxO1J6iQk9k4NTVTFThp
+	 n1RK54M+yr+t2LK9xmyIMB9cI1LFKb6QfwJMisjJbOBA4Qtn/HvrOL8ETM9ixdKP4R2QG
+	 E87gYtcKufPXD5U/t63/6puSJqP3EKM8NohVd5LEmb9E3S3Khg9jo7ITL4LEmZwJzj2LN
+	 p0oNkTVucgDKpkgBBKlFHg0JI8vnRdRLooRvMmzt3Yru7WvdChJ2/mW8uCUdrV8mkHi2e
+	 noF/EndlyThECoP4Oz7LYNizxA6Kcljxs893I3MFPOYvBhfu3l6v4i9F4E+rLUtIaCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DQCQUZ0d;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M+KWeuLH;
+	arc=none smtp.remote-ip=209.85.218.42
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6611606A31D
-	for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 07:35:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6611606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A40E606A31D
+	for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 07:39:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A40E606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DQCQUZ0d
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso60996466b.3
-        for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 00:35:37 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=M+KWeuLH
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c423b145922so41866766b.3
+        for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 00:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793345736; x=1793950536; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793345959; x=1793950759; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eGiW8RvcVr3fwqj1crm//CbfJIk1OPn7AoDBhadQcmo=;
-        b=DQCQUZ0d1tw6T+wmTYIoHzo4S7+RRiKLEUE/K2AABMSzg3K7zd6ofxMhU4GOKvjlS2
-         4wjxJTtatBDM22asYcVhL2rN9M2/x0cay95AV0TTDoSHUvsBS0hPiF4U7AhqlIOuc2QK
-         tS1pHhWMkmDpxEXbcKDjTiEodL2CqgpJc1bwUBowg3WhfG72KTc7SbzhV2VAVTkwCyEt
-         cN3X2NWYN1nvqVRJlrSlFg+9g2G02CA5DUQRI49CsDKOLs5Zvc5kxr1zVsa88+atCiNO
-         55P2uhjgXM5MxRpKcKqs4htoCkSyJSbDNDzU3lc47IDgeQ2xka+FbegzVKudCMDd4ZjL
-         jtoQ==
+        bh=oTDHP5iTI4lQOhbLd0Zj1JOArDqyXgTJiorChKNggjQ=;
+        b=M+KWeuLHatNzSVoXPR2TlaZ6yIIfWueCBXPS2EbhQNtyLZAcRRdbM7Za20HweFL25A
+         75ZstoCofjCS3tcA+bElXAvXD/pdTUBryramR+EcaQx/5jHu45ZOoL+2TxKJYbDJscUB
+         UJKq+SMSOE1esuNKE4WOx5ojOOFPHUsm67V1eO9GSfqTkf2PXKv+s5C2he7uFBEbjKFj
+         vGeJ1r1ac8E8vtXvKMX1tXCo9wkIJSWDdNuEBpkx3KS4HHaC1/XktFLtpDkqq0baUY3r
+         s0DFRSC5PuqxhRmJa82kKKINqc/2Bl2a+Cn7oRDI6k8fvrRfKVW9lZiIMYyHJpq3VeLX
+         IN7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793345736; x=1793950536;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eGiW8RvcVr3fwqj1crm//CbfJIk1OPn7AoDBhadQcmo=;
-        b=F9m1lImfyhWwwP4eKHlOfekrHhaglybdo9SiSKR1UyVhVnsCs/qkDqaLhQV5fkELtg
-         iqOwkiTOOojHLXI5dRW4t7v5/jeBxmx4aEr/QeLFbCqSmmY9VUfoACDq+44wXTuJ7dMc
-         whfN9sYCyvrR6+6FluIfEdl4CM17jwlwvwB5qLasClEHCBr3IwnObGLS8S7CBQq6ff/U
-         +MKd6Ef7lSWg/hIGl47bCBtT2qrw3qQ3KpGa/GIY8O+eVHE+ReQfXynP1WRyRtXCLAFN
-         2cu/q2q5AZhrqf6k7O2Ms9yOVtUiqu+WY+8osQYky2xSSxv1oj5UDksQuMz+Vs6/YLx9
-         1mYA==
-X-Forwarded-Encrypted: i=1; AKwUvBxTyjFmk2o5KP0sDnEL/RLcGMHbuU5RubrG/1IkY4bwaPkS3mGveoqmpt0kaltjPDyegI1UOA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLtnDZPSiZsikokd5KIm7E3kVIqh0sQSnVG8zE4XkR8n0AYb0jE
-	3rb7mGEW4u1KmiBjHZeMvk3Yfx0vmksBF5roRjNySaJU+WMteuUblngl
-X-Gm-Gg: AYBFou2jre075DzPIp6B67qct9cl9msIxpsO+DRqfdgm7QJyDwxzAbbJkNI80JQu4M6
-	Wd2+rveWF1zHAUamGNm8cjP3lNYyuw6L986AzZm12aL95hFPuuXbC/MI6TQsMuLAkBkxrizodBh
-	mAyIIirMqjxv45voJ5+GnfR8qBUaZ/0zpORXMxWq+ytUPt5Ge+Aql4p6AqgoEO/3tS/jN1KXiWA
-	09Bxliy2q+pu8APojs7Z+7S3eiBj3oy3RpzsR0DAVFRxKCJMrs2h7AAia9RSooqwkQkWg3WoouP
-	81K6o2psM+O+U08z3R0amniJcgLcULf28rOmVwt4mVKIJ4GMHC55JrgXpdn/nAgB8Yd5QG4Hs6c
-	1ONB5GZOKp3z9TWtRJNpLKGcwiq78fvWvznJhiVptsNoebHBI5UXkDxWJNfm3joxUFv92R3UZy/
-	mUSEB/h2EqbIeXbHCrk9K40DYJ/Vcgj9c/6lKTYrfhCoDyIx0m5z5pTyVpq7sUyuwV0DWBTFZd3
-	EBjM1rDq77xF8VgAAnZdl0mBliZW8p3c+ymml3vId9ab/X2CnSVe1iOm0p0exTjfX8KoLUAFqpr
-	Ny5ECqAMynS4nogBhEibjnBAibWvFWgSU4dnHL1GqwUrUqjS0fUKTmx66L4ONu1laYtfckFj60R
-	92SxC43wuzxULUDbkaaTSgIN8xObjmw4/ZxRVSfN/ktO14A==
-X-Received: by 2002:a17:906:c14d:b0:c40:4f39:22e8 with SMTP id a640c23a62f3a-c4ca7acfb41mr120166166b.44.1793345735937;
-        Fri, 30 Oct 2026 00:35:35 -0700 (PDT)
-Received: from [192.168.1.229] (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabc1920csm34203666b.5.2026.10.30.00.35.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2026 00:35:35 -0700 (PDT)
-Message-ID: <80246e46-8b9b-4cc8-b3a0-b07f9e5aaf8f@gmail.com>
-Date: Fri, 30 Oct 2026 08:35:34 +0100
+        d=1e100.net; s=20260707; t=1793345959; x=1793950759;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oTDHP5iTI4lQOhbLd0Zj1JOArDqyXgTJiorChKNggjQ=;
+        b=06TFoLtexPV54psODUAN/6kLX8iC2ZuUbgpJgZvCNCgmJ3CKAlNz/QtxMFQ0JGCqC1
+         eCRL8lqCkkXcjH6yBqoUJdbzOTTKVDzdBnSrw8S5X8je2vdyikWUIRIc4oPSs/rMUpwi
+         o0zRsOOHxJjVK8fAwhY4PEHXxGiRasbBEoYP0m7ExWFU3GOaJW1Rd826XeasD9+S549a
+         I6tZr4irehI8TYhCB7J6GqTghCZZN78o/5BPpheiBEIU1Ks1kmgj+MfvIc2O0XlWIj+w
+         CDeRncgyarsYhCQHuu5NlJpB71TYFRq9pVljuc1V7cg200wmQCTRlAEfAedSj9gNAft/
+         FmWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxdl1ZSBjxn8wKDdOeSWTziVy9qoqIPAjIogaJR6F+py8861La0gPMF/HfIQ9w+W56D8k+wxg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKHOOuvGXa5W1FGyYgmX6tpIvtUwj87wnUWAmPsJFzFJ3szyyoh
+	J9DI7e8u5ryJZ+xOHeUMRhKsZE9ebnmo0huMWHsZCWQlOOweA1/C6wBv
+X-Gm-Gg: AYBFou0xDFf1rSKK3u9qLxbjcN6TUcz1m0TpcoUjGD1sfsBx/kW646jHEnDnDX5Vmv6
+	5pPnzUXQF2vUnnfKh9R8pIEHc5wNDQ+M1fQ1BIEa3dXPw0ed+zBmwtIOGAgqJ4qew+p6vqI77Pc
+	mGyP74/o9ZXxNctgCPE49XLkjuuLMAid7c4cKMYM9JRipkJKpTYsRsyI5Hyz2ogrX/Jo2WDm/TX
+	R/8AmeLbp/dNqi90Cr7BJUn5cheGqIbmWflWgL0crusiioQ1OIvZ9lgjAWd+VkzYsibRjvsoUVw
+	Q4XDiaNKw0x85evlxNC7PyKzdy3oJhH27d62Ukzg16fTvCVH2mX1zozvoCMd4G9uTyo3NfI/uqD
+	4e5blCtGa0JYzfPI49EhMpSe4Gg3gBEpSmBaLvvYUk1WDfltj8Qz0zaoxup8X5MaxNGWfSua5Mm
+	Ek1NSf8qJWNYPF4ggC92mhqZhBn/0IhPsDxp34PrAUDbue2TpSn8avxjla5Fb8mpdRIl2L4ezwa
+	BQJxLFtCLslVrA2kEB0YH6gRHW9KLn+BWgRCso57xznFEjOSaDfh4zNYIHL+3IiQ5yR9F2qWFWi
+	7oiB0UQRClk4KBVnpWJ6PdoGeofK2iPk6SvU/dOE+bNQbOzRp5WAaVr5joQLENmvl0AdMpj+lb2
+	t8vYNPVYg2p4YwiN7GVbLMwg0OkCdD768bVEtPyt53HYlrw==
+X-Received: by 2002:a17:907:3d8f:b0:c3e:d18c:1d7d with SMTP id a640c23a62f3a-c4ca7a88815mr126486566b.22.1793345958962;
+        Fri, 30 Oct 2026 00:39:18 -0700 (PDT)
+Received: from nixos-macbook.taile68cd7.ts.net (20-144-89-188.ftth.glasoperator.nl. [188.89.144.20])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabe0f389sm34050966b.32.2026.10.30.00.39.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 00:39:18 -0700 (PDT)
+From: Jacob Procee <sn125164@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Frank Li <Frank.Li@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jacob Procee <sn125164@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v2] dmaengine: apple-admac: Fix position one period ahead at period boundary
+Date: Fri, 30 Oct 2026 08:39:09 +0100
+Message-ID: <20261030073909.21966-1-sn125164@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -93,35 +106,138 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dmaengine: apple-admac: Fix position one period ahead at
- period boundary
-To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261029105908.22809-1-sn125164@gmail.com>
- <E5478149-FA00-4A41-8CAC-7E8CF8578473@cutebit.org>
-Content-Language: en-US
-From: Jacob Procee <sn125164@gmail.com>
-In-Reply-To: <E5478149-FA00-4A41-8CAC-7E8CF8578473@cutebit.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/29/26 17:10, Martin Povišer wrote:
-> Rewriting admac_cyclic_read_residue to avoid the race altogether would be
-> best but until then, your change looks to be a strict improvement.
+Speaker playback on a MacBook Pro 14" (M1 Pro, J314s) underruns at
+irregular intervals, audible as a tick: 8 times in 3.7 hours of
+playback. Where an underrun was caught (4 of 8), the ALSA hw_ptr had
+jumped by one buffer size while about 70 ms of audio was still queued,
+and a kernel trace showed the DMA position stepping back by exactly one
+period at each of the 6 underruns it covered.
 
-Hi Martin,
+admac_cyclic_read_residue() derives the position from the report ring
+(periods finished but not yet reclaimed) and REG_RESIDUE (bytes left in
+the current descriptor). When a descriptor finishes, the residue first
+drops to zero, then the report is posted and the next descriptor is
+loaded. Usually the last two happen together, but occasionally the
+report comes first. A read in that window counts the finished period
+twice:
 
-Thanks for the ack and the extra background info. I would love to take a
-look at a race-free version of admac_cyclic_read_residue() as a separate
-follow-up patch; v2 of this fix follows shortly. A complete test setup
-is ready on my machine that traces every position read and logs the raw
-registers. If you have any pointers on how REG_DESC_RING behaves, or
-already have a direction in mind, that would help.
+ - residue2 == 0 with the report already in ring2: the period is
+   counted in nreports and again as the fully consumed current
+   descriptor;
+ - residue1 == 0 with the report already in ring1, and the next
+   descriptor loaded by the time residue2 is read: the
+   residue2 > residue1 branch adds one to a ring1 that already holds
+   the report.
 
-Best regards,
-Jacob
+Either way the position is one period ahead. The next read is behind
+it, snd_pcm_update_hw_ptr0() takes the backwards step for a wrap of the
+whole buffer, and the stream underruns.
+
+While the channel runs, a zero residue only occurs between descriptors,
+so read the registers again while either residue is zero. The retries
+are bounded, as the residue also stays zero on a stopped channel or one
+that ran out of descriptors; after the last retry the position is
+computed as before.
+
+With a debug build counting retries, one hour of playback needed a
+retry for 2210 of 3.39 million reads, at most three retries (3.5 us),
+also across pause and stream restart. Both states above showed up in
+the logged register values. There were no underruns in three hours of
+playback with the fix.
+
+Fixes: b127315d9a78 ("dmaengine: apple-admac: Add Apple ADMAC driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Acked-by: Martin Povišer <povik+lin@cutebit.org>
+Signed-off-by: Jacob Procee <sn125164@gmail.com>
+---
+Thanks Frank, Sasha and Martin for the reviews.
+
+Changes in v2:
+- Drop the code comment, the explanation is in the commit message
+  (Sasha Finkelstein).
+- Add Frank's Reviewed-by and Martin's Acked-by.
+- v1: https://lore.kernel.org/r/20261029105908.22809-1-sn125164@gmail.com
+
+How this was found and tested:
+- The underruns were traced with bpftrace on snd_dmaengine_pcm_pointer():
+  a position read 19-37 us before the period interrupt was exactly one
+  period ahead of the interrupt's own read. The register states were then
+  confirmed with a debug build of this driver that logged the raw report
+  ring and residue values on every retry.
+- There is no hardware documentation for the ordering; all of this is
+  measured. In the 1906 logged retries the next read always showed both
+  the report and the new descriptor, or neither, never the new descriptor
+  with the old report count.
+- The reverse order (next descriptor loaded before the report is posted)
+  would put the position one period behind and is not handled here. The
+  bpftrace probe checked every position read for a backward step, so it
+  would have caught that too: none occurred in the three hours with the
+  fix, roughly 10 million reads.
+- RESIDUE_RETRIES is empirical as well: of the logged retries, 1189 needed
+  one, 621 two and 96 three, none more; the longest complete retry
+  sequence took 3.5 us. A round takes about 1 us, so the limit keeps the
+  additional polling time, with interrupts off, to roughly 10 us in the
+  observed environment. If the limit is reached, the position is computed
+  using the existing calculation, so the original error can still occur
+  in that case.
+- Tested on a MacBook Pro 14" (M1 Pro, J314s) as an out-of-tree module on
+  the Asahi 7.2.12 kernel, whose apple-admac.c matches this tree apart from
+  the unrelated admac_hw rework. The three hours above used a limit of 100
+  retries; the code as posted here (limit 10) ran for another 30 minutes.
+  On this tree the driver builds cleanly with W=1 and C=1 (arm64
+  defconfig), but I have not run it here, nor on other Apple SoCs.
+
+AI assistance: the tracing, analysis, the code change and a first draft of
+this changelog were done with an LLM (Claude) in a session with me. I have
+reviewed and tested the result and can answer for it.
+
+ drivers/dma/apple-admac.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 9a1c79c12..a505975a5 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -28,6 +28,12 @@
+  */
+ #define SRAM_BLOCK	2048
+ 
++/*
++ * How often to re-read the residue while a descriptor boundary is in
++ * progress, see admac_cyclic_read_residue().
++ */
++#define RESIDUE_RETRIES	10
++
+ #define RING_WRITE_SLOT		GENMASK(1, 0)
+ #define RING_READ_SLOT		GENMASK(5, 4)
+ #define RING_FULL		BIT(9)
+@@ -358,11 +364,14 @@ static u32 admac_cyclic_read_residue(struct admac_data *ad, int channo,
+ 	u32 residue1, residue2;
+ 	int nreports;
+ 	size_t pos;
+-
+-	ring1 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
+-	residue1 = readl_relaxed(ad->base + REG_RESIDUE(channo));
+-	ring2 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
+-	residue2 = readl_relaxed(ad->base + REG_RESIDUE(channo));
++	int tries = 0;
++
++	do {
++		ring1 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
++		residue1 = readl_relaxed(ad->base + REG_RESIDUE(channo));
++		ring2 =    readl_relaxed(ad->base + REG_REPORT_RING(channo));
++		residue2 = readl_relaxed(ad->base + REG_RESIDUE(channo));
++	} while ((!residue1 || !residue2) && ++tries < RESIDUE_RETRIES);
+ 
+ 	if (residue2 > residue1) {
+ 		/*
+
+base-commit: aff5e6a77fc69a7c490246465940d18422d7c631
+-- 
+2.56.0
+
