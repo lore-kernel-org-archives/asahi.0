@@ -1,95 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793389791;
-	b=kENRZU8vK1poC5KrjeIEqJ9dLku8dhtQV3iM8gitvNzUQO9LY5ZYIDjZUYyhca4WBRaA
-	 pHogBYA7uXFfZBGCa8pjK8jDNUaS5Qgn5JHA2NSFCZGeSphz/gtJ16v7g6s8UnvGYjk4c
-	 +a6w8q8Fow6xbGTBGRLxtOjle0WzzZX+J1MN/emTkkTmIOml5xOg+nFnANt7weOaegIhq
-	 pO/qNpoB4Rd5KZboTooz5bddRFW7LDFuJrdtbx2loHS6DOmKJEoRuSgLBKGgyH/RdfXXL
-	 sW94ktHp6PhuUFImugYIxA5wab+lrntGzdMReB08gOkLqA2MkpS4gat5IFGI2JnxCAA==
+	t=1793417002;
+	b=CG1Ecs5qGyRpdb2SwFm535gbvatPR4BBTMZaFA3C1z/pXoaCP4HLqA4cUOA5H+d6go/l
+	 8uylKtr1+iXAzW77huRpzHr1mSeHBDBvLu9GtHt3BMA2iI9oj6znaElzUbNHCdVblpQny
+	 SgFEvozarsJZm8IF6hx02uK8JjxZ9R9EHwRQw5bUbmxYN7i9m+rmH0xC20IbOxax/bA2g
+	 uoF3xW+PpiC6XkJb5iCwQY51ccko+3W0yM4sScOv86Et/TpiOa6jt6ujUcWnRhazgLeJv
+	 TRBmdwjxdDDEMTnW5TnCwvvXxVYDSQoLM6oX73y7sWvOZbz9TJaxssyxI9MTobTTa3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793389791;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=tGRSe9LvYJDXqnyp9hHRUXYwQf0o1AOnoi+Z+9njJw0=;
-	b=MWsGUf8GMccyAxuy4LTKkXLiK5Yd7KtYy3w8mWGgP/Yh7CDr22WTfBjaLneBr6+EvN6E
-	 ruKZKigesU1ku/70fIrqumggPBsK5kl0d9B6WKQ9OCJAaElHTglPH/kvzGi3xvOcUUTWt
-	 SrF8ndX2wTLNLuylaGOe7gH7bXtOVNycUDtEKiUgye5JKbSDMsHsAQ3CLyo0/0zbaeKCs
-	 6UqmHDg9cpI70UXCag7xxkjQUsS/aXR1j3oJ55AGrOjKP5fMpz9videQRxcjE32vPmcbU
-	 Ty8hbaZ2QZsHdUcPKOZw5ATzpVRQVK0qGR6KBEGzS/pz1xQkm9mCGR5/D8Cixk3CMCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793417002;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=4wOVj5BkuVqeNk0QZ1pVDwZxFHvve0w3swvsjOEFbZg=;
+	b=G3vmPxdjvB4NdgkS/IaRhLYB9xMKpBsGOuA5i6VV9SNb0dd7/to0zSSI6N4lpn0FzdUJ
+	 4jq7FyZv0iJXn2lHR78Vo5lXkzgkEdgIG168OYf/U9tq6SmzR/RY71z0juWKd6xegPoio
+	 FfcoUtQmTU9AdA1TxaXlYtiA91588E0UpGiwWnEmE1nI49xD34NJrgqTCFMv9DXr83C99
+	 f0BV1LLi7Rqvwmw7dVW8CPbwx0sYmuVpNnVqPSPa7aya0ssokzPeNaq70EiX2qzOXZEQE
+	 xHvEIJgzSUQzpVD3HqetSVNPrldU4zYbrrAwAb8q8m+fKF2lu1VlWtwHTp/sk+0Dfnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=IokEpGXr;
-	arc=none smtp.remote-ip=35.89.44.35
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rVlTyZTJ;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63EC606A31C
-	for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 19:49:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E63EC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC0C606A31E
+	for <asahi@lists.linux.dev>; Sat, 31 Oct 2026 03:23:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DC0C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=IokEpGXr
-Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
-	by cmsmtp with ESMTPS
-	id MqtVx3aWXusRSMsbfxZKMH; Fri, 30 Oct 2026 19:49:43 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id MsbexHuujQfwNMsbfxpra5; Fri, 30 Oct 2026 19:49:43 +0000
-X-Authority-Analysis: v=2.4 cv=bfprUPPB c=1 sm=1 tr=0 ts=6ae4f4d7
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=M0FbrtG7MMAA:10 a=EUspDBNiAAAA:8
- a=yaG995DJD8wxKFCFxIQA:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tGRSe9LvYJDXqnyp9hHRUXYwQf0o1AOnoi+Z+9njJw0=; b=IokEpGXrQD0n5OejTKC1338Lv7
-	nB2qbLUNlHV5stnP9rXGgDLsrG1BzzezifwGK+1Puq504s+/CK+qQZeSYHUy+fWe6vTpXRoNLCcG+
-	xvj3fW0MOJ4Nzk1pmdgFcsYZ+Y7Q0K25aG5ngASEqC8zCK+3rmRE4ZqwKU0PVdKMHaqK+/Tcy7JVE
-	KY7aoSpK4cWkeF0Qp5vCUmFXS84V+Ti3rKMhaw3CjyFBic+m/0+8CJAZmJkRiKE+zLuQv7G6Q29R3
-	MG6D1JOrDScGhEV5WilZ+4rKPqslkRjJgFrVsJqNU3FmWJw5kITj11QQJk1KvoCLL1e7dmb7RY0D0
-	PrjC/Iog==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:56876 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xMsbc-00000003tp5-2F1r;
-	Sat, 31 Oct 2026 01:19:40 +0530
-Date: Fri, 30 Oct 2026 12:49:38 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Linus Walleij <linusw@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 01/10] dt-bindings: watchdog: apple,wdt: Add t8142
- compatible
-Message-ID: <ee5a1127-1591-4720-ab34-896c1f037276@roeck-us.net>
-References: <20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev>
- <20261027-apple-m5-initial-devicetrees-v1-1-1356181bc50d@cyberchaos.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rVlTyZTJ
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-3514b90bb89so2557775eec.1
+        for <asahi@lists.linux.dev>; Fri, 30 Oct 2026 20:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793417000; x=1794021800; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4wOVj5BkuVqeNk0QZ1pVDwZxFHvve0w3swvsjOEFbZg=;
+        b=rVlTyZTJKBBi97su8+iQjFLOoRP0LJe1WQ0uH5P66clJozhH6w+aOjAGKUx7P0rHNQ
+         ML2SO5Pc2M3FaZ3BNNRkvWUZNNLVPuJ+58JzXVhwaGch8FFLy1am6Aa5YVV+vItw7Vu8
+         W+56h2uOBct87rfhihzlwy4J7IkywUUpTEYPtChd7sreNvnJlf/NW+bE/8emTGSCwXE8
+         p2YHn8Rei3JS1ftAK5k5ywuBKUrt2JkBCmjcPHUIJ9wyRpCkl3T8OQouFB9QBYJBtPq0
+         K5MUx+dEQKGO8YNdqPPpkw07Km0cobrjb2yxANBxTsSomjDS/5rZNG2wmWcrsvNRm8i0
+         JtYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793417000; x=1794021800;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=4wOVj5BkuVqeNk0QZ1pVDwZxFHvve0w3swvsjOEFbZg=;
+        b=p/J8r0nCeeYkoJ4cPs38I2SE52r/J/PB8ze3/g8QxxDi2ESsjAHU76zU1n+RkynJwC
+         u3XynZirCBDPjQL+2R4t/Yg/cdBWo+yUumcVn2R2OExO4ERBFnPf9WLgKdCoq/B1aom0
+         BdtbNP1QX+Uc94Xl8BIQ74W/3WUwJcm3e1nzvUX2ag+3SfuzLpWt520YoFbxP+DpDxve
+         9fHTX7Y/Fhek8lmpH/slPVky1io+pX45PiLKpTFzs5wWzFkivRazyfe663tC+G96qS2B
+         iAopWwXv6TIPwO/XQxU+G5m69aa8XnL30j9deCAmlNL+sW7ztVhk9/J+taSkPMI/Rm2S
+         G0sw==
+X-Forwarded-Encrypted: i=1; AKwUvBxjqKL9Z1a7oTyUHKaXbZFt4xIPck9CefkzRtIO7qCLoPkxhW2+5ILoxP7OQkpFjlHTExGdhQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLTYT4ebZLwsmLMETdy6BCCC0qrEElR64irO3fWYzKZmjKfZISU
+	BVysayeVYLpQ1PiEfgBCsk0qWKCCSMgOAIgDrOOQ7EiqkoiAOQ17g8k4
+X-Gm-Gg: AYBFou2GZu4d7+WTRSAqTYGL5W/5Uvztu1/q9X+QJJBWv5s7p0gXLtovoXLAX6EuhST
+	lI3CmexD7X3EQN/yNw9JGkoSr9UR+tjn4Sef7Y5KyEJwCOEoG/3u9RUs9wwIj3sTGUcngeAJrmE
+	YSrQYmoz2xJCPukEmgJEV1hrbr9hJ7tQaP1WVQiJhzP+NNQY59vl7Zdom/4s2Q2fXWabpSll63z
+	i6vX8qaUrNAp0isP8YlfeAOYigpDV1HHSmAJRX4VE6innGKmuMKXvyBOR1mL1KrrmDtfldQDp/w
+	JxQB7mwKVf64z92vAg337Aj+cPF+p5LCjTIKDk6JEqK+qmok6Dc8ywcwVEsp6SkN1D6xva5COE7
+	ti9kEgvAbMMtP0ddWn0cq38Mo+TyGYE0WJ4Vk1PMKGkZ6g9EK/5/Wi4rlI4EPkC83sgEVlCmI6V
+	bdZ0gNL0eEZkxRcBg+YrJ64TxeofYSjDw8pNJkEa6Gk5gqzMqZsOR5VMeYVmFeUtpntl94JD6C0
+	Rlp/VQf28IgFnqZDGw9s7oVcWxv7XFBXGZBlcDNaK6y88Qkqfgd3kYjHAZN2kXHfcC4drMtbQgG
+	yTYZj6qTBUzF0pl/pV4NaoVB83+jhPI0tHRH2IEudC3p0D0VdOmFxiRI7C16GHqsqOCgC37jxI0
+	4Mi5aG3NSEFvfAfpot6oydK+iA2taCKu61734cFYuGin0PIJbS6wZ0QNhNqtWK4mpJaSTCFIlgt
+	cyoQ==
+X-Received: by 2002:a05:7301:4242:b0:358:dfed:d0fe with SMTP id 5a478bee46e88-36a42219d4fmr6026478eec.5.1793416999929;
+        Fri, 30 Oct 2026 20:23:19 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42a61a0csm13399064eec.22.2026.10.30.20.23.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 20:23:19 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Sat, 31 Oct 2026 13:23:03 +1000
+Subject: [PATCH] ASoC: tas2770: Fix VISENSE at sample rates greater than 48
+ kHz
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -99,38 +94,90 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-apple-m5-initial-devicetrees-v1-1-1356181bc50d@cyberchaos.dev>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xMsbc-00000003tp5-2F1r
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:56876
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 56
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfCehYudIS1QOQTuN9yH2HSvewpbRpF8VsNTSE6AUQtxwGyJUIxJnk/CJw+F41+bJ4ckMYe/S8g44jskQ+CfbksQ3oOXJQRuM2sw/Ejm8mKCHtE/wvo+O
- 8Le540id4s8tI9O5cQHh0Qa9hr+pcrdqiEI0qqH+Ehgn/nai7prLiKv9L9Eq28gUf+C9+XzlicgHcZEXy/feLuYyiazI42VaJR8=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261031-tas2770-sdout-clkedge-v1-1-5266daf35f4c@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrA2MY2lsryIuTDLq2KIlE0tBv
+ HvTuvzgvX8H5SiscC92iPwWlXXJqMoC/NQvIxsJ2UBI1wprNKlXshaNhnVLxj8fHPLIXbi+Bde
+ QJYT8fUUe5PPvtt1p3dzMPv1icBxfMuDrOXkAAAA=
+X-Change-ID: 20261030-tas2770-sdout-clkedge-b4e39db82720
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Frank Shi <shifu0704@thundersoft.com>, 
+ James Calligeros <jcalligeros99@gmail.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Neal Gompa <neal@gompa.dev>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2455;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=fiqDQ9C11prPwEgLHZ2ImZCTzidS1bFS1JQKAWZHhfg=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlP45Un2Zz1v3/148GPa+O+FO7/yBvMvOmeknM/z4ZFv
+ M8jw4Svd0xkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
+ 0EjHWMeIgYtTAKb6zxtGhk1XMrr2Jm66fXzW1WvSz7nuGPwp+h7YaGgQM/uRsl+eigTD/7Ti2lT
+ bO2Xn5+a6X/k/63bjtZNdG6O0+n6oG0Ss8w8VZQUA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-On Tue, Oct 27, 2026 at 09:03:21AM +0100, Yureka Lilian wrote:
-> The watchdog on the Apple t8142 (M5) SoC is compatible with the M1-M4
-> SoCs. Add "apple,t8142-wdt" as SoC specific compatible.
-> 
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On reset, TAS2770 is configured to both transmit and receive on the
+falling edge of the I2S clock. At sample rates higher than 48 kHz,
+this causes strange artefacts in any transmitted VISENSE data which
+manifest as corrupted/nonsensical readings for voltage and current
+once decoded. Transmitting on the rising edge of the clock instead
+results in correct VISENSE data at all sample rates.
 
-Applied.
+Unconditionally configure the codec to transmit data on the rising
+edge of the I2S clock when setting up VISENSE transmit.
 
-Thanks,
-Guenter
+Fixes: 1a476abc723e ("tas2770: add tas2770 smart PA kernel driver")
+Fixes: 6553ee024b44 ("ASoC: tas2770: Factor out set_ivsense_slots")
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+---
+ sound/soc/codecs/tas2770.c | 9 +++++++++
+ sound/soc/codecs/tas2770.h | 1 +
+ 2 files changed, 10 insertions(+)
+
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 882e19857697..41e4fcf09c25 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -222,6 +222,15 @@ static int tas2770_set_ivsense_transmit(struct tas2770_priv *tas2770,
+ 	struct snd_soc_component *component = tas2770->component;
+ 	int ret;
+ 
++	/*
++	 * At sample rates >48 kHz, transmitting VISENSE on the same clock
++	 * edge as receiving seems to cause artefacts in the VISENSE data.
++	 * Send on the rising edge of the clock instead.
++	 */
++	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG4,
++					    TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING,
++					    TAS2770_TDM_CFG_REG4_TX_EDGE_RISING);
++
+ 	ret = snd_soc_component_update_bits(component, TAS2770_TDM_CFG_REG5,
+ 					    TAS2770_TDM_CFG_REG5_VSNS_MASK |
+ 					    TAS2770_TDM_CFG_REG5_50_MASK,
+diff --git a/sound/soc/codecs/tas2770.h b/sound/soc/codecs/tas2770.h
+index 102040b6bdf8..45bbd75fb09d 100644
+--- a/sound/soc/codecs/tas2770.h
++++ b/sound/soc/codecs/tas2770.h
+@@ -75,6 +75,7 @@
+ #define TAS2770_TDM_CFG_REG4_TX_FILL BIT(4)
+ #define TAS2770_TDM_CFG_REG4_TX_OFFSET_MASK GENMASK(3, 1)
+ #define TAS2770_TDM_CFG_REG4_TX_EDGE_FALLING BIT(0)
++#define TAS2770_TDM_CFG_REG4_TX_EDGE_RISING	0
+     /* TDM Configuration Reg5 */
+ #define TAS2770_TDM_CFG_REG5  TAS2770_REG(0X0, 0x0F)
+ #define TAS2770_TDM_CFG_REG5_VSNS_MASK  BIT(6)
+
+---
+base-commit: 11ae63bd9030349a0136fb2edd1622a4a029edc8
+change-id: 20261030-tas2770-sdout-clkedge-b4e39db82720
+
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
+
