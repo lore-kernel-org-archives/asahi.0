@@ -1,81 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793497118;
-	b=iBZj4RXBewisOAdtOftUv2+ywrYRsQ37SShQgf9IEJ377UcD3h8xpwOvWdmJvuR00WLp
-	 bv3FRFEDb8nqNX69csjKhFH25U+q29J52o0Lweyq+eMwEg3myGpC4KIokTANXCpN3RY9E
-	 l6Z/yrV9xmjZTNfUqGRaw1+PIfpNhlWG9mQ8rSGpVRAIiPQ9XZFCcEGrXSvdWKWUe8CuL
-	 K39m0FtrVOHmZB7QeSYc9tbrett05wahuVxlvQRlDHY8qbYoitB9TWnrDKrs8D0t9rQP0
-	 t/kqRbCuehkVmMRcbZpPMz1FsBq9CRg3hYuxl34L4dLMxAuTqpMsrn3zHfBvRPfJqcA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793497118;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=wkggvdD4Daf1drrMBcb90xMWnEWnBOyml4nDOqyyoZg=;
-	b=3fY7g2vUT4wcov7H8TuV2W9MvImf5//vz+5QG1eQIHo/n2iyedEqRSuKA7edQkjY+R8/
-	 QMSrpUYsmowJ+2Ma5rzeI2ltYvAxNHMR6xQjnoVYX/HKxoKdmSniBkiDHiMTblCdDLBu2
-	 0aSlbjg/dJFXVY6cQnguIWjq0Eyl8jjeZyFxSQlF7JwPm/XueMBynApq6KSkmDdXGoEXd
-	 YOnF6NVk66H+5qjfW/NGgYHVT/m1gLHlFpmFvVvPMbZNu9SAw09e5GnMTjmiSibuJjlO2
-	 /Z3zgamX9VCXSsLzzVmh0cvUwyX8R2VLaXkhDbSXmDYTcb9C/8yBlSbu43KLOmfnHbg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="L/0GaqtI";
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793555520;
+	b=RWocojxxnLfz13w3a4rDAIpgTrKSAJni7nbZNZ0BAFmsyRfO/9tMv99vwUIXCQMZq8D+
+	 K4odKsM39g6ND4dqDy9aJ1bYZWIg0gHYDo+VcjlpNzTF3CFmCx3wxf4oFjZxgwZ7OGC1V
+	 exBQ4N0FPxG5O7GFFLAFzdYWaEwOa3LrMFi9jdTtM/L+Fcx0plANTm41F8gu7V4YaaOVW
+	 UKW7sW9BOeQviaR620Sb4ioLu1rghczo/uij+UrRv1DMUqtrU27aedr0tVh1KQZdEmvog
+	 95eYYv/aFuBKj3sdTfFLC3kbs7gvbjohzS3/IeJ0D/xNjEJUAnT75SPhWn1c9sxQq/Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793555520;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=04jB84VdLzfHkj69mo945MaBrRiV6cJ1AnFmBuXNdhA=;
+	b=4RSy+13h2fRkDv9OihcfpbncwnQpS63VPRNmKYkEFKRlhaM9r9wbpmBaHqw+e7uBl0s2
+	 c5bq8IUE/CUbbZ2jAeikN55K89mEyijPRDOozB2bWhE1t7cxNNLKTf+ID5mVR5D+I3RH9
+	 ZcKZyUc5Pym1ulnpdkUd5ZtAlw+WQN7+4SX0QnCMJSOf9gYfiIPglQjSLXdI0UV+Q+R2O
+	 F6jeR3+YHCZrMdDp0VDr7lwhFGdyOvxN+IUsfrAiW4ActrCoCcCcLcFqHqfoC7JA4/ExZ
+	 jHGEocovZ5nlf6urLeiCUcEejkUJo2mRwWUZkOIvGXK0fcP+CF/ZfvFnVY+nuWosPhw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MBQdCjNf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD50606A31A;
-	Sun,  1 Nov 2026 01:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F128606A32D;
+	Sun,  1 Nov 2026 17:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L/0GaqtI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 258EE1F000C1;
-	Sun,  1 Nov 2026 01:38:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MBQdCjNf
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793555519;
+	b=sXfzo9104f/43Yg7gxa/BGTOo2ol35gBhWV5el5hFbsS8a+D8CL5rP0D0y4nizJYQ6wl
+	 uf16k83QVYGcfO9AhXavWdcP/f5GFDU5C9fM5NDu4Oc5XoW5PCnPDNmx1+9tOBKSmV/PV
+	 xeZcK5ylOvTKxCn6w+qDvEbNLDNtSfA8eIeX3NB4Q2zCLhwEwpHGKdwsu1vEErYQQivfE
+	 qFnDQcOc6/vP6W1LYJD7KBvNgVSDFAntg3RjsSYckL7ffaFZYlHrCduVvYD1r0Nb5ITUd
+	 gmVyAPbwf7R+fcftFFwC4H5XFchc48W7MUR4cNU3996YG0rPFenOa2Fi3DzN5+IbHLA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793555519;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=04jB84VdLzfHkj69mo945MaBrRiV6cJ1AnFmBuXNdhA=;
+	b=F4ZG8tWI5//FZhb745pETv57rQESqopzLGLklVUEC7FkXrX6+OBcGlUVWubn1sYGSpMD
+	 aZ+oIpiELGICO5fQ7xkElymNutdkhSRefQYO6+qQGG+9xswPphcf6I0XhO/hZuL7etnRN
+	 0P/diIDCKFCNcsMtqlC1Eel184mpXprZMyMdxCgd8z/g2BSoaWaktXg8WSiqhNvTorRQe
+	 K3rLUpkepYOuOJhCUarJBsc+5tpcv6iS/YGAJ2m/CHlqmRZQ4w5ZeZ8jCIfxBMGeZQ4CC
+	 QVPYT9c23dIJwc5UtquNMu2dlVgcxzunu7AhiLGizrW+oZyR1zArlK6St7kiAwByU/w==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 439791F000C1;
+	Sun,  1 Nov 2026 17:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793497117;
-	bh=wkggvdD4Daf1drrMBcb90xMWnEWnBOyml4nDOqyyoZg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=L/0GaqtIo4ljcF6HhkiYfZqgqFfzu7sb2NkCwbaTtE2OUjTcTLJRXTyZtUK1Narrr
-	 BtQLDj7zRIIYxbD8+FBD4wlKou3nEAPke635eAz7vVjuDKwzzXPCAQT16jTp9CgGL0
-	 ba2LaOoHCP9feeoX8BP8LKv4yveSZWwZo6yHjtlYIjXCx4V0POS1oHKma+w2QDRFaw
-	 bFs3gxmRlx8fBdDMx60B/RskaLNeuJ3lyaYWZfLal9k+4P7aIxa899xvKOLsT5R/bB
-	 bFVyAcYisN4dpM7gjUbRJx96JJ4SZsMz1PSkwib+7dreMZmtGyU+hikjLVEkCGsSCI
-	 8TqVyGhsXxtwg==
-Date: Sun, 1 Nov 2026 01:38:17 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown
- <lenb@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski
- <brgl@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau
- <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Guenter Roeck
- <linux@roeck-us.net>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Griffin
- Kroah-Hartman <griffin@kroah.com>, Hans de Goede <hansg@kernel.org>, Ilpo
- =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Sebastian Reichel
- <sre@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Wim
- Van Sebroeck <wim@linux-watchdog.org>, Jarkko Sakkinen <jarkko@kernel.org>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg
- <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-leds@vger.kernel.org, mfd@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-Subject: Re: [RFC PATCH 14/14] mfd/macsmc: add ioctl to access smc keys
-Message-ID: <20261101013817.22d67ea7@jic23-hlaptop>
-In-Reply-To: <20261029085504.3547-15-atharvatiwarilinuxdev@gmail.com>
-References: <20261029085504.3547-1-atharvatiwarilinuxdev@gmail.com>
-	<20261029085504.3547-15-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20260515; t=1793555519;
+	bh=04jB84VdLzfHkj69mo945MaBrRiV6cJ1AnFmBuXNdhA=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=MBQdCjNfTBfbhDQR4/BGiRo01HzNxda0XO/2zdWa+JlYjCiz9sqij/hr30rXPBHK7
+	 0SVisKVATYmkaVX8LlZS9ExdR8TNCf5hzKH/vH1etuPlUHdQHy9DRcdtGNpKyx+aWt
+	 G85yud2cRcALh8FUIOQF+9Cm6ps9DSRxxNlZZf7VQ4OkBLo/+SrkdF71qd/T2URyCH
+	 dD11LMF+XeFk57Sw5WH8NvYN9/I3tqY9q+71DfrWea2eU31DBm9nfGXOefdWDh0KWw
+	 jfzK9I/89/c6x47yyW20O4EEdJApWGKtC43aRIP1OBq/mCfGL5K5GBr+7a7oDRXLcu
+	 VvwGYrJFu3OnA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id A717846223;
+	Sun,  1 Nov 2026 17:51:58 +0000 (UTC)
+From: Yuvan Shen via B4 Relay <devnull+yuvanshen09.gmail.com@kernel.org>
+Date: Sun, 01 Nov 2026 11:51:58 -0600
+Subject: [PATCH] mfd: macsmc: Hold the lock while reading key info
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -85,25 +82,73 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261101-upstream-macsmc-key-info-v1-1-fa9ff863d199@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAD1852oC/yWMQQ6CQAxFr0K6tpEZBROvYliUsUjVGUg7GA3h7
+ oIu389/bwZjFTY4FzMov8RkSCu4XQGhp3RjlOvK4EtfO1c6nEbLyhQxUrAY8MEflNQNeHLH4Cr
+ qDnXlYdVH5U7ev/Sl+bNN7Z1D3nrboyVjbJVS6LcpkqSnJN5HsswKy/IF2U9hJp4AAAA=
+X-Change-ID: 20261101-upstream-macsmc-key-info-714c15af3652
+To: Lee Jones <lee@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>
+Cc: Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ mfd@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Yuvan Shen <yuvanshen09@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793555518; l=1529;
+ i=yuvanshen09@gmail.com; s=20261101; h=from:subject:message-id;
+ bh=z1N8QvE7NPiEd4ppeCID6vYGqTPd3Hl1S5pezXvfG2o=;
+ b=BQVABoR5+DuuysFyDMIucZZjqkKYPOqazylEB0iamxcetVukCPamNuwomHGvn6It7Fr/X+0ig
+ lQwLiEsF6vTB5VoiKka3aujTpTF6rN+mtKM0BJDJACUgCOFDMqRiqzt
+X-Developer-Key: i=yuvanshen09@gmail.com; a=ed25519;
+ pk=jK3+w+YlV0oJPk7h5w6yT7jKMg0+4IkP9H/eGB+ImJA=
+X-Endpoint-Received: by B4 Relay for yuvanshen09@gmail.com/20261101 with
+ auth_id=1380
+X-Original-From: Yuvan Shen <yuvanshen09@gmail.com>
+Reply-To: yuvanshen09@gmail.com
 Content-Transfer-Encoding: 7bit
 
-On Thu, 29 Oct 2026 04:52:11 -0400
-Atharva Tiwari <atharvatiwarilinuxdev@gmail.com> wrote:
+From: Yuvan Shen <yuvanshen09@gmail.com>
 
-> Add a /dev/smc device so userspace can talk to the SMC
-> directly. Some keys that need to be written aren't handled by
-> any driver, or affect several drivers at once, so they
-> can't be exposed cleanly through the kernel interfaces.
-> 
-> Keys already managed by kernel drivers can't be written this
-> way, to avoid conflicts.
+apple_smc_get_key_info() releases the SMC mutex when apple_smc_cmd()
+returns, and only then copies the reply out of the shared memory buffer.
+A command issued by another thread in between can overwrite the buffer,
+so the key's size, type and flags can come from a different reply. The
+hwmon and power sub-devices call it from their probe functions, while
+the other sub-devices may already be issuing commands.
 
-If this isn't matching some legacy interface, then we need more
-on what these do.  Maybe they are suited to some other kernel
-interface? In particular they might need the various controls
-on how destructive they are that something like fwctl brings.
+Hold the mutex until the reply has been copied, as apple_smc_read() and
+apple_smc_write() do.
 
-Generally an arbitrary opaque path to firmware isn't a good idea...
+Fixes: e038d985c982 ("mfd: Add Apple Silicon System Management Controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yuvan Shen <yuvanshen09@gmail.com>
+---
+ drivers/mfd/macsmc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Jonathan
+diff --git a/drivers/mfd/macsmc.c b/drivers/mfd/macsmc.c
+index 514cba7dc897..4dbaacc7eb3d 100644
+--- a/drivers/mfd/macsmc.c
++++ b/drivers/mfd/macsmc.c
+@@ -210,7 +210,9 @@ int apple_smc_get_key_info(struct apple_smc *smc, smc_key key, struct apple_smc_
+ 	u8 key_info[6];
+ 	int ret;
+ 
+-	ret = apple_smc_cmd(smc, SMC_MSG_GET_KEY_INFO, key, 0, 0, NULL);
++	guard(mutex)(&smc->mutex);
++
++	ret = apple_smc_cmd_locked(smc, SMC_MSG_GET_KEY_INFO, key, 0, 0, NULL);
+ 	if (ret >= 0 && info) {
+ 		memcpy_fromio(key_info, smc->shmem.iomem, sizeof(key_info));
+ 		info->size = key_info[0];
+
+---
+base-commit: d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+change-id: 20261101-upstream-macsmc-key-info-714c15af3652
+
+Best regards,
+--  
+Yuvan Shen <yuvanshen09@gmail.com>
+
+
