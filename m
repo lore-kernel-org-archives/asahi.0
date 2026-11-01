@@ -1,101 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.226
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793561248;
-	b=4P+qz2sK7O/lKXWt2zKzFjqvcIZ1k8h0ksiBY7qLzyzLh75Uxplc6KW3X5MssvKqs+sJ
-	 iaKxNii0lK+NkglcFOO1cxB1dPH6cmtcVpb37uO+g/d5AsL75MA06EqVQXJeG78ToZ/qV
-	 qgYmBqHQhAL+DOUWe/wa7kEVPoDFT0/DY+Bm2CYWnSSbIY40Vv6L6MxZ2zOnxcph7YzR9
-	 0P0S+DHNXKQPnUvP8ZBPHAr2PAOoja3n3s0hgzlKxAG/L0S1my4scsMY1ChVO7ecg98iJ
-	 xsqPkvNIjw+WROMf4hyQmMOjUcwIaQ2XkjvmgP08iAPnQhhxGDoLfScZ05Bxn+etDPw==
+	t=1793566026;
+	b=ZUif5xoqbOCSdqg59Ruf9j0SLxSFSiXNtB08R+cyKoEpUxZvX8kYE/Ki/1d0yoAVrJkT
+	 c6SlYoBQcZbl8J/BdKqtFN+e6p9mda6Tp8ILYowwnxYeHXQyIT4XHKsabMo/i15L+5V26
+	 RoVRoNpIF2Wq5QLhBmapoIOJxPDqSpi99TjH4tyLRKkJi+QMT2z0D4pEs3rK84/A0Pq7u
+	 OLakmlxy4vmVll5YA1p/03S3SzbRj5rABSc4vlLMekIgBpcesRLQLfj/Y1ZsN1dUKWKkf
+	 4Gl0SR6T+bzlkAr2sdO9i8xEAGoSxezOMjcPzRkD9uUzh78ZXt3y1NoqRypTgAFmQGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793561248;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=FBzaqWRuYJDOcynWW1oUqzv1XeYY64zxgMqREXlXnBE=;
-	b=LgufBKhxxeMs3PyAOj68k+Aapfg5VBiP1qzSeGpl1AQW+M7CzEoiD91bi5mLkAky6FG/
-	 X3Hip6Da0T9OTzBnQctQu0iIDTNEWFIAtvk5BxGQgUZSQ1lLWndsSMmfctzQ+6ZyCRKf7
-	 cEc/d6MDrjb/FnFgeDG0AaaRM0aPN8IUr7eXmX6qhN2LJ/K+ID5scJTw9PobJ/GBJfl23
-	 4z6I127IlRXIpWjYaE/INuYuaCCDvnAMg7O5/Z7VDcCbTOsJ/DEDfJIP728yyhu/nAQxz
-	 ksFOMsOvx0uWDBP+3SU3ea0zHcftNlUSQPMFYv9ZxFPGPu3ndoexzUnW9Jx5QEUTPzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793566026;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
+	 X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=yMQqpQDiKs7uaSI9ZXZcOp+ka5/Pebym49yFSbFp92E=;
+	b=HVTbZ69CKgniLqodByTTzq6IRJfMd0es7/jqHlcP2OGvbeQLTJCpvYi7jIkcJo2vtVgw
+	 oe+c8eFpryW2fYF6N/YY7Sgq0p+7dRTr+m/T71RWYi380jb52XM83AIWjHW5L9M2Gnozh
+	 jp3vneJ6WvskeJU+07a5NEGThoxkx1DfSPf/cQHo4G5IP1OC3Bn0+Z7ALv5Z7u6PRa1CT
+	 GUGK7iclrV1SDYZ2HwUZIPeVvMY65Y3QV4OximkYhhgu/FlV4RM7+58SdtOHQVIDDdAY5
+	 jA7lofObkJ1iJcohkgPUQFXUHKfP1TimezQGvMjcHo0GdrY0zQtfpUccv33yBJKurSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=IKkv0k6d;
-	arc=none smtp.remote-ip=209.85.215.226
-Received: from mail-pg1-f226.google.com (mail-pg1-f226.google.com [209.85.215.226])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SOGts885;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560DE606A32D
-	for <asahi@lists.linux.dev>; Sun,  1 Nov 2026 19:27:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 560DE606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1324606A325
+	for <asahi@lists.linux.dev>; Sun,  1 Nov 2026 20:47:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1324606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=IKkv0k6d
-Received: by mail-pg1-f226.google.com with SMTP id 41be03b00d2f7-cdab9e9761cso1330650a12.2
-        for <asahi@lists.linux.dev>; Sun, 01 Nov 2026 11:27:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793561248; x=1794166048;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=FBzaqWRuYJDOcynWW1oUqzv1XeYY64zxgMqREXlXnBE=;
-        b=N1vp2JuOFGvS+GRBVSixFdTCVqk7RvFm00G0YELKfIgc7sbkGrVe18NQ59uVOYBzjo
-         zMa0TNlUl+C4cGk2DEf856iiOIs79AelSiTuj/ntPGjKHCR9kvYffSK+MsKJbqMZumBM
-         MB2pxH+UwRRSSqFJR5wUYg+7f4DCIPPkMD5i+hUlmpFNetylckFjm137FrjcFvNWkKdS
-         GxxdcZgeTYGHAJWmJ6ib8fzevEUi27eGVHp+G+xu81s6aq5uW5jd91c/YggmUadsat4a
-         0X3ZLi6kyx5CKOY2kHbRHDwXtRqrtfMb5AUsplGhLLnrwzQ/WQgENH/b4rEYxgjkxQeV
-         fqSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzgcGD5PV38XhrIGboCEyYt3jtWXTGgYKtQa6bYAq8I7k9xH9Maw3Pt7MzQTC6Bei+plURs+g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8RLyzaS0dBOM+jyv2JzQsG+5I9cPT+Jw0WZ36Txxgzp4Bpj3If
-	0DSqT6H6JwhCBbQfn1dw82qI7HuEm7UO9xxPH+B0A2VmSntJb/JW84gyg2kZUX6TWK6wNPLWmQg
-	01VzJPA/Verq6Kx9QvBH1/50XSuPk9ysTYKvQRPRXcsN+QIEBsjlKuCY74Is+tYirnn+imd3zfA
-	L/dBx4AwRfApSjMteXzdtRyS4hMv3DF9avkKI0lmrOYGFnEkZcCwJ3CwooxS9iIjkpwcPR7CfeV
-	j7PuvXhlrcCUGIT
-X-Gm-Gg: AYBFou2Kz2s/sfFntGX6V8mS5nWPWy2ZywBYSl8tAKsFq0yIvTYwkE3Ss4asxgi+vJw
-	Vc+nRL2hp3Pt6tNGEzaGO/Md8dGECjkJPBUPIpN5Jtfzo3EqSwf52umY5eOCmD3dsEaDCAzcN+W
-	FX0RAOpZDC1U541ksV4b6Tp6ZNDzA0n16YvmL54LLK89Zzbm6cuBPFu1dyy00Oc2x9GEbFZLyvB
-	SyFmLcYveEcrIguV3tniq4c9SD/+anjzeOMJO0ysrx1ivPcGpSg39D0vjL4ruMjNF/DtU2IKOo3
-	PIRE99QEFYJKuCvCPbVImZt8xyA5UlBez7vmjR9FZqgS1qYhpDN74Z5vSVQtT+CjawcEy4Egkyk
-	C+UocjvlGR+ryAu7QgDMqVc6rhTDmKlzAGf9kBOrksfcwCbAPcSY6s2Q5G73PX89VTdaMd6DHHz
-	S8TJoVdemCMITUv7Em1FSlibHKJ5xMRcN5HL6yVAA=
-X-Received: by 2002:a17:90b:5868:b0:39e:6c68:c77a with SMTP id 98e67ed59e1d1-3ae8984b11bmr6879494a91.48.1793561247693;
-        Sun, 01 Nov 2026 11:27:27 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-13.dlp.protect.broadcom.com. [144.49.247.13])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3ae6e80415bsm8589907a91.3.2026.11.01.11.27.25
-        for <asahi@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 01 Nov 2026 11:27:27 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c414c206673so119245166b.0
-        for <asahi@lists.linux.dev>; Sun, 01 Nov 2026 11:27:25 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SOGts885
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso24231095e9.3
+        for <asahi@lists.linux.dev>; Sun, 01 Nov 2026 12:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1793561244; x=1794166044; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FBzaqWRuYJDOcynWW1oUqzv1XeYY64zxgMqREXlXnBE=;
-        b=IKkv0k6dLyQrspRl+xKlhsrAkqHPAWO4utOQGPf0toYwECoz401QNuZOC6WwGLQgr1
-         UCsGcg+ZRRb7ortV6nWnr1oTq3KTmHI6lg+ObWlsaIwyw0KXgb0yJa7Z3kghMFokeZ40
-         3dCyIlfropEHibOGs57HQSgW+hMUDngBgB6tM=
-X-Forwarded-Encrypted: i=1; AKwUvBzQvket87KT003Xt8IqHt/PjtfZoD1m9EBKAX8jL1KfSqgEcC+PhsuJGicbvvo/ZrdGzxWDHA==@lists.linux.dev
-X-Received: by 2002:a17:907:86a4:b0:c46:9d7b:37d with SMTP id a640c23a62f3a-c4ca7a4b544mr641619766b.17.1793561244356;
-        Sun, 01 Nov 2026 11:27:24 -0800 (PST)
-X-Received: by 2002:a17:907:86a4:b0:c46:9d7b:37d with SMTP id a640c23a62f3a-c4ca7a4b544mr641618066b.17.1793561243910;
-        Sun, 01 Nov 2026 11:27:23 -0800 (PST)
-Received: from [192.168.178.26] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabc1920csm303460866b.5.2026.11.01.11.27.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Nov 2026 11:27:22 -0800 (PST)
-Message-ID: <d78cbbd2-601a-4cf1-800f-3be57a2b7de2@broadcom.com>
-Date: Sun, 1 Nov 2026 20:27:22 +0100
+        d=gmail.com; s=20260707; t=1793566024; x=1794170824; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yMQqpQDiKs7uaSI9ZXZcOp+ka5/Pebym49yFSbFp92E=;
+        b=SOGts885Ut0R7slmmFL/1nCC16iauIVjLQHXzMF4ZCXZbfNtDsCW3pzLdvUuL0kODo
+         nEtSeWXanyolYMIbmBpam2A+4jnf4tzrPVq8smv5NEBwKFLXkSd3vVPmKJi98LtvzNbE
+         i7pH2U3krsN7pVOLgMe9A7hG3RdnzWAbSROoB3NICJZXpiiHzjR1f1m53LnqE8W4t39k
+         WrwcJ79yrjzVJH9qRh9yxtOdQmJKsbZ2gnGho0vyJteCFAHJzEIVc0/nVY70g8QajDBn
+         FMTqsP2NYssjo3M9HpZdc+4gareWvBf6yjcSmsQzUw7DxEM5poxkCMLBLwnGl7k4CxhX
+         MXAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793566024; x=1794170824;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yMQqpQDiKs7uaSI9ZXZcOp+ka5/Pebym49yFSbFp92E=;
+        b=mnBvWB7oRmrEHnalIML0DwpDDH8pczDHqJNAa4TX+ER6Vip6FFZtWkavqRNi1SONok
+         8+47/VAL6MhSAAgIsSburbPKQaedqsXjNyyAML6fxvMamyD0GY7wgEh2khYhL1QOR/2c
+         mQdLoVzbEc4ikS+2Es3uk16URTmcOPjxGU0I3YfAxJqR1SRIQW3YkWmKEjlILELHiHc7
+         h4SFyiHnWFhJs4vhjfRJtnh0mI+1F6CI0v5R1dK2ztHuq4Y6qcZhcnxvz7csDrgk42e7
+         SgLq1EyIsMauR2FZkbI70kqZEOm/0eeAkraAtBbnvimzTJzFlt+3HRbVc64j8tsuzAVs
+         kPmw==
+X-Gm-Message-State: AFq9FYKEHW1tFHNexCEf+n82f53DCFpyxNuPILRMarfVQjDjswM/6HCa
+	lF0uRW7jmXeDQ3W4qMD7JvQPIszUsfp0wAhpm9gEUl95hNBkKWklBOGIvxDV
+X-Gm-Gg: AYBFou3bPHFD1JxEceDdILzfFQyRwC96jYGZx9ynZdaObsJHU2pxWAjjFxrAJabB05w
+	VTf1Uxwj9fBfM4mIoHL+aPOSy5sHp+E9h7dVO0AqNmox/mUGRnGDcLXMGmOLUYE7zT4qiOR5ifq
+	/InugN+a0G8l7NO784xIraV+xlTbAd1Nm3YZCdrSCB4ye9wHfdL+aXy1kD5xOaGSiuKhK+swJso
+	yeTy99qkniQ3DCmAZAZkaXb3mkHBkgHuNWYhCHoT/vx/JMAR4To60ImBbymWoJ5ZTbxF1bwux98
+	DY9DkFUjAR9MFNGHHKfUD3IO4G7+PbAIqdsI+BIkCtMIc2tNHbfHjGwiK63PTBgHaMqY6wNz8UB
+	XG66ZnlNA0L++b5yxhmvEdj1FKK46wafQeG5bXAcMhfRTzZoeaR20ZcFl+7BIEJwizAYqsWfD8Y
+	hA0dWBmbT6sc1c0QU9WTtQN1I0Le0PA4gmkWSrperEnCaoOVWHu4qUc4xHHEO02yJ3Hp4gLVGZJ
+	LOXP4+01dYDykwF1gFVGoMz/NwvIwftDXgMc6fMw14DpdWYcEdnDwTkXkHErrx03IBbW9yoWao8
+	ddZcOPg4HdFYQ0HxItyGzw/kWfYF5q4t
+X-Received: by 2002:a05:600c:524d:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4ac18993ca7mr195820425e9.32.1793566024206;
+        Sun, 01 Nov 2026 12:47:04 -0800 (PST)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf0b36853sm205314035e9.0.2026.11.01.12.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 12:47:02 -0800 (PST)
+From: Tristan Madani <tristmd@gmail.com>
+X-Google-Original-From: Tristan Madani <tristan@talencesecurity.com>
+To: Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: asahi@lists.linux.dev,
+	linux-bluetooth@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH] Bluetooth: hci_bcm4377: validate completion ring entry data length
+Date: Sun,  1 Nov 2026 20:47:01 +0000
+Message-ID: <20261101204701.2851941-1-tristan@talencesecurity.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -105,56 +99,41 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] wifi: brcmfmac: Add BCM4388 support
-To: michael.reeves077@gmail.com, Pieter-Paul Giesberts
- <pieterpg@broadcom.com>, "Franky Lin (Zhenhui)" <frankyl@broadcom.com>,
- Mathy Vanhoef <vanhoefm@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, asahi@lists.linux.dev,
- Hector Martin <marcan@marcan.st>, Daniel Berlin <dberlin@dberlin.org>,
- Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org,
- Hante Meuleman <meuleman@broadcom.com>, linux-hardening@vger.kernel.org,
- Peter Robinson <pbrobinson@gmail.com>,
- Izabela Bakollari <ibakolla@redhat.com>
-References: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
-Content-Language: en-US
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Transfer-Encoding: 8bit
 
-+ Peter, Izabela
+The data_len field is read from a firmware-supplied completion ring
+entry and passed to bcm4377_handle_event() as the payload length for
+memcpy into a newly allocated skb. When the PAYLOAD_MAPPED flag is
+not set, the payload comes from inline ring memory of payload_size
+bytes, but data_len is not checked against this limit.
 
-On 25/09/2026 15:43, Michael Reeves via B4 Relay wrote:
-> The Broadcom BCM4388 chipset requires new PCIe initialization and
-> firmware interfaces. Add support for these interfaces to brcmfmac to
-> enable basic station operation.
-> 
-> This series adds:
-> - Signed firmware loading and mailbox transport
-> - Fixes for chip identification and firmware capability matching
-> - Versioned scan and join requests, and extended PMK payloads
-> - Updated event mask handling
-> 
-> These changes include work by Hector Martin and Daniel Berlin from Asahi
-> Linux, refactored where needed for upstream inclusion.
-> 
-> The series provides basic station support only. 6 GHz support is planned
-> for a follow-up patchset after this lands. The driver retains legacy
-> interfaces for older firmware.
-> 
-> Tested on an Apple M3 MacBook Air (J613):
-> - Device boot and network scanning
-> - 5 GHz WPA2-PSK association and DHCP
-> - Bidirectional TCP traffic
+Add a bounds check for data_len before processing the entry.
 
-Finally got some time to get this series tested on my setup. The patches 
-generally look good. So far no regressions observed. It would be good if 
-some more people could test this series on their equipment. I will do 
-some more testing and wait some days.
+Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+ drivers/bluetooth/hci_bcm4377.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Regards,
-Arend
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 66d49b4715440a..5d6bda4a04114f 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -755,6 +755,13 @@ static void bcm4377_handle_completion(struct bcm4377_data *bcm4377,
+ 	msg_id = le16_to_cpu(entry->msg_id);
+ 	transfer_ring = le16_to_cpu(entry->ring_id);
+ 
++	if (data_len > ring->payload_size) {
++		dev_warn(&bcm4377->pdev->dev,
++			 "completion event data len %zu exceeds payload size %u for ring %d\n",
++			 data_len, ring->payload_size, ring->ring_id);
++		return;
++	}
++
+ 	if ((ring->transfer_rings & BIT(transfer_ring)) == 0) {
+ 		dev_warn(
+ 			&bcm4377->pdev->dev,
+-- 
+2.47.3
+
