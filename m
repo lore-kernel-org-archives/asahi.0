@@ -1,63 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.8.165.127
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793623281;
-	b=B5ey7sRL0BXNp7DMqgQPVTDjKlXYRBVF/IOFiqGxf+F7/1+QdMkYPxnkRobZNbkDVCVr
-	 jcitokSNSZe6NCp5odd072mCOtg5m7B5qC0H3HgoINgEuFcGDa9ZUniCdl1WG0eNcfuDv
-	 IlwVmKVB/CG4BA5g0y2pfDkFnVJFBSWjDbXOP55Uk6UKpVpxbt7Jx5h7Elwi8uAUeLIrr
-	 tdv3lFRN3ABF24AoVehzSf+33a4Nc50ZzJq+3lG9KdyUM0xhkRWNwpm/J9xYtCOEEqRzi
-	 W8Fq8ojkrFlTvoqsTzB12Wu+SfJSB/i6LvSHWFODZ8CAgIzluqo0iJhaa27yErDsCLQ==
+	t=1793637629;
+	b=d9J6Q/L/3wDJKyS5OTzGl+9jN0cZRN0sNqJnohV3EV2TOlTivIqpjkDUiXDsC+ZPikHg
+	 4HjqEmQhoh2UZvTTvdgYQCUTJ6m0JCSaCAOfC6LlNB73o1zL1rzfgmtF4TtRFXyF5sDJY
+	 iRIcG+svOOKW8efD+S3q+j8LSMFX+1RwMtseE+o/3ay8NbgqSmWhbwiRersDRHICPTM09
+	 DUogBfAk4cwecMkqpEfmDeydEsCyFjbM5t4Im2dcshFNL4hvLgvIq1TLIP9KFTKL9oW9x
+	 tbdVCpiIgy2rJHpD/zpNvbzzhDdHb4zr8boaf+QkwdOSbZ8bFjAe3AMxZwYSd5QWW9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793623281;
-	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
-	 Subject:Message-Id:Date:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=5aIOCZcqu87O19EkqpZIvrj+Agqrn1uk+efFEVIHg4w=;
-	b=vYqowQpqRrW35y7w9UlyQZYq2fqNHxhzx0GFe56M4xE8m/4avXQNRHi45GeJni+g+LPF
-	 XvAjUlXCtj8v9ytTQC/a8D5WH4ztBKjJwgPuGmOaL5AGMyeFz6/iRuiHLOUZ/J1oDi//b
-	 cDbiUFN7EZjPRJYN9+tLwv4WMqvsAQlW70bOFKvLsum3ribz9Q+X3KiVAFsNQFXGwSElT
-	 CvCPeE+M+yM9Nhs4f6CHkcpLFMKT1i+zueQzgQzDV9DIqerOV/U2xC9YwxCOGglK0NBCT
-	 aYj2LJRlpFn23XGeF66NmAPAWZK7KpgdG+cF0XpKfzRb3KsPNvox2HXf1WBa1LyIXvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637629;
+	h=DMARC-Filter:Content-Type:DKIM-Signature:Mime-Version:Subject:From:
+	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
+	 To;
+	bh=+8z6SUsF1e/REU3gcCFgmzFmcfdajlFQZ+TsooPdb2w=;
+	b=M1F6L3ims5tm4ZnQF1ZXWVOy4NrPXut0GRqkyuyDiEEqjh3tWa4IdgwicsLHdKPRZ2ks
+	 tLXE1qdM+/QwKcYzIV4TDUCr0lko9LKsttBAeUNdso+gIXlMdsWK4qylXTlMLayj/2XxA
+	 lJZPDchNmg+sn4tHb/ixawSO33Ntt+5bjVZOnsnJzp7X11bCIfOLdkluJq9+HjwGIPMLQ
+	 Xv05w6MXcoptQqt7AaMS4rwQCF5PvpfwjYhQfAe6wnYJNY1bO8tTt8ZtPPoAZsyZNrgsJ
+	 amMSIKTLQx5b1LYTlpwSMIsleLNUrUwG729azhQq+PSZlhJ58VD1G1ATMRXQdPx7SWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YnsT7tIZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=cutebit.org;
+	spf=pass smtp.mailfrom=cutebit.org;
+	dkim=pass header.d=cutebit.org header.i=@cutebit.org header.a=rsa-sha256 header.s=mail header.b=m8cVUxk9;
+	arc=none smtp.remote-ip=185.8.165.127
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8795B606A327;
-	Mon,  2 Nov 2026 12:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAD2606B0FF
+	for <asahi@lists.linux.dev>; Mon,  2 Nov 2026 16:40:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CAD2606B0FF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YnsT7tIZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49DF21F00A1C;
-	Mon,  2 Nov 2026 12:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793623281;
-	bh=5aIOCZcqu87O19EkqpZIvrj+Agqrn1uk+efFEVIHg4w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YnsT7tIZXqc78uk08khE+hE+yjMiIXs2TLD3Z9firSxoWGE8/s/Fm9xDNQhXhKhu9
-	 xTSBD+BySDUa+UmRctIkXixiMYyVR0hNpucGKztmJlqbzKOj2ibvPQmjpCHIFLOQV4
-	 /MstU2yTy8rlt89o1ctlGFS4cG8Ss/EanzH05ZwedoL1lu4vizk/qiUnOmuGPFoWUK
-	 gf6zZC3pRQ2gwSC2lQAxA1aZIeHL8QMOpmDPaIc0X4ospElUDDTu+TOh/ZvgPWdPJu
-	 JsplyI+R+FhlMkpugUxsmm2dp94Cc65qwje2Q5ZpMNQyPcIQdiyn2wRz9RG9JiCl2a
-	 J83xw4J00ok2Q==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 85693231038A;
-	Mon, 02 Nov 2026 12:41:19 +0000 (GMT)
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Frank Shi <shifu0704@thundersoft.com>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev
-In-Reply-To: <20261031-tas2770-sdout-clkedge-v2-1-afeeba781cbb@gmail.com>
-References: <20261031-tas2770-sdout-clkedge-v2-1-afeeba781cbb@gmail.com>
-Subject: Re: [PATCH v2] ASoC: tas2770: Configure transmit clock edge when
- setting DAI format
-Message-Id: <179358052171.1776482.549214111862154792.b4-ty@b4>
-Date: Mon, 02 Nov 2026 00:48:41 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=cutebit.org header.i=@cutebit.org header.a=rsa-sha256 header.s=mail header.b=m8cVUxk9
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1793637619;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+8z6SUsF1e/REU3gcCFgmzFmcfdajlFQZ+TsooPdb2w=;
+	b=m8cVUxk9LKNEPr3m/MR7d88NgB2/WgdRjvRmOB9r9o9ddnqU2g/Jc5PeRP+X+92RTHuEC0
+	76ZngKKW8wXzobtKVmm0T+I94y/qsJuLY6033Nhy0cTHOxX0Xo81VfGCLYN4Je2dql/u3Q
+	GW+69BEZsO9PmYrV6widckXt7OdWRxI=
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -66,47 +53,96 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
- h=from:subject:message-id; bh=4L+qDQJEDimg+mExAceBBmw/Yt5RY8rmyLmqt8S3S1s=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJetLx3Y3UuX6FmYZOTdmjNYZtWtnvrb11zNr0d6nnwN
- /s699qgjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkJS/D/4SzEk7XFkp7qSqW
- OZstS0xo9N/Fv4VFotzy1ar1kw8/rGNkWLh548PG3LLinPuCZhe3hsxedtxtlues7e6i6567i7p
- eYQcA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
+Subject: Re: [PATCH] dmaengine: apple-admac: Fix position one period ahead at
+ period boundary
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <03f2dae1-453b-42ce-a3fa-e444906bb1bc@gmail.com>
+Date: Mon, 2 Nov 2026 17:40:09 +0100
+Cc: Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@kernel.org>,
+ Sven Peter <sven@kernel.org>,
+ Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <774174DF-C530-4BA5-93D5-879D3D4E27D9@cutebit.org>
+References: <20261029105908.22809-1-sn125164@gmail.com>
+ <E5478149-FA00-4A41-8CAC-7E8CF8578473@cutebit.org>
+ <80246e46-8b9b-4cc8-b3a0-b07f9e5aaf8f@gmail.com>
+ <03f2dae1-453b-42ce-a3fa-e444906bb1bc@gmail.com>
+To: Jacob Procee <sn125164@gmail.com>
 
-On Sat, 31 Oct 2026 14:56:15 +1000, James Calligeros wrote:
-> ASoC: tas2770: Configure transmit clock edge when setting DAI format
 
-Applied to
+> On 2. 11. 2026, at 10:45, Jacob Procee <sn125164@gmail.com> wrote:
+>=20
+> On 10/30/26 08:35, Jacob Procee wrote:
+>> Thanks for the ack and the extra background info. I would love to =
+take a
+>> look at a race-free version of admac_cyclic_read_residue() as a =
+separate
+>> follow-up patch; v2 of this fix follows shortly.
+> Hello Martin,
+>=20
+> I looked into this using REG_DESC_RING. It only contains descriptors
+> that the hardware hasn't fetched yet, and its read slot is effectively
+> the hardware's fetch pointer.
+>=20
+> Unfortunately, it isn't updated atomically with the residue reload
+> either. Across 1.49 M reads, I hit 126 period boundaries. In 4 cases,
+> DESC_RING still showed the old state even though the residue had =
+already
+> reloaded. In another case, DESC_RING had advanced while the residue =
+was
+> still 0 and no report had been posted. So I don't see a way to get a
+> consistent, retry-free read from these registers.
+>=20
+> One could make the retry check more comprehensive by using three
+> counters: outstanding =3D queued + playing + reported, with playing =
+being
+> 1 unless the residue is 0. This would also catch the reverse ordering,
+> where the report is posted after the descriptor is loaded, which the =
+v2
+> check doesn't cover.
+>=20
+> However, I left the debug module running overnight (10.65 h, with =
+music
+> playing through the speakers), and never observed that reverse =
+ordering.
+> There were no XRuns or backward steps. The speaker channel had 96.6 M
+> reads and 15,483 boundary hits; the second channel had 29.3 M reads =
+and
+> 86 hits.
+>=20
+> All 1,498 snapshots that failed the three-counter check were explained
+> by read skew: 822 where DESC_RING was read before the fetch while the
+> residue was already full, and 676 where it was read after the fetch
+> while the residue was still 0. The positions returned to ALSA never
+> stepped backwards.
+>=20
+> Given that the more complicated check would only handle a case I =
+haven't
+> observed, I'd prefer to stick with the simpler v2 retry.
+>=20
+> Unless you know something about the hardware ordering that these =
+traces
+> wouldn't show, I'd prefer to stick with the simpler v2 retry.
+>=20
+> Kind regards,
+> Jacob
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Hi Jacob,
 
-Thanks!
+I don=E2=80=99t think it=E2=80=99s worth doing the more complicated =
+check either. Your v2 patch looks to be good enough given the available =
+information. Perhaps there=E2=80=99s a way to do the residue read race =
+free by involving additional features of the block incl. registers the =
+driver currently ignores but until someone discovers it I support going =
+with your patch.
 
-[1/1] ASoC: tas2770: Configure transmit clock edge when setting DAI format
-      https://git.kernel.org/broonie/sound/c/72da22e9cc38
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Martin
 
