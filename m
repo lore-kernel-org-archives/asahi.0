@@ -1,91 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793703568;
-	b=2F7LIyC1AybPr53pYsIACc14Zqif27SgX6aP4vsP1faAJyTosElPZ+e6jOWhftq5LpWE
-	 /RJcv5rp5w7Y9MguEYW2NY7QT5jG00Fxa1ISA6JJHpUTuEAlUtHd7hDHNN9PGvHgXwwwd
-	 HSr2ZFTD2guy1BmDQ+jYq5BmpaEwyzJzNN8wyCDi+Y1q/cGBYEpcJxeCTuRCYT/D1kibT
-	 PCcGAW5h09pfvOAT33AWd0Vc0CcxRAKvnkPDjzLAkmg7s7p6ROuJV/x36i7M+S2pguhht
-	 D3Bh5GbR9+k9gv/M/Odc1uRu6RlRlGqIawagLjp+UR5jdcgl9ci8+CQUvRTo+my0QCw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793703568;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=6b2TVz5RBdMTmkdnd0+DdIVBECbziA2iv145pJZ1Voo=;
-	b=baPXyrNZiXjS/fJForf0R0RQ/d4xrLkOIkLoDeml7QtRKjJzaN5foi8k9UHN7kSFC0So
-	 nDkTcAHXruAd7/t/tD8n+LrC4h9fs13ZoqE03dAsrQgKWXyLs4AI78IVbq0o+N7b3T/Mt
-	 djQJ1lhIvSVLFCxoDcVz0ejiBpmdPZd62OtWwqgCUsW8xjPnviqCbY8RwuMbaiI+Uox6g
-	 Pug7M/VeJ7T1BP8ybJ+52kzo7aBU16rdrbjgxb94pjYYohME/Q/dePos2Ggu8Rd/m70pJ
-	 TNfv8AznzB6xMWzVVhwUVksKClv02MCE9bTDF9BZBs06devpuPsZ1alSgyIWgw9lzLQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=ZCZJ+fI7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793708685;
+	b=fXr+R30FwqZG8SPbvzPVO1his1UrpHwMTMwWmsprkDo20lk4nhmud2rQxaSJjpp6ujue
+	 QinzGqmG7ybon0E7bt33lymyKV+0KNnfLEZO9xxm20F8Tdv73kil/GQz7Il/hgkUSrDyT
+	 i3ClIbOCBVDqBr9sm8c6pnhVDz1nGJrAhuP9M1qPQ4TcWXpkep3GDu7spkzcbM0DZFR4K
+	 FwRLivBjgO80Zr6/LnnXlsVT5etd+1R7M2YGRdL2kyfwdo5v2bkxBPI5qnIr82Grdpy1B
+	 HfBKB+aCOhQyuMb8/yF+xqd/g51VzGDYqIjN4aVEmufMD3mt1kWWKBAo5o3ULbnKOWg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793708685;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=2DQ96R/0ulhMhCPuDty/w5YNIxZWO7PXWDO3bMU5BOI=;
+	b=Ip6E2j857ix97JXJu4uigVh4ksPNxv4W0fQllqJu6J6GMdOMsIbqzXrWkG1BIOk5emr9
+	 KIwEKwkgux6R2Fdt576scKlr8q+q5iruCa6J8DLtVZ454k6Z21cYcyFw43zVamwT1OCQt
+	 6qjPybwlsckujvLI6UNLzLa1Pr6szzIIIOBbXTMIqnOGTEn9heLtUm7cXxqtzdh09B35s
+	 5HwW/Df7c8OVRBvxztspJtA9dBATYv+6t0UmqT0biAMqIsVswMA2iB0jJw2cwJ36HWkmE
+	 GaHWe5UWRI9Xi2Y7XLDFG715H6Y2B9kGxUSZhucpeeiqXXrfM/2jMdOzDenUCNwCODQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2DPOtoe;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4877F606FAE1
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 10:59:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4877F606FAE1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id AEBFE606A326;
+	Tue,  3 Nov 2026 12:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=ZCZJ+fI7
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 771D220103C;
-	Tue, 03 Nov 2026 11:59:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793703565;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6b2TVz5RBdMTmkdnd0+DdIVBECbziA2iv145pJZ1Voo=;
-	b=ZCZJ+fI7f/VO1TopNf3JRW/u2mE25GBHZNgWHLCWWQwyRf2LAChiJOhS3IL3abLErXZw/t
-	sEqoW8lgtIN9JgPX0B9bwWEDYA1omA3HC+x3qoQBHtPXPaBcK+HnY6Hbu4BY3kXmZW3/D5
-	79D1lDTlDVDudWBJThk+6kgcIoN+5dQ0EWM6w4xnTQOEitxCiz902XouEDZU7LgBqwhqxE
-	05NZz+jTpG9xi6IwF+NQfmg4rurtmOFBEK0xbnXrWX3w3iZ50HyYK0Cu6djRUf+sun4Yiw
-	NzbVvXoDXpF7q7ABo2YCvYk50o3tPZ5WGEwPkLO2KSJKsPUCRYB11k0LUtAsaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793703565;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6b2TVz5RBdMTmkdnd0+DdIVBECbziA2iv145pJZ1Voo=;
-	b=Aa+CYFkVPNRTO2wPfmTA19Uryvuya293TvNsuXefwpnDtChb/3qiuxYezASP/lnRmUgA9O
-	9UMLAWmOPrrZneaiR+ZU5Yjo4Z724IxclK7n6vXPi8W3rOIHSwcOhCb6XyFf6UwQp1iOBB
-	vbQRHCPhogjlC2+2WC1k9i+dPNGk5wN3zx0iRPVJuS3dc9W6aCPEugFN17EVEqccO92NHX
-	+CreZkd7UQU+t1nOHws+hPNnmeARK9FD/MWtGjDY1N6zhkQ3w2tn9/i2i+FwV/ECzViBAO
-	eCDhctfk8EipdHIknkCr026moY3eRvAXPlnsbVzWcDM1r0Np/GMh3H9VJoOU7g==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793703565; a=rsa-sha256;
-	cv=none;
-	b=GrDTaT9qYC7XXPLYVBFmUIbVppj0VVtTIuWcxsIv6OlbI9KmoP0b/56JR6QTbHJ5DaABkY
-	1y7w4z+qhdNiUmIxWkUIv7oe1pJTDVqlnqkZRm0VDV6Xabdfo0iT4WvBIecutBwp4qQNY4
-	LhwE6K9ikmmb8S/feQ6I5Xp6Z8SghNX3J83bwGsmLulGkowJlBfrdVQ3dbJdCLJRGbf1G0
-	ui/+YOcf0gbcPIxWHsG7fOf6WYmz1MTAUsAH1cxwwW6Yuf2Lxnj0u7MU5KH/ZVEyIlzxB5
-	k1AmxMYzqnMytdFV44ZXX0402vI7n3X+n6+1f2E+1b/q2ZAyUyJ4NuHJhvNT1w==
-Message-ID: <3b2e95430efce4822b232f5ba4a5007574de216d.camel@pengutronix.de>
-Subject: Re: [PATCH v3 0/3] Apple SoC CIO (USB4/Thunderbolt) reset controller
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa
-	 <neal@gompa.dev>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Joshua Peisach <jpeisach@ubuntu.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Date: Tue, 03 Nov 2026 11:59:25 +0100
-In-Reply-To: <20261003-b4-cio-reset-v3-0-e605f9e5c8a4@kernel.org>
-References: <20261003-b4-cio-reset-v3-0-e605f9e5c8a4@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2DPOtoe
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5D33F1F00919;
+	Tue,  3 Nov 2026 12:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793708684;
+	bh=2DQ96R/0ulhMhCPuDty/w5YNIxZWO7PXWDO3bMU5BOI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y2DPOtoeBhQC9H3iDa32ycCqijeUsQyOWUtRGHIYLH0dXLxZUgEjv6SLfXFJy1+yx
+	 REGyvcQMfuo3sZnBFrDxClG/MkMaDIKnK90l7RtK0PDTXjGL6CaKqpsTGr1H383bgl
+	 4TyhCnpi2mmiJ18g5WO9YEH6HMlaMgnH5EIfxQ78ETdDfCbW0Nq7FnvPdbMq/lkRzu
+	 YVxjlkUTO+w5EzhvM5yynGpZ7GDn2zzh6C78NzGOnNAyoUN8QGMgJIfas682UgvcoY
+	 za6RIYThdNdxsriG9j3+KBkt/9fGZF5z8OM8R3azJs/Dg4hZMYuSZR8c3Kxw2uTAo8
+	 Un2lK6ZcYoQzw==
+Date: Tue, 3 Nov 2026 13:24:40 +0100
+From: Bartosz Golaszewski <brgl@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@kernel.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, Valentina Fernandez <valentina.fernandezalanis@microchip.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Daniel Palmer <daniel@thingy.jp>, 
+	Romain Perier <romain.perier@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	Hoan Tran <hoan@os.amperecomputing.com>, Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>, 
+	Mika Westerberg <westeri@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, "Enrico Weigelt, metux IT consult" <info@metux.net>, 
+	Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev, Yinbo Zhu <zhuyinbo@loongson.cn>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-tegra@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Srinivas Neeli <srinivas.neeli@amd.com>, 
+	Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org, asahi@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Michael Buesch <m@bues.ch>, William Breathitt Gray <wbg@kernel.org>, 
+	Robert Richter <rric@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v4 00/23] gpio: Improvements around device-id arrays
+Message-ID: <oiwdi2r7fbay3dsghfaqzejpv7d5dpuerh5jy2vsw3kjyhvhdm@hyrpff5ytihz>
+References: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -95,27 +81,37 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
 
-On Sa, 2026-10-03 at 22:50 +0200, Sven Peter wrote:
-> Hi,
->=20
-> The CIO blocks used for USB4/Thunderbolt on Apple Silicon SoCs have a
-> reset inside the power manager that has to be deasserted before their
-> co-processor can be booted. On t8103 and t8112 each port comes with a
-> dedicated register page while t600x and t602x use a single register
-> with one request bit per port shared by all ports of a die in the
-> middle of the PMGR MMIO region.
->=20
-> [...]
+On Tue, Oct 27, 2026 at 11:48:37AM +0100, Uwe Kleine-König (The Capable Hub) wrote:
+> Hello,
+> 
+> the original motivation for this series are the patches that convert the
+> arrays to use named initializers, see
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+> for the idea behind it. Looking left and right a bit while implementing
+> that, the series grew a bit.
+> 
+> Changes since v3 (available at
+> https://lore.kernel.org/all/cover.1793030820.git.u.kleine-koenig@baylibre.com):
+> 
+>  - Picked up review tags (b4 even found some from v2)
+>  - Add a 2nd MODULE_DEVICE_TABLE(of, ...) in drivers/gpio/gpio-mpc5200.c
+>    (My grep didn't handle >1 driver per file well), noticed by Sashiko
+>  - New patch to use named initializers for auxiliary_device_id arrays
+>  - Fix code style of of_device_id array in drivers/gpio/gpio-grgpio.c
+>    (My script doesn't handle of_device_id::name) and
+>    drivers/gpio/gpio-ppc44x.c (didn't exist yet when I sent v2 and
+>    failed to notice that for v3)
+>  - Fix code style of auxiliary_device_id array in
+>    drivers/gpio/gpio-shared-proxy.c, missed as I didn't have a script
+>    for auxiliary_device_id before.
+>  - Dropped a few broken email addresses from Cc:
+> 
 
-Partially applied to reset/test, thanks!
+If there are no objections, I'll queue it by the end of this week.
 
-[1/3] dt-bindings: reset: Add Apple SoC CIO reset
-      https://git.kernel.org/pub/scm/linux/kernel/git/pza/linux.git/commit/=
-?id=3D5b428d8ecf10
-[2/3] reset: Add Apple SoC CIO reset driver
-      https://git.kernel.org/pub/scm/linux/kernel/git/pza/linux.git/commit/=
-?id=3D6547df06b982
-
-regards
-Philipp
+Bart
