@@ -1,90 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793691803;
-	b=eV74+EiJxhy2ipR2ytq8f4xSamOmf9pRM/Wm9CLRhqCVpi2Tmm0HM8R8B+tR0yEOQyWk
-	 zJ+srOH75tjsd7DNm7tVvRrgmsiP6q90HoDlCbgSaH0LnthMhzVgbvDuAWvhxOfL+loKT
-	 Pas2iF5/NfO7+G40XDC5j51Ll0nlQ2RA0cVueADGFrejky0+SPk48LmRYU1ecWsJqHPyc
-	 UNzvGoSIX/jzv6vj8nwED6qMpR5dPZR9GAu6ZkeFC41WC3eBXQcfJl1NOtLiGOS4Myzk/
-	 EDPY78sLKidsz4XNaZE0Jboi49pItRUDGs0I4AjGMWBKi2IxgwlqwEUAudnMEd5GF3A==
+	t=1793699906;
+	b=Lz9Xmkzw76km9MPmLcR8nzTd86NRvg1HUORTV2x9KyumnFz/mzaDlnqpZNPRxHET9vFU
+	 WLzUFqkItGjWlgklRBGlV53HXTqQA3PJS6db4OkhBtzAJW51OjQvughLyBNWPl4DYXGds
+	 N3KY+tTOO/fUtD6huif9O5XLG7DnD5tLO1wO9iXBw5J9nHnCrlAdvm62dIQr3AH3sdXTI
+	 QJd+UaG5VdqlN6bEkOP08JL7hXtiGDlpZuHd/cstRn5LnAM4WxbbxfskBH5TrM7SVzopd
+	 H/L4UKcZpoMryl9yYt+sOl5FmKl21CX/bHkCQX1lF1aPankJ7Trc6ittEEt1AiOiVSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793691803;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793699906;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key;
-	bh=z65FbJFnjWHxVaxQI8JGYbEaf36adoL6Hch5QBpP1Jc=;
-	b=ESfQfwiWIzHIXRMikv5hdRc9uyAJgTph7pXnQCFUPpaKVQeKImdqmKU9zMGX/7uue+qt
-	 VJO/kn/eqTuF59tWKhRZRL+IP1f5tn6QLSJkI8CruISPAFYUxh/hnsJsZzbJt8woT2hFg
-	 oxQd8DbgWG3GQnxMBDa85q8REpdu50BfeuSHZiSQTdtzPOm+PRk1N10Rn7/gQMfHqy7AJ
-	 IBHd5LuJBxRiyWmaRQ1cPxat8xM5vx7vSBruTkkLmZ+kfVMFaDM5SI1J/ZPydoj6FAGcX
-	 IrG3UmJmSECXZr1BQqRBllxN8l0h9fzwdoHKNpVuAQnDzIDoTmDGIxDtKotGx6FVWjg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:From:Reply-To:Subject:To:Cc:
+	 References:Content-Language:Autocrypt:Organization:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=o1l0ybp/wLFt/F4zJKLBbBtJhS+ZACVIUqUnoSjbmw8=;
+	b=Zskhn7eF9V6/GI37O7IfN/zb4DHAuXw7AaMoWPeFUTJ6EhGGEhsoIZh06eWnxvgdfEIy
+	 DTDQ4yTJzHiIwQKnaYIF/uMPL/kZPQbFoMNIizjHGFNUyNQJtx/W+47/GUnfrKgsLX33a
+	 LjxIBw+2AAy9SFNAaAlzUHGD9Pq3uTC4XD7OMwkCDeXEN7aY9uJHlLnOTddLUjRO5hFFe
+	 t3N8f8XP0kdtE6CXcU9U061aJawZZpwkQH7Cr+YAZrg5ofdaLJok4edh4wiMgUAxzaERf
+	 SyDLAHa4N996au5YjtCXUqgm1MQgcyDTiIopCDsldnQ0efm1WQyGi5ahV98KCYweAcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BGrJrIMn;
-	arc=none smtp.remote-ip=209.85.215.179
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=If19epZm;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA83606A324
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 07:43:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AA83606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC9606D81F
+	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 09:58:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AAC9606D81F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BGrJrIMn
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cc7e79c1eaaso1533362a12.2
-        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 23:43:22 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=If19epZm
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso3481340f8f.2
+        for <asahi@lists.linux.dev>; Tue, 03 Nov 2026 01:58:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793691802; x=1794296602; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1793699903; x=1794304703; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:organization
+         :autocrypt:content-language:references:cc:to:subject:reply-to:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=z65FbJFnjWHxVaxQI8JGYbEaf36adoL6Hch5QBpP1Jc=;
-        b=BGrJrIMnzc+MvADgYCFSNZYVx1pw8kiJM5k2TvolWKdPHRLx3P+wsHlv0P9JfLFDBZ
-         Ryb6QdwScMDutW59xZq3J3VpAjHJ3lmnxhIRKXzNcWOvkgiK6qVpqFxfmMzZJcFCiuoL
-         7KiwlKi5v5bCwToIsSMZ0Lr65AZq1MeX4jy5qvGtMQSPzNxiUfFji0mipYNEW6k1+J5Y
-         QQu8hg16B6eaB5AVgbq3ZjFNc3xcc8bG1EflVzvILl4B247I7t13b5xSl82p0kskK79o
-         ICZH/XX6vAHcPzYcl/CP4IablRXKQTM3SLYkgqjGBeRtzg+b7/9LGkUmC1gQNCSBMWXl
-         ryWg==
+        bh=o1l0ybp/wLFt/F4zJKLBbBtJhS+ZACVIUqUnoSjbmw8=;
+        b=If19epZm1metcqZVGSPqzE+1UtMbwi6aN5QByoQ4sEiKKHylV3ATSjZrjAOUAANOl/
+         SN2A4s08i1My3C0aYPjp9hqJVK0VCdViwjtK2P7hVJGZYNmUZCL81FlgWlPardlL9Q+K
+         gIflKgnEiAOAwb72JUEyJJUvOkbxAFd6LK6CAm2Jny2HTxouKXjrY0vC+R1c31VUSglQ
+         g3KuPqhTfUS2gXZdbPSWAZoIAbA+AEe3y60CCX8f0gt7Hg9KNuCANvgRqY0wRuW/7MjI
+         Cuxvrlrnf1SwdHZwY4HESbynF/C+i/7YxfJuJSmhvk0fg42pXPKKPJWMXABfTscwDqJF
+         PZGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793691802; x=1794296602;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=z65FbJFnjWHxVaxQI8JGYbEaf36adoL6Hch5QBpP1Jc=;
-        b=F3VG0mYyLgt2XnzA9MvzSsTjAu7Q3GCPuygPPBKYq8ypO09M6RkQdWgBpWie6zeXUK
-         9TYD6wZD03UT9vHZc29QghGLmltzy7TIE4afrrbdhnXP6IiSbXnwercSOroFtojbQt3e
-         DTFTbq9GI2CxLOUQQ6cOasU9A0LY2eNqE8o8bVzTo1OQsClXL8CTMisoxGRG2aMXalGq
-         5Un4PMEP5NuwWqFHUI3Ccof1g7euGZt0d/MpdYkpiby/NCPMD5YfHNGUEHj8P4E/kRzS
-         8MB9HYxLSH5WxyFwRUa3Ap9A6XzmxkyfhwBsS/OX9duDkhATEYM/cQjQgGbg9v8aDOw4
-         awAw==
-X-Gm-Message-State: APuU4Z8woQhw/j9yb2wg330ZGFjgMfdh/bV8j5qL1MBjYVUjkyQFFBkU
-	OESOcwwLY2aKC8XwTsBvQTZl1U3pHR2QaDkCubgYiZKdJPYGQdDgBYNH+Iiqtg==
-X-Gm-Gg: AYBFou0eVKNp+NRbRG+DYH25a8wgV4umdNb/mfNdiuOffCBYkwyKCUtKeBid9PB6UBU
-	D8hc0te0GkYkMYLpq5dP3pzw3sX82a+/sSMb02YE3KW4I2RrGFTG3iQ9ffx7aBlDBKUtMv3NHxP
-	3TekTCculQAxCIaJ7e8jgUCjfHacIQexWKQrE5Uf14Upv6BYy4B7UbR/IACm/e+vijD2tyob1+P
-	oiNJUnovjt991Xw7dVocMajlV8+DxckR5eDiPXw/4mOFutjrL0iO5vhsrndDibCjxOpJ7TActGc
-	T0A4oIoYjh5KzvRd8e3hG1e6ogsa9sPr5UTldzzpfx2tVtOQUkgQt2/9o/gYVgs3O/WRlkWyn3n
-	6y5SIkhgrUHY8zMublyZWnl6olxEZUWCqw8TqK3INmTglxoccfKZtgRDpUEMkxAwovgIBrs+Y9R
-	tuiB/uwf2tLLNOxics7dRRtx55wokglkuK0b6YYcO+g59PGnm+hBuCLV14HMgbHGQ8Gk4lv/CNo
-	fYoEVmjKoqhVPwvpI/9mbVYjZ+cxoV9mvgpfTJgi8uHxPh309TTLJXUa6cTeT578eMB2oytMq1g
-	iShxsInBVgXLZ7SAY0Kl7ZxnOVFFjGfHizujS3fjcob6OLBt16ASibvJ8SpR9Hh6YusgVjg1hGr
-	FkdYdYsDOurYakgxWOc0+ehFI08LNkQC2aH3lUaGJ93EFhPUkJy6pHX6kVezK7xQ23pjF3Ib30P
-	mBiZg=
-X-Received: by 2002:a17:90b:4c44:b0:3ad:9ecf:2b88 with SMTP id 98e67ed59e1d1-3ae897356e2mr9451595a91.19.1793691801674;
-        Mon, 02 Nov 2026 23:43:21 -0800 (PST)
-Received: from [192.168.2.34] ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c903d0dsm2956769a91.12.2026.11.02.23.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 23:43:21 -0800 (PST)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 03 Nov 2026 17:40:10 +1000
-Subject: [PATCH v4 22/22] arm64: dts: apple: t602x-j47x: Add
- speaker/headset jack nodes
+        d=1e100.net; s=20260707; t=1793699903; x=1794304703;
+        h=content-transfer-encoding:content-type:in-reply-to:organization
+         :autocrypt:content-language:references:cc:to:subject:reply-to:from
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=o1l0ybp/wLFt/F4zJKLBbBtJhS+ZACVIUqUnoSjbmw8=;
+        b=CxieUTpxsv2exrXO03oiJL7mjHbDuB3hV8JiGDvpuQRsMBDXYS6Gg9jNoZR+OEGGfJ
+         zKXbT79YoCs6b0WBUybiGyzZzY/VerpKE6r94dh3aOeOND8VIY1qUQtuFvJCiG9K0pb6
+         nWZoS17zIF7qYbFga10QFUNr2uMfubrV7sP2ribwgmYbpeuM2/oASxgA8jhhAbcOtlq9
+         J9xwOhRMWFllvrd7YSBKuQJcELxVQjAWkKGqTER2FkEoNzlUN4aXmMF0RrTgWgeEr6Ps
+         IXxStrGzCRxZ+eM3tDHH6oUCEMpOV+UGIjvPvN+sd0IS0IipCJiut3TPaxRWoJW+xpht
+         M+8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzRVVg+/3u2GwDTkJYaZj8XfX5Gto+tR1mZPGsQdxYq2ahNKPudMQ0zNA1TDPnHFQ+SzY6gQg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9y+zLaxoiGxV6U7w0Vsb78NnRsSamyWTVp/T5w/825Tz+m9Kwa
+	bwQlFrWaxis/vNl7Irna12/8XXgvwVMTGshCmRdnU7yG/s+1PNAOMD2AouWK2pHzbfg=
+X-Gm-Gg: AYBFou23pWj36pVcBB4VuwE4uJQm/ETxpz7FzNbMnhgspO7Y8rSO5YIcCvYMRr4cKDz
+	ohQ+Mdh8pZX/l991tduP9B/ee54LTc60Vng0Yh48XlnuGdCAgkfQTHsJydXZTyzYdLtMcNdeAmn
+	R6KKpE0j+36kOOTfutJPtO8k6fMGIHXjgN3iZNcIcylQRQiMdpFBRN08QDuMFDsRB/4/dNAduxB
+	d99YJQsqqN//TAGzzb6zBZjo6fKqQ4lMh3Oun5LvsN9NiFdiBqt8zRGc4YtaXUESXJ8C80FNs1R
+	ESwj1QVdHR7CxYAtzZF+LhxEOut0c2/XeWqZLEh6NphwMSFJUipG5UmDRXuSHR8G3156Cz1BMpG
+	QstvVkG8QEaXqPOfpIDka1tYIIC+EGyQUPcW42m4A3YKkCQtjIvGvJZFmdMWBd6wDS4Jju/Erjx
+	Iw17XTJHSELWAul3SUDMJNjtziwHUKf7RzQWE7Bbygy0VeMKYkX7/Cy6UJi310qNuzJClDX8xxF
+	8Eufzis5uXA32bO5YMjaKQzUUWXUwoJ/nbB9WF9SuXPFvkNSa9/08DjrV2c/O8BdGCYhSMNRL2C
+	i6UaBPynL56smH/qQKQQkAaMtiZWCfvSAaWGAhEuQDig7IYZ4NbYHq7eLCS6GS4mWk4oY2KJDUQ
+	0auT3WF0=
+X-Received: by 2002:a05:6000:2b0e:b0:48d:eae3:b9df with SMTP id ffacd0b85a97d-48e6e50c88bmr21777860f8f.35.1793699903396;
+        Tue, 03 Nov 2026 01:58:23 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:106d:1080:95a2:4869:9f46:45f0? ([2a01:e0a:106d:1080:95a2:4869:9f46:45f0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b723bfsm22710550f8f.15.2026.11.03.01.58.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 01:58:22 -0800 (PST)
+Message-ID: <cf6437a4-b7ee-4b4b-acd2-bac3ea3f14fa@linaro.org>
+Date: Tue, 3 Nov 2026 10:58:22 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -94,112 +93,91 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 3/4] Input: goodix-berlin - set default resolution before
+ parsing properties
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Hans de Goede <hansg@kernel.org>, David Heidelberg <david@ixit.cz>
+Cc: Val Packett <val@packett.cool>, Hendrik Noack <hendrik-noack@gmx.de>,
+ Ferass El Hafidi <funderscore@postmarketos.org>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Jeff LaBundy <jeff@labundy.com>,
+ linux-input@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20261103044708.2461481-1-dmitry.torokhov@gmail.com>
+ <20261103044708.2461481-4-dmitry.torokhov@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20261103044708.2461481-4-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-macaudio-v4-22-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- James Calligeros <jcalligeros99@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2528;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=Mpa6Lyvo5t3WwDhLa15s7MQvnpQJvZyAGw7Ghv9V1tE=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkv+y/cXfot+mNMjqG8VQGnwRn3EyJWLF0yd4RXtmu/+
- PuK4dLTjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
- GukY6xgxcHEKwFT7czD895M+e0r0trTbnV0nPsxR/+sWH2Zbxmy//I3n/ESnsJq4dYwMZ+yOvLw
- gwH4mdKdQWcjzb8U8nGvO1fbvNZLOyU+ekd/KBwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-The M2 Pro/Max/Ultra Mac mini and Mac Studio integrate Apple-specific
-variants of the TI TAS2764 and Cirrus CS42L42. Add these nodes and
-advertise them to the machine driver via the sound node.
+On 11/3/26 05:47, Dmitry Torokhov wrote:
+> goodix_berlin_input_dev_config() currently configures the default
+> 10 units/mm resolution on ABS_MT_POSITION_X and ABS_MT_POSITION_Y after
+> calling touchscreen_parse_properties(). This unconditionally overwrites
+> any axis resolution calculated by touchscreen_parse_properties() from
+> touchscreen-x-mm and touchscreen-y-mm device properties.
+> 
+> Set the default resolution before calling touchscreen_parse_properties()
+> so the default resolution remains in place when physical dimensions are
+> not specified, while allowing touchscreen-x-mm and touchscreen-y-mm to
+> override it when present.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>   drivers/input/touchscreen/goodix_berlin_core.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
+> index b0938a4f3fec..5cf453427eeb 100644
+> --- a/drivers/input/touchscreen/goodix_berlin_core.c
+> +++ b/drivers/input/touchscreen/goodix_berlin_core.c
+> @@ -626,8 +626,6 @@ static int goodix_berlin_input_dev_config(struct goodix_berlin_core *cd,
+>   			     0, SZ_64K - 1, 0, 0);
+>   	input_set_abs_params(cd->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+>   
+> -	touchscreen_parse_properties(cd->input_dev, true, &cd->props);
+> -
+>   	/*
+>   	 * The resolution of these touchscreens is about 10 units/mm, the actual
+>   	 * resolution does not matter much since we set INPUT_PROP_DIRECT.
+> @@ -636,6 +634,8 @@ static int goodix_berlin_input_dev_config(struct goodix_berlin_core *cd,
+>   	input_abs_set_res(cd->input_dev, ABS_MT_POSITION_X, 10);
+>   	input_abs_set_res(cd->input_dev, ABS_MT_POSITION_Y, 10);
+>   
+> +	touchscreen_parse_properties(cd->input_dev, true, &cd->props);
+> +
+>   	error = input_mt_init_slots(cd->input_dev, GOODIX_BERLIN_MAX_TOUCH,
+>   				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+>   	if (error)
 
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
----
- arch/arm64/boot/dts/apple/t6020-j474s.dts      |  5 +++++
- arch/arm64/boot/dts/apple/t6021-j475c.dts      |  5 +++++
- arch/arm64/boot/dts/apple/t6022-j475d.dts      |  5 +++++
- arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi | 10 ++++++++++
- 4 files changed, 25 insertions(+)
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-diff --git a/arch/arm64/boot/dts/apple/t6020-j474s.dts b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-index e3c2635d84fa..f39697490365 100644
---- a/arch/arm64/boot/dts/apple/t6020-j474s.dts
-+++ b/arch/arm64/boot/dts/apple/t6020-j474s.dts
-@@ -46,4 +46,9 @@ &pcie0 {
- 			<0x300 &pcie0_dart_3 1 1>;
- };
- 
-+&sound {
-+	compatible = "apple,j474-macaudio", "apple,j473-macaudio";
-+	model = "Mac mini J474";
-+};
-+
- #include "hwmon-mini.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6021-j475c.dts b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-index 9fe17f1f7f59..f8f776f9eb1e 100644
---- a/arch/arm64/boot/dts/apple/t6021-j475c.dts
-+++ b/arch/arm64/boot/dts/apple/t6021-j475c.dts
-@@ -36,4 +36,9 @@ &pcie0_dart_1 {
- 	status = "okay";
- };
- 
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio";
-+	model = "Mac Studio J475";
-+};
-+
- #include "hwmon-fan-dual.dtsi"
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 32938a3bf96a..153899f1569b 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -73,3 +73,8 @@ &bluetooth0 {
- 	compatible = "pci14e4,5f72";
- 	brcm,board-type = "apple,canary";
- };
-+
-+&sound {
-+	compatible = "apple,j475-macaudio", "apple,j375-macaudio";
-+	model = "Mac Studio J475";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-index 926bb4ab77af..7f1faefcf9bb 100644
---- a/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-+++ b/arch/arm64/boot/dts/apple/t602x-j474-j475.dtsi
-@@ -36,3 +36,13 @@ &hpm2 {
- &hpm3 {
- 	interrupts = <44 IRQ_TYPE_LEVEL_LOW>;
- };
-+
-+&speaker {
-+	interrupts-extended = <&pinctrl_ap 58 IRQ_TYPE_LEVEL_LOW>;
-+	shutdown-gpios = <&pinctrl_ap 57 GPIO_ACTIVE_HIGH>;
-+};
-+
-+&jack_codec {
-+	interrupts-extended = <&pinctrl_ap 59 IRQ_TYPE_LEVEL_LOW>;
-+	reset-gpios = <&pinctrl_nub 8 GPIO_ACTIVE_HIGH>;
-+};
-
--- 
-2.56.0
-
+Thanks,
+Neil
