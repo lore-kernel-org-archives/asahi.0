@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793691628;
-	b=IpX5Asv3IERBB4Bzapu1mF1tsYH/bDhyWLc7Gabczuc6UCw9dmgrYOTI76UbJdk/G3fX
-	 00Iqi+GFj7zGNWRbow5drvmrdK7S0ONexA8q/n45PVDrS3eD/JXAQN5n72s6/s2Y/WM7K
-	 UDwBC5Dz4ke6BsRyxYffBEI/OkdIYdUNX69i6Al7c4QvZNr62v3Oypg5LSQdD89au4Ese
-	 aLzfNY2aQ+Oe8l0Od1klXRstdhosoaPY9ciyPm/iRl/QTBZIGwxwUgk9N59EW95o2xZ5M
-	 h+k7qWvqikuLYYI0fVCrk8gsVsxs/IWe+IiMC42ltcgFZsNcBFtrUx76nXYMOdegeHQ==
+	t=1793691638;
+	b=AWfnO4wleD9oMFb9Hc0baBkcT/WLX2PbAJNaEC0FyK+7rg/U6gmXKnEAP2c8euxnBSFo
+	 AZ8lWXLuDqVR2n/hSj9HvCimqJJ9SsQBz0MbqlqlyZ7fE0FKt4qIRDAIizMiTdt+FoTUB
+	 uCulDwPInoPq6qcMQmPqL1Bo8JKccGBrbIRGqOaJAGjaexQ7F553sYje+mizsWyOJVC0h
+	 iGP+xuxer+vnupHVZE7k/+V6QDYapkR91t0dkL9rWz0YdB+Kvh14XhQCHdCqAQpzu5KQJ
+	 0+GZ8E5XKmwHq3MTqBXtQslLcGi6rjRmQbNqVpkvvEEkPY2Y8meSQpzje2cuoBYYWvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793691628;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793691638;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=mmtXF2bSbpoZgrl8MkDJGo7FkTgbo/JQpKGhnhw9Z4U=;
-	b=w67XTJvM9yQofJ3t8TZB7ZdL4DJNDBnUZxYQQf50pYRwtOeAVO78e9pkg2fuVxBMwx/2
-	 bMRtii8cDOBMcIh6G8Djtor28VU7rNV/AMftz69plR43pitrSPpfEJocsT1r6arubnlFJ
-	 RDG7txaWnvLMS/K58jEhzoOYgtt7KJTY4P2D/fBOq2sLX4X2ZXktl5Xq4r4+BQNpFpPas
-	 QcLwqT0UV9ePHsBorI/BYjZ/efFmbxeG2M0MvuapdL/mXyYaVmpVrH/E4MXmjLwHpYD1t
-	 QbTHJMSRH9zBstQ57G/jJToWyv7wwkmmudin9OpF/cdvuCk/bj5QQQxIRZMedSi0nXw==
+	bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
+	b=I8ZswQZFEjAo9i6lsyxjClzU5vbTrdjQrakOeD28XnCLvqAr7y7lT6E0qMXx44alIScH
+	 uE+GpasmRTVMtc3hABjDqsSegVqiR/zP3Im/WkYw+O2KBH/MsfbfMy2Gu6nm037jm3XFK
+	 C8bKjOlGf8jA2t72njMXBlIu7EVAfrxRF8n6AO6xxvagA+tfGvxoAdk5e0Mx7XZW8fMGl
+	 v++t1jz43UPcuTp+9jzgmCS2grYEqNMTyYkwNpW7zdjgenqx4JaMa309bVFfhlU8Ighfy
+	 ZPBT5dHRlg/+87HClJTmYnMQ8Mk4hHlJvfhX4ACiSp6uHTQEj8Cm7Uu2Jd9D2L4N9xg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gnCuKLb1;
-	arc=none smtp.remote-ip=209.85.215.181
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gE3DqEKl;
+	arc=none smtp.remote-ip=209.85.216.41
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5345606A339
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 07:40:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5345606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97726606A33A
+	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 07:40:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97726606A33A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gnCuKLb1
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca766c1c9ccso1251182a12.0
-        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 23:40:27 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gE3DqEKl
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ac77270fbfso1866578a91.2
+        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 23:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793691627; x=1794296427; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793691637; x=1794296437; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=mmtXF2bSbpoZgrl8MkDJGo7FkTgbo/JQpKGhnhw9Z4U=;
-        b=gnCuKLb1uXzv6/LkENkD9X5UgFmT0UnaP8hUpzYMNN1RkWxXWShcgdKf3XugPIPDs4
-         w525kzlLQywaNmyiqBvo59OW51c5wkVks1UP7Ib7gpotvesCXd0IOgLRzjHy8c8KipD7
-         Ok7tGKwUbI2+T/i4Hr/Aysmi+Es48FzW3vwEb/d7JGZPDYP82S+5nMcLEIcVaGLXJI9H
-         upAZYacx4H/AKN4gG/nYkmmjgXo+3MKUvTOTlQqtIEAg9mPPLUoGPM5r0c0L7pyTv083
-         izOeYqM6T6riEh+Gt620yUCtQzSO4qa9znokyL4hSLl9YDV9Oi4zIJXTxMlahR2GSEYW
-         7xVA==
+        bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
+        b=gE3DqEKl0sWv2uIymQFv5RkqHc9/rZ0X72+PWMWimxorNujif5KBsHLtzhq0ohOfZH
+         toG6vGRkRFUVMBcbq0qijD/Qj3CbAC7uJU/gaijs/58pTJJ51uSfieYNbTlu6gxzG/H8
+         Pp32h3VZxwinIJUXdn/v0ptOCFRKat6aYDiBS3VCe9kGbGtZR7o2eCknxtNUSA0ZvQqn
+         WHhNNQWHZSuWpmhXlhp+SL4uVCaSWQPu3RIGlG58f/Vu/kYz/HpwU8pdLIVJiid/BDro
+         9V4nZNma4y2GTYrlNF1ikzsGaO7QDBMMeCRa+r3d8WfPJ1o1h3jtb1pXw3vfKC5iVcwT
+         BpAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793691627; x=1794296427;
+        d=1e100.net; s=20260707; t=1793691637; x=1794296437;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mmtXF2bSbpoZgrl8MkDJGo7FkTgbo/JQpKGhnhw9Z4U=;
-        b=q1WQm9B2u3/1FhS0eh/AA0YVtJAnXQdTlal8c48/a+iohXqmdWlqgnWWncI0++pU4C
-         pxVnlOdSI6TMm0K7oZj0yxSRl/pFPdNiv35sOa8aCmF3Bhb16d2xeT0RPdyYWABNhUlL
-         +ggn84euYIhm29+8YAkyYIeBtiCwBM+x8Lnun1HQ89KhZgo3f4f9jRb/4unc/4No1s4U
-         huRTmqjyZcQv/cwBQjsXcKoK+rQ3TUrYBmFOYt1kBCChTBxU6wFqtQ1BfVzEoX8nZbwl
-         LhLlnf9d4puvw91+qV3fUbonyxue/iV6ScOsR1NB8dpy17kJ2CyAWpLUwOuuGINgnGnl
-         gWSA==
-X-Gm-Message-State: APuU4Z8qWt+lkEPlWmXSzSAkV/otCgDEyzd9JB5LCrKR0CU1DA/bwE/u
-	AOx2IfKhAcA/w6binhXxJLgJ1MXVb0ac52TynfBigDK0ZBXvosginli0
-X-Gm-Gg: AYBFou0E+ta41W9RirUF80hqA2WqmdvWaJ+YuY6vpFjvZL76WQfCGz9vC67bmy3pmra
-	UCxzGqnPXC1B2vc679rAV34lA8POFi+H2CZQfCKEnnZTsaT3DrQMYwzv+4b520uQwsQ5o1aBD6y
-	hGXaAkwdmy0cmr0uaTsi/gVl/BvZpFC9h0+lx5UJrAmuBv8wCduGCbqsJi88jrdlslh7+RO2Htc
-	WbvSzV1cIdC9wqLcFYKV5S8JjlCjDTjYcCjdKie3c99XdCJTIb3DIzOfU2+QDEo1nnspazoXTrW
-	c/WoJ7RqJhVBHtDt58BX79JhOvM1ldH4PJDSzl0wzry5P32/hcoCQkJiWN140A1n4sBKQaO7Rl5
-	dmz1sNYd32SSY7Gx7X0xogPy+4xlHrPE4U+HPYGRawEtYytUTrrb/iOKDHngeEn9CsO8cZuYxyU
-	sA99MqRDfE2bfqE6P26kn0WCAa+3dqVchBN6xdXcWeNIn1mcYi6ba+rDGVPFLgtFOk1gt8URJ5e
-	LW3M2AWz9lGy1KFn6FQrXnFSnCh0Ytc3VLuy/wYPz8cePvp2pgR3WC0yd0vFxeME3QqDqAQhkCl
-	Yb7UKq0NsCqsdzaKjMR/Ts2WUICIPej6sOgZRFMgabmo4kqMJ0kscg56fih6BOthIHGON+ilDV2
-	hIU7ouaMzWqXDWpUE4XdMNTtM3OpWTjqHzo8X82pJR9Htq8a0fukSijt8JNvkqUXnJoA86W0IyJ
-	hEMxI=
-X-Received: by 2002:a17:90b:35c6:b0:39d:efa9:cd1a with SMTP id 98e67ed59e1d1-3ae89536bdbmr10927084a91.4.1793691627024;
-        Mon, 02 Nov 2026 23:40:27 -0800 (PST)
+        bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
+        b=C5RLsGMrQEDgFMJTAHgiZXRQHZLdtzMydVjQp9rn9d/zJWHPk6mIxMgyps7lz/i8Ub
+         B30OlnJQ3OUC2zdXNldYNduxWJ5yDOZg4LFmOMQI410SUjceYZFZs9rSaWShnz/VSSW/
+         /0RN8Uz1S5dJBuv3rYfCwVcfo35fm6KuPimn/we87b52LJU0oFEILhjQKWjMWLWC8OZN
+         3bCoww5G4S1NTwGcUJsfhFeyZrErDUnlPl+f3FECXd4dOsgIbaAbJyo0THqQcKlRffuu
+         DC6mrumoTnidNEkF8EHjqNXfZDULFdtTYzNskiDjAaSyKFBgvxyKBnhOcaDHXlxVTUTB
+         jnkw==
+X-Gm-Message-State: APuU4Z+6q8Kro12Ae23hNNvvtnDhSLqZIOINeEYGkXkKQkt3ag1NgDHK
+	3I5eM19pso/SLaYeO62U9vzwacxvc8QKMpf3cmQhqVAHbSH2S5GzmoNz
+X-Gm-Gg: AYBFou3+ODl8Q7jQJxLuTmMD3daaWXllJNEd5HLOAwtQfHygcGQVgwnyNbEI9+DmqFS
+	k+HkZhhP6rG1x2lz5njGgyBK+MMmDYfwIuiaGUAUh9caMbUjIiKhThVMWCctPPi5Fl8Tz7EG/ar
+	0Hhtn7Hx4LvR+6J4WHh3b6D7mWRI+JuisdVsXMuw399jpodMieRRraNZJ2HWmsC8U86XK49uCxw
+	E2g1J0fuY72rHtjXiR+6f2PyEKe+uItY/jD8MJhmHPAjyDhfHsyHou2DTWDqD7/echAPkLDzdRH
+	V/9tHq8hLgtVP+pJyiJBaK1+V03Z/GLoMcYJgy93lX0G6JsiV/tmp6zYBoZd9NcVZOfJPub5Lzf
+	pl7JdeHrd1rfdLtgERDg5wENABkKkekYKpGI6RXAXkk7dfVXtDC0orwG/A9q5P1LvRVOH6Iw84y
+	foXPkCnolMqAyc6YCFdL0E9k35I1SjhMzZfLmWOJwyZrsY0DDyA40zz2Mh67buzHAJJDxtsIG1c
+	GTJfr2giNfhMvgmKdnn9PnLOt2jjG2AoltHHaPdRqr0iWcnw47JEXXtg90cazG7klUs5PauUbxD
+	FD/ZhF+eEo31xWd3ERyaj+qJMJjMbpGwGJfMiyPQcXXNdPwxQ3HIS5OT87UQIhzCzMrQQGEyeQI
+	BXkfb953rp6vKMy/hj4iv7P52J2O7Co/630tTFIPh1RXxv+l5dDKN7s+unjxSRHSs0AcTsnQK/m
+	AYSSqb5NKrtRvCvIW+9m0FWlC9
+X-Received: by 2002:a17:90b:4f8e:b0:3ac:7f4c:a690 with SMTP id 98e67ed59e1d1-3ae897dfcdemr8833525a91.35.1793691636036;
+        Mon, 02 Nov 2026 23:40:36 -0800 (PST)
 Received: from [192.168.2.34] ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c903d0dsm2956769a91.12.2026.11.02.23.40.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c903d0dsm2956769a91.12.2026.11.02.23.40.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 23:40:26 -0800 (PST)
+        Mon, 02 Nov 2026 23:40:35 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 03 Nov 2026 17:39:50 +1000
-Subject: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced
- dai-common properties
+Date: Tue, 03 Nov 2026 17:39:51 +1000
+Subject: [PATCH v4 03/22] ASoC: dt-bindings: tdm-slot: Allow indexed TDM
+ idle properties
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -96,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-macaudio-v4-2-637484efe46d@gmail.com>
+Message-Id: <20261103-macaudio-v4-3-637484efe46d@gmail.com>
 References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
 In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -118,48 +118,113 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1199;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3352;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=ryTg7qu92xHmjo1HEk78arPtD12ewJvnTCmnNMpKI2c=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkv+8+GpzjrzeRvYWVum1gj5HNzyuvK1hVdiudFLu8N0
- n3S1ebdMZGFQYyLwVJMkWVDk5DHbCO2m/0ilXth5rAygQyRFmlgAAIWBr7cxLxSIx0jPVNtQz1D
- Ix1jHSMGLk4BmOoLSxgZrl/hNrrKf2TVhzo7z237FA8e3jH3Nf/qtR/St39hfNBQ0sHwV3TNTE5
- f7x852/mjXWfWXk/xiHl+5AhnQ2rTYwn9Iv0OLgA=
+ bh=lpUwLsyqda9INXeRL6PY6VLEX817T5qBt0mzKx25Jk8=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkv+882p0/bfXvzvcc3vMICv64vqJBaIVJ45PaMIOl+0
+ aK7r7k7OiayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
+ aKRjrGPEwMUpAFP99h3D/9DvUYsCT528siPA3/Og83/xD+uzqmR/8m9/EH6Lp3dqyFyG3+ybZb5
+ ebCpyWXD+8WpvzoYfbbyaIawF84VcgxrqJ9+TYgYA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-We may need to define both #sound-dai-cells and sound-name-prefix on some
-machines where this codec is part of a simple DAI. Allow this by refrencing
-dai-common.yaml and allowing its properties to be used.
+Some consumers may wish to configure a codec's TDM idle properties
+at runtime based on specific dai-link-level conditions. This could
+be achieved by doing something like
+
+dai-link@0 {
+    dai-tdm-idle-mode = "pulldown";
+    dai-tdm-slot-tx-idle-mask = <0xf0f0>;
+
+    cpu {
+        sound-dai = <&some_cpu>;
+    };
+    codec {
+        sound-dai = <&some_codec>;
+    };
+};
+
+But what if we have a dai-link with multiple codecs across multiple
+CPUs? What if the machine driver parsing the dai-link only expects
+idle properties for specific codecs? We can extend the idle properties
+with an index, allowing unique idle configurations for specific
+components in the dai-link:
+
+dai-link@1 {
+    dai-tdm-idle-mode-0 = "zero";
+    dai-tdm-idle-mode-2 = "zero";
+    dai-tdm-slot-tx-idle-mask-0 = <0xf0f0>;
+    dai-tdm-slot-tx-idle-mask-2 = <0x0f0f>;
+
+    cpu {
+        sound-dai = <&some_cpu0>, <&some_cpu2>;
+    };
+    codec {
+        sound-dai = <&some_codec0>, <&some_codec1>,
+                    <&some_codec2>, <&some_codec3>;
+    };
+};
+
+Extend the TDM idle properties to optionally allow this indexing.
 
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/sound/tdm-slot.yaml        | 34 ++++++++++++----------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-index ab4c7d22dc0e..4ac0af34c464 100644
---- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-+++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-@@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
- maintainers:
-   - patches@opensource.cirrus.com
+diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.yaml b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+index 457a899e8872..dafa5fa77006 100644
+--- a/Documentation/devicetree/bindings/sound/tdm-slot.yaml
++++ b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
+@@ -20,20 +20,6 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: Width, in bits, of each slot
  
-+allOf:
-+  - $ref: dai-common.yaml#
+-  dai-tdm-idle-mode:
+-    $ref: /schemas/types.yaml#/definitions/string
+-    enum:
+-      - none
+-      - off
+-      - zero
+-      - pulldown
+-      - hiz
+-      - pullup
+-      - drivehigh
+-    description: Drive mode for inactive/idle TDM slots. For hardware that
+-      implements .set_tdm_idle(). Optional. "None" represents undefined
+-      behaviour and is the same as not setting this property.
+-
+ patternProperties:
+   '^dai-tdm-slot-[rt]x-mask$':
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+@@ -44,9 +30,25 @@ patternProperties:
+       a mask. The first element of the array is slot 0 (LSB). Any nonzero
+       value will be treated as 1.
+ 
+-  '^dai-tdm-slot-[rt]x-idle-mask$':
++  '^dai-tdm-slot-[rt]x-idle-mask(-[0-9]+)?$':
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: Idle slot mask. Optional. A bit being set to 1 indicates
+-      that the corresponding TDM slot is inactive/idle.
++      that the corresponding TDM slot is inactive/idle. Can be defined on
++      a per-component basis.
 +
- description:
-   The CS42L42 is a low-power audio codec designed for portable applications.
-   It provides a high-dynamic range, stereo DAC for audio playback and a mono
-@@ -193,7 +196,7 @@ required:
-   - VL-supply
-   - VA-supply
++  '^dai-tdm-idle-mode(-[0-9]+)?$':
++    $ref: /schemas/types.yaml#/definitions/string
++    enum:
++      - none
++      - off
++      - zero
++      - pulldown
++      - hiz
++      - pullup
++      - drivehigh
++    description: Drive mode for inactive/idle TDM slots. For hardware that
++      implements .set_tdm_idle(). Optional. "None" represents undefined
++      behaviour and is the same as not setting this property. Can be defined
++      on a per-component basis.
  
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
+ additionalProperties: true
 
 -- 
 2.56.0
