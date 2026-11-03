@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793691638;
-	b=AWfnO4wleD9oMFb9Hc0baBkcT/WLX2PbAJNaEC0FyK+7rg/U6gmXKnEAP2c8euxnBSFo
-	 AZ8lWXLuDqVR2n/hSj9HvCimqJJ9SsQBz0MbqlqlyZ7fE0FKt4qIRDAIizMiTdt+FoTUB
-	 uCulDwPInoPq6qcMQmPqL1Bo8JKccGBrbIRGqOaJAGjaexQ7F553sYje+mizsWyOJVC0h
-	 iGP+xuxer+vnupHVZE7k/+V6QDYapkR91t0dkL9rWz0YdB+Kvh14XhQCHdCqAQpzu5KQJ
-	 0+GZ8E5XKmwHq3MTqBXtQslLcGi6rjRmQbNqVpkvvEEkPY2Y8meSQpzje2cuoBYYWvw==
+	t=1793691645;
+	b=ShBiLrpFOidRfuLDPWQTDNZ1jK3s0b3rHlQb34I8FJvwmj/DxMbxEzWwCy7qwBZ9Q0hx
+	 RJuFs78ltPl1kQtIml//Jj/S3rOxOppUsQ6M7OHd8gq8lC3Ilnk+DvEVTtJ83b1iRdNrF
+	 l+LqmfWq889ItdCQSsOQYG3mKUm/Hve6Ma6u5r70vz7PVUsbnJIK6KVZmtTokw3t8qfQ8
+	 tm8UZxTDhn+JfUhfxM2C4uNcqx/uYuELRxpgAbTU+GfkBD1+IaJ44C6KxEZ7PiqWRAi4d
+	 pHkcq7TIo8WS9HcwBRo0apXyEsokmKuy93aqNrpD3xVQVpAKK7QLcb8nVNJrHpZN36A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793691638;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793691645;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
-	b=I8ZswQZFEjAo9i6lsyxjClzU5vbTrdjQrakOeD28XnCLvqAr7y7lT6E0qMXx44alIScH
-	 uE+GpasmRTVMtc3hABjDqsSegVqiR/zP3Im/WkYw+O2KBH/MsfbfMy2Gu6nm037jm3XFK
-	 C8bKjOlGf8jA2t72njMXBlIu7EVAfrxRF8n6AO6xxvagA+tfGvxoAdk5e0Mx7XZW8fMGl
-	 v++t1jz43UPcuTp+9jzgmCS2grYEqNMTyYkwNpW7zdjgenqx4JaMa309bVFfhlU8Ighfy
-	 ZPBT5dHRlg/+87HClJTmYnMQ8Mk4hHlJvfhX4ACiSp6uHTQEj8Cm7Uu2Jd9D2L4N9xg==
+	bh=VV91sp0zgzAnNndz8lEyYpW2VQkodDRsnrajblY9z1s=;
+	b=3oxGtZKrj0BKX98Mmg6gz+EowVOpfR360qA/Xu+407wfQSjLExKvL+LEiERaj9Gep3u6
+	 H/UpezcP5rXbXHNVdnlrdeVOyjS+h73wbO7CZc2OqkNMJXeu7IYw6EzMEHl7OD6YUZYnb
+	 cSmwVVr0PFHVGKcG0rQp4JE4pi6hRm1CC8hYfnATJqrcpGmZrvk3kpRQZfsg/a1X0NKXE
+	 VzgwUU+fiX2OUViuNRx2ahABunHtzcIMd2F94qjhQJrvolK+Jh/RSxFwAOBxDNe8Z6sIf
+	 EvPi/opbRV9JMjixELdvuzlEdLZDlBx8UJtD472WqOTNu3AxOinxVebSH03WfRX+4+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gE3DqEKl;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pQp4QUli;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97726606A33A
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 07:40:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97726606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4B7606A32D
+	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 07:40:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C4B7606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gE3DqEKl
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ac77270fbfso1866578a91.2
-        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 23:40:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pQp4QUli
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ace1f3897cso1772146a91.0
+        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 23:40:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793691637; x=1794296437; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793691645; x=1794296445; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
-        b=gE3DqEKl0sWv2uIymQFv5RkqHc9/rZ0X72+PWMWimxorNujif5KBsHLtzhq0ohOfZH
-         toG6vGRkRFUVMBcbq0qijD/Qj3CbAC7uJU/gaijs/58pTJJ51uSfieYNbTlu6gxzG/H8
-         Pp32h3VZxwinIJUXdn/v0ptOCFRKat6aYDiBS3VCe9kGbGtZR7o2eCknxtNUSA0ZvQqn
-         WHhNNQWHZSuWpmhXlhp+SL4uVCaSWQPu3RIGlG58f/Vu/kYz/HpwU8pdLIVJiid/BDro
-         9V4nZNma4y2GTYrlNF1ikzsGaO7QDBMMeCRa+r3d8WfPJ1o1h3jtb1pXw3vfKC5iVcwT
-         BpAA==
+        bh=VV91sp0zgzAnNndz8lEyYpW2VQkodDRsnrajblY9z1s=;
+        b=pQp4QUliTWdZNRUxi/9ttdJhcOernSIx9dHhoj3jp2zx7IJG0xMLNuYB39E66yhEB6
+         XaESAEAHVDn3hocRajL2mwgDgJrWyG2aBt9wxhPPMZZ/5eKUlyo6Iz1ubPc/amJ9jRZo
+         Nyws9saIvU4Ke4OOuWbe8mG2g3FCm6YazKkdkiCv4xk3MHZSMaYzhkbFHi5BHpch+tOW
+         UTGlupmzShbDRnqsbEPTO/r0R8F7GLjb9QHg5wiWMsdO5PhEhOOuy7iQpmeZsxiA39cP
+         sSgSm2DtuyOPM4WAZAh54xWkFGzKwE5FeFeIibHYk9XJCw5ExrBPleA+K50AzXUV/daZ
+         z4Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793691637; x=1794296437;
+        d=1e100.net; s=20260707; t=1793691645; x=1794296445;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yp4HuB7tJhhnBtYoQ3GTZMcnVN91AFEtBm+pYgEZYA4=;
-        b=C5RLsGMrQEDgFMJTAHgiZXRQHZLdtzMydVjQp9rn9d/zJWHPk6mIxMgyps7lz/i8Ub
-         B30OlnJQ3OUC2zdXNldYNduxWJ5yDOZg4LFmOMQI410SUjceYZFZs9rSaWShnz/VSSW/
-         /0RN8Uz1S5dJBuv3rYfCwVcfo35fm6KuPimn/we87b52LJU0oFEILhjQKWjMWLWC8OZN
-         3bCoww5G4S1NTwGcUJsfhFeyZrErDUnlPl+f3FECXd4dOsgIbaAbJyo0THqQcKlRffuu
-         DC6mrumoTnidNEkF8EHjqNXfZDULFdtTYzNskiDjAaSyKFBgvxyKBnhOcaDHXlxVTUTB
-         jnkw==
-X-Gm-Message-State: APuU4Z+6q8Kro12Ae23hNNvvtnDhSLqZIOINeEYGkXkKQkt3ag1NgDHK
-	3I5eM19pso/SLaYeO62U9vzwacxvc8QKMpf3cmQhqVAHbSH2S5GzmoNz
-X-Gm-Gg: AYBFou3+ODl8Q7jQJxLuTmMD3daaWXllJNEd5HLOAwtQfHygcGQVgwnyNbEI9+DmqFS
-	k+HkZhhP6rG1x2lz5njGgyBK+MMmDYfwIuiaGUAUh9caMbUjIiKhThVMWCctPPi5Fl8Tz7EG/ar
-	0Hhtn7Hx4LvR+6J4WHh3b6D7mWRI+JuisdVsXMuw399jpodMieRRraNZJ2HWmsC8U86XK49uCxw
-	E2g1J0fuY72rHtjXiR+6f2PyEKe+uItY/jD8MJhmHPAjyDhfHsyHou2DTWDqD7/echAPkLDzdRH
-	V/9tHq8hLgtVP+pJyiJBaK1+V03Z/GLoMcYJgy93lX0G6JsiV/tmp6zYBoZd9NcVZOfJPub5Lzf
-	pl7JdeHrd1rfdLtgERDg5wENABkKkekYKpGI6RXAXkk7dfVXtDC0orwG/A9q5P1LvRVOH6Iw84y
-	foXPkCnolMqAyc6YCFdL0E9k35I1SjhMzZfLmWOJwyZrsY0DDyA40zz2Mh67buzHAJJDxtsIG1c
-	GTJfr2giNfhMvgmKdnn9PnLOt2jjG2AoltHHaPdRqr0iWcnw47JEXXtg90cazG7klUs5PauUbxD
-	FD/ZhF+eEo31xWd3ERyaj+qJMJjMbpGwGJfMiyPQcXXNdPwxQ3HIS5OT87UQIhzCzMrQQGEyeQI
-	BXkfb953rp6vKMy/hj4iv7P52J2O7Co/630tTFIPh1RXxv+l5dDKN7s+unjxSRHSs0AcTsnQK/m
-	AYSSqb5NKrtRvCvIW+9m0FWlC9
-X-Received: by 2002:a17:90b:4f8e:b0:3ac:7f4c:a690 with SMTP id 98e67ed59e1d1-3ae897dfcdemr8833525a91.35.1793691636036;
-        Mon, 02 Nov 2026 23:40:36 -0800 (PST)
+        bh=VV91sp0zgzAnNndz8lEyYpW2VQkodDRsnrajblY9z1s=;
+        b=T/lOX/KcvHNHr+eqkScF39umRLK3lNpAGXU0oGUEkFRt0hLlNLgpMwToiPyw/naLKA
+         AGmIhbRFcY6vgDZ6KwkAXZjRcA7CabF/B+x7/uUOgskj4UtIrkB5k9PMTlg/TNmMOqtw
+         L82EL/LcS2X9VGajoXhA09gNKlp1987mDHX4/VhsbaL2tsowyHaKy0CZIipLeUgqlK0S
+         xM+fWohkkcLY0q06TQDZ+ndquQM5wQDd70NVueJ/HlIrbpJRXsDrUfeKUrdRTRjKb5W8
+         AVAkPYG2XjDKh9wXwEirEcaMZcHOqXNIcPfDgn963ib4wBY63t+zfEnz+Ab6Vfxrbtr4
+         tLXw==
+X-Gm-Message-State: APuU4Z8bksazwi0Vgo8l7PwUx1+UE3q2Z/VjnFi/RYt4+ZeQFyC+QN2b
+	/4fl1QF3kXFkS012Wj16CAz/UzN0ufTzBjcqY/2HPX11KF+tGKrqLAja
+X-Gm-Gg: AYBFou1AXx5JR8ycMq4/paQRPI30SEh45c/Pe8WaDQLHUSg8/04Pbbx4YoGMrDS/7bV
+	teeQ6Om9odOlhwOZev685juWkjyVj4kP82aw7p9vbOp5wg7/YaAR1f8M6hT65AN+wgferCxE3Jq
+	yAPvkxdYanQMDeGb3BSOXopMB9zzYfJTrz+k67O5wgiGR5+wywZTs1v1lIq5zpkSBEvcuXqHPO6
+	TJhZhx8y+Rbz5PGC/dvKh9/49cwl4R5B2rXPZk5ph/ANhds5ETr6drGoEZb5PcMKkKmQRieirlZ
+	EtbM/FAJ7aRc3r0yYgqZbsWeBqfDUswyL+zUeRhq56P3+/q+1vE4wWqljr06C45T5iYkC99l8yM
+	kYlnctL8XrdP/0ES1LKMMInRG7vRKCtRz7zL8rcLtntcRA63f4Rnu1uSE9m2pFUp+vValpcRBDb
+	SFtNhQlIQvlMrLIPLw9QJpIBkINHHv0LLzTApnM1BPGiqysRsss0TdQayfjr+sareo4XSd1IaBY
+	HV5iddYT7qStzRh+JAyiB3KbWFg0uZMZoItqni4FI/ilyLaE8ayZ3na4fmNvRYJ6cclTrQZrzo+
+	wb8XqJjiv67czQwDAblmv+NEWHsfnjdFWOR9emN2DLhITlf1pHB3C9mGTV3JuMyhA4fnDFjAedi
+	QtxWogOnWEpZtnPZ/go+lMnbPYOZCHYka40Qtywx1PwlnMYlp/KAty95iO4uC/ZAdxJzm7zx+z6
+	Jf304=
+X-Received: by 2002:a17:90a:e7cf:b0:3ac:9a54:e3ce with SMTP id 98e67ed59e1d1-3ae8986e718mr10689427a91.63.1793691644616;
+        Mon, 02 Nov 2026 23:40:44 -0800 (PST)
 Received: from [192.168.2.34] ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c903d0dsm2956769a91.12.2026.11.02.23.40.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c903d0dsm2956769a91.12.2026.11.02.23.40.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 23:40:35 -0800 (PST)
+        Mon, 02 Nov 2026 23:40:44 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 03 Nov 2026 17:39:51 +1000
-Subject: [PATCH v4 03/22] ASoC: dt-bindings: tdm-slot: Allow indexed TDM
- idle properties
+Date: Tue, 03 Nov 2026 17:39:52 +1000
+Subject: [PATCH v4 04/22] ASoC: dt-bindings: Add binding for Apple Silicon
+ Mac audio
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -95,8 +95,8 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-macaudio-v4-3-637484efe46d@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20261103-macaudio-v4-4-637484efe46d@gmail.com>
 References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
 In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -118,113 +118,233 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3352;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6733;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=lpUwLsyqda9INXeRL6PY6VLEX817T5qBt0mzKx25Jk8=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkv+882p0/bfXvzvcc3vMICv64vqJBaIVJ45PaMIOl+0
- aK7r7k7OiayMIhxMViKKbJsaBLymG3EdrNfpHIvzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- aKRjrGPEwMUpAFP99h3D/9DvUYsCT528siPA3/Og83/xD+uzqmR/8m9/EH6Lp3dqyFyG3+ybZb5
- ebCpyWXD+8WpvzoYfbbyaIawF84VcgxrqJ9+TYgYA
+ bh=q6cZjCz9R++Ba7lkffXrC5JosZFNf04Vy9Rd1123Uys=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFkv+8/usmxdxzhdZvNmS70e5/1RxxwvHDTkPndTUn2iz
+ dTIEv8JHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
+ NNIx1jFi4OIUgKleEszw369Bo9xKgbn9AUfmUx9e8xcLJE4bb5K+/OLMi3PdO9y+azIyTPryTHz
+ tkXnx6kdq9HTaPS9t+bA42k7a7+b+nyInzQ/1cgEA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Some consumers may wish to configure a codec's TDM idle properties
-at runtime based on specific dai-link-level conditions. This could
-be achieved by doing something like
+From: Martin Povišer <povik+lin@cutebit.org>
 
-dai-link@0 {
-    dai-tdm-idle-mode = "pulldown";
-    dai-tdm-slot-tx-idle-mask = <0xf0f0>;
+Add a binding for the primary audio subsystem found on Apple Silicon
+Macs. This binding integrates the codecs and SoC I2S peripheral
+used for driving the headset jack and speaker arrays on all Apple
+Silicon Macs. The internal microphones on this platform are
+connected to a distinct coprocessor and are not part of this
+"main" audio subsystem.
 
-    cpu {
-        sound-dai = <&some_cpu>;
-    };
-    codec {
-        sound-dai = <&some_codec>;
-    };
-};
-
-But what if we have a dai-link with multiple codecs across multiple
-CPUs? What if the machine driver parsing the dai-link only expects
-idle properties for specific codecs? We can extend the idle properties
-with an index, allowing unique idle configurations for specific
-components in the dai-link:
-
-dai-link@1 {
-    dai-tdm-idle-mode-0 = "zero";
-    dai-tdm-idle-mode-2 = "zero";
-    dai-tdm-slot-tx-idle-mask-0 = <0xf0f0>;
-    dai-tdm-slot-tx-idle-mask-2 = <0x0f0f>;
-
-    cpu {
-        sound-dai = <&some_cpu0>, <&some_cpu2>;
-    };
-    codec {
-        sound-dai = <&some_codec0>, <&some_codec1>,
-                    <&some_codec2>, <&some_codec3>;
-    };
-};
-
-Extend the TDM idle properties to optionally allow this indexing.
-
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Co-developed-by: James Calligeros <jcalligeros99@gmail.com>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- .../devicetree/bindings/sound/tdm-slot.yaml        | 34 ++++++++++++----------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ .../devicetree/bindings/sound/apple,macaudio.yaml  | 195 +++++++++++++++++++++
+ 1 file changed, 195 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/tdm-slot.yaml b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-index 457a899e8872..dafa5fa77006 100644
---- a/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-+++ b/Documentation/devicetree/bindings/sound/tdm-slot.yaml
-@@ -20,20 +20,6 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description: Width, in bits, of each slot
- 
--  dai-tdm-idle-mode:
--    $ref: /schemas/types.yaml#/definitions/string
--    enum:
--      - none
--      - off
--      - zero
--      - pulldown
--      - hiz
--      - pullup
--      - drivehigh
--    description: Drive mode for inactive/idle TDM slots. For hardware that
--      implements .set_tdm_idle(). Optional. "None" represents undefined
--      behaviour and is the same as not setting this property.
--
- patternProperties:
-   '^dai-tdm-slot-[rt]x-mask$':
-     $ref: /schemas/types.yaml#/definitions/uint32-array
-@@ -44,9 +30,25 @@ patternProperties:
-       a mask. The first element of the array is slot 0 (LSB). Any nonzero
-       value will be treated as 1.
- 
--  '^dai-tdm-slot-[rt]x-idle-mask$':
-+  '^dai-tdm-slot-[rt]x-idle-mask(-[0-9]+)?$':
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description: Idle slot mask. Optional. A bit being set to 1 indicates
--      that the corresponding TDM slot is inactive/idle.
-+      that the corresponding TDM slot is inactive/idle. Can be defined on
-+      a per-component basis.
+diff --git a/Documentation/devicetree/bindings/sound/apple,macaudio.yaml b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+new file mode 100644
+index 000000000000..7a97ce5bb7a1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
+@@ -0,0 +1,195 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/apple,macaudio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+  '^dai-tdm-idle-mode(-[0-9]+)?$':
++title: Sound peripheral integration for Apple Silicon Macs
++
++description:
++  The speakers and headphone jack on Apple Silicon Macs are part of an
++  integrated audio subsystem comprising of Apple's I2S peripheral (MCA) and a
++  series of codecs. The machines have a wide variety of topologies ranging
++  from a simple mono speaker in the desktops to complex stereo arrays with
++  dual-opposed woofers and tweeters all driven by their own mono amplifiers.
++  This arrangement can be expressed as a set of DAI links, where the MCA ports
++  each codec is connected to are represented by the CPU side of the link.
++
++maintainers:
++  - James Calligeros <jcalligeros99@gmail.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - apple,j180-macaudio
++              - apple,j274-macaudio
++              - apple,j293-macaudio
++              - apple,j313-macaudio
++              - apple,j314-macaudio
++              - apple,j316-macaudio
++              - apple,j375-macaudio
++              - apple,j413-macaudio
++              - apple,j415-macaudio
++              - apple,j456-macaudio
++              - apple,j473-macaudio
++      - items:
++          - enum:
++              - apple,j493-macaudio
++          - const: apple,j293-macaudio
++      - items:
++          - enum:
++              - apple,j414-macaudio
++              - apple,j504-macaudio
++              - apple,j514-macaudio
++          - const: apple,j314-macaudio
++      - items:
++          - enum:
++              - apple,j416-macaudio
++              - apple,j516-macaudio
++          - const: apple,j316-macaudio
++      - items:
++          - enum:
++              - apple,j475-macaudio
++              - apple,j575-macaudio
++          - const: apple,j375-macaudio
++      - items:
++          - enum:
++              - apple,j613-macaudio
++          - const: apple,j413-macaudio
++      - items:
++          - enum:
++              - apple,j615-macaudio
++          - const: apple,j415-macaudio
++      - items:
++          - enum:
++              - apple,j457-macaudio
++          - const: apple,j456-macaudio
++      - items:
++          - enum:
++              - apple,j474-macaudio
++          - const: apple,j473-macaudio
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  model:
++    description:
++      Model name for presentation to users
 +    $ref: /schemas/types.yaml#/definitions/string
-+    enum:
-+      - none
-+      - off
-+      - zero
-+      - pulldown
-+      - hiz
-+      - pullup
-+      - drivehigh
-+    description: Drive mode for inactive/idle TDM slots. For hardware that
-+      implements .set_tdm_idle(). Optional. "None" represents undefined
-+      behaviour and is the same as not setting this property. Can be defined
-+      on a per-component basis.
- 
- additionalProperties: true
++
++patternProperties:
++  "^([a-z]+-)?dai-link$":
++    description: Node for each sound peripheral such as the speaker array,
++      headphones jack, or microphone.
++    type: object
++    $ref: tdm-slot.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      link-name:
++        description: Name for the peripheral
++        enum: [ Headphone Jack, Speaker, Speakers ]
++        $ref: /schemas/types.yaml#/definitions/string
++
++      codec:
++        type: object
++        additionalProperties: false
++
++        properties:
++          sound-dai:
++            minItems: 1
++            maxItems: 8
++            description: |
++              DAI list with the CODEC-side DAIs connected to the above CPU-side
++              DAIs and involved in this sound peripheral.
++
++              The list is in left/right order if applicable. If there are more
++              than one CPU-side DAIs (there can be two), the CODECs must be
++              listed first those connected to the first CPU, then those
++              connected to the second.
++
++              In addition, on some machines with many speaker codecs, the CODECs
++              are listed in this fixed order:
++
++              Four speakers: Left Front, Left Rear, Right Front, Right Rear
++              Six speakers: Left Woofer 1, Left Tweeter, Left Woofer 2,
++                            Right Woofer 1, Right Tweeter, Right Woofer 2
++
++        required:
++          - sound-dai
++
++      cpu:
++        type: object
++        additionalProperties: false
++
++        properties:
++          sound-dai:
++            minItems: 1
++            maxItems: 2
++            description: |
++              DAI list with CPU-side I2S ports involved in this peripheral.
++
++        required:
++          - sound-dai
++
++    required:
++      - link-name
++      - codec
++      - cpu
++
++required:
++  - '#address-cells'
++  - '#size-cells'
++  - compatible
++  - model
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++      compatible = "apple,j416-macaudio", "apple,j316-macaudio";
++      model = "MacBook Pro J416";
++
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      headphone-dai-link {
++        link-name = "Headphone Jack";
++
++        codec {
++          sound-dai = <&jack_codec>;
++        };
++
++        cpu {
++          sound-dai = <&mca 2>;
++        };
++      };
++
++      speaker-dai-link {
++        link-name = "Speakers";
++
++        dai-tdm-idle-mode-0 = "zero";
++        dai-tdm-idle-mode-3 = "zero";
++        dai-tdm-slot-tx-idle-mask-0 = <0xf0f0f0>;
++        dai-tdm-slot-tx-idle-mask-3 = <0x0f0f0f>;
++
++        codec {
++          sound-dai = <&speaker_left_woof1>,
++                      <&speaker_left_tweet>,
++                      <&speaker_left_woof2>,
++                      <&speaker_right_woof1>,
++                      <&speaker_right_tweet>,
++                      <&speaker_right_woof2>;
++        };
++
++        cpu {
++          sound-dai = <&mca 0>, <&mca 1>;
++        };
++      };
++    };
 
 -- 
 2.56.0
