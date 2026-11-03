@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793681234;
-	b=LVMxerNUxiaDEom35zpOeg+QdaEomzuxpkVYkKguHCwski+QXb/AR99SxV4EcNFNlXB+
-	 2Mu4XzVYkRCc+p9kkdqSgoJ+h8wqL4TnlA1pjnsurdy03/iTLFbDVCDu29LnPk10IFuSA
-	 swKykilGT4V2mUf47n8P9BusIj2zHCPqbibXJFWUubUy5EW3GwuTZ0BpBrgeQTfxmmxqe
-	 bg+077zU8Z+/iIm4nc588UQmEMJKtNR6AcXzGQPNPfiJC+E2Ati4q9xzEuc11hk7xZ8On
-	 lT833lcevdg/g/Ev1KQPGxwYgTHau/VBlx+W+3OLiIijx/iv027AVBTrjz+JE5zym4Q==
+	t=1793681239;
+	b=RhdzRx8FnUOfOtNYOsknZU/Rfr3VAdXaeAg3nOsUg+6q8yKsYzbJoU+ENd06XctF35tp
+	 Pz30MEVGViHkRPmhnl5mO3TkYonHszYUihvKj32WKgNAM2K4qKZYkwWFwkY8Ni1z/Rk6X
+	 wfzi7sTQmnxfM7yNWpjMHB830gfZt12JoI285g/fnCXWcmKBlxBPfEdMes+Oy5+GJ0ONh
+	 4XDN/3nwokzDEaiK9Hyy2MV77qD3HE/PxynqKPxtQxDgAbStffp05T9UZxgsY/BVW6pfH
+	 knm0DLlZAcrcFNBvHgqUsNTkN2WfaOnn20Kv39APRztX35tdwx8qgBoznzHvOUDsWKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793681234;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793681239;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=TcyaLHkkCUFFThAgS7XPoF0D4DJks2eSDppGrJXvVV8=;
-	b=VO01elFXDFMIIruzkmCx3f2AmhWM3auYH5Qhj7WSci8eW+Q6Y4d75qLQzQJBLNt0rHnq
-	 p5yjQqn0RW13a67ENp39jS2ilLx2HpZL7oLEykKVr0n8g6uv+ncu57KTCd7Dnk4WeBzMO
-	 7xbbhzGgLgCYhkqud0HSHRkgn1PrcW0b38m9Ei8WoP8Itf7ko8URPASFz6pKfX9aA1lYP
-	 nriirulZa510dhOydS977P/2GgfqEA2kbIhJXGAEbX4536yef+iisNIiSZGPhhBgerpqF
-	 kUQYmHB1olJQzbmYsOcF6azG/8xCnda0OGq+aXgXJ551Yc7fNVbAIpf8QYi8Iufg39Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=wLXXZycCt3p1k/CBuHJtwLDAq2dYHgMI6sCWUancyIk=;
+	b=UnA6JdKXIoxkFWCr+w+dtErBAP/jX8D3jZ3q1iYExPXS7K2dPGjuQmdLA9WQoxmHMOkQ
+	 pNXo3sRz1H+MZlNRpJ2Lb2TxG6pe+77MlGyjUY3TsXHe3MT4pVYQxK4skBxoqv9hG2r/W
+	 Rnv/ysgEnQQ9yOrwMOy+3VYx3i1wzNY0SleaWNjk8sm4aok8Con2nIPtCMnnS4gj819+3
+	 0AKNNPT6GjDWqUFXKnda9A6tBLwvQygnJcNQEV4WSg/bB2pOZqW569h2Wx3on1CpP6d85
+	 W2DYEOtqayTvWtz+/U+knMQxA/SqXjY8I1+KrKScwQYSEejVn1mxlg/4unZTqqETDCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l5pUrFb1;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Zv6/rkD/";
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FCF8606A324
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 04:47:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FCF8606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA38606A331
+	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 04:47:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AA38606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l5pUrFb1
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3514b90bb89so7794371eec.1
-        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 20:47:14 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Zv6/rkD/
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-15943c9c005so2315854c88.1
+        for <asahi@lists.linux.dev>; Mon, 02 Nov 2026 20:47:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793681233; x=1794286033; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TcyaLHkkCUFFThAgS7XPoF0D4DJks2eSDppGrJXvVV8=;
-        b=l5pUrFb16v5GxzRoh4y+y5vEJPKxWovTv7DP3LUK0JZeUrx3P4JyOrD0nH1zJNEKCT
-         8zdUNoIEjS+0bmpL1pd4r7BjWJ+eyLhWWUpJOCX3IN+v6xibcnz70EWYJYmWhn1q0o19
-         CbhyZwvRZKugasZURFEFqYcx0r6JmViSI4yf1WeHL5y3h6KA9VTmvp5lYjDYitHGlSDb
-         JfqusD7H6Qvq4x80U2R2HXzvR6FrhEB6+l3iSRBwtFgn3KvosAdT1+Z3gTOfkCwqTdjp
-         h3eK6GBOkGjfs0mUaJAQ4u0nzJZA9V1Ozc5hY9tDo+eyKxvBNgfMPW7AJiN7aHl1EiDL
-         TfVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793681233; x=1794286033;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793681238; x=1794286038; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TcyaLHkkCUFFThAgS7XPoF0D4DJks2eSDppGrJXvVV8=;
-        b=LwX02usSE/b1TqLc9Xd7gxMY2S1SjmsQnZG4KLDVl6D7KAmsDrQfPXmPOWG0j7LrW5
-         D7IMXX+nH/wT/bgzFxvdHd51iaO+hbeXAa3aG5oedIrHZsfoOkEg4Q+uPVFmFILxV74k
-         0kjiu/cAN2yerhYA/IgLc6WKs9Tu8WhSpEXKRkT+JV7uIeQq8CHt+r5P+vp8/YWIkUNW
-         4eI+yo22YiHzRciPCfvb2gVtSKKc77h5r5fKAtSeeSBETIalCbKy0cNIDexVCqq9ArW5
-         lsDWcSonZXo9TUJxxcJ1J6jdaskPTr3hTcZzcloOIK14aMK4RWatFcCbdBRFZTp/FoQL
-         9B8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwD9v+zgStAkQLeEMyoq2G8WX9A6Ovjr93Vd/ZukH6hqJeaUx+CQpQlD/KtkLndGc9p+XmG/w==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK+WdRNVaY5wiQBXC4VS5VTmtbG/YVUtMZ9jl+MOhGS7KWflQaU
-	3O7/EQJr/3GrxZ0H8JyJPCHHhm9jD6+tKiqPjuSlt6ptI3uHPaY71ACz
-X-Gm-Gg: AYBFou1a0AGMYk9jDdBXmhUfQHXsR1oH8l55hAGMNJdMz2BpnrmIzMugE+gQ0vbPI49
-	PjEu8VT8LXXrTxEB5ZJmu+Oye4AbcmoVtSXCdF5iIbkk3FcQZIUp2n/LO4+EUA+/QihXS/R4Fjh
-	mUHyi+iH77ARxJ4TiacptfaL+toHjMlt3GAYIoh0CagFYoXkXOuBpO8JpUZw1wW9YB4UGw2KxaH
-	fGK6jojB06Hsm8/zAYwKqHYcMOvvKXZhrY80BGIhKa3FZaBr1H5DxUY+TqMshTdodglR0v2iG4V
-	0w+fzErEZuy4cOOlfxM+hrJCQEJnhhDTW0Dxidd3SG/RmScra6yV8INy0ac2X+E51HX12HBCkJp
-	bOqrGIcf8b5ORPtf4NXYPKnibVCScf1IWBcfif8jEpGNio6sgibj86M5LE4Dcq705Y737Vit9Ag
-	DvRcwB+eicdOezZq38o/NrKRDTaWxgg2i6L8++aujZdyIuZhhWo6mtpSGYJaph0DvgyHMnfb/Za
-	t6FhJkevq4ofXQm2U5/7EWWboEfBPaFWrVQVpO3TYOsOvd51jDwSjy9GZvOJrYeF3ynD4GEaZL+
-	v1+uojmtvH94StPbed5H01XKmlnJ+/EaB4xNeqaQzaMeiVd2h3sK7NXfLD4vuJljjctVTkhfQeB
-	m0eiK7wkfLNOHop3t47Q3wI2oOFG+miLd0l+qzg==
-X-Received: by 2002:a05:7300:7a83:b0:35e:2c6:d46c with SMTP id 5a478bee46e88-36a42362460mr17331914eec.10.1793681233040;
-        Mon, 02 Nov 2026 20:47:13 -0800 (PST)
+        bh=wLXXZycCt3p1k/CBuHJtwLDAq2dYHgMI6sCWUancyIk=;
+        b=Zv6/rkD/nc4y0zH741IUVhqimBD5CQaEQEedNx/jYR5rMKMIwRU5Zj3ZslbhdwNy6X
+         3grc+cS16yMOH/CRRggIVwtntICMmySwyCnCDzvLKDmwxjvavXv8Ovd6qiX8/ses4RwH
+         w1nfphIl94b4xVEtj5M6UFi4QVBbZZzksZzdRdgj2hnCi9jOJOVFhC9mAjeRJAMPEC4K
+         4bv7ZHO07jCt7AiSiVupIqyX3Ca04k8xPceCuVPk7A4RMAJ22VcEFLXjrDG/D1E4BEId
+         UR26T5T7MRSwpJf6EFS3uLmdEFO0wHHkk95kjL/xIwG+JVkca2Iff+4nS6M2gz0vy+dE
+         +sXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793681238; x=1794286038;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wLXXZycCt3p1k/CBuHJtwLDAq2dYHgMI6sCWUancyIk=;
+        b=FT+1AYCDxoiVhjDRC9NL8J9xFqVwvlabnaYQ7o1Gc85taiLwyFCF5gMiyh3jV5CfA2
+         4TDuKgm8Y7+dnpdMwI/1BGdNapJQsEbbv+kQebQProY0l/B6VBlqhqz2RUjM9Jo7ylPL
+         TanjbjDkZeZKa+CNFVEr+04mKovELUlgH9PfBDsRrp++HMfaB3ysAcgFvM3GbFQ4BuuU
+         /sA8TnMj6Jv6ZNWeDAM0r8GsbWxnhi+bGlbH+VNTFvamsU5eQEqMsO70d17PAuYBJzsv
+         /hDmSkCl04xJI66e0yQTouaVpPglkT2C49A1dKBKN+4HMraWhQifR0c2iqkSsDdIX1g7
+         708Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxi29B2q81JtqyCkLigp6M9pn5DTFPS3WK4QVxI7OhjGGsCyidS3nC8DCDV2OYnUGCiLjv41w==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLWPklovmbw1+JG6aQ5idZk+cBzDPk/SVZ6zuOQ2gDGBaR4NZ11
+	0/eAvm7cMgyUsI4sh2DjR6dMmn8WUuaPt37oPKD7/F2uvBSk8M7EWFyp
+X-Gm-Gg: AYBFou0LMh7gfIn6U7YiXp7b1IuqXFnOJG39/KRf7TnGtF5GzOkgq0tO7QI3UpwoSTl
+	IJR2pW2/3+HFclGpdgoT0XVSOcg7v2IKTBuaKSEI/EddYV/fM1XePe9gnMpu5ywhEoY+pjrLYSX
+	TPm0qEZxdp68ZFInz2rAGkXLyu+KNWmGfwKPhYJ9r7exYVWQ3hHHUmzzz3Y7RizHIu6UlgYUjLM
+	SytgrFoHUmyxsNFPmjyz9g8Ug8Z7GizrCR3BdZF76lFpiZOdU1DhzWmn2duCJH15Y3h3NeKtoQV
+	NGqMuSzAn72Lfc542N2TgkBhZ1PWfCnX6JWi9RQl7wxPYMxz10TQLwq2wb77CNnq2dUL472ajlV
+	KVRslnVy8k2xXTmcT1APFfetGDDvpJ3MRmJFbgTm5w8xRnjIF9GHr81XAMII3cVtCQa0E6u51Nv
+	YiHpvXd6TjZ1VDgONOrQwYvJ4dssIudAM1RppSq8Quvy64wVIpm+GRNB+7VmLf/21kLohGA3/Fj
+	N+pKxSa8QvADLjOu006Ds/PMWX8Hj/BelxUT1vqeAMe/NFLY566HUlLn5LUSMC1erQY4zY+4b3W
+	2XUbEzYeWGHtPIcS2bSUhDp/twWpLbQjVhl11UKXD833UHN4J6D/tpaR9tnEMWLuWD63vjAzqVr
+	OuAGKV/T6u7KLHswf
+X-Received: by 2002:a05:701b:4208:10b0:1a3:116:848a with SMTP id a92af1059eb24-1ac5de5424dmr17866007c88.35.1793681237912;
+        Mon, 02 Nov 2026 20:47:17 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:98f:6bcd:858b:7a64])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42902649sm48385807eec.11.2026.11.02.20.47.11
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42902649sm48385807eec.11.2026.11.02.20.47.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 20:47:12 -0800 (PST)
+        Mon, 02 Nov 2026 20:47:17 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	David Heidelberg <david@ixit.cz>
@@ -91,10 +92,12 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] Input: touchscreen - parse touchscreen-x-mm and touchscreen-y-mm properties
-Date: Mon,  2 Nov 2026 20:47:03 -0800
-Message-ID: <20261103044708.2461481-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 3/4] Input: goodix-berlin - set default resolution before parsing properties
+Date: Mon,  2 Nov 2026 20:47:06 -0800
+Message-ID: <20261103044708.2461481-4-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
+In-Reply-To: <20261103044708.2461481-1-dmitry.torokhov@gmail.com>
+References: <20261103044708.2461481-1-dmitry.torokhov@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -106,40 +109,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The common touchscreen device tree binding documents touchscreen-x-mm
-and touchscreen-y-mm to specify the physical dimensions of the touch
-surface, which userspace uses via axis resolution (units/mm) for gesture
-scaling and palm rejection. However, touchscreen_parse_properties() has
-not been parsing these properties.
+goodix_berlin_input_dev_config() currently configures the default
+10 units/mm resolution on ABS_MT_POSITION_X and ABS_MT_POSITION_Y after
+calling touchscreen_parse_properties(). This unconditionally overwrites
+any axis resolution calculated by touchscreen_parse_properties() from
+touchscreen-x-mm and touchscreen-y-mm device properties.
 
-This series teaches touchscreen_parse_properties() to read
-touchscreen-x-mm and touchscreen-y-mm and calculate the corresponding X
-and Y axis resolutions from the configured axis ranges, accompanied by
-KUnit tests.
+Set the default resolution before calling touchscreen_parse_properties()
+so the default resolution remains in place when physical dimensions are
+not specified, while allowing touchscreen-x-mm and touchscreen-y-mm to
+override it when present.
 
-It also updates wacom_w9000 to drop its manual parsing of these
-properties, and adjusts goodix-berlin and apple_z2 to set their fallback
-resolutions before calling touchscreen_parse_properties() so firmware-
-provided dimensions can override the defaults instead of being
-clobbered.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/goodix_berlin_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Dmitry Torokhov (4):
-  Input: touchscreen - parse touchscreen-x-mm and touchscreen-y-mm
-  Input: wacom_w9000 - rely on touchscreen_parse_properties() for
-    resolution
-  Input: goodix-berlin - set default resolution before parsing
-    properties
-  Input: apple_z2 - set default resolution before parsing properties
-
- drivers/input/tests/Makefile                  |   1 +
- drivers/input/tests/touchscreen_test.c        | 209 ++++++++++++++++++
- drivers/input/touchscreen.c                   |  18 +-
- drivers/input/touchscreen/apple_z2.c          |   2 +-
- .../input/touchscreen/goodix_berlin_core.c    |   4 +-
- drivers/input/touchscreen/wacom_w9000.c       |  10 -
- 6 files changed, 226 insertions(+), 18 deletions(-)
- create mode 100644 drivers/input/tests/touchscreen_test.c
-
+diff --git a/drivers/input/touchscreen/goodix_berlin_core.c b/drivers/input/touchscreen/goodix_berlin_core.c
+index b0938a4f3fec..5cf453427eeb 100644
+--- a/drivers/input/touchscreen/goodix_berlin_core.c
++++ b/drivers/input/touchscreen/goodix_berlin_core.c
+@@ -626,8 +626,6 @@ static int goodix_berlin_input_dev_config(struct goodix_berlin_core *cd,
+ 			     0, SZ_64K - 1, 0, 0);
+ 	input_set_abs_params(cd->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+ 
+-	touchscreen_parse_properties(cd->input_dev, true, &cd->props);
+-
+ 	/*
+ 	 * The resolution of these touchscreens is about 10 units/mm, the actual
+ 	 * resolution does not matter much since we set INPUT_PROP_DIRECT.
+@@ -636,6 +634,8 @@ static int goodix_berlin_input_dev_config(struct goodix_berlin_core *cd,
+ 	input_abs_set_res(cd->input_dev, ABS_MT_POSITION_X, 10);
+ 	input_abs_set_res(cd->input_dev, ABS_MT_POSITION_Y, 10);
+ 
++	touchscreen_parse_properties(cd->input_dev, true, &cd->props);
++
+ 	error = input_mt_init_slots(cd->input_dev, GOODIX_BERLIN_MAX_TOUCH,
+ 				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+ 	if (error)
 -- 
 2.56.0.385.gac671c819a-goog
 
