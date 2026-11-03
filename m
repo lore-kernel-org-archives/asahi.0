@@ -1,77 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.99
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793708685;
-	b=fXr+R30FwqZG8SPbvzPVO1his1UrpHwMTMwWmsprkDo20lk4nhmud2rQxaSJjpp6ujue
-	 QinzGqmG7ybon0E7bt33lymyKV+0KNnfLEZO9xxm20F8Tdv73kil/GQz7Il/hgkUSrDyT
-	 i3ClIbOCBVDqBr9sm8c6pnhVDz1nGJrAhuP9M1qPQ4TcWXpkep3GDu7spkzcbM0DZFR4K
-	 FwRLivBjgO80Zr6/LnnXlsVT5etd+1R7M2YGRdL2kyfwdo5v2bkxBPI5qnIr82Grdpy1B
-	 HfBKB+aCOhQyuMb8/yF+xqd/g51VzGDYqIjN4aVEmufMD3mt1kWWKBAo5o3ULbnKOWg==
+	t=1793713868;
+	b=ZZI3hyqUBnuPYX1yzno1Jx2XGztGH37YbzCQs7I1iM8O/LGuai8OLf3VJ0h5J6o/b7oz
+	 9frfPRWqI9i1ynwuKaP/zutoNBnM8XAog31oqMIH1Nv/T0VepQU+O2oK4pPRSK/TM+F4j
+	 +ez9DDV8QtuxQyJKjONpCn2y71oslwhKagfmam1qgpMC/yh7iR8Er3ZSp2u4IzT5UI3kE
+	 /dzxNRifue4gqJHSiWMq6AKiXip669r1K5LCqna44B7aQZq84oy7wPSnBEEmG13egPov6
+	 8QX54vdhB8u1jEAKZeYnBjHVjjI4wLRuSjZGHtJ7qyYRpVvmi95EEyHXK5eml90tR4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793708685;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=2DQ96R/0ulhMhCPuDty/w5YNIxZWO7PXWDO3bMU5BOI=;
-	b=Ip6E2j857ix97JXJu4uigVh4ksPNxv4W0fQllqJu6J6GMdOMsIbqzXrWkG1BIOk5emr9
-	 KIwEKwkgux6R2Fdt576scKlr8q+q5iruCa6J8DLtVZ454k6Z21cYcyFw43zVamwT1OCQt
-	 6qjPybwlsckujvLI6UNLzLa1Pr6szzIIIOBbXTMIqnOGTEn9heLtUm7cXxqtzdh09B35s
-	 5HwW/Df7c8OVRBvxztspJtA9dBATYv+6t0UmqT0biAMqIsVswMA2iB0jJw2cwJ36HWkmE
-	 GaHWe5UWRI9Xi2Y7XLDFG715H6Y2B9kGxUSZhucpeeiqXXrfM/2jMdOzDenUCNwCODQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793713868;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
+	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-DetectorID-Processed;
+	bh=kAZHHRNJQTBE7m/Mdeu3wvd8YYTG4G1JA7sRIt/FlQI=;
+	b=tRMQULo4x9c0IB1pOCikvRXRuLEdHCyfLAV2yC1XpG63neXZ6Ub+8mr+f/Qzx1OZUbvv
+	 Xpkymzdjh4N5sImJAqesDD+5DBZDEZWD9Qpw15Qr1iwwfi1MY3CGpRTPncWU7xlp1aarz
+	 vie4uzKFO2EM6WnO3WhNoJ5Ym4f5eAXZlWkn5/aLk4UxEB+f73UR8lM86Hcu2Yv3pRZfG
+	 Z1WsIkD5bgFXfmk9GlOk/mCns0Lme/E18nEHBlDTBydPJpYCa3ojDKSe+bJao+BVtRi/d
+	 QQhAFKNUyW4VNteoRSFE8Y1Vt/makRTMAfjLGEdkOjkZdea3sltF1izsW0dZ/sVEOpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2DPOtoe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=broadcom.com;
+	spf=fail smtp.mailfrom=broadcom.com;
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=TiRriM4n;
+	arc=none smtp.remote-ip=209.85.216.99
+Received: from mail-pj1-f99.google.com (mail-pj1-f99.google.com [209.85.216.99])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id AEBFE606A326;
-	Tue,  3 Nov 2026 12:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C2C6082BFE
+	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 13:51:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98C2C6082BFE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y2DPOtoe
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5D33F1F00919;
-	Tue,  3 Nov 2026 12:24:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793708684;
-	bh=2DQ96R/0ulhMhCPuDty/w5YNIxZWO7PXWDO3bMU5BOI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y2DPOtoeBhQC9H3iDa32ycCqijeUsQyOWUtRGHIYLH0dXLxZUgEjv6SLfXFJy1+yx
-	 REGyvcQMfuo3sZnBFrDxClG/MkMaDIKnK90l7RtK0PDTXjGL6CaKqpsTGr1H383bgl
-	 4TyhCnpi2mmiJ18g5WO9YEH6HMlaMgnH5EIfxQ78ETdDfCbW0Nq7FnvPdbMq/lkRzu
-	 YVxjlkUTO+w5EzhvM5yynGpZ7GDn2zzh6C78NzGOnNAyoUN8QGMgJIfas682UgvcoY
-	 za6RIYThdNdxsriG9j3+KBkt/9fGZF5z8OM8R3azJs/Dg4hZMYuSZR8c3Kxw2uTAo8
-	 Un2lK6ZcYoQzw==
-Date: Tue, 3 Nov 2026 13:24:40 +0100
-From: Bartosz Golaszewski <brgl@kernel.org>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@kernel.org>, 
-	Conor Dooley <conor.dooley@microchip.com>, Valentina Fernandez <valentina.fernandezalanis@microchip.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Daniel Palmer <daniel@thingy.jp>, 
-	Romain Perier <romain.perier@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	Hoan Tran <hoan@os.amperecomputing.com>, Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>, 
-	Mika Westerberg <westeri@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, linux-hwmon@vger.kernel.org, 
-	Matti Vaittinen <mazziesaccount@gmail.com>, "Enrico Weigelt, metux IT consult" <info@metux.net>, 
-	Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev, Yinbo Zhu <zhuyinbo@loongson.cn>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-tegra@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Srinivas Neeli <srinivas.neeli@amd.com>, 
-	Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	Michael Buesch <m@bues.ch>, William Breathitt Gray <wbg@kernel.org>, 
-	Robert Richter <rric@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v4 00/23] gpio: Improvements around device-id arrays
-Message-ID: <oiwdi2r7fbay3dsghfaqzejpv7d5dpuerh5jy2vsw3kjyhvhdm@hyrpff5ytihz>
-References: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (1024-bit key, unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=TiRriM4n
+Received: by mail-pj1-f99.google.com with SMTP id 98e67ed59e1d1-3b08a162d4bso261901a91.3
+        for <asahi@lists.linux.dev>; Tue, 03 Nov 2026 05:51:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793713867; x=1794318667;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=kAZHHRNJQTBE7m/Mdeu3wvd8YYTG4G1JA7sRIt/FlQI=;
+        b=qrdaVboIAXxGvRS2vP/DtW17SwoZz3HDCLniXa9Zsfam0Ubg5GCiNq+zX64BuZPVmS
+         fG+0nzt4oTo+pYVefsk+q3SueNCO/cjEAC7xa5UUmu1FBUPhvCtjzhpNuZfPThfutRsr
+         +Hwdh1LCTwIkQrQlv8Ag4mc4g4kt/MGh+b0xFoIcvcCxhyfNj4YX2/NSZRwwnA21GL39
+         BDIMZTICtIaJanGkuN0PSnxt5+yhJKS1HhhH5mzCyDCfgxKq4XXSHZLtV3aSnA3lpbOO
+         z8kxbqnMAbDOpJn08z1tFpq4QHqZ+FCq/AS4fjdOoTMm0bP+iwcy07kwpzUr2AmMaw1Y
+         g9Bw==
+X-Forwarded-Encrypted: i=1; AKwUvByLPS9+9VoR67eow4+nbXdY+052CZYR7PogF7C/PfHNo/NL0XlcOJi4TM91ufMQVFi495FCTQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9FnCGAbes/skZqvDqhb+c9luvRQPhtLB1XHn7g3pT2fxdXPKRR
+	RDhoCyNvovSLdp/mr3wA14RMBA6603dv1B1EIXrXqwzEP5/0TZTGOHHBiwbX8YQV/laayaxY7Ym
+	cxzDc4yEmCf9tQod680hPkFNfJXs3ndc5kw7dZB5lsNFBkgMgom7xPnk7Q8Vd1pl7CWIrHoafJE
+	zW4a9yExdcuJpQmZx1KPo9vFukGr63WBLAmm3+Ybe1qXtvonmsHGwAVlKtKLCnIlSEtZahTJktm
+	exGHYwc+Yd1XQxC
+X-Gm-Gg: AYBFou1K4f+92wMbZfndAR8N6yreh1Yy6sOWt4IMHs7QrMma4vfYJOKgCWRFkRm+jlO
+	NCIbo74TDmQoqB3BirDbBgg5EXVqgy2Cj1ROCkXTWFsrCaC6HOXx3cJfi3UhpM+y0t9tHUHlI3N
+	4p+C93WfCik8svVgJMVg98NT1cC1sOmR3b5VsBKKVxEIZqWSamNvJHnYM150lenBinC/K7gDav4
+	Zmtqa88+klRmzTFvXagnG7uN+XHf5dZ8Qm7HB2d+ilgb1+qlEtUB3N2vM11lev80ZkYMiAd4wvD
+	buGHF5rHcfeJgKi3//fAxt2xnF9SP+k+FbkFgQOBOHt+zrJj2AGrXTYiApT9e8lhJaLuXgAJq8h
+	0FJCkObkfY3wRrIRf2aQ74sapJsYgj8tGiP6cYPMBb0C99tl+rkqw9TI59CHWPgmtmbeQrPHxOM
+	Hq0iIbeys7Qf+jN698jXyrbONgmjBsw60GxGGeebg=
+X-Received: by 2002:a17:90b:17d2:b0:3a8:699f:959d with SMTP id 98e67ed59e1d1-3ae89812800mr11000249a91.31.1793713866855;
+        Tue, 03 Nov 2026 05:51:06 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-13.dlp.protect.broadcom.com. [144.49.247.13])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b0872a3207sm869345a91.8.2026.11.03.05.51.06
+        for <asahi@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Nov 2026 05:51:06 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5363fa3d3e4so83067211cf.0
+        for <asahi@lists.linux.dev>; Tue, 03 Nov 2026 05:51:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1793713865; x=1794318665; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kAZHHRNJQTBE7m/Mdeu3wvd8YYTG4G1JA7sRIt/FlQI=;
+        b=TiRriM4njZ8oJhLb10sIsROEzDIGQIGSHtMaIhNLn47vVKJ2DWzDb/OotsIr1w6vO1
+         OCWufmJMfMZWaPfIAxiNhEtVEeec0zd81HdEcyynhi+Np6L3f0RqYNes6p7CNr8EgNVS
+         cCfA1asM0KYjOe4YSmgo0NHHRvf24Zy8TW3zQ=
+X-Forwarded-Encrypted: i=1; AKwUvBwBYcYwiSDlVK/T+0bvUxNobRZxLUMd2WkSIvWRAqZd6fBqqVzKfch5xhnHInkYEPDAmjHPAg==@lists.linux.dev
+X-Received: by 2002:ac8:5a4a:0:b0:535:84e3:ceef with SMTP id d75a77b69052e-542b781c626mr217069851cf.45.1793713865355;
+        Tue, 03 Nov 2026 05:51:05 -0800 (PST)
+X-Received: by 2002:ac8:5a4a:0:b0:535:84e3:ceef with SMTP id d75a77b69052e-542b781c626mr217069361cf.45.1793713864762;
+        Tue, 03 Nov 2026 05:51:04 -0800 (PST)
+Received: from [10.176.3.155] ([192.19.176.250])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91e77e5efc3sm870636d6.39.2026.11.03.05.51.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 05:51:03 -0800 (PST)
+Message-ID: <533b31e4-c837-494d-a4ce-a728bfbe07b2@broadcom.com>
+Date: Tue, 3 Nov 2026 14:51:00 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -81,37 +105,72 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] wifi: brcmfmac: Add BCM4388 support
+To: Janne Grunau <j@jannau.net>
+Cc: michael.reeves077@gmail.com, Pieter-Paul Giesberts
+ <pieterpg@broadcom.com>, "Franky Lin (Zhenhui)" <frankyl@broadcom.com>,
+ Mathy Vanhoef <vanhoefm@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, asahi@lists.linux.dev,
+ Hector Martin <marcan@marcan.st>, Daniel Berlin <dberlin@dberlin.org>,
+ linux-kernel@vger.kernel.org, Hante Meuleman <meuleman@broadcom.com>,
+ linux-hardening@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>,
+ Izabela Bakollari <ibakolla@redhat.com>
+References: <20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com>
+ <d78cbbd2-601a-4cf1-800f-3be57a2b7de2@broadcom.com>
+ <20261102204627.GB770347@robin.jannau.net>
+Content-Language: en-US
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <20261102204627.GB770347@robin.jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-On Tue, Oct 27, 2026 at 11:48:37AM +0100, Uwe Kleine-König (The Capable Hub) wrote:
-> Hello,
+On 02/11/2026 21:46, Janne Grunau wrote:
+> On Sun, Nov 01, 2026 at 08:27:22PM +0100, Arend van Spriel wrote:
+>> + Peter, Izabela
+>>
+>> On 25/09/2026 15:43, Michael Reeves via B4 Relay wrote:
+>>> The Broadcom BCM4388 chipset requires new PCIe initialization and
+>>> firmware interfaces. Add support for these interfaces to brcmfmac to
+>>> enable basic station operation.
+>>>
+>>> This series adds:
+>>> - Signed firmware loading and mailbox transport
+>>> - Fixes for chip identification and firmware capability matching
+>>> - Versioned scan and join requests, and extended PMK payloads
+>>> - Updated event mask handling
+>>>
+>>> These changes include work by Hector Martin and Daniel Berlin from Asahi
+>>> Linux, refactored where needed for upstream inclusion.
+>>>
+>>> The series provides basic station support only. 6 GHz support is planned
+>>> for a follow-up patchset after this lands. The driver retains legacy
+>>> interfaces for older firmware.
+>>>
+>>> Tested on an Apple M3 MacBook Air (J613):
+>>> - Device boot and network scanning
+>>> - 5 GHz WPA2-PSK association and DHCP
+>>> - Bidirectional TCP traffic
+>>
+>> Finally got some time to get this series tested on my setup. The patches
+>> generally look good. So far no regressions observed. It would be good if
+>> some more people could test this series on their equipment. I will do
+>> some more testing and wait some days.
 > 
-> the original motivation for this series are the patches that convert the
-> arrays to use named initializers, see
-> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
-> for the idea behind it. Looking left and right a bit while implementing
-> that, the series grew a bit.
+> Tested series on top of v7.3 + commit 7ed5dce55fa8 ("wifi: brcmfmac: map
+> msgbuf RX packet IDs bidirectional") in wireless/main with resolving the
+> conflict by dropping the conflicting hunk of this series.
 > 
-> Changes since v3 (available at
-> https://lore.kernel.org/all/cover.1793030820.git.u.kleine-koenig@baylibre.com):
+> Tested on Mac mini (M1, BCM4378) and Macbook Pro 14-inch (M1 Max,
+> BCM4387) without regressions (except for the resolved RX msgbuf
+> mapping).
 > 
->  - Picked up review tags (b4 even found some from v2)
->  - Add a 2nd MODULE_DEVICE_TABLE(of, ...) in drivers/gpio/gpio-mpc5200.c
->    (My grep didn't handle >1 driver per file well), noticed by Sashiko
->  - New patch to use named initializers for auxiliary_device_id arrays
->  - Fix code style of of_device_id array in drivers/gpio/gpio-grgpio.c
->    (My script doesn't handle of_device_id::name) and
->    drivers/gpio/gpio-ppc44x.c (didn't exist yet when I sent v2 and
->    failed to notice that for v3)
->  - Fix code style of auxiliary_device_id array in
->    drivers/gpio/gpio-shared-proxy.c, missed as I didn't have a script
->    for auxiliary_device_id before.
->  - Dropped a few broken email addresses from Cc:
-> 
+> Tested-by: Janne Grunau <j@jannau.net>
+No regressions seen on my 43664 and 43455 devices. So will process the 
+patches now.
 
-If there are no objections, I'll queue it by the end of this week.
-
-Bart
+Regards,
+Arend
