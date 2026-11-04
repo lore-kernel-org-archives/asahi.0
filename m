@@ -1,52 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813072;
-	b=q4sixXaw7wIOK79EsOzroi4HAK8hM8XsFEBRV+K1xbYGkQVqN97aF9WUibh8XerIfq8u
-	 qyHZkwT83Qk0QFCcjpwxfBvpLkDJ9yrqSJSJfp/qP+XGWdNcikinvHsebafFzXlJvip5v
-	 +raF5I21g5dj/yoqHWGsvFBPhUk0SunoQR6573ekr+DqVWo0t4qvFsQgLFEHkf96/BchA
-	 z0DcnCJbdy81xwAhkfgp+u5ts48Q4eMfJCfD8Srxsii2BXrhsVaQfsa4NxlavlAEjAB39
-	 4J39VpQMnAwhgEs/Uy3Iw5ktbmoqhWkoycT8lkG20OM8urQFDz88q3+dCQugpUjxu9Q==
+	t=1793813074;
+	b=Vr5JMd2h1AV8Avr5aynH8awj4K2rmJOKY2/knSz0+RzP/D0/d1e1nrFZb8Gax7i8DX0h
+	 oHc6c+27W4FuS04AI2ro8qzF3YdLpvxqkV2vz2gVPs1xgVViwGm/M6ILW2htoGNSY9Jea
+	 1sq2aqzqi4y/rBgeu2rOcupUIVF3vYKMaCFvMR1OxmvJ2z4bvArqmYzZmQnKFmVEyTBts
+	 JMy/C/TjYIyaFyS1Wqx0C2WQKZfMYGz//s/BvK2a8fYcJFt8dHOkt4HMNUC5oVonZM7es
+	 ygQJ2ff6NACQGhbjdvGpUGSVe6Pk++xNrBvLStfhvh5JFnPmQqmWrLFhuAdxoz/2gww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813072;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813074;
 	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc;
-	bh=7KIi5ajgm8xWQZ/dZf4T7JLHUXnisyBiLTaDomI84wc=;
-	b=qoVlwmKOUACxR/VXb1ksFuOsiTPtJPrmuXR7J2cNejzS9cBFeOSxinVUormUIZprbdES
-	 zGBhPad8rRlA9CXWQZM1UVfgSlylTfyItzbA8yCG37DHM1qDpOdbQl5dghyIT2Xn//lUs
-	 zAzXJp3oZZ7dF5Aa+N3UerhjZrg+lhyGXIjGdSWUkbOq0HBkcqyJTQ+ImMEFiNsD+dM3b
-	 e1Mup+l9be1OHziSIhJhqNrl379YpYfuxpZ9Hg2vrO6FzDgRG7bDhUCfKlPeX4Gk3/yyU
-	 8Yq5fwXxDI6gD+rrutWa0MAWECbAt/zyXaSZAxhVqXQD9HHFe8P9Fh2fFGKR5/uilKA==
+	bh=FmFhmHqchVrqj+0DB2A1OfSUsKoVGkJJrNsEk9xPgCc=;
+	b=uhglejNpVhbtPJAj60mAiW5sLrFVb1Exca77fiM7WtGoAq07CCowrnEqb6y+Jh/YeEXQ
+	 JRMUMeOos0BQRo0ukj7XbOxB83UV9wDibvaTgcsg636lIQ86VXineCX/IXjw/o7uH1hLK
+	 u15fCbwIVQowREsUqzFfcQRCEshAZD4CDRLqT2YltwB1/QQvi2UMr19B6GUoPF/SHvvSs
+	 ajVz2aA+CMtbK9giy7knfks5k7yPsOCsfIvQoAJgExxN0vZUl3zQZv35M9PWkAGSOKXAa
+	 BOImGi7PjsEKoi0GFJ7Iz55VEpsBMLh9uQM06y2aSpx6daVPjIFeth6bgMSFEC/Uajg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=kth79mT9;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=KIFHrY5F;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F057606A33C
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F057606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52511606D80D
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52511606D80D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=kth79mT9
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=KIFHrY5F
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793813070;
+	s=mail; t=1793813072;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7KIi5ajgm8xWQZ/dZf4T7JLHUXnisyBiLTaDomI84wc=;
-	b=kth79mT9ePMBDeNF8OXM5FwgUjM4ED+LpEEa7Pf/2eX4Qb7ughpCmRqlZ7+Mw5L2MXG6ms
-	8ImE++fQxGOmsJDMtP9vNwyjglToN10OZLkgAT5s57wkEV/Nc4CAWEyDY6ZLqH2Skb0Bgj
-	22GtYWbGyv9k+xS1eDkYODw6wtAZUBU=
-Date: Wed, 04 Nov 2026 18:24:19 +0100
-Subject: [PATCH v2 6/9] dt-bindings: pinctrl: apple,pinctrl: Add t8142
- compatible
+	bh=FmFhmHqchVrqj+0DB2A1OfSUsKoVGkJJrNsEk9xPgCc=;
+	b=KIFHrY5FiYi8bvIaolJ5AS8FMJspLVlXsDCYqmOpfCtNny4JpvVkkuegokYuOuuD+A9e/6
+	IbofpO/vCoiSHenbzAhmN6eXbYUEN/ci4lSQ6qD/0nWh8ZvX701rTLtMD19aldWoLrETS8
+	4PCE9ZoXc/sPXMvezsYhTIPNdHTNF7Y=
+Date: Wed, 04 Nov 2026 18:24:21 +0100
+Subject: [PATCH v2 8/9] dt-bindings: arm: apple: Add M5 based devices
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,7 +57,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-apple-m5-initial-devicetrees-v2-6-fd727a82d380@cyberchaos.dev>
+Message-Id: <20261104-apple-m5-initial-devicetrees-v2-8-fd727a82d380@cyberchaos.dev>
 References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -73,30 +72,50 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
 Cc: Yureka Lilian <yureka@cyberchaos.dev>, asahi@lists.linux.dev, 
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-The pin controller on the Apple Silicon T8142 (M5) SoCs is compatible
-with t8140. Add "apple,t8142-pinctrl" as SoC specific compatible under
-"apple,t8140-pinctrl".
+Only the MacBook Pro (14-inch) and MacBook Air (13/15-inch) were offered
+with the M5 (t8142) SoC. Add the corresponding compatibles.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/arm/apple.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
-index 0984e4e58af3..13ece17eca9c 100644
---- a/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
-@@ -27,6 +27,9 @@ properties:
-               - apple,t8122-pinctrl
-               - apple,t8132-pinctrl
-           - const: apple,t8103-pinctrl
-+      - items:
-+          - const: apple,t8142-pinctrl
-+          - const: apple,t8140-pinctrl
-       - items:
-           # Do not add additional SoC to this list.
+diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
+index da6f043ad07a..f78c89780355 100644
+--- a/Documentation/devicetree/bindings/arm/apple.yaml
++++ b/Documentation/devicetree/bindings/arm/apple.yaml
+@@ -116,6 +116,12 @@ description: |
+   - MacBook Air (15-inch, M4, 2025)
+   - Mac mini (M4, 2024)
+ 
++  Devices based on the "M5" SoC:
++
++  - MacBook Pro (14-inch, M5, 2026)
++  - MacBook Air (13-inch, M5, 2026)
++  - MacBook Air (15-inch, M5, 2026)
++
+   Devices based on the "M1 Pro", "M1 Max" and "M1 Ultra" SoCs:
+ 
+   - MacBook Pro (14-inch, M1 Pro, 2021)
+@@ -364,6 +370,15 @@ properties:
+           - const: apple,t8132
+           - const: apple,arm-platform
+ 
++      - description: Apple M5 SoC based platforms
++        items:
++          - enum:
++              - apple,j704  # MacBook Pro (14-inch, M5, 2025)
++              - apple,j813  # MacBook Air (13-inch, M5, 2026)
++              - apple,j815  # MacBook Air (15-inch, M5, 2026)
++          - const: apple,t8142
++          - const: apple,arm-platform
++
+       - description: Apple M1 Pro SoC based platforms
+         items:
            - enum:
 
 -- 
