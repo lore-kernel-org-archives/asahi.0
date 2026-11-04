@@ -1,67 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793809789;
-	b=i2Z3MPMZDxezf5G1WBc9Dn99FkW0rL/KWK/6TflnyEk2E2zHqiok0X4GMEhhCem5Zoph
-	 IX2aaJM9jq8vehDYG7hy8ei+OIH0tWfc/5WTVKyxV76iFDcWHJRBtMpHTFz8WDncZALUr
-	 RWW2IQS/0wnQpn2nvdDNkjKOPOyDhln75R3oNckih21y7rtQoFy/EuIVotCUMKlEiVNYp
-	 fEKMDkMC1sf4BBQ18wfBo01jFb1FZfDbBujmqb53KkJgaaQwlFf8g4PwIELMH/FCLCiMx
-	 5l01/7agc/QvzUS3Qg0lNe5KJ8fMjxpqVOw6whiwoIZ1Y6s+fy4Mmic5rzVptaBVOKA==
+	t=1793810847;
+	b=Oa0Z+BqFK3DlcKh0l4yboVkTIAxl7uaDF9MctM099qh0a+Ulei3yxqetf1ujAcGW6vq1
+	 rMmW+Nf0VCyz/LYBPaxp9u2S+6KLg3wx+mp8w3oWxqKjHfkh1ATY44lFyceQictjFQUix
+	 nfuZ6/QsnN4AOm10tpr26tCaZ8qoS7OVH4L5+egv3e/iUb84g6fCybX+mxgr6vKo+vO7a
+	 37VOr+GjiPC15PghraEf7jtRAEXfEOgmw8z1ysE85ednxw0hzUyPkHCNphbencavLuPbl
+	 mWutPyhyPQhdVbJpZm+79ALEbU9xdiYB0P6x9XCw4yBp42NRDIgarLAZIoL7mI9/tSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793809789;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=A+c88oY+OM1KTWwYSavDme1bSrIZkOp07+hlEpWVcCw=;
-	b=hWL5xwJmuyQXKEuaidLznGKbO00FNQx/Chs+gYi8F3nAE/uPyqCxt01c2Ycb/+nnYbZe
-	 OWLM7F+Wf4lP05IzRvLUCLdM93q47Y6QtvN66FnP86BeZ9DTiRnXd2DU4oXorzMiwakXg
-	 yRXSx2zACOsgGq5J7Ivxwdidb5qsdF+6BllcAx5o2aD3P20Y64SmHMRr6WYP1Dbi7BGYD
-	 W11d9dfkSTjexOd/3DgDmjjCmNmcJ4uw6NAGZK3wDllYhtON/in6eOP0GtrP9PhSQLtVT
-	 bv3h5xF0HN+TwfcVRaDZoKcCVV+2/YsbSqSzsZ5f/u0v+d+ZEUBWf2Yrv7XiJiIxobg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793810847;
+	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=+Mmd9iz+6l+RtzunqHn07DyKAk1sZGUOJe891sWi+Nc=;
+	b=QCE3fe5ksMbE/NapqXE/rNKgPwVM9Edd7LIfGre3WojxOAYG40xuKmtXMSlLDv89yYLB
+	 gi7ILsLeeAotm/eT+MkKlcsNPnVgmJiRS6/8xpdxfgg5y3v+KyCK5inM8LpP1j5gIRwIB
+	 wzRI2c/ctXsdYOGcOgwxevTi2j+SSewuoQ+c8EBMTGAYEbBf5W771V9WsGfpFAx29X+av
+	 C5bDoD5h1wyM1p9oEPLxzUn16fsZ1C/Yk5v13fwd48/lVzeHvczmRDlXk6RUNmpwCk0zN
+	 UNW0EuWQpwoJ9S+JzzeBf9f5fMC0DQdN+hSnMi2463Yd7kTkmli97YQKGuk4RPk6dxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="qmN/XCMN";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 743A1606A326;
-	Wed,  4 Nov 2026 16:29:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 743A1606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=uCkjDFcp;
+	arc=none smtp.remote-ip=91.216.248.212
+Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F85606A329
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 16:47:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6F85606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=qmN/XCMN
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA628169C;
-	Wed,  4 Nov 2026 08:29:44 -0800 (PST)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 378FE3F632;
-	Wed,  4 Nov 2026 08:29:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793809787; bh=yfV7Pr/7oJjyugoqKWkyvS9QCQp5fdkcK+WpMwo/qac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qmN/XCMN+bMq7vL3IroW/zO5c9utj8tVY7h4PeGCnZGzZx6QJb+MVfxfmxpGIFkWs
-	 MPGF/7odw2F/vJpAguk557fWflsz7TXTzAaTdWmwif+k4Ga1M/3BXeRPSyJhdDYVVy
-	 1rCDBkJOH7eR30KB5XIpAumuo7e8R8w3RhGUWzuw=
-Date: Wed, 4 Nov 2026 16:29:42 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: michael.reeves077@gmail.com
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Myria Sarvay <myrialsarvay@gmail.com>,
-	Yureka Lilian <yureka@cyberchaos.dev>,
-	Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] arm64: Apply existing Apple Silicon CPU
- workarounds to newer CPUs
-Message-ID: <autddoQr_lqAS3v-@arm.com>
-References: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
- <20261021-apple-m3-m4-kvm-v2-2-04905152cc2a@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=uCkjDFcp
+Date: Wed, 4 Nov 2026 17:47:20 +0100
+X-Lima-ML-UUID: 1fb7ae95-0ae2-4b9e-9cfd-6a995782d75f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1793810843;
+	bh=+Mmd9iz+6l+RtzunqHn07DyKAk1sZGUOJe891sWi+Nc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uCkjDFcpV18IotsW2/mO8QwbUqz2kruKoz/mzn/mqm97aaG+9qIqQQTJxN136PzNd
+	 1yLb/GTpobe0/76DBqk9c81b54TwUdcjye6wpIC1xwGCI/PdFT+W8fI91tr51/YV2Q
+	 PDFyzzOvVF1PwGBr8m0eK8n9X3XuRxtIX6T1/ayXRqZ0ZFNIUCw3hh9sumtnWCeC9w
+	 TmGfmORbv2YghVWGV8jV2SQ4FMN3DDwFIslRU2jhBYYkVLKi0KUEuqqkfg55xVjUcl
+	 T/MQzMKJPsPBMDNbM2oFTn0QfyBYfjRAxOdj0IzHaPxbRU/wVWoMBbcaKllNCyqKwk
+	 iXxxy/T5aREFQ==
+From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: marcel@holtmann.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
+ neal@gompa.dev, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, 66ton99@gmail.com,
+ josemiguelo.ochoa@gmail.com, aditya.garg@linux.dev, Yossef Osman
+ <Yossef.Osman@proton.me>
+Subject: Re: [PATCH 2/4] Bluetooth: btbcm: clear vendor bits in LE
+ advertising report types
+Message-ID: <20261104174720.254b7e00@kait2en-mbp15-1>
+In-Reply-To: <CABBYNZLwMW68WYBVp=-R=4Mji+-Q5AEtrcu5F_7rRYju8d-XNA@mail.gmail.com>
+References: <20261104151601.70493-1-dev@deq.rocks>
+	<20261104151601.70493-3-dev@deq.rocks>
+	<CABBYNZLMVso40XpULwTwBwAE4tpXndSJMKhmoVLrmgm+unBNCA@mail.gmail.com>
+	<20261104164647.5e9351cb@kait2en-mbp15-1>
+	<CABBYNZLwMW68WYBVp=-R=4Mji+-Q5AEtrcu5F_7rRYju8d-XNA@mail.gmail.com>
+Organization: KaiT2en
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -71,23 +73,23 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021-apple-m3-m4-kvm-v2-2-04905152cc2a@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 21, 2026 at 10:53:21AM +1100, Michael Reeves via B4 Relay wrote:
-> From: Michael Reeves <michael.reeves077@gmail.com>
-> 
-> Add M3, M3 Pro, M3 Max, base M4, A18 Pro and M5 Pro to apple_cpus
-> so they receive the existing PMU trap and broken SEIS workarounds.
-> 
-> Add these CPUs to has_vgic_v3 so KVM detects TDIR support and can
-> trap guest DIR accesses without trapping all common registers.
-> 
-> Co-developed-by: Yureka Lilian <yureka@cyberchaos.dev>
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-> Tested-by: Yureka Lilian <yureka@cyberchaos.dev>
-> Tested-by: Myria Sarvay <myrialsarvay@gmail.com>
-> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+On Wed, 4 Nov 2026 11:29:11 -0500
+Luiz Augusto von Dentz <luiz.dentz@gmail.com> wrote:
 
-Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> Yes that would work. That said, I don't think it is worth adding a
+> quirk for this. Masking the reserved bits shouldn't cause any side
+> effects afaik, well except if those bits are later adopted by
+> Bluetooth SIG. Then these controllers would become
+> non-compliant=E2=80=94though they already are, as the bits are reserved a=
+nd
+> not in use. In that case we would probably require a quirk to avoid a
+> conflict. So, is that what you are trying to fix?
+
+No, nothing concrete beyond the scope, and I agree it is harmless as
+long as the bits stay reserved. We only put it in the drivers because
+our downstream ships driver modules through DKMS and not bluetooth.ko,
+which let many users test it quickly. Let's keep 88397423671f as it
+is then. I'll drop patch 2 and 3 and send a v2 with patch 1 and 4.
