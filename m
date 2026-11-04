@@ -1,69 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793810847;
-	b=Oa0Z+BqFK3DlcKh0l4yboVkTIAxl7uaDF9MctM099qh0a+Ulei3yxqetf1ujAcGW6vq1
-	 rMmW+Nf0VCyz/LYBPaxp9u2S+6KLg3wx+mp8w3oWxqKjHfkh1ATY44lFyceQictjFQUix
-	 nfuZ6/QsnN4AOm10tpr26tCaZ8qoS7OVH4L5+egv3e/iUb84g6fCybX+mxgr6vKo+vO7a
-	 37VOr+GjiPC15PghraEf7jtRAEXfEOgmw8z1ysE85ednxw0hzUyPkHCNphbencavLuPbl
-	 mWutPyhyPQhdVbJpZm+79ALEbU9xdiYB0P6x9XCw4yBp42NRDIgarLAZIoL7mI9/tSw==
+	t=1793813066;
+	b=SNs+Yh8Ub5AEgVfdetJdqPhyvz/KyH0o8M/OgB7soqUvgS6K5w+BTmiVMu1F9KCxXqPy
+	 vi4biumwLzsCQsJgF06byhTRxuNX5TPOsmW2Ah3yFz+96rzDCWVary0AP1VIWxdsYsL65
+	 pB/VMmybd7qXRudpbU3vYf0cL3RN62H2t6DH7qK5e8uid8QfZe9yseY4VhZnIj8inJVUb
+	 pXtQvbouPoW1ZrDXXoIH9SO9YLR8k8wlLfIS51MORQ5KPmplSa3E73HR+Vp86zoKbJX02
+	 b285ubTbNB91vQ+iCtaOKDAKlm7DKyu1jB142sMHrm6WC7Cn9j2kOMqrAWBxWgzMy7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793810847;
-	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=+Mmd9iz+6l+RtzunqHn07DyKAk1sZGUOJe891sWi+Nc=;
-	b=QCE3fe5ksMbE/NapqXE/rNKgPwVM9Edd7LIfGre3WojxOAYG40xuKmtXMSlLDv89yYLB
-	 gi7ILsLeeAotm/eT+MkKlcsNPnVgmJiRS6/8xpdxfgg5y3v+KyCK5inM8LpP1j5gIRwIB
-	 wzRI2c/ctXsdYOGcOgwxevTi2j+SSewuoQ+c8EBMTGAYEbBf5W771V9WsGfpFAx29X+av
-	 C5bDoD5h1wyM1p9oEPLxzUn16fsZ1C/Yk5v13fwd48/lVzeHvczmRDlXk6RUNmpwCk0zN
-	 UNW0EuWQpwoJ9S+JzzeBf9f5fMC0DQdN+hSnMi2463Yd7kTkmli97YQKGuk4RPk6dxQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813066;
+	h=DMARC-Filter:From:DKIM-Signature:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc;
+	bh=ProipenWM1wsykY7V3fdTvREC7WOIdzWpyQEuX+SOqo=;
+	b=D535DrRVWQeGqvV1+vcPCthpUXIHNjn9iRywkiyg6vuzNf6Eyhvm4xbwjw3luLu0rtjl
+	 0iI80miIiBGzwlg8RL5ckmtdGe+srQx83em+K9qFEHY4ewGZ7/wMllC/d0Sg37ux8RQQ+
+	 pEC0aRXkW90dpb7WTdqvlDHwgHYa4GuC6zhM8KBYX1yLOZTUshsTcg5PhlWoAjpFDRhgb
+	 YArXtVBKRmq8JzlRuSvA1LYinQADA2bsVi4oywm+ZIwVDhLrkg8jtut8kqE9pEwTbsV9M
+	 1+dSWKcgZ9ZUFSyD4plfJK9jCTIRIcKOmW3xCpJwyHDClUcCc7fVFzV+Nax7sFBW8Gg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=uCkjDFcp;
-	arc=none smtp.remote-ip=91.216.248.212
-Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
+	dmarc=pass header.from=cyberchaos.dev;
+	spf=pass smtp.mailfrom=cyberchaos.dev;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b="wg6FE/U5";
+	arc=none smtp.remote-ip=195.39.247.168
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F85606A329
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 16:47:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6F85606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25F7606A31B
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F25F7606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=uCkjDFcp
-Date: Wed, 4 Nov 2026 17:47:20 +0100
-X-Lima-ML-UUID: 1fb7ae95-0ae2-4b9e-9cfd-6a995782d75f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1793810843;
-	bh=+Mmd9iz+6l+RtzunqHn07DyKAk1sZGUOJe891sWi+Nc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uCkjDFcpV18IotsW2/mO8QwbUqz2kruKoz/mzn/mqm97aaG+9qIqQQTJxN136PzNd
-	 1yLb/GTpobe0/76DBqk9c81b54TwUdcjye6wpIC1xwGCI/PdFT+W8fI91tr51/YV2Q
-	 PDFyzzOvVF1PwGBr8m0eK8n9X3XuRxtIX6T1/ayXRqZ0ZFNIUCw3hh9sumtnWCeC9w
-	 TmGfmORbv2YghVWGV8jV2SQ4FMN3DDwFIslRU2jhBYYkVLKi0KUEuqqkfg55xVjUcl
-	 T/MQzMKJPsPBMDNbM2oFTn0QfyBYfjRAxOdj0IzHaPxbRU/wVWoMBbcaKllNCyqKwk
-	 iXxxy/T5aREFQ==
-From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: marcel@holtmann.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
- neal@gompa.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, 66ton99@gmail.com,
- josemiguelo.ochoa@gmail.com, aditya.garg@linux.dev, Yossef Osman
- <Yossef.Osman@proton.me>
-Subject: Re: [PATCH 2/4] Bluetooth: btbcm: clear vendor bits in LE
- advertising report types
-Message-ID: <20261104174720.254b7e00@kait2en-mbp15-1>
-In-Reply-To: <CABBYNZLwMW68WYBVp=-R=4Mji+-Q5AEtrcu5F_7rRYju8d-XNA@mail.gmail.com>
-References: <20261104151601.70493-1-dev@deq.rocks>
-	<20261104151601.70493-3-dev@deq.rocks>
-	<CABBYNZLMVso40XpULwTwBwAE4tpXndSJMKhmoVLrmgm+unBNCA@mail.gmail.com>
-	<20261104164647.5e9351cb@kait2en-mbp15-1>
-	<CABBYNZLwMW68WYBVp=-R=4Mji+-Q5AEtrcu5F_7rRYju8d-XNA@mail.gmail.com>
-Organization: KaiT2en
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=wg6FE/U5
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1793813061;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ProipenWM1wsykY7V3fdTvREC7WOIdzWpyQEuX+SOqo=;
+	b=wg6FE/U535xAqcV/smG3wF/uGO6wTvQMZGhOdf9od3sA8JWLM7ckyDoP+lG9NX0jNCyJmZ
+	AxSPdzrYw1sVf/zQ3wuXy7wv0qpQlB0Ndo1cqgcppNag7faXln6WNaQ6vFxt3FtBntYdz/
+	2CDFuc2ChXyNAOx1mfXg3dzjQWe0qtc=
+Subject: [PATCH v2 0/9] Initial Apple Silicon M5 device trees and
+ dt-bindings
+Date: Wed, 04 Nov 2026 18:24:13 +0100
+Message-Id: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -73,23 +56,109 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32Pyw6CMBBFf4V07Zi2WFBX/odhQdtRxiBgW4iE8
+ O+Wx9rlTe6cc2diHh2hZ9dkYg4H8tQ2MchDwkxVNk8EsjEzyWUmuMig7Loa4a2AGgpU1mDjlcH
+ gED2cLHJ9ydVFp5pFROfwQd8Vfy+27Hv9QhMW5tKoyIfWjat/EEtvV8n8v2oQwEGkKhNnoY3i9
+ mZGjS6Obv0xFlkxb0KHnz6+FfYV8/wDpk9Fl/QAAAA=
+X-Change-ID: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>, 
+ Radu Rendec <radu@rendec.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Hector Martin <marcan@marcan.st>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Sasha Finkelstein <k@chaosmail.tech>, Linus Walleij <linusw@kernel.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>
+Cc: Yureka Lilian <yureka@cyberchaos.dev>, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-On Wed, 4 Nov 2026 11:29:11 -0500
-Luiz Augusto von Dentz <luiz.dentz@gmail.com> wrote:
+Hi,
 
-> Yes that would work. That said, I don't think it is worth adding a
-> quirk for this. Masking the reserved bits shouldn't cause any side
-> effects afaik, well except if those bits are later adopted by
-> Bluetooth SIG. Then these controllers would become
-> non-compliant=E2=80=94though they already are, as the bits are reserved a=
-nd
-> not in use. In that case we would probably require a quirk to avoid a
-> conflict. So, is that what you are trying to fix?
+This series adds initial device trees and dt-bindings for the Apple
+Silicon devices using the M5 (t8142) SoCs.
 
-No, nothing concrete beyond the scope, and I agree it is harmless as
-long as the bits stay reserved. We only put it in the drivers because
-our downstream ships driver modules through DKMS and not bluetooth.ko,
-which let many users test it quickly. Let's keep 88397423671f as it
-is then. I'll drop patch 2 and 3 and send a v2 with patch 1 and 4.
+This series covers only a minimal amount of hardware, which is useful
+as a basis for future developments. The hardware added here has remained
+largely unchanged from the earlier Apple Silicon generations.
+
+I applied some version of dt-check-style formatting to all new files
+with the exception of the generated pmgr nodes.
+
+Merge strategy:
+Since there are no actual driver changes, we'd prefer to merge the
+dt-bindings changes through the apple-soc tree once Acked by the
+respective maintainers.
+
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+---
+Changes in v2:
+- Dropped the watchdog dt-bindings commit, as it's been applied to the
+  watchdog tree
+- Fixed ordering of pinctrl dt-bindings list
+- Link to v1: https://patch.msgid.link/20261027-apple-m5-initial-devicetrees-v1-0-1356181bc50d@cyberchaos.dev
+
+To: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>
+To: Neal Gompa <neal@gompa.dev>
+To: Thomas Gleixner <tglx@kernel.org>
+To: Radu Rendec <radu@rendec.net>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+To: Uwe Kleine-König <ukleinek@kernel.org>
+To: Sasha Finkelstein <k@chaosmail.tech>
+To: Linus Walleij <linusw@kernel.org>
+To: Mark Kettenis <kettenis@openbsd.org>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-pwm@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org
+
+---
+Yureka Lilian (9):
+      dt-bindings: interrupt-controller: apple,aic2: Add t8142 compatible
+      dt-bindings: arm: cpus: Add Apple M5 CPU core compatibles
+      dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8142 compatible
+      dt-bindings: arm: apple: apple,pmgr: Add t8142 compatible
+      dt-bindings: pwm: apple,s5l-fpwm: Add t8142 compatible
+      dt-bindings: pinctrl: apple,pinctrl: Add t8142 compatible
+      dt-bindings: i2c: apple,i2c: Add t8142 compatible
+      dt-bindings: arm: apple: Add M5 based devices
+      arm64: dts: apple: Add minimal t8142 (M5) device trees
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   15 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |    2 +
+ .../devicetree/bindings/i2c/apple,i2c.yaml         |    1 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |    1 +
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    3 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    1 +
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |    1 +
+ arch/arm64/boot/dts/apple/Makefile                 |    3 +
+ arch/arm64/boot/dts/apple/t8142-j704.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-j813.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-j815.dts           |   36 +
+ arch/arm64/boot/dts/apple/t8142-jxxx.dtsi          |   50 +
+ arch/arm64/boot/dts/apple/t8142-pmgr.dtsi          | 1131 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8142.dtsi               |  512 +++++++++
+ 15 files changed, 1829 insertions(+)
+---
+base-commit: b01f6764df0254308bf0c33b9f7ef01ef4975d28
+change-id: 20261016-apple-m5-initial-devicetrees-4de0b9759b3b
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
+
