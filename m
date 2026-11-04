@@ -1,53 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793715641;
-	b=qeVF+TyKpewo2zrZZYpeOURkAfHcbg9o3DJl8VPCQ+Qj2LuU15jf53FqyRZzz7XUPs49
-	 Ao3UrTQtleff2BtbS0CyoyCWsbmI+HKKeb6xKJPR002GXDGmA/3nZIlvJxq02n7Y5DwBv
-	 MUQ65CRvUDexnh5o+fK7VBIK8skIseVoU2egS2mdCia+CICjhMdeZlcbkGBrh5HHCUSH2
-	 FVOaJqjt1QypJOu+t813AyfAHz6BmlvwzV5R1BQYorCJhb9a0tHkpi6rx1wlxv9THfBb1
-	 PDlCJzNUPMhoi49DxfqFQlQBwzx/mnABsoH8wllYAwR2QEXWnmPFdkNMk9j4DGlE7kw==
+	t=1793789311;
+	b=ZTL5YaOE/8CO8YbAfuKCMMIZ+mRUFbDGBGIQVWqHdRJv1fPKPnA4nix+V2OVa4cegl2l
+	 8ESQJjlUwXPzKby9zwDIL5zCkji3f/kO7tBgOa5VCRAElteJXFJ/025w94cNXjNFECe2d
+	 Y6N/P6gEFuXcTqhrKiFAibwOV9rNRMXD2wVgVHqoa9jUzpGPWkfHmBKMFx0NUZmazFZpz
+	 P37vsaHIMOMiNCBoEXdkg3cTLgTi0/IC1vWYj+rGrY3Ub4LUsVipPfuZDglvPWxtbJvNG
+	 LMwluNlXyFt2DZlCP/+DlW2UZmaQRV8LAxbaFmlbQW2n07FEyPuE+rT3s+dvKYVxdPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793715641;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Developer-Signature:X-Developer-Key;
-	bh=3RVggftuvHwkvIwsFz0fnp4JO9GH5RXRpDd19+3u684=;
-	b=e+Kxhw0JkSysRg89u2F4I0rOZVTvFE9Ij8zYQmw+iR8WU80nZxY0Y4UERIIDkBRh/8FH
-	 7VV2u0zOqv5nsCZW9WCTdMevuuoJ9V+7n62AB2097LgkFlLW3Ymp+sPzIq7YcDqp5atoO
-	 KD6Gkhj7z1c2FufYMu7qAzk4f3ZJb6mgJgdxyqJAuBbAgP3BNajdW0NEv03+zrVJseGR6
-	 Osqx/drk/SMC1+XLLB7cNyVhh4SD2mgdP7+uM7aa0s2zuDT5Xe1Q7pqXiHMGhcZVlg5up
-	 ZN9cYbIVRHaYuUIqrJVH59V5hrcMnLsjnQ/VmRJD0yAQA7bMsun6bLeKn2BQMx50HpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789311;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=r0yndPxUhhPiOlKsOGZcPIxshPKvfSmviX9txktuT6o=;
+	b=bLLThhI264s5x/EAPmB9OEO72bK+y81+I3CknR7K8HUFYuet2eYl7v1+uiB/K/kYonwF
+	 9Aii8HEDLSOS2k0QMG5lETgH+/JHLjwpeJJ21rWoOvP6gJk1Et2uY5hf60ePbqcrDW/11
+	 UTBWw5iPXDTHwhmll6q8T1R9uoSc/PDI1n7lay6ocIBUp/XeenZ89MkWQHwy75zj2cBsv
+	 DBAFk7OGSVpfB95VWTU1sfEpKwS3fO32rVOjgEOZLJ2MWpGVleQ5fW8dy5h0oLDyC0e97
+	 I3o4rp7Kzw1BdOTVw0wBjYJm94X4i/c5Re7JEYUAXP391LmD1Fz6gbkzSfYr/PSXCbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chaosmail.tech;
-	spf=pass smtp.mailfrom=chaosmail.tech;
-	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=hBEMEyx5;
-	arc=none smtp.remote-ip=77.81.229.115
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ii+Uo71R;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E67F606D81A
-	for <asahi@lists.linux.dev>; Tue,  3 Nov 2026 14:20:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E67F606D81A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3354606A31B;
+	Wed,  4 Nov 2026 10:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=hBEMEyx5
-Received: by chaosmail.tech (Postfix) id 51F7B1C9936;
-	Tue, 03 Nov 2026 14:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1793715631;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3RVggftuvHwkvIwsFz0fnp4JO9GH5RXRpDd19+3u684=;
-	b=hBEMEyx5d72x+n3sjqAsBCDqCkKYHjumFCwi45Nthqq+T9CANW/au396p9wO2OQl4mRh/V
-	4sfk7LPtnFa1g++vvaW4C2zErPRSzPCRoaP7yhaeKdIgOZM0CVfWR8gaTIkxhwqLHe4K64
-	03ma5itMnE1iEVTmLRdvybFPuiC5YsQ=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Subject: [PATCH v8 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
-Date: Tue, 03 Nov 2026 15:20:22 +0100
-Message-Id: <20261103-tipd-ace3-v8-0-770f42421753@chaosmail.tech>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ii+Uo71R
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE90C1F00A17;
+	Wed,  4 Nov 2026 10:48:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793789310;
+	bh=r0yndPxUhhPiOlKsOGZcPIxshPKvfSmviX9txktuT6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ii+Uo71R6czgiB17H6WDqTqqQ0xTPO1fBU8EtxEAPFVA4ntlhk8S/834W7Pv6V8hT
+	 4I3EDGs2Vw8QG+GxUZnGI6VK5tQWb9XMVplL4OtWSzZcBFry5H59dnlb11Lvs8lEYL
+	 8T10fWSGuC1ATHYC8zw4tU9LQufBL1cex5+YM3EqwjCkde/aqypXt+VaxUemgcwMlX
+	 SCEw9cYwrP9UCaPJ8VmjkUz+r6pPTExufacLcsbeopvqtO7IdX592eEc3Gihl42hXK
+	 Xhf5Cvo9LJL7Cdni19/YDPKq/zmmiShUn7gysgrntxpBFyB/7lAyFDJ+YgzSFfg4It
+	 bxYOpHci/bRRA==
+Date: Wed, 4 Nov 2026 11:48:25 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 01/22] ASoC: dt-bindings: cs42l84: Allow referenced
+ dai-common properties
+Message-ID: <20261104-eccentric-auk-of-zoology-55bcc4@quoll>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261103-macaudio-v4-1-637484efe46d@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -57,98 +69,46 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/23Py27DIBAF0F+JWJcKGB6mq/5HlQWPoaZq48i4V
- qrI/16cLkJUllfMuTNcScE5YyEvhyuZcc0lT6cahqcDCaM7vSPNsWYimNDMCEWXfI7UBQTKLPN
- JGYZJWVLnzzOmfLl1vR3/cvn2HxiWvWCfGHNZpvnntmzl+1yvd+WUUQP1JYLmMLjXeslUvlz+f
- F4wjGQvX0XLTctF5Rykssr4qEF1Odz5wHjL68foACCSwOBkCl0uW65bLvfj7aCU54pZLrtcNVw
- 8bFeVg5ASI/gYIHW5bvnDdl05Wm4TWGfBiS43d245a7mpXAeNHgW3kP7zbdt+AdTkySQzAgAA
-X-Change-ID: 20260725-tipd-ace3-090bf570ef59
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
- Alyssa Milburn <amilburn@zall.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793715630; l=3013;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=IuiEvdU8lEoA4WmSDCVzkUaJ2thmJ2Vk2etNoP34VuQ=;
- b=9va4+cT0aKs/8SFkkzEsdgy+TDgL052UfCETqpRM+8DkAARASZiGbHp/LWyRxoqK7yBRsV2et
- 8JRecnfC8rlB7Bi4u809KI07vHxGykMenXelppLp4zHRU86A+16HBHF
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261103-macaudio-v4-1-637484efe46d@gmail.com>
 
-Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
-variant that wraps the tps6598x core register set with a SPMI based
-regmap-like protocol, first appearing in Apple M3 devices. This series
-first makes the core parts bus-agnostic, and then adds the new SPMI
-interface as a custom regmap implementation.
+On Tue, Nov 03, 2026 at 05:39:49PM +1000, James Calligeros wrote:
+> Some consumers may wish to prepend the codec's name with a known value
+> to identify a specific codec among many and set #sound-dai-cells. Allow
+> this by allowing referenced properties from dai-common.yaml.
+>=20
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml =
+b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> index 94062c1d9d45..66cae8b7db5d 100644
+> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L84 audio CODEC
+>  maintainers:
+>    - Martin Povi=C5=A1er <povik+lin@cutebit.org>
+> =20
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+>  description: |
+>    The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
+>    in personal computers sold by Apple. It was first seen in 2021 Macbook
+> @@ -29,14 +32,11 @@ properties:
+>    interrupts:
+>      maxItems: 1
+> =20
+> -  '#sound-dai-cells':
+> -    const: 0
 
-To simplify the merge strategy, the device tree entries will be sent
-in a future patch series.
-
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
-Changes in v8:
-- Rebase on latest
-- Link to v7: https://patch.msgid.link/20260910-tipd-ace3-v7-0-6c6ebe2193f2@chaosmail.tech
-
-Changes in v7:
-- Rebase on usb-testing
-- Link to v6: https://patch.msgid.link/20260826-tipd-ace3-v6-0-e919f39a93a2@chaosmail.tech
-
-Changes in v6:
-- Fix rebase issues
-- Link to v5: https://patch.msgid.link/20260821-tipd-ace3-v5-0-3244ed3bdc3f@chaosmail.tech
-
-Changes in v5:
-- Rebase on usb-next
-- Link to v4: https://patch.msgid.link/20260806-tipd-ace3-v4-0-79855b150914@chaosmail.tech
-
-Changes in v4:
-- Unexport variant data
-- One more debugfs-safety fix
-- Link to v3: https://patch.msgid.link/20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech
-
-Changes in v3:
-- Restore accidentally deleted static
-- Fix building with tracepoints
-- Sleep the device on failed probe
-- Link to v2: https://patch.msgid.link/20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech
-
-Changes in v2:
-- Use a -core module instead of building everything twice
-- Fix completion handling
-- Make regmaps debugfs-safe
-- Link to v1: https://patch.msgid.link/20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech
-
----
-Alyssa Milburn (1):
-      usb: typec: tipd: Factor out i2c specifics
-
-Sasha Finkelstein (2):
-      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
-      usb: typec: tipd: Add sn201202x support
-
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
- MAINTAINERS                                                |   2 +
- drivers/usb/typec/Makefile                                 |   1 +
- drivers/usb/typec/tipd/Kconfig                             |  20 +++++++-
- drivers/usb/typec/tipd/Makefile                            |  14 ++++--
- drivers/usb/typec/tipd/core.c                              | 247 +++++++++++++++++++++++--------------------------------------------------------------------------
- drivers/usb/typec/tipd/i2c.c                               | 107 ++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/spmi.c                              | 300 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/tps6598x.h                          | 132 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 9 files changed, 705 insertions(+), 196 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20260725-tipd-ace3-090bf570ef59
+This should not be removed. Why cells of 1 would be correct? If so,
+explain in commit msg.
 
 Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
+Krzysztof
 
