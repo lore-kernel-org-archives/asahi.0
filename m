@@ -1,126 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793800662;
-	b=j+/kZec0SA7KWzLvQ6LraDiZAR1I0oSuKUoWPe6/RkzbdB3xOkP4a31sStlVOAD6i8Sd
-	 5wvs9USVM+FcKKLJ3hqT/Asa+7ydlZq/1L3r7s2qynfk7K1ZvnTvZLvuRyAXJwl+y/MJx
-	 nqWIBU+Z9CotEknlrRqXt1HZ7YoP2PvzhCNqUH6q0WMnVhRKe1/YarchOn42w5aXRzmVn
-	 TPlNBWIrMI88QsfrS40gFKbABRQaxMaXKDswxv+4cMdn4KgB3Hb6OD1YMHWgIjnwYUKvg
-	 RhIY6udNZy6LL/apZ9O3JUd1I/ADx5AP+u8ChAiXbLPcDAKFI+HqhXls1ncL72M77bg==
+	t=1793805373;
+	b=P+AmTPPwkGqF2slS4pxvAM2HPlqm9QpAzk//wNeS3DIbSZSm74il02NjzBcbAUgYdTJN
+	 LLGLoj6arac0YcSNXd0AJNTv5pFAj8zHAL4Qjp4sKVYa9B1B8efxhytAlgyza1oSU0+66
+	 CzE1nrHCpmfcNvtm+Mq1SKx9gTuczb2EIO+tW4lCtLulZK1V/ea01ReWX0JuSNJTpOEja
+	 hCQvNiL9Vm7vGG6RDMGX9VGBAeMgQRxam8GXHmGfv+laVyn2YtDFIMZZQLsGLULWUhfuM
+	 VZMQW42XOgeuCBOk+WzDSvbwiOUQ26TdBkH0vQXXUXmEMtf5Zjpot++kWYKb6NJQTDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793800662;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=pVJOBVyN1nzMfTuUPIh7fW3RqgQ16G6DdcppUpEF4GU=;
-	b=uULEBVZssK7seUpqMAWExuiLpovIXw3Mqh5K4AvLTLKerW8bCE41fHD6KP46V73Ywii4
-	 ZYUDecwH4jFSAMzqapZoABDW93vwP6oPXAyn9vJYXzkjYeuDArFrCa5Zvp3wAZT0CbWDc
-	 g9R+HU8chqADovNxIc8Dme53bItFFekIM91Uk88tdNI66eXM6BQ80ul1oXimwdA9fCe9W
-	 s6B7IpYQQV3EIFDB7n+nkuO3jvBQDSDZHHtLi6WNCsFh4Yn4Lv8NxGnG/V1PB2lPcgqr4
-	 rQhomZS2T9DwsAW6xlCeZH0FOkXDN9qA0qpsJfeSi1DcjguSEva/ENvrbukW1dQRlWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793805373;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=VWIce8GyF+Wph1oxrXCd7PKAGon4ik0yeO2H0tvXzbo=;
+	b=zRsDRqJHqCTWHDmCPnQnRL4Bpx+rRmL9e07rFl+2YVtGXvH2bKYJiSpJNSqFQtWLLA5K
+	 VdwiVpo5s8glLCJGw5FQrIqHTGqyj3RIxETfms5SBzzaqdIKc4M73Fekw0GusikfxwCo/
+	 43tS2NLq+5tE9Wu8nbUDCev1ITjCJ5a+8z/QH0kdQwl0asR4y4jH9ewbg+3AEpQ/gObTM
+	 vheZ18wHK9IGyPP6ofhKQ9pD1QrQOXZR0uBPCqlu6a/lsUF1gjlcmkJLFLLDKkAq32lNF
+	 VEqC8j1whHi7u0kT+tSDpePeuzXz+PpzTvPlw8Sdob46umONtJ3NrOB7JnizJHma7Qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jannau.net;
-	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=L8v52Uvw;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=CPDrHitx;
-	arc=none smtp.remote-ip=202.12.124.144
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=OcMT5IUe;
+	arc=none smtp.remote-ip=91.216.248.212
+Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA435606A329
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 13:57:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA435606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB0608360B
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 15:16:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44CB0608360B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=L8v52Uvw;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=CPDrHitx
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 5903C1D0018E
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 08:57:41 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 04 Nov 2026 08:57:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1793800659; x=1793887059; bh=pVJOBVyN1n
-	zMfTuUPIh7fW3RqgQ16G6DdcppUpEF4GU=; b=L8v52UvwfBya0U4L/hLgefxFc7
-	Bv8MakOfitQ5VKMAmJmqSjMUIK/ehSQPKG54ESvduD6M3Ro58MtTtGpWdhd69Hf7
-	Z4wkLvn67NtAs9F0QXngJ2XviqwTkrAyA7HiFTSAxkK2DwRKdMfXSEZ+3A5OykX1
-	OvGYm0mdGdBTTDuSiyy5/LLxK8Uti/7JmeXjRGL7c4R1De59/5YwGuAOQtUtWhas
-	FLSXUBptQhSOiSc7Im9LFep0RU+n9ZQCE2MRpBm6C4CdLBH8zVj1uudUOvDwfMBK
-	mhq5nAx/Qhj+7P/+nUponiKGNSGH/Mg2ywdetSfE9wLJXjLn46xFVuoE6HNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1793800659; x=1793887059; bh=pVJOBVyN1nzMfTuUPIh7fW3RqgQ16G6Ddcp
-	pUpEF4GU=; b=CPDrHitxADwvO8yWW3vzVrOmW1fi2Bp+EuU1N+HtqRpP+bYKaLH
-	aPBeq5gVL1PmlTWVaSuQVRItQEWLRrE/Td1v1q6eeZp147O+nkeufy1n8vRacJZQ
-	0CFG8BuYae34rP9Pi7lTHXxOtYKNbxjtW3B5sMMkcDj5w2NPUNDNRyggfdWAeh7l
-	0fO1xxCtPDHSey8A1ThRQ01YshRqDXzb3fhLF6Fk4SnDRTHNAXnoodQRn7YCPO0B
-	VxoxyiB17DjlKWdb/DqnWWW5CEjoT74KBui1YcbPoxb1qlA6a54ztOqgYAWJsEnT
-	CBdy9fMHMFSJu7hHQV8BIGnd3+ysQMKN1lw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793800659; d=jannau.net;
-	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:c6lyOcETUFytFQhntpAsaK4CXaA17mGE2OYwIWlOxzvsJZP
-	ZLVen4VnIFcRtL6bEWmwyXHo6Ng78Sn4L1BaFK4dpcUqwTty5KNyzUKkBvSE9xe+
-	cnfEjYEkGgIuOF0KntNNO/EdgJ+FSpixcFz5EmEhCjwuVZRhRiDNdte5a6NvuERC
-	kTHgfXcJHrV5izvztnpYPjAXxwuxMgOobJpxgpaFP+attOLaKV9acKEpG6cbCEfF
-	uWkYGIKiYg/Ug4ZkDnCHOP03UN5pF4UU8/iesS44t1eKr+RZaaaCThiTPjn0MRYy
-	mNMt9NU5Te32AapynXnYDo/OTFvgluN+zgf5Izw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:jPnpz73r644i69BpyGpJ/GO8EOArrqrQTkhe87e5rqI=:6kPGA2OlUJ8QUP3bEVFSNVVOtzJuPCY7C4eDgjt8I/c=;
-X-ME-Sender: <xms:0jnraoQKc69w0bBkbaDZAZXQy77UiGgal1Hys0L1KV3M1kaBprRkBg>
-    <xme:0jnrahvRYoIc4ZY0-qBR70nO3Mp3aw8E9LuIjazDftJ7WC6Jg2aHVgAW2fiQ4_oIw
-    kb1W2qchjWmVc1wqdphFKbUCCbunXUWR62sy9CD86tF5Q_v-n7b7tA>
-X-ME-Received: <xmr:0jnrar_mtj3ZVlod5OfpqmlJAXfbqMYajmWUz7RCqpPKl6tNX_V1IOcWZ0tQugs7ym8i-H0y4Phe2XW-PMZZoUtt3yLZpD2_CTw>
-X-ME-Proxy-Cause: dmFkZTGYtjO4aH3k0GUhdhJVTPB3qrFzLiZiQHBavFm+qyc9b84XpgIocNt/s38ItmHaIr
-    GqsNRDwGCxT4YTMIQAv3zoBMKnpEkkA3i9WF8BKjANdRSzQG2hLv6Qs0JKtqeST+dlHHoa
-    ZrlG4qvomHojGb1bGfnU29JjdtpxzB9pJe2Fl2GBE7Wi7PzHoc5LWD5DSwHdZgpqiEIJZc
-    rbIQdYUzQdGGNiNEkbYVpihK1fBPf0A8WVGC+KER9Z2HArOBZwTme9TRosGFXRFCxpTja3
-    vXXb7QZTur9sE9cZ4huijN00ssbgQl7goKyer4AQoZ2zDW33Wl5kzOp3a8mxS1ZcjWWfm9
-    E7LX2YpTzHT3OFHTlME9YY2glNrptRVob6Pu9V5AwBfK1topzIsXaxidsPrUQdsiM4tqQ7
-    uIEuYM1ShQnakTVDG5dDI+lyDYdSCUblGWXMob0jdvgJtLuQweETZJ+rsnnLYN+Gd2xdSh
-    UKsdzePyEZq6grXnu4/EwvwFnXYm64z/wjDBKLic3aQOYOmAH9gtgzcNUugn9kMqur40iL
-    5aqUD12SMZEMhHH7Dlf/zclahrym08AaH45TqSTIxZ8JOC+tNpG3T+lMSeY5cMYhnPD1s/
-    OVU2JzgT/mimJnLUttb+CRQjKifCRcAAApRIg1Pe1VKANjA3kmBrCidUsq/Q
-X-ME-Proxy: <xmx:0jnraiay6RaDTQxCqFLyom7wDk8RDOE_jpvl-QjLyyedgKlG4ENJUA>
-    <xmx:0jnravqwVvOQSJoDEX3w0Sa6M0sj0LwlLFI0YlW5fFEMQe4ch8vBpg>
-    <xmx:0jnraiaSig5DrfOdPAr8SjPMI-8RGKx-e3s04kGc_wEOZMZyMSCWdA>
-    <xmx:0jnraq599amL-u632kWRc5g0dB3OPfBCJNBnHuWkVTHlGN_adVjR8A>
-    <xmx:0znraulP8X6b39yKmxcLijcbDquwDw9kAFYxNkDY3Q-rRigcgHA24NTE>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:57:38 -0500 (EST)
-Date: Wed, 4 Nov 2026 14:57:37 +0100
-From: Janne Grunau <j@jannau.net>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] arm64: dts: apple: t600x: Add PCIe pwren gpios
-Message-ID: <20261104135737.GB756133@robin.jannau.net>
-References: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
- <20261104-apple-pcie-pwren-v2-3-216a4066965f@cyberchaos.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=OcMT5IUe
+From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: 8e654eb6-ed48-42b1-95f7-cc1366fea7b7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1793805365;
+	bh=7dnOqwZnTP8NaQ3TDpLPp6CK/DOOubcnxEKdxMEfruo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OcMT5IUexJYPM7J7pdfIzQvX4gWo90lGlQoCoK3jHc3bHk5yNm24EybqLOOzG9sgy
+	 DA9HfAxf/IhLh9vs0QIGACS/sIEyrMDq13WlCoMgrZy3OVFh03uY5EsFDgpr8dAcVR
+	 srqHgECGSQvl8nbseay06nK5HDoQVgK84x1RKfQ6tBqDr14rLteDsgTFOtSpTw8RIQ
+	 HZI1CPRaf8vWL1j+EiJDNWmG1XGp/qZjVo2UnsQytDzBxlltKNQfYVRsPrSxoJqCUL
+	 DywjGLa5AKHcSs3nJwzjA9h+V3LTUZ3qW87NfftkSBW6p9afZjg4be8YcqjoQrkuLM
+	 PGE79Kjub9zmA==
+To: marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sven@kernel.org,
+	j@jannau.net,
+	neal@gompa.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	66ton99@gmail.com,
+	josemiguelo.ochoa@gmail.com,
+	aditya.garg@linux.dev,
+	Andre Eikmeyer <dev@deq.rocks>
+Subject: [PATCH 0/4] Bluetooth: Broadcom controllers of the Apple T2 Macs
+Date: Wed,  4 Nov 2026 16:15:57 +0100
+Message-ID: <20261104151601.70493-1-dev@deq.rocks>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -130,98 +70,60 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261104-apple-pcie-pwren-v2-3-216a4066965f@cyberchaos.dev>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 12:40:31PM +0100, Yureka Lilian wrote:
-> For the MacBook Pro and Mac Studio devices using the M1 Pro/Max/Ultra
-> SoCs, add the appropriate fixed regulators for enabling the peripherals
-> connected to the PCIe ports (WiFi, SD card reader and USB xHCI), which
-> are controlled by GPIOs connected to the SMC.
-> Set the regulators as the power-supply of the respective PCIe port, so
-> that the endpoints are powered on before probing the ports.
-> 
-> Add the 'pciclass,0604' compatible string to the PCIe bridge nodes in
-> the SoC to allow the pci-pwrctrl-generic driver to bind to them.
-> 
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-> ---
->  arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  4 ++++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 16 +++++++++++++++
->  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 27 ++++++++++++++++++++++++++
->  3 files changed, 47 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> index 122a566e75d1..635635c4bfbd 100644
-> --- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> @@ -460,6 +460,7 @@ pcie0: pcie@590000000 {
->  		pinctrl-names = "default";
->  
->  		port00: pci@0,0 {
-> +			compatible = "pciclass,0604";
->  			device_type = "pci";
+Hello everyone,
 
-`dt-check-style --mode strict` wants "device_type" before "compatible"
+This series is for the Broadcom Bluetooth controllers of the Apple T2
+Macs, the BCM4364 over UART (hci_bcm) and the BCM4377 over PCIe
+(hci_bcm4377).
 
-> diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-> index caded1636f3d..4f9dccf839ad 100644
-> --- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-> @@ -55,6 +55,20 @@ led-0 {
->  			default-state = "keep";
->  		};
->  	};
-> +
-> +	vreg_pcie0_port0: regulator-pcie0-port0 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "pwren-pcie0-port0";
-> +		gpio = <&smc_gpio 13 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +	};
-> +
-> +	vreg_pcie0_port1: regulator-pcie0-port1 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "pwren-pcie0-port1";
-> +		gpio = <&smc_gpio 26 GPIO_ACTIVE_HIGH>;
+  1    raise ACL priority on Apple Broadcom controllers
+  2    clear vendor bits in LE advertising report types
+  3    Revert "Bluetooth: hci_event: strip Broadcom vendor bits from
+       legacy adv report type"
+  4    set the strict duplicate filter quirk on Apple Broadcom controllers
 
-Please do the t602x changes in the same commit. This file is included by
-t602x-j414-j416.dtsi and the M2 Pro/Max devices use different gpio pins.
-If they aren't overriden in the same commit this will toggled a random
-GPIO pin on M2 Pro/Max Macbook Pros.
+Patch 2 and 3 belong together. Commit 88397423671f ("Bluetooth:
+hci_event: strip Broadcom vendor bits from legacy adv report type") in
+bluetooth-next masks the event type of legacy LE Advertising Reports for
+every controller with manufacturer 15. The controllers known to set these
+bits are the ones of the T2 Macs. Aditya Garg asked about this on the
+list:
 
-> diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-> index 8a1494949e4c..412b2fe109be 100644
-> --- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-> @@ -42,6 +42,30 @@ memory@10000000000 {
->  		device_type = "memory";
->  		reg = <0x100 0 0x2 0>; /* To be filled by loader */
->  	};
-> +
-> +	/* WLAN/BT */
-> +	vreg_pcie0_port0: regulator-pcie0-port0 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "pwren-pcie0-port0";
-> +		gpio = <&smc_gpio 13 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +	};
-> +
-> +	/* SD card reader */
+  https://lore.kernel.org/linux-bluetooth/F4853998-F2A8-4AFE-99EA-544657EAB0E8@linux.dev/
 
-this is included indirectly on t6020-j474.dts which doesn't have a card
-reader.
+Masking the type to its low nibble goes back to a t2linux patch by Jose
+Miguel Ochoa. Patch 2 clears the bits in the two drivers of these
+controllers before the event reaches the core, and patch 3 reverts the
+check in hci_event.c. Patch 2 comes first, so every commit in between
+keeps the reports.
 
-> +	vreg_pcie0_port1: regulator-pcie0-port1 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "pwren-pcie0-port1";
-> +		gpio = <&smc_gpio 26 GPIO_ACTIVE_HIGH>;
+Patch 1 builds on a vendor command the Android Broadcom vendor library
+uses, 0xfc57, to keep A2DP from dropping out while WLAN runs on 2.4 GHz.
+Patch 4 sets the strict duplicate filter quirk in both drivers, so a
+discovery reports changed advertisement data before its next cycle.
 
-Same comment about the GPIO pins as for the Macbook Pros.
+The KaiT2en community, about 280 members, runs these patches with its
+kernels. Users reported them working on the MacBookPro15,1, 15,2, 15,3,
+15,4, 16,1, 16,4, MacBookAir9,1 and iMac20,1, and nobody reported a
+regression.
 
-I'm not sure if the cross-SoC generation device .dtsi files were a good
-idea even though the devices are very similar. I probably wouldn't
-repeat that but I don't think it's worth to untangle at this point.
+Andre Eikmeyer (4):
+  Bluetooth: btbcm: raise ACL priority on Apple Broadcom controllers
+  Bluetooth: btbcm: clear vendor bits in LE advertising report types
+  Revert "Bluetooth: hci_event: strip Broadcom vendor bits from legacy
+    adv report type"
+  Bluetooth: set the strict duplicate filter quirk on Apple Broadcom
+    controllers
 
-Janne
+ drivers/bluetooth/Kconfig       |   1 +
+ drivers/bluetooth/btbcm.c       | 102 ++++++++++++++++++++++++++++++++
+ drivers/bluetooth/btbcm.h       |  12 ++++
+ drivers/bluetooth/hci_bcm.c     |  28 ++++++++-
+ drivers/bluetooth/hci_bcm4377.c |   9 +++
+ net/bluetooth/hci_event.c       |  11 ----
+ 6 files changed, 149 insertions(+), 14 deletions(-)
+
+
+base-commit: 3f425f95ba3923d605f6a8b382e8fcdc59d479db
