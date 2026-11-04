@@ -1,64 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789570;
-	b=ZpT09LF1tB6/s//Y4LjNR8MAEQKBpE8VdDxpJ8o4E2DnW1JyGcJQRfaCcUJsiqAr2tEv
-	 P6C1eqS5w/YrhHSu+hr0Xt8gz3St8uanJCLppOM+ApYvJwmNiRUlQ4ejOlAz+A9q3uZrc
-	 sl2xP2E/MgW3VxUpEOfNTb7TPmjS5avR6JYov5FL0WWXd57WP/m9E4/BXnLhjLSxHibV/
-	 UF1FaowO9vzikDt4BmBws7+5ecNtxgCeeLa+sO86WnqpdrZPwwamdhsbr7Xqk9kkmoo9s
-	 FoG+zP7bBHMAnpFSNktgWkRLw1A8tLs0qTad0BqCRoDJ6eI8r7e97CKF2XYF6RUtnEA==
+	t=1793789944;
+	b=3OA8kDrH5tFmPnacEwiw34ltikP+1AZxRgBiCMxoE9LQOv//GMq4YhH1rAOKzuVzql4R
+	 jYpY/UDs/55gcioMCWPyidjDjzsPXgaCgqT+A6sUuAgYxdJ8CKKJUmEyg8zi+TbyLf7qv
+	 hhkulliJn7uKVNoP9nt/ejZoPmQpJPLXP4+zr4HPQREVpJZJjhUabGkAbQoN6uSZ+igz3
+	 AUK5LAoQ1DJam3WPzzWgb5U1RwyWLJeQJqPZWPn7qg93nvcVzT9VN5O8mn81Qx7or4YBW
+	 xY9Pd+9eDm+yEFBX1v9KFIoq8+PNQ8R8sDnnAncKLJZUB3esc+zlV0AMnMps4W4+w/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789570;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:From:To:Cc:References:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=V9NHiJRKdLmwoeHiLsEZLLQBVcbAZsdM/sy0puVsYyA=;
-	b=hVWJg/uXEGraIsEHArtZWeffDn0LMVUfvnWduCqvUihKJOjTUtbcnWuFkfSWrF1PcVR9
-	 UqmDFNAbG1yO+ieQr8bOTW19wOJexDKt2/sJRit5T1QMKPq/HCZjOoEb/eT5yWWTllENn
-	 7quDb+ySxIliff9fUtnApSEqBlygPxEg9Yd4s1bo3LgOUeDFlxWTT1YF1/vx5Uv57H040
-	 kkBsyKhiBGCawdzslnIrSjCI53PsQqmiuwcmadMb9KWS5fhWU14Na13GiiwcobcrD+McB
-	 1tTtQmOQSbzl2OOCo0epi2K9Skcu+gK/SAZ7gFpFJx71xThLUiuf0pLwG+Pspy/tbyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789944;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+	b=uqBoIVyZ7r1auefPqn2lPYsBELwKar7P50BigFh6calgqGeZ76OsbHKCTjGa2jl+fKRc
+	 RxvwDA4F1vX+6kRAszgIe+GHQOz38XKYVmBvbIOW2uFr1Kh0lp6vnW8PdQWnvQnPfcsn0
+	 BHPSLDB+ZW/+vgIfGbnFU9MWS0PNWhcpeAdP8D9NnXnkBUs9tImk2tthRYn/ih+8J0mag
+	 CMutCZPbQuJ94IgYIajv9VDpZy2PnMYM0rszTu4Zuacl9Iyb6KiqWDQ7pn+LDN5AoPNRQ
+	 qzPuEhJC8s3GB8xEqSnHMM4N/ExcrZmUJbtbeX8aFbTYaSkplB8Nt0Mpr4SHIML6XXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AQGvO+vp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="U4i9/Ryt";
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8B7606A32E;
-	Wed,  4 Nov 2026 10:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F4B606A329
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 10:59:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1F4B606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AQGvO+vp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F67B1F000C1;
-	Wed,  4 Nov 2026 10:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793789570;
-	bh=V9NHiJRKdLmwoeHiLsEZLLQBVcbAZsdM/sy0puVsYyA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=AQGvO+vpUCKw4iG1OppNQR8+Q0/kGeVa7rf7nhi8vio63i0CMtDwG23/RZA7puzaw
-	 Uy9XzbOCI/TYnjQHHNVkn34UgzKufH8jU3UkMIbOJj9Cg4toOjHTIUcX8eQvkkW4az
-	 M3myT80wy4LZbPoC3zw1Yfe4tBwZ7ceGNCWHenLByu2PkNbJVrbNyuXC9KZJ91L4P3
-	 0C9wLyxLRSzzNCCBubgEMUGnYldQNXGhA5X96aABF+9I60qToQl3mQ5qB/pC2MEig3
-	 UnXOzzplXHLtjdEuUHgzamMTHnMEN/ZklAXDvevaK1BnMohBdCYTEXt1Zt4osO3YDH
-	 CFS1HGTVArRuQ==
-Message-ID: <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
-Date: Wed, 4 Nov 2026 11:52:38 +0100
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Post: <mailto:asahi@lists.linux.dev>
-List-Help: <mailto:asahi+help@lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-List-Owner: <mailto:asahi+owner@lists.linux.dev>
-Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced
- dai-common properties
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U4i9/Ryt
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ae1b34e0d2so888288a91.1
+        for <asahi@lists.linux.dev>; Wed, 04 Nov 2026 02:59:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793789943; x=1794394743; darn=lists.linux.dev;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+        b=U4i9/RytSqnOCzbTWNCKNYG0uxT11FMvyh324V5zhCLrHRIa7W/6Sz7Gw1TUfRy5xX
+         DY4sASmSwxhlCstkUYTtvOS5/QA5WNgknpTvyJ9A1iqEbS18Ffs6fAU0Gq0ws5VP45Hs
+         +Cisu/Tbk2OK7fXYMybs8jN9GWkjGUCxO3vjHl0Ri2YdWXdNQXp/CCeQRB10f7o/OTnY
+         /XV9nLG8hCVcmRD1qBSVU2L2zRb+D5CQ8TevkvEUcpUq/zy47N0DpFjKCOSU0mYCpcgf
+         4wI/XjjTRuAROU6XJNPdAdTUswHN8CzPF0pdiT3w6hTNgdwSQ/iUiaSejunVOcUvbpzq
+         E2JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793789943; x=1794394743;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
+        b=sqcJq4k9b8XKcSwqU1zurbmIRKD1sd+CM2F7IScAvhKfW5SWCpaBe2GIvUNxyaMrGM
+         +wjvZiMVc/iiEXrzb3MF9bJH1JkFAZsRoP5/cM3gog2HVvyKN3uhqZkSpcXSXL+rMKMU
+         eFSZQ+7bHRPkEgLebZTZZeOK93BsGM5XpihTTQRXt60zQ2HR9wg8wWVe3awO37jEipyY
+         phpUjIemLn0Aan+UZxBhNxJt2HL905afAkUfouj3ew6LBG++wobcICmSB6G6apDBq5IG
+         A9E4Z7NHiLtehxa0CD1PeX47IZ/V8+MKAjevCb6TElCT+VHvbRlWx/uOmeQ3rjLhcXsm
+         T9wg==
+X-Forwarded-Encrypted: i=1; AKwUvBw4cSRN7CtvdrUmgqbAbeomjhp8BCZuik7W3NTb2f+GpBOh0gEnMVhfGDO07Locf9I5QkYJCQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8GJGoK/puPzLx5s0zOywMVNdUbp8S4TPRKFQ3a8yK8gqQ3wcXQ
+	j9wRCbUV3y908//TsDnpqhAfua/p+ERoXJbMZMXvpFVutkKnNUxCXlr/
+X-Gm-Gg: AYBFou12j4hYLZ/qoh6DFu/oXoUEPHZuYUl8O6NVlFhmFnU/sdNtXnkCfDensE1RQAS
+	jhnmhJmbWWcDNmB8HiTO4Th1OH5kdhA5pqXj8wE2gtQ2aXGDPPmBrCm0TGh8M+I6NovsQROjc1X
+	zj0hnekntLTB6LoSc6YjFO9siTUoJ1YIqGXcfBPqIJWtMasjWqY4ovdD5+2NtyVVRz5FCm933pz
+	6Vts18aGO/VgA0/wWXPLBXXEfzqVuk0tX/zNIm9Xp2xUqNfIj6U1cxzbLbaH+vP/3ewuZBVPUwz
+	ZQr+7ZlWWzjD6gNDwVlzWvDO7/IV3k1tYrPeShO4tlj7vMQZKTr6FmRGOUnGPrtTDqsrha5cmX1
+	zGqmBDO/auCCr6nZi+WPW/vZdDezLHF3Fsu+MjUHSJdeH90WO3se1D9TtT5yNCDBx0AlCO9lD0W
+	u1lPCVpGd4LVBkspAaKBB35A7Z92wbhgIUrP7kBigfF1FoOT1WXA5yq5r/Ri4V4cTYLyLG3E1jA
+	AVC1DpUBshWZAmhopOEV2t/ROxFjAuoooOmdVvZpUz16pAu5BoVrtPrAgB/aW/FQ9SHEcxuNGG3
+	nrQJ/uZo1WW0WjeCMfaWph2qkzZ1WjBP+RrDD7ry5JVoIVPDKrahiejxickkigLhbQSWKPQROcG
+	v9DpjEBPB6yc6CgqEjCX1uE356m8Qk62QX1myO556SnIFP9Ryhzm0szEgxWKX5VT6p5bd0zGRFP
+	RgDgQK
+X-Received: by 2002:a17:90b:1cc5:b0:3ae:3d82:5d88 with SMTP id 98e67ed59e1d1-3ae8917bf84mr9431934a91.0.1793789942970;
+        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+Received: from minako.localnet ([2403:581e:d87e:0:739f:50a5:e171:f133])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b095314e85sm3304868a91.15.2026.11.04.02.58.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: David Rhodes <david.rhodes@cirrus.com>,
  Richard Fitzgerald <rf@opensource.cirrus.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
@@ -71,92 +98,85 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
  linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261103-macaudio-v4-2-637484efe46d@gmail.com>
+Subject:
+ Re: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced dai-common
+ properties
+Date: Wed, 04 Nov 2026 20:58:53 +1000
+Message-ID: <dD3cbQkjQr2lqk83ChC6wQ@gmail.com>
+In-Reply-To: <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+References:
+ <20261103-macaudio-v4-0-637484efe46d@gmail.com>
  <20261104-strict-precise-mouflon-85cbad@quoll>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261104-strict-precise-mouflon-85cbad@quoll>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Post: <mailto:asahi@lists.linux.dev>
+List-Help: <mailto:asahi+help@lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+List-Owner: <mailto:asahi+owner@lists.linux.dev>
+Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 04/11/2026 11:49, Krzysztof Kozlowski wrote:
-> On Tue, Nov 03, 2026 at 05:39:50PM +1000, James Calligeros wrote:
->> We may need to define both #sound-dai-cells and sound-name-prefix on some
->> machines where this codec is part of a simple DAI. Allow this by refrencing
->> dai-common.yaml and allowing its properties to be used.
->>
->> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
->> ---
->>  Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
->> index ab4c7d22dc0e..4ac0af34c464 100644
->> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
->> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
->> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
->>  maintainers:
->>    - patches@opensource.cirrus.com
->>  
->> +allOf:
->> +  - $ref: dai-common.yaml#
->> +
->>  description:
->>    The CS42L42 is a low-power audio codec designed for portable applications.
->>    It provides a high-dynamic range, stereo DAC for audio playback and a mono
->> @@ -193,7 +196,7 @@ required:
->>    - VL-supply
->>    - VA-supply
-> 
-> Missing dai-cells constraint
+On Wednesday, 4 November 2026 8:52:38=E2=80=AFpm Australian Eastern Standar=
+d Time=20
+Krzysztof Kozlowski wrote:
+> On 04/11/2026 11:49, Krzysztof Kozlowski wrote:
+> > On Tue, Nov 03, 2026 at 05:39:50PM +1000, James Calligeros wrote:
+> >> We may need to define both #sound-dai-cells and sound-name-prefix on s=
+ome
+> >> machines where this codec is part of a simple DAI. Allow this by
+> >> refrencing
+> >> dai-common.yaml and allowing its properties to be used.
+> >>=20
+> >> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> >> ---
+> >>=20
+> >>  Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
+> >>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>=20
+> >> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.ya=
+ml
+> >> b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml index
+> >> ab4c7d22dc0e..4ac0af34c464 100644
+> >> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+> >> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
+> >> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
+> >>=20
+> >>  maintainers:
+> >>    - patches@opensource.cirrus.com
+> >>=20
+> >> +allOf:
+> >> +  - $ref: dai-common.yaml#
+> >> +
+> >>=20
+> >>  description:
+> >>    The CS42L42 is a low-power audio codec designed for portable
+> >>    applications.
+> >>    It provides a high-dynamic range, stereo DAC for audio playback and=
+ a
+> >>    mono
+> >>=20
+> >> @@ -193,7 +196,7 @@ required:
+> >>    - VL-supply
+> >>    - VA-supply
+> >=20
+> > Missing dai-cells constraint
+>=20
+> Heh, I already asked for this two weeks ago.
+>=20
+> I do not see how you responded to my comment, dropping everything from
+> DT patchwork.
+>=20
+> Best regards,
+> Krzysztof
 
-Heh, I already asked for this two weeks ago.
+Given that the binding did not have a constraint for this originally, it
+was my impression that adding one would best go in another patch unrelated
+to this series. If you think it's fine to add here then I can simply fix th=
+is
+for v5.
 
-I do not see how you responded to my comment, dropping everything from
-DT patchwork.
 
-Best regards,
-Krzysztof
