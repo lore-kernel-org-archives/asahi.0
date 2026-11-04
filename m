@@ -1,51 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813074;
-	b=Vr5JMd2h1AV8Avr5aynH8awj4K2rmJOKY2/knSz0+RzP/D0/d1e1nrFZb8Gax7i8DX0h
-	 oHc6c+27W4FuS04AI2ro8qzF3YdLpvxqkV2vz2gVPs1xgVViwGm/M6ILW2htoGNSY9Jea
-	 1sq2aqzqi4y/rBgeu2rOcupUIVF3vYKMaCFvMR1OxmvJ2z4bvArqmYzZmQnKFmVEyTBts
-	 JMy/C/TjYIyaFyS1Wqx0C2WQKZfMYGz//s/BvK2a8fYcJFt8dHOkt4HMNUC5oVonZM7es
-	 ygQJ2ff6NACQGhbjdvGpUGSVe6Pk++xNrBvLStfhvh5JFnPmQqmWrLFhuAdxoz/2gww==
+	t=1793813068;
+	b=qHE0vTv3LQ4H5iaukP0CRECMtRVGOKJFRsjUjpKKIhz94HogW0GP6Q/aMkKGaNRF723/
+	 fxDFri/h6MQqSpL7f6s6SSi6Yts6x+eNpIrV3t2mWpi1ytzXz3R8mjMI3hxTarBjMhZxU
+	 x6Ywj97Jgr6fHEnI8dWIvsxH0mzJjo0AW28LLTirHJmCUBeFoe3Hp24lIeJ5fSd/A5sPb
+	 RTiUAsuaE+LlvfjrSJkqL5eCLnYp2Hfo6pg3YzcGqe0gzgoCmu+Sq4J5vNoQU2MPOkKMr
+	 PLsKFOSCY4mWCT27BCQp4dy8FJvRswWVNLfvSStFST6PdHyJ/2srjMTGButsAVFVzgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813074;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813068;
 	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc;
-	bh=FmFhmHqchVrqj+0DB2A1OfSUsKoVGkJJrNsEk9xPgCc=;
-	b=uhglejNpVhbtPJAj60mAiW5sLrFVb1Exca77fiM7WtGoAq07CCowrnEqb6y+Jh/YeEXQ
-	 JRMUMeOos0BQRo0ukj7XbOxB83UV9wDibvaTgcsg636lIQ86VXineCX/IXjw/o7uH1hLK
-	 u15fCbwIVQowREsUqzFfcQRCEshAZD4CDRLqT2YltwB1/QQvi2UMr19B6GUoPF/SHvvSs
-	 ajVz2aA+CMtbK9giy7knfks5k7yPsOCsfIvQoAJgExxN0vZUl3zQZv35M9PWkAGSOKXAa
-	 BOImGi7PjsEKoi0GFJ7Iz55VEpsBMLh9uQM06y2aSpx6daVPjIFeth6bgMSFEC/Uajg==
+	bh=bIVg0foxmqTG/8sVU2ZcbJWE1ifg0bPsxbq01Yjc28s=;
+	b=FFYS3xPh8+g/XVfajIXQy73CkKtYaO7gSR1/opVTBdArbVt3eCXP53M1Ot/2XHST07vd
+	 GF/WkCH+VJpsohNF5nwDoam3+7nG7JHteRioy00s5nkqgb2khvB2vvZiphyBs/mv9eWVk
+	 jPe824axOlXKjnsFJt+s2tSq490Mfeee5rwPizSt4l3D+2C059bDxACaVyncSfuFSSvcF
+	 yEjd3+xdFXW7FUuxYrl+o1BKW3t95Q5Qv+JR/l/gIyqvDep6o96SM2QrnMlRt/JTnAYPa
+	 Lc2KvxXSYt9WC8DUTD4j2d8O16lWf4lDG8FGRp3F+Km4xx1E9UFVkLHhFuH+/xPOIPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=KIFHrY5F;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=lLpQSlXJ;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52511606D80D
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52511606D80D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1389F606D806
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1389F606D806
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=KIFHrY5F
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=lLpQSlXJ
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793813072;
+	s=mail; t=1793813066;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FmFhmHqchVrqj+0DB2A1OfSUsKoVGkJJrNsEk9xPgCc=;
-	b=KIFHrY5FiYi8bvIaolJ5AS8FMJspLVlXsDCYqmOpfCtNny4JpvVkkuegokYuOuuD+A9e/6
-	IbofpO/vCoiSHenbzAhmN6eXbYUEN/ci4lSQ6qD/0nWh8ZvX701rTLtMD19aldWoLrETS8
-	4PCE9ZoXc/sPXMvezsYhTIPNdHTNF7Y=
-Date: Wed, 04 Nov 2026 18:24:21 +0100
-Subject: [PATCH v2 8/9] dt-bindings: arm: apple: Add M5 based devices
+	bh=bIVg0foxmqTG/8sVU2ZcbJWE1ifg0bPsxbq01Yjc28s=;
+	b=lLpQSlXJUz/r4I2/RAZhwV9/lbOT0i3PhA2jYW3igjnj3nk6SQ7a9Ixb2lhFDlUCbasjsl
+	GNbQ/aQpQCp8Hy2QDSvE3QkE0paT3F8zLhRQaYwyjv8c6I1tmaOZozWTZ43lrzZF9hdk0W
+	OtvtdUbXwVx16iH1mYf50EJJBIGvnfI=
+Date: Wed, 04 Nov 2026 18:24:16 +0100
+Subject: [PATCH v2 3/9] dt-bindings: arm: power: apple,pmgr-pwrstate: Add
+ t8142 compatible
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -57,7 +58,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-apple-m5-initial-devicetrees-v2-8-fd727a82d380@cyberchaos.dev>
+Message-Id: <20261104-apple-m5-initial-devicetrees-v2-3-fd727a82d380@cyberchaos.dev>
 References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -75,48 +76,28 @@ Cc: Yureka Lilian <yureka@cyberchaos.dev>, asahi@lists.linux.dev,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Only the MacBook Pro (14-inch) and MacBook Air (13/15-inch) were offered
-with the M5 (t8142) SoC. Add the corresponding compatibles.
+The device power state management of the PMGR blocks on the Apple
+silicon M5 SoC (t8142) is compatible with the M1-M4 SoCs.
+Add "apple,t8142-pmgr-pwrstate" as M5 specific compatible.
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/arm/apple.yaml | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index da6f043ad07a..f78c89780355 100644
---- a/Documentation/devicetree/bindings/arm/apple.yaml
-+++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -116,6 +116,12 @@ description: |
-   - MacBook Air (15-inch, M4, 2025)
-   - Mac mini (M4, 2024)
+diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+index a37a837a4eac..451f2a80f844 100644
+--- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
++++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
+@@ -51,6 +51,7 @@ properties:
+               - apple,t8122-pmgr-pwrstate
+               - apple,t8132-pmgr-pwrstate
+               - apple,t8140-pmgr-pwrstate
++              - apple,t8142-pmgr-pwrstate
+           - const: apple,t8103-pmgr-pwrstate
  
-+  Devices based on the "M5" SoC:
-+
-+  - MacBook Pro (14-inch, M5, 2026)
-+  - MacBook Air (13-inch, M5, 2026)
-+  - MacBook Air (15-inch, M5, 2026)
-+
-   Devices based on the "M1 Pro", "M1 Max" and "M1 Ultra" SoCs:
- 
-   - MacBook Pro (14-inch, M1 Pro, 2021)
-@@ -364,6 +370,15 @@ properties:
-           - const: apple,t8132
-           - const: apple,arm-platform
- 
-+      - description: Apple M5 SoC based platforms
-+        items:
-+          - enum:
-+              - apple,j704  # MacBook Pro (14-inch, M5, 2025)
-+              - apple,j813  # MacBook Air (13-inch, M5, 2026)
-+              - apple,j815  # MacBook Air (15-inch, M5, 2026)
-+          - const: apple,t8142
-+          - const: apple,arm-platform
-+
-       - description: Apple M1 Pro SoC based platforms
-         items:
-           - enum:
+   reg:
 
 -- 
 2.56.0
