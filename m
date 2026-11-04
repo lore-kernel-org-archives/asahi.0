@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789944;
-	b=3OA8kDrH5tFmPnacEwiw34ltikP+1AZxRgBiCMxoE9LQOv//GMq4YhH1rAOKzuVzql4R
-	 jYpY/UDs/55gcioMCWPyidjDjzsPXgaCgqT+A6sUuAgYxdJ8CKKJUmEyg8zi+TbyLf7qv
-	 hhkulliJn7uKVNoP9nt/ejZoPmQpJPLXP4+zr4HPQREVpJZJjhUabGkAbQoN6uSZ+igz3
-	 AUK5LAoQ1DJam3WPzzWgb5U1RwyWLJeQJqPZWPn7qg93nvcVzT9VN5O8mn81Qx7or4YBW
-	 xY9Pd+9eDm+yEFBX1v9KFIoq8+PNQ8R8sDnnAncKLJZUB3esc+zlV0AMnMps4W4+w/A==
+	t=1793790001;
+	b=yNaJwI7LI3eZtGP45jCU6eK/MqYGzbKjRclHrGgKc5sN+lcvjhjwQd9kPNsoGALFDkmq
+	 5sevCHcrg7WEoFp0eAiT4qC9+86c4EnEQiTqroHsIPgUjkgo0pYeioRQsyLdYtElP0msl
+	 v07RHTGg0w69BHC8gXJK9GoNXynV+d60phcNbpmEl6hQl2Tr/YOAcA234Ni+ZdQL/lwAN
+	 HpOIPJ09H6cO1rn+Wkp4kM6lGREmWV40hggqfYFcK9DrxMcZqDU8uPuNHudn7BAY1yHzS
+	 g3fKQYTBYAK0H+HnF1BWopxAgcmHe5ve7B6QzWEpV40Kr3HfpKJx7puPf0AE+THkJrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789944;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793790001;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
-	b=uqBoIVyZ7r1auefPqn2lPYsBELwKar7P50BigFh6calgqGeZ76OsbHKCTjGa2jl+fKRc
-	 RxvwDA4F1vX+6kRAszgIe+GHQOz38XKYVmBvbIOW2uFr1Kh0lp6vnW8PdQWnvQnPfcsn0
-	 BHPSLDB+ZW/+vgIfGbnFU9MWS0PNWhcpeAdP8D9NnXnkBUs9tImk2tthRYn/ih+8J0mag
-	 CMutCZPbQuJ94IgYIajv9VDpZy2PnMYM0rszTu4Zuacl9Iyb6KiqWDQ7pn+LDN5AoPNRQ
-	 qzPuEhJC8s3GB8xEqSnHMM4N/ExcrZmUJbtbeX8aFbTYaSkplB8Nt0Mpr4SHIML6XXA==
+	bh=GwE8Z7d8hC2B5A2aORLBN7ModRReguom9RWoATcO8ag=;
+	b=s89nf2yqkYMKPAmZwp3bFCC/4l67/DIVWMlOKYpNXPO94LChK2822IugoZd00r2yyyYS
+	 /dEs5Mzj0qT6QyMxz8RGklOLZDzAhIHHbnQhUyRniFJ+DIIzBFFt21BSDJDWGmb4KT7K0
+	 alBmbcTPocskKYzH5ddxlMxrDcAG7Th9/9cb1hg2svS8tAg9iZJIlksQtsNUsJes5lGQO
+	 tY4WjeW2dRV/diwRoS9ZwZ65C/PX24GoPhWbBamhwm8eta1spCUFn15y/b5DVGREFqnAa
+	 zuCn4GUOD9gj/rauaZe/P6Y2kW7pyCAeF9fzft7eReQViULVdOzh/mKN3p7Aj1c4sjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="U4i9/Ryt";
-	arc=none smtp.remote-ip=209.85.216.53
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MkT7S2d3;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F4B606A329
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 10:59:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1F4B606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CB0606A326
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 11:00:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29CB0606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U4i9/Ryt
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ae1b34e0d2so888288a91.1
-        for <asahi@lists.linux.dev>; Wed, 04 Nov 2026 02:59:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MkT7S2d3
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e812e2b31bso2982695ad.3
+        for <asahi@lists.linux.dev>; Wed, 04 Nov 2026 03:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793789943; x=1794394743; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793790000; x=1794394800; darn=lists.linux.dev;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
-        b=U4i9/RytSqnOCzbTWNCKNYG0uxT11FMvyh324V5zhCLrHRIa7W/6Sz7Gw1TUfRy5xX
-         DY4sASmSwxhlCstkUYTtvOS5/QA5WNgknpTvyJ9A1iqEbS18Ffs6fAU0Gq0ws5VP45Hs
-         +Cisu/Tbk2OK7fXYMybs8jN9GWkjGUCxO3vjHl0Ri2YdWXdNQXp/CCeQRB10f7o/OTnY
-         /XV9nLG8hCVcmRD1qBSVU2L2zRb+D5CQ8TevkvEUcpUq/zy47N0DpFjKCOSU0mYCpcgf
-         4wI/XjjTRuAROU6XJNPdAdTUswHN8CzPF0pdiT3w6hTNgdwSQ/iUiaSejunVOcUvbpzq
-         E2JQ==
+        bh=GwE8Z7d8hC2B5A2aORLBN7ModRReguom9RWoATcO8ag=;
+        b=MkT7S2d3XBtmKG290BlYuYU9PkAeelrCLdWS3s5kCJIvCzPfF3rHBCNEkEG3RTNTHm
+         LRKU/g/DX0XuJsLrZzeyHdZPlLgJ4QRHF2/5NVajoyCXGlfaPXcH8DFAHJnlVfBerI5g
+         6osvfViz4gMdP+zEH5dD2zDGcV1TykPsBoPBuqajplkbdWYfJJwhLkAzzP+fLTj5/GJU
+         3MaAqZeX64ozLvj8VlB60cB33Wnn5JO4cxVTe1GYQNH3gBTUJXxxXqxfZ38gNgQp92HX
+         fD+Wvrp/8lwsUlgUnNfmlZPjkO7hLKgIJb0u1+r/66RurCpmsW10lPTpyLlvIBiVg5mK
+         I/VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793789943; x=1794394743;
+        d=1e100.net; s=20260707; t=1793790000; x=1794394800;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bBTgawvztyIZVheW/rAsVHtWBMGpPSBdrEb02iHgYVo=;
-        b=sqcJq4k9b8XKcSwqU1zurbmIRKD1sd+CM2F7IScAvhKfW5SWCpaBe2GIvUNxyaMrGM
-         +wjvZiMVc/iiEXrzb3MF9bJH1JkFAZsRoP5/cM3gog2HVvyKN3uhqZkSpcXSXL+rMKMU
-         eFSZQ+7bHRPkEgLebZTZZeOK93BsGM5XpihTTQRXt60zQ2HR9wg8wWVe3awO37jEipyY
-         phpUjIemLn0Aan+UZxBhNxJt2HL905afAkUfouj3ew6LBG++wobcICmSB6G6apDBq5IG
-         A9E4Z7NHiLtehxa0CD1PeX47IZ/V8+MKAjevCb6TElCT+VHvbRlWx/uOmeQ3rjLhcXsm
-         T9wg==
-X-Forwarded-Encrypted: i=1; AKwUvBw4cSRN7CtvdrUmgqbAbeomjhp8BCZuik7W3NTb2f+GpBOh0gEnMVhfGDO07Locf9I5QkYJCQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8GJGoK/puPzLx5s0zOywMVNdUbp8S4TPRKFQ3a8yK8gqQ3wcXQ
-	j9wRCbUV3y908//TsDnpqhAfua/p+ERoXJbMZMXvpFVutkKnNUxCXlr/
-X-Gm-Gg: AYBFou12j4hYLZ/qoh6DFu/oXoUEPHZuYUl8O6NVlFhmFnU/sdNtXnkCfDensE1RQAS
-	jhnmhJmbWWcDNmB8HiTO4Th1OH5kdhA5pqXj8wE2gtQ2aXGDPPmBrCm0TGh8M+I6NovsQROjc1X
-	zj0hnekntLTB6LoSc6YjFO9siTUoJ1YIqGXcfBPqIJWtMasjWqY4ovdD5+2NtyVVRz5FCm933pz
-	6Vts18aGO/VgA0/wWXPLBXXEfzqVuk0tX/zNIm9Xp2xUqNfIj6U1cxzbLbaH+vP/3ewuZBVPUwz
-	ZQr+7ZlWWzjD6gNDwVlzWvDO7/IV3k1tYrPeShO4tlj7vMQZKTr6FmRGOUnGPrtTDqsrha5cmX1
-	zGqmBDO/auCCr6nZi+WPW/vZdDezLHF3Fsu+MjUHSJdeH90WO3se1D9TtT5yNCDBx0AlCO9lD0W
-	u1lPCVpGd4LVBkspAaKBB35A7Z92wbhgIUrP7kBigfF1FoOT1WXA5yq5r/Ri4V4cTYLyLG3E1jA
-	AVC1DpUBshWZAmhopOEV2t/ROxFjAuoooOmdVvZpUz16pAu5BoVrtPrAgB/aW/FQ9SHEcxuNGG3
-	nrQJ/uZo1WW0WjeCMfaWph2qkzZ1WjBP+RrDD7ry5JVoIVPDKrahiejxickkigLhbQSWKPQROcG
-	v9DpjEBPB6yc6CgqEjCX1uE356m8Qk62QX1myO556SnIFP9Ryhzm0szEgxWKX5VT6p5bd0zGRFP
-	RgDgQK
-X-Received: by 2002:a17:90b:1cc5:b0:3ae:3d82:5d88 with SMTP id 98e67ed59e1d1-3ae8917bf84mr9431934a91.0.1793789942970;
-        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+        bh=GwE8Z7d8hC2B5A2aORLBN7ModRReguom9RWoATcO8ag=;
+        b=Z/pFNsEPSzLJq/5EpIlR++t9vXTsLFGkQsFIK65gvrxrJGxCOoPtmp3nmgKeqyetfv
+         uF4Ue2cm5FoYHk95GKm7kEB6hyMxwIjXOP0rBvPA0Zc/GESbGZXF/Kd7ovxc8/lFoJGL
+         Zoh06eIIy7zkNxlW0WCdGQCXUeViEN4PNAKEvfVF2ogJeVq6ENjC0hagF8DCaYBpxBK5
+         Qtff2cTiIpfbJ1bMuCYoGz3Q3ADvfPsU22NnhdwfvdRBKlB/Ez4hY5iVkg3RZs+CJRLD
+         +RUemx8Ls3sdlTB/vDFMUXmASOHNrZrLH1asvi1Vp1oO/JrB14GwmQ/SVMcUSE6BUK08
+         xUuQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxiiF2Zn9iJPocYQv4pn7iQXUw+zoGXwv4+muXQoXGTPLf+Xtxvk3FAe2SSYR+SvP9bFobKqw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/q2idTuhXg+mJhS+nLNniPaXqGdwavAf6aWkXkuUrCOCR9chpB
+	Q6k49hafqr3HLEkRIKh73HpWBj44/842hGt/ysJml74xZPsSynycceNB
+X-Gm-Gg: AYBFou2I77B/Byhe8CmetcG+BJtxxnaV5qNGw6o77ujX8qm0nsW+gdbulbqqYwzvJmP
+	bD5d8fPPASVaIJgF7gRDdHXxX/pqGdYk0N68exZGBdZtYwBRW5+phdPGp/xUkWAolmTY+RE2hKl
+	1c8p/Faj3o3osw39GQx1s//h8jyeQAQGQrPX8cGNyvdhOjkKwVADfI3Ji5MHxDbMB6zJd8fhob/
+	RBExXCYny81B2UY6yz22J1Sw48SIO8jsz2D5YTf4S8pK+K6av0brdM2dxQmpW8MtWRsMnWTifp9
+	rFa7KW7769UpkTBRqQrSy5yZHixK6KW68Bu8308kPlkf55e+YXtPzfr3j0Ky5nZ3stuDLnr+hhm
+	dznmeV2Urd3n5LHczDFDkVEkpn3U/2HMlTaeT4XMS8GXe5NWqGlbIuD1OaZUmWQraryTN1CvcKZ
+	ktqFOogewDxGLpCuof5Ya50JcaqtcILLNPt1kIYNG3fuy+qVNmg3NImO7h7X/O4gov97reaOQPV
+	a1zxA3UZ8LVQio9Ickasqtaxrflqceck520bmjLSy9sop+nCcpkDosAO+Cg6YgvebpTJVpnIEeT
+	hM9SOGmMeVL6xh4ASySXdNw/gGVN7q9ZWoqnjSCORo180SEKf/B6CEvxxAVUu6svVQFROVmEZLg
+	TIB4TTBu8NfdHC1bSiRl1UMH7RnI3mFD/NatNBbPMbOWg3NIqL9yKfIdw9vQcMwLh58B6YRlr4N
+	zSZHyYoBVojNHS3o37TmEGpt/jJA==
+X-Received: by 2002:a17:903:1844:b0:2e9:8bd4:577d with SMTP id d9443c01a7336-2eb364de4d8mr153487635ad.37.1793790000537;
+        Wed, 04 Nov 2026 03:00:00 -0800 (PST)
 Received: from minako.localnet ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b095314e85sm3304868a91.15.2026.11.04.02.58.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed090f7313sm5843875ad.45.2026.11.04.02.59.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 02:59:02 -0800 (PST)
+        Wed, 04 Nov 2026 03:00:00 -0800 (PST)
 From: James Calligeros <jcalligeros99@gmail.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: David Rhodes <david.rhodes@cirrus.com>,
@@ -99,15 +99,15 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Subject:
- Re: [PATCH v4 02/22] ASoC: dt-bindings: cs42l42: Allow referenced dai-common
+ Re: [PATCH v4 01/22] ASoC: dt-bindings: cs42l84: Allow referenced dai-common
  properties
-Date: Wed, 04 Nov 2026 20:58:53 +1000
-Message-ID: <dD3cbQkjQr2lqk83ChC6wQ@gmail.com>
-In-Reply-To: <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+Date: Wed, 04 Nov 2026 20:59:50 +1000
+Message-ID: <nYufjgFVShG0c_ndRsefxw@gmail.com>
+In-Reply-To: <20261104-eccentric-auk-of-zoology-55bcc4@quoll>
 References:
  <20261103-macaudio-v4-0-637484efe46d@gmail.com>
- <20261104-strict-precise-mouflon-85cbad@quoll>
- <f25646e3-d80e-4b26-b869-42608c89e665@kernel.org>
+ <20261103-macaudio-v4-1-637484efe46d@gmail.com>
+ <20261104-eccentric-auk-of-zoology-55bcc4@quoll>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -120,63 +120,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-On Wednesday, 4 November 2026 8:52:38=E2=80=AFpm Australian Eastern Standar=
+On Wednesday, 4 November 2026 8:48:25=E2=80=AFpm Australian Eastern Standar=
 d Time=20
 Krzysztof Kozlowski wrote:
-> On 04/11/2026 11:49, Krzysztof Kozlowski wrote:
-> > On Tue, Nov 03, 2026 at 05:39:50PM +1000, James Calligeros wrote:
-> >> We may need to define both #sound-dai-cells and sound-name-prefix on s=
-ome
-> >> machines where this codec is part of a simple DAI. Allow this by
-> >> refrencing
-> >> dai-common.yaml and allowing its properties to be used.
-> >>=20
-> >> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> >> ---
-> >>=20
-> >>  Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml | 5 ++++-
-> >>  1 file changed, 4 insertions(+), 1 deletion(-)
-> >>=20
-> >> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.ya=
-ml
-> >> b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml index
-> >> ab4c7d22dc0e..4ac0af34c464 100644
-> >> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> >> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> >> @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L42 audio CODEC
-> >>=20
-> >>  maintainers:
-> >>    - patches@opensource.cirrus.com
-> >>=20
-> >> +allOf:
-> >> +  - $ref: dai-common.yaml#
-> >> +
-> >>=20
-> >>  description:
-> >>    The CS42L42 is a low-power audio codec designed for portable
-> >>    applications.
-> >>    It provides a high-dynamic range, stereo DAC for audio playback and=
- a
-> >>    mono
-> >>=20
-> >> @@ -193,7 +196,7 @@ required:
-> >>    - VL-supply
-> >>    - VA-supply
+> On Tue, Nov 03, 2026 at 05:39:49PM +1000, James Calligeros wrote:
+> > Some consumers may wish to prepend the codec's name with a known value
+> > to identify a specific codec among many and set #sound-dai-cells. Allow
+> > this by allowing referenced properties from dai-common.yaml.
 > >=20
-> > Missing dai-cells constraint
+> > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> > ---
+> >=20
+> >  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 8 ++++--=
+=2D-
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> > b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml index
+> > 94062c1d9d45..66cae8b7db5d 100644
+> > --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> > @@ -9,6 +9,9 @@ title: Cirrus Logic CS42L84 audio CODEC
+> >=20
+> >  maintainers:
+> >    - Martin Povi=C5=A1er <povik+lin@cutebit.org>
+> >=20
+> > +allOf:
+> > +  - $ref: dai-common.yaml#
+> > +
+> >=20
+> >  description: |
+> > =20
+> >    The CS42L84 is a headphone jack codec made by Cirrus Logic and embed=
+ded
+> >    in personal computers sold by Apple. It was first seen in 2021 Macbo=
+ok
+> >=20
+> > @@ -29,14 +32,11 @@ properties:
+> >    interrupts:
+> >      maxItems: 1
+> >=20
+> > -  '#sound-dai-cells':
+> > -    const: 0
 >=20
-> Heh, I already asked for this two weeks ago.
->=20
-> I do not see how you responded to my comment, dropping everything from
-> DT patchwork.
+> This should not be removed. Why cells of 1 would be correct? If so,
+> explain in commit msg.
+
+This was unintentional, already fixed for v5.
+
 >=20
 > Best regards,
 > Krzysztof
 
-Given that the binding did not have a constraint for this originally, it
-was my impression that adding one would best go in another patch unrelated
-to this series. If you think it's fine to add here then I can simply fix th=
-is
-for v5.
+James
 
 
