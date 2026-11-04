@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813066;
-	b=hJP6hNAQ9sxvK2sJRXwAlki1WbgZQ92OKIY14eHK5Iu4XnxbcwQWjY+nfnLAX3ptk1lM
-	 VnwPQ1BmDiBNUNwzkOPjBsKg2FiGygoJuyoBm8bVLfPEgW8nBy3Rs9WaDgtKShTjfOyg7
-	 nwyIooT7+lGvMciN8S8BKGcEnNY860/t4Zqnx+VUB5BG7lxoQyTfY/HtkufWRqZ5Q2O9x
-	 /OVBKK9NsubFUSnvNy1k/2jrZre/INslZ2Mf1YHdMz9u7klpeZ8pQtSW2KeL/9kZILJM4
-	 eBBWRCZUyXrk9+ia/nfxuPuyAcPjAaf233+M2ZQ/qvtTSQCi7jszHAEmz5h/GtrTXNg==
+	t=1793813067;
+	b=UGjZheYfTi4iPixuMcS+Ju/srMT2z7uS55W6uQRVFg7gjNj8OQTPMqIO1AT9Yg5xNlZt
+	 EnS+M6nxTMkGVyHM5o+Q608ibCG8V8yh/y2GRsbc/Pp8vcoHSfxMvGN/gqQDVWCOZac1i
+	 d/f6+H9AQixC9zFhwXDhq+05Ai3YPA1Uzv8poMBvB7nNeI8Xx7gzAKZR4ksf405pwZs2b
+	 w21nGlzYtGj24vb8u1AyWYWlt+JmpV9lIY/24UNGb3lcsFcPolLr87FKzpnBdW87TG+bf
+	 /C/iIbO+M1zeUX4KpmzJEcUvmIfslfLqJUCInVJoOx0ybFEsPndtCItm7pmMQdbqzdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813066;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793813067;
 	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc;
-	bh=UMIk77T6D8aeVXKipe7tHa21wj0Z4+vE4becj0xztjY=;
-	b=Rqh/pXKh72QXswNJ3iJOMBalOO9RWHbn4p4psmqvw1Tmf1CVRXUCVHlYXVFg/WJjHwwT
-	 W3ng/ao3pZZiSrprUKrUSONVXIRQaT0SWQcwVsIHPnGq14cZM0zCM//m/y82Wf9Fuhcxx
-	 ofKkf7BYsCyLxfLk4ukANWN2z6eSilin/3vAfaZkdp56R9tlQGyP0FbuMIvUOppu6gFPS
-	 uE4jeH/KiXuSi0CkHuIiU4I1faLPLfTVtydvKiovbW+aEMEXJ5dizomkBA+ZfJ5zNYmou
-	 XhN9bK0cf6krSokYJAOmIhjLCRWSkRlTtbkPrxrQ6jOwK0Vd5xA2N1pLNEIKF5B3gow==
+	bh=26RtvXWyvPMKIsPpPxfp50GdoxTzvUevSoYk/CUFfTE=;
+	b=IwKrHZpevimuVHpvleW09JsFssJaYCRIz9TjLU1vZWvogzUY7EN3uYreVclpP41CCtGG
+	 1OSyWq0CGdzJTeE106Nm+WbG9vC8fG6Xk38Fj792nDYDQ/1JJPw5Rlti8m/e5wFW5WEvL
+	 dY3MXFzRESWaAdWqxv98vCywPyvWgowlRoXb5NAdqaXq5eJYgrFqQhGA6xPUXTANr7jgZ
+	 1mvKbIXqAiKpv3HDl5C9lHAfVtGlAMaA5GpLVK3IIkbOIobiRNVNgOrwQGHpw0qtzDt5n
+	 ejLrcQzobipF3prU2rlBV1+Ea4D+JmD1blQjEhysvAnPNRiBpd3hbIF+xBwGhO+GnQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=HRp+ZlwG;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=FY0vJ4Uy;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFEC606A328
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CFEC606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DB4606A338
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 17:24:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4DB4606A338
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=HRp+ZlwG
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=FY0vJ4Uy
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793813063;
+	s=mail; t=1793813065;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UMIk77T6D8aeVXKipe7tHa21wj0Z4+vE4becj0xztjY=;
-	b=HRp+ZlwGQgcU/TK3pqNiy7UmA/bo/5u5EYzmzqrCDozGusGfeeOQA9X4Bxi2DdQZURXrYS
-	NIYSF+rO39MHQm8OjwFzvWZ+JqpL/HsaU1xTIs1wGc9wgjuaG/RoNTnjqBZ3B3lnWffyfs
-	U13uI3tVlhEODic2XtpmVEaRmCF+agE=
-Date: Wed, 04 Nov 2026 18:24:14 +0100
-Subject: [PATCH v2 1/9] dt-bindings: interrupt-controller: apple,aic2: Add
- t8142 compatible
+	bh=26RtvXWyvPMKIsPpPxfp50GdoxTzvUevSoYk/CUFfTE=;
+	b=FY0vJ4Uynh/5NlYa9ooailxfSerg5egQnft3vg9y1Ur0cAr2kyOlkhYnEI2yZDHKOyldgk
+	j8bQbd4RlMLnLV+KLIcFdtiNfP1xNemCeoqX8y45n0djSyPVCEwehBQpcS96miGVFI4nNR
+	toYsewx6XJm33o2xc5b1d2Q56PwaMJk=
+Date: Wed, 04 Nov 2026 18:24:15 +0100
+Subject: [PATCH v2 2/9] dt-bindings: arm: cpus: Add Apple M5 CPU core
+ compatibles
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,7 +58,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-apple-m5-initial-devicetrees-v2-1-fd727a82d380@cyberchaos.dev>
+Message-Id: <20261104-apple-m5-initial-devicetrees-v2-2-fd727a82d380@cyberchaos.dev>
 References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -76,27 +76,30 @@ Cc: Yureka Lilian <yureka@cyberchaos.dev>, asahi@lists.linux.dev,
  linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-The Apple t8142 (M5) SoC uses an AIC3 as interrupt controller, same as
-the M3-M4 SoCs.
+Add "apple,hidra-e" and "apple,hidra-p" compatibles for the M5
+efficiency and performance CPU cores respectively.
+The compatible strings are chosen based on SoC codename ("Hidra") plus
+core type (E-Core / P-Core).
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/cpus.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-index 3c2b24be530e..b6ad9d9192a2 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-@@ -49,6 +49,7 @@ properties:
-               - apple,t6041-aic3
-               - apple,t8132-aic3
-               - apple,t8140-aic3
-+              - apple,t8142-aic3
-           - const: apple,t8122-aic3
-       - const: apple,t8122-aic3
- 
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index b2fc99f74a15..c3cc0c48ca54 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -92,6 +92,8 @@ properties:
+           - apple,donan-p
+           - apple,everest
+           - apple,firestorm
++          - apple,hidra-e
++          - apple,hidra-p
+           - apple,hurricane-zephyr
+           - apple,icestorm
+           - apple,mistral
 
 -- 
 2.56.0
