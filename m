@@ -1,51 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793792445;
-	b=AkmvIxn5EW6iv3oXtC9OkDHCebSj7TqHv6F99MjiUzve057KLh+uRSJgUs9Uk8QvrGNL
-	 O098vUCxRIZ3mAnYonUjCii/Pe7F/pAl7rU94Xy3o5AzNDlYx9k3td5LzvOCwaa4l7ihK
-	 z8cJSpkasn5Q5rAAo9nuyR63lMECllj82UP1KJ8lFB6n7/M61g8vQJPunRZKqF8nzOngj
-	 hm0AlDHHYZ9HAH+tL5pv4JXYx8xBW0omABG/RugBXCzvCFLw46kZj6jyuucxCdkby72E9
-	 kz5HlYCWDEf1h8FT34V/n1gfJqRkzjXw4Nz4CcwCNatyS2qWYxqO/CQvqYVMX91tIbw==
+	t=1793792446;
+	b=kxwqNJF6VrRvKIhdmwXAgPr0TXSqhrttqMfVkN0XjN0mWkgFIYgFwZp4pQMwcywjUyFW
+	 gs+aJInfd6U9TZ3G2/sq61tGirFgDkeTdeiTeBFsalV2h3U2aW92BX7ujPfoGFQhNIgD1
+	 NABMuHYXyMTLPzQDZDbZDPAz1uWHnATd7dqPibb5++VMV6htPdzLPsdC9VjFQt7dbBlVJ
+	 ICOEx58qwZR8MrlObwIHTkIn8ftPawWHIWdAWhdn4bO5S88F6wSv/Of+a+Vr8FzeT64Zf
+	 vwXrdKtbwVhy3hgEE3AqjXM+tPV6apVQ8suAC678vk7cgQKBIU/drFWXgcAKdzz1/qQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793792445;
-	h=DMARC-Filter:From:DKIM-Signature:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc;
-	bh=dx+ZTZohe60n7nAUUGj/dbTq2EwCer1csMhEs/N7uq8=;
-	b=Tvih02WJwT5Ii2C3kx5g5SHTdqps3jjcUE481vYy9RtiqzlAJx0rdAmAlSTyI2oM/G5h
-	 loLY5oJLYtTTMbmTO0QNVcixDYgpNFj151xBPCITxAIcq73vowrsGTBX7R5HcV4e2FRlC
-	 B8tQyMnkgn18qTs4dHtrRKWoFzsmdTdFRK4FdOFRpz3Vg7W9FWsIusKybgzNOuXLas3Qp
-	 ZfOj/3nTM/dJbSUORp1DNnTN0n57vOyx5S3ScDY0B+5QAAtvGO18ax//ijdR1q6ZxxjVf
-	 naVofacs5nB88WsMa/4JhnAkwBag9+LOdR6Dmu/PSs/ubOvnJZWO2t8AxrLlOjFmVUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793792446;
+	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc;
+	bh=GNEkLS7x3xup7k/Ojt7ZkvN366zwwDCNFWsahX9UKfI=;
+	b=ouNAyLaMG7uBxhrwjM5AD7F1DHqSkuqsv0NpQecn/nThzP5MBjaW2ykBLgDm/qdNmV8G
+	 0crZBnbkMKkJO6F3etz/Vdr24ApD7chQY+90J4UOPdh7Tl4wo5KTosrZAErytgWuI3GJK
+	 uSTZmmOD5b8b3TAoLXfqeay4PxuCqimMV43OMbRcIyBo8qaJsT61mj+xzJ+0YyEEmx6v6
+	 7i4P4eOvH8IThRqITQEOI9qdos1FO1hyTZOWAqIHDE/9733SFU+5QrUh4Vr+cJdoZOj1c
+	 YTZ3ga0zigCDPeYyLnVAIWLNeCbQrVEIFzNXDA2tFH+Zpf3HDznMnshMvwAoVK0mkEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=q0YhZEKt;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=yWfisoRE;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4F5606A32E
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 11:40:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F4F5606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594AC606A32F
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 11:40:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 594AC606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=q0YhZEKt
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=yWfisoRE
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793792436;
+	s=mail; t=1793792439;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dx+ZTZohe60n7nAUUGj/dbTq2EwCer1csMhEs/N7uq8=;
-	b=q0YhZEKt/191YdKM/l+D7NiR0idUSqYPf52teu+ideQmCJ5v6VpbQFXfJE7WbmDhPVz1WZ
-	g2j9eUbU11vYZWe7qWNIv4uzkKkK5X6NiJ1gH4Ht2m3FT6fnjTJYhxa5AkykfFVftCnB5J
-	PT8j8aHkOdqtKmWhY8qa+yMMfRBf6MA=
-Subject: [PATCH v2 0/3] PCI: apple: Integrate pwrctrl API
-Date: Wed, 04 Nov 2026 12:40:28 +0100
-Message-Id: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GNEkLS7x3xup7k/Ojt7ZkvN366zwwDCNFWsahX9UKfI=;
+	b=yWfisoRENsW64pUOMDbkEuV3yPacTgGGhFKf/9z38WVNVD16MXsFRiolhs5oFqdE/x0vAL
+	8GlEAtT85sRsNg2FbSLm02JsYYBSAgv3qzmpey/131p6h20seyO/y/kEiOjwCGUE1n1HRH
+	HIN8KtO9OTfcYh0xBgTHl7DpjWqY7Uk=
+Date: Wed, 04 Nov 2026 12:40:29 +0100
+Subject: [PATCH v2 1/3] PCI/pwrctrl: Export per-device APIs
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -56,12 +56,10 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WOywrCMBBFf6XM2kgStC2u/I/SRR4TOyJpSGq0l
- P67acWVmwsH7py5CySMhAku1QIRMyUafQF5qMAMyt+QkS0MksuaN7xmKoQHsmCoxCuiZ9xagdo
- 6YU4GylmI6Oi9K7v+y+mp72imzbM1BkrTGOf9ZxZb76dv/vVZMM7OSrZCi1Y6lFcza4xl3JiOF
- jP067p+ANMssBrHAAAA
-X-Change-ID: 20260706-apple-pcie-pwren-0dd1ebdf1c4c
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261104-apple-pcie-pwren-v2-1-216a4066965f@cyberchaos.dev>
+References: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
+In-Reply-To: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
 To: Bartosz Golaszewski <brgl@kernel.org>, 
  Manivannan Sadhasivam <mani@kernel.org>, 
  Bjorn Helgaas <bhelgaas@google.com>, 
@@ -75,68 +73,146 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  devicetree@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
 
-Hi all,
+Export the `pci_pwrctrl_power_on_device()` and
+`pci_pwrctrl_power_off_device()` functions to allow PCIe host drivers
+to call manage power control on a per-port basis.
 
-This series integrates the PCI pwrctrl framework into the Apple PCIe
-host driver to provide standardized power management for PCI ports.
-
-This allows powering on the WiFi, SD card reader, and USB xHCI on
-Apple Silicon Macs through the pwrctrl framework before probing the ports.
-
-The first patch in this series exposes the necessary APIs to create,
-destroy, and power on/off pwrctrl devices for individual ports.
-The second patch integrates these APIs into the Apple PCIe driver on a
-per-port basis. The third patch adds device tree changes for t600x as an
-example.
-
-Originally, a custom solution for powering on the WiFi and SD card
-reader was proposed[1], but we can now use the pci-pwrctrl framework
-for this purpose.
-
-Link[1]: https://lore.kernel.org/lkml/20220502093832.32778-4-marcan@marcan.st/
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
-Changes in v2:
-- Split the pwrctrl API integration to work on a per-port basis for
-  consistency with the rest of the driver
-- Correctly use ERR_PTR to convert the error value before printing
+ drivers/pci/pwrctrl/core.c  | 51 ++++++++++++++++++++++++++++++++++++++++-----
+ include/linux/pci-pwrctrl.h |  4 ++++
+ 2 files changed, 50 insertions(+), 5 deletions(-)
 
-To: Bartosz Golaszewski <brgl@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: Krzysztof Wilczyński <kwilczynski@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-To: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>
-To: Neal Gompa <neal@gompa.dev>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: devicetree@vger.kernel.org
+diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
+index 0e2387cf4657..b59dbedf251b 100644
+--- a/drivers/pci/pwrctrl/core.c
++++ b/drivers/pci/pwrctrl/core.c
+@@ -191,7 +191,16 @@ static int __pci_pwrctrl_power_off_device(struct device *dev)
+ 	return pwrctrl->power_off(pwrctrl);
+ }
+ 
+-static void pci_pwrctrl_power_off_device(struct device_node *np)
++/**
++ * pci_pwrctrl_power_off_device - Power off pwrctrl devices
++ *
++ * @device_node: PCI port or device to operate on
++ *
++ * Recursively traverse all pwrctrl devices for the devicetree hierarchy
++ * below the specified PCI port or device and power them off in a depth
++ * first manner.
++ */
++void pci_pwrctrl_power_off_device(struct device_node *np)
+ {
+ 	struct platform_device *pdev;
+ 	int ret;
+@@ -216,6 +225,7 @@ static void pci_pwrctrl_power_off_device(struct device_node *np)
+ 
+ 	platform_device_put(pdev);
+ }
++EXPORT_SYMBOL_GPL(pci_pwrctrl_power_off_device);
+ 
+ /**
+  * pci_pwrctrl_power_off_devices - Power off pwrctrl devices
+@@ -245,11 +255,21 @@ static int __pci_pwrctrl_power_on_device(struct device *dev)
+ 	return pwrctrl->power_on(pwrctrl);
+ }
+ 
+-/*
++/**
++ * pci_pwrctrl_power_on_device - Power on pwrctrl devices
++ *
++ * @device_node: PCI port or device to operate on
++ *
+  * Power on the devices in a depth first manner. Before powering on the device,
+  * make sure its driver is bound.
++ * Recursively traverse all pwrctrl devices for the devicetree hierarchy
++ * below the specified PCI port or device and power them on in a depth
++ * first manner.  Before powering on the device, make sure its driver is bound.
++ *
++ * Return: 0 on success, -EPROBE_DEFER if any pwrctrl driver is not bound, an
++ * appropriate error code otherwise.
+  */
+-static int pci_pwrctrl_power_on_device(struct device_node *np)
++int pci_pwrctrl_power_on_device(struct device_node *np)
+ {
+ 	struct platform_device *pdev;
+ 	struct device_node *child;
+@@ -296,6 +316,7 @@ static int pci_pwrctrl_power_on_device(struct device_node *np)
+ 
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(pci_pwrctrl_power_on_device);
+ 
+ /**
+  * pci_pwrctrl_power_on_devices - Power on pwrctrl devices
+@@ -335,7 +356,17 @@ int pci_pwrctrl_power_on_devices(struct device *parent)
+ }
+ EXPORT_SYMBOL_GPL(pci_pwrctrl_power_on_devices);
+ 
+-static int pci_pwrctrl_create_device(struct device_node *np,
++/**
++ * pci_pwrctrl_create_device - Create pwrctrl devices
++ *
++ * @device_node: PCI port or device to operate on
++ *
++ * Recursively create pwrctrl devices for the devicetree hierarchy below
++ * the specified PCI port or device in a depth first manner.
++ *
++ * Return: 0 on success, negative error number on error.
++ */
++int pci_pwrctrl_create_device(struct device_node *np,
+ 				     struct device *parent)
+ {
+ 	struct platform_device *pdev;
+@@ -368,6 +399,7 @@ static int pci_pwrctrl_create_device(struct device_node *np,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(pci_pwrctrl_create_device);
+ 
+ /**
+  * pci_pwrctrl_create_devices - Create pwrctrl devices
+@@ -396,7 +428,15 @@ int pci_pwrctrl_create_devices(struct device *parent)
+ }
+ EXPORT_SYMBOL_GPL(pci_pwrctrl_create_devices);
+ 
+-static void pci_pwrctrl_destroy_device(struct device_node *np)
++/**
++ * pci_pwrctrl_destroy_device - Destroy pwrctrl devices
++ *
++ * @device_node: PCI port or device to operate on
++ *
++ * Recursively destroy pwrctrl devices for the devicetree hierarchy below
++ * the specified PCI port or device in a depth first manner.
++ */
++void pci_pwrctrl_destroy_device(struct device_node *np)
+ {
+ 	struct platform_device *pdev;
+ 
+@@ -415,6 +455,7 @@ static void pci_pwrctrl_destroy_device(struct device_node *np)
+ 
+ 	of_node_clear_flag(np, OF_POPULATED);
+ }
++EXPORT_SYMBOL_GPL(pci_pwrctrl_destroy_device);
+ 
+ /**
+  * pci_pwrctrl_destroy_devices - Destroy pwrctrl devices
+diff --git a/include/linux/pci-pwrctrl.h b/include/linux/pci-pwrctrl.h
+index 1192a2527521..f27be6489b50 100644
+--- a/include/linux/pci-pwrctrl.h
++++ b/include/linux/pci-pwrctrl.h
+@@ -59,6 +59,10 @@ int pci_pwrctrl_create_devices(struct device *parent);
+ void pci_pwrctrl_destroy_devices(struct device *parent);
+ int pci_pwrctrl_power_on_devices(struct device *parent);
+ void pci_pwrctrl_power_off_devices(struct device *parent);
++int pci_pwrctrl_create_device(struct device_node *np, struct device *parent);
++void pci_pwrctrl_destroy_device(struct device_node *np);
++int pci_pwrctrl_power_on_device(struct device_node *np);
++void pci_pwrctrl_power_off_device(struct device_node *np);
+ #else
+ static inline int pci_pwrctrl_create_devices(struct device *parent) { return 0; }
+ static void pci_pwrctrl_destroy_devices(struct device *parent) { }
 
----
-Yureka Lilian (3):
-      PCI/pwrctrl: Export per-device APIs
-      PCI: apple: Integrate pwrctrl API
-      arm64: dts: apple: t600x: Add PCIe pwren gpios
-
- arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  4 ++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 16 ++++++++
- arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 27 ++++++++++++++
- drivers/pci/controller/Kconfig                 |  1 +
- drivers/pci/controller/pcie-apple.c            | 23 ++++++++++++
- drivers/pci/pwrctrl/core.c                     | 51 +++++++++++++++++++++++---
- include/linux/pci-pwrctrl.h                    |  4 ++
- 7 files changed, 121 insertions(+), 5 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20260706-apple-pcie-pwren-0dd1ebdf1c4c
-
-Best regards,
---  
-Yureka Lilian <yureka@cyberchaos.dev>
+-- 
+2.56.0
 
