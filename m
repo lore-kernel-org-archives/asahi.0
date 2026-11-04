@@ -1,51 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.158
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793792450;
-	b=isuv9bVcZSX4u7u2KEQ8Y6a4KOZVyHx8uqkrtdcFx7kkBceRjR9PSyme99jzsTe971fm
-	 tT3DjpO3uRmWchyR3SPpbiGnKTCaUu8Iu5B2jtPA3ad8YeQFgxBN+9wrTOjkWR3RIqV+M
-	 qbC/MwXWxMFYGH3ClwwrUeHADR1v8UFV/nLgmIU6FjhlJxgQuGltZ9EM9O+ZwkMCAMxjA
-	 2Ulch5Nfig2ABMVeSHORVVC8IanTVJ/Fl4BVw66Hhve1//DxRGR+aM0ucd5B4khxBz975
-	 IHIdaFS37ywS64ALtU/4a+hQZayayRAQDNGYli7mVHEUzdnof2zOaqMhpCnchj0MoKA==
+	t=1793799699;
+	b=i4pWzO70sD4/IduvJNffkkK+OKBLu2PDFUqUQfxf/S3q73YUVNIU9x9LtYdqOydjbCMA
+	 Ub6CHIyAHaNmheELiOgM5ysyisqwmO7i9lHHvjv0xISUlSVvn5gAcMDmtt2Q+q3tGT8Gz
+	 tCFFjcu/WDqSlECPvO/JgvdJtkwt+VLJ7pBsqWmC1p/aOD7d1m85USL2wwLr65GDUzVTF
+	 IyL1ld/Yg4zoXJPc4h4oz23Mp5BJY4uhgE4A5XJQqCdlH139Sn5+zgt1VLCLU2jTDFveU
+	 DfDL0+6w4arl6Q5B2tCvnuvMLQf1cqceWifgEMl2unEY1xwG8OgrQs6TuevMkeF4vww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793792450;
-	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc;
-	bh=b8gdt5Gsl7of0UCwZA1LRvMWZqGY7tF4209QTmH/GcI=;
-	b=2RQGKBLjx3waHglibYK2C6VK+UKaXcd+G0lmxa5gHpbvn1e+YfYEkx+FkjH2B8Sq8mHI
-	 NKIa1lwkLMOwUSq8+o0Il2MNhi1pIvxOCQ/X+X1KHai4yYEd9N1KyNeP7CyerFrHAAg++
-	 WfzYgqYsq6ngfh54H6h+grFkGUoGHB3HPmI4PQhMVZ99AvjReQjSBnJG0wC/Cq+WijTMh
-	 CJg/ynld71JHQZwtuL/X1Cs05J/ZpD8RDzj+BebcBAJhHPmuQfOjhz28yOUB3HoRJqghl
-	 mCQvCCA7M6yCY61KL2XfUXatxML6rwScHrJ9DrZZqN1ChyUUr3v1KIxAawQIPPrN1Pg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793799699;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=I4MrJ0us0cyVl7cuFGdkMVaNQnyIC3GHJZjZ2WZ4bC8=;
+	b=hNdfG3mIR9XHLautFK//HrzqfWrEB1Um62l7HduLCCZoZnjWRaXbrywsVuzM5FeQcRjn
+	 IPUrxL1sWCMwR6Oozz3jz73WRyP1PRCY6BDGyfuU7nvGahID8GOV/hEsR7QsY0CFLItcC
+	 OjFiqEeRiUs4ZuWcfzn9dx74ZRHR3xXPv9VUP8YDSQNTT3ORLdHYaj0zOpz64XISW8g50
+	 TH1Ini4/2SsbE9NCP59xciYzhvvUftK9EHQVw1Km4D6hCEDqOPr/ahGAA1KxS+m7lnMkZ
+	 szoXm1EASVMwDR1DJKDBcixnOQr/YGjy3u9ffbeLeS4c8PXxlwd4Nz2J+YmwAI8Xfkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cyberchaos.dev;
-	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=oCERtlr5;
-	arc=none smtp.remote-ip=195.39.247.168
-Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	dmarc=none header.from=jannau.net;
+	spf=pass smtp.mailfrom=jannau.net;
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=D+HmIwUw;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=vCvhrDvr;
+	arc=none smtp.remote-ip=202.12.124.158
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459A3606D812
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 11:40:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 459A3606D812
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BE6606A32C
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 13:41:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1BE6606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=oCERtlr5
-From: Yureka Lilian <yureka@cyberchaos.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793792441;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b8gdt5Gsl7of0UCwZA1LRvMWZqGY7tF4209QTmH/GcI=;
-	b=oCERtlr5rn8ngX0o9/IKhBD/Jw7b3jjwg1rmVSJ4QVDmkg7lj+zyv62AhgGsw0OQzhx+3y
-	CykiD1aHGSyrAQou3Nw/TbbxBFIfi9y+gIeidxEnRzUWi5q5v08DYKvtAhM7IYX4cDT+FZ
-	gBIiy/tLWikwG522MzWTdtNUHfqhMgE=
-Date: Wed, 04 Nov 2026 12:40:31 +0100
-Subject: [PATCH v2 3/3] arm64: dts: apple: t600x: Add PCIe pwren gpios
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=D+HmIwUw;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=vCvhrDvr
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3A82D7A0166
+	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 08:41:38 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 04 Nov 2026 08:41:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1793799695; x=1793886095; bh=I4MrJ0us0c
+	yVl7cuFGdkMVaNQnyIC3GHJZjZ2WZ4bC8=; b=D+HmIwUwPxSkAgYq97euIVpaVk
+	pb85DgJrUPm3owN2cUP7z7hAqlWWIiMMFAAeW91CrZ2nDI5hvzn1PXQ56JVpjA/X
+	V2G15tzcNrUK1Olupqm6n9+g0MCUsHh1G14wC1il9Zgi8HBGJSRn2ttJI8hqLYPt
+	WIlPQsyfDkQfhaBrPsNhA43ozhs2wR93JcDmg1r6RYuS8259//nNrLpTyK4Esve4
+	huiywvAPrz+Tn150hsJH9S0XOnVYJCsoUxIxi2fAgjxO0xz4ExLP2p7VfiRikUsN
+	YDjiEZvjSsDRmI/GQerdEohfeOV62iNdg9ahB0ToDYtfg01sPMjvD1KiEe6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1793799695; x=1793886095; bh=I4MrJ0us0cyVl7cuFGdkMVaNQnyIC3GHJZj
+	Z2WZ4bC8=; b=vCvhrDvrELQ9UKx0dx7NpVOUb0B0UVL0n2JbKguTUtYYxk/8UrU
+	h5P3fZRGgz8jQaWyWkt9co88K9dnejZwA4AIVmbThDKPZew/d8cGCPPdT14BC7D/
+	WWm1OyPk5MMu6KCG1TgFhxsPLIk1Nzu3yksu/sN+ZpgDDFsi3fEDZfTcLCUdZrtL
+	/JMpP3Ej63+gdcLmgwFs0rSZPf2gpS+X+DLiYyptx3SxPuZaohUeoybqxxjxOXOS
+	v+ae2GjtfDH4n5GtRh1HYOTsN6BoYvALX1uXlV0FEVN6n+68p8XTF+Ujk+TQ034T
+	BfETYGD2041wzm8eZqlVUd6Mi/a0r/uLLQw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=jannau.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793799695; d=jannau.net;
+	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:g4Q5vFoboKSBXX0AGOJ8VE76uCn2h4l0cLis8uf4buU2DaC
+	HwlnHWnycIhGSmI1pJtP5hjbCVPOu0To+sZVeM89S+KqZjNTFKsS4A92D7sq6V7B
+	v+k72046n3i6+Qr1NCptg23riFLCV+XBfnxlF+XIiLpcKo9P6bkHGRArke9/YmcE
+	owCZpwzKzVJMn9XRcVOL8KjQMIG8R3WZMGz10PHFz7gHaj9HZARpxvX0iPKYXP0O
+	SSyARebqkJo8ddELnOBDlQWuou+cgYx6QRkgHwtHFiLt4MhKLQM1ENQLRVqdFjJw
+	1VN+EVTRileOS0G86dqVhTsh3JE97H+K04fYkXg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:EN7Cd8aiweMGl5lHrs2+4ANErcvjvC2KutppetHvMv0=:S98jBY3/ksFURwsVuG+I1Wx0g75J28yvU2mCrNKvD+0=;
+X-ME-Sender: <xms:DzbraqRb1u2fUxgk9OWwD8uhHCHE-69W2wt2oLhE5ulelmT9Ct1Iog>
+    <xme:DzbrarsbD9fPMSbYH4KvBp6q6Y8l6UlnJQczxVxs9rBGu32ZXvZFyyqUFD-64dYz4
+    h7_WK4o8Q9ggxjwQ_W3UD3Ov65Nq1LaOv56FGZAFgYqVavgp8SRmj4A>
+X-ME-Received: <xmr:Dzbrat9snqEtjp_T7CU1W4h0-amHAD8sv05_FEestw-mG8YpvHKUTvguZpzjzRNjawCAyE1HRNTbHjrRImzccP-tWzz5hLbhPvI>
+X-ME-Proxy-Cause: dmFkZTGfAP7AcWTt7GSuE9cecOERqrNYgIUKwhLeSq+w+fwSyelYEqmcbQvAwFer7F/mE1
+    PEpvxOME6dPfjCLp8Qigws1yULz0Wwf2BWE3Vvd7RsEIfU52IeZ9O9eEWHI/FJJlm/63Vr
+    Q078hKiAl8k8Dc/19fKH+O2MKTgaX2GHpSclPxdmHaoCWfF+tjJOc7H4spAMAresvHH1nL
+    Jz4T/QHWPL7ZtzAVf7SCpdBye4DhZLMBZmLQU+hGR0IpZYHQJxo1S0CLTr4jOG6DBLmAJE
+    sR8O5nm4cb6ZIeuWQHOEpFf5R7CT6vFUMHgunron6jQaPRGVriUzoUC0U+LGnfzo7UL1LV
+    lfhjvQdBNIXLYe2T1kVM9kJ7XfHozMyaD/rinhqZG/tsRPIPyO4CwUaBbleQ6EZoua00dc
+    WVHRRQ1AnEZJk7AocDB8+w6K2nKIN+CuNFmuwGFaG7HKqwRvXmFHRFKpHR20yvolyLacal
+    HmgE/KXswW3bf1h5+AzuvlYRrHgPyEvM+O50CGWE8bmmgg3zaR4+qTwj3WCoe/d7pY6Bgz
+    QDerj1Dhk7jkuDGzypho+lNkQRzudP7J5vBMco0NJuq4XWSBaZT8pALwfU9kWSmeoAxOO8
+    vCZWI/MuSOXohmvPUh8HFfzXmrHjQeT8qvvV9Kjl/M/YhpZ3ZMdcvCszukkA
+X-ME-Proxy: <xmx:DzbrasaNfgg67RAEW2UdHxG47kEXZMeIcjjBGAw7L4hxV_hCZX8cMA>
+    <xmx:Dzbrahr0icTSs6q48i0QnExe8xnr42Ba9ov0tCi9Z2kt6vt43TeGPw>
+    <xmx:DzbrasbmLNHmVCwx9csVrrADHwO94ACgwJVUNKVQuGblCliSdoYhxA>
+    <xmx:Dzbras5FmyRhNjiPVQSXxvGi_nNNiw8NGtveszWYfZfItfuttzglMA>
+    <xmx:DzbraonyxuFy2n_wEuUZAN3vMDT6N5NfA8DvoI37hPilvs6CmCtHltiF>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Nov 2026 08:41:35 -0500 (EST)
+Date: Wed, 4 Nov 2026 14:41:33 +0100
+From: Janne Grunau <j@jannau.net>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] PCI: apple: Integrate pwrctrl API
+Message-ID: <20261104134133.GA756133@robin.jannau.net>
+References: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
+ <20261104-apple-pcie-pwren-v2-2-216a4066965f@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -55,178 +130,94 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261104-apple-pcie-pwren-v2-3-216a4066965f@cyberchaos.dev>
-References: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
-In-Reply-To: <20261104-apple-pcie-pwren-v2-0-216a4066965f@cyberchaos.dev>
-To: Bartosz Golaszewski <brgl@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>, 
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104-apple-pcie-pwren-v2-2-216a4066965f@cyberchaos.dev>
 
-For the MacBook Pro and Mac Studio devices using the M1 Pro/Max/Ultra
-SoCs, add the appropriate fixed regulators for enabling the peripherals
-connected to the PCIe ports (WiFi, SD card reader and USB xHCI), which
-are controlled by GPIOs connected to the SMC.
-Set the regulators as the power-supply of the respective PCIe port, so
-that the endpoints are powered on before probing the ports.
+On Wed, Nov 04, 2026 at 12:40:30PM +0100, Yureka Lilian wrote:
+> Integrate the PCI pwrctrl framework into the Apple PCIe host driver to
+> provide standardized power management for PCI devices.
+> 
+> Notably, this allows enabling powering on the WiFi, SD card reader on
+> various Macs by means of the pwrctrl framework before probing the ports.
+> 
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+>  drivers/pci/controller/Kconfig      |  1 +
+>  drivers/pci/controller/pcie-apple.c | 23 +++++++++++++++++++++++
+>  2 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> index d246bbe37948..791892a6c0c6 100644
+> --- a/drivers/pci/controller/Kconfig
+> +++ b/drivers/pci/controller/Kconfig
+> @@ -46,6 +46,7 @@ config PCIE_APPLE
+>  	depends on OF
+>  	depends on PCI_MSI
+>  	select PCI_HOST_COMMON
+> +	select PCI_PWRCTRL_GENERIC
+>  	select IRQ_MSI_LIB
+>  	help
+>  	  Say Y here if you want to enable PCIe controller support on Apple
+> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> index c2cffc0659f4..2d32092e2122 100644
+> --- a/drivers/pci/controller/pcie-apple.c
+> +++ b/drivers/pci/controller/pcie-apple.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/msi.h>
+>  #include <linux/of_irq.h>
+>  #include <linux/pci-ecam.h>
+> +#include <linux/pci-pwrctrl.h>
+>  
+>  #include "pci-host-common.h"
+>  
+> @@ -825,6 +826,28 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>  	if (WARN_ON(!pcie))
+>  		return -ENOENT;
+>  
+> +	// Ensure all ports can be powered on before attempting initialization
+> +	for_each_available_child_of_node_scoped(dev->of_node, of_port) {
+> +		ret = pci_pwrctrl_create_device(of_port, pcie->dev);
+> +		if (ret) {
+> +			dev_err(pcie->dev, "Failed to create pwrctrl device: %pe\n", ERR_PTR(ret));
 
-Add the 'pciclass,0604' compatible string to the PCIe bridge nodes in
-the SoC to allow the pci-pwrctrl-generic driver to bind to them.
+This should power down devices it already powered up and destroy the
+created devices. As far as I can see -EINVAL is the only possible error
+so the platform devices should be cleaned up
 
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
----
- arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  4 ++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 16 +++++++++++++++
- arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 27 ++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+)
+> +			return ret;
+> +		}
+> +
+> +		ret = pci_pwrctrl_power_on_device(of_port);
+> +		if (ret) {
+> +			if (ret != -EPROBE_DEFER) {
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index 122a566e75d1..635635c4bfbd 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -460,6 +460,7 @@ pcie0: pcie@590000000 {
- 		pinctrl-names = "default";
- 
- 		port00: pci@0,0 {
-+			compatible = "pciclass,0604";
- 			device_type = "pci";
- 			reg = <0x0 0x0 0x0 0x0 0x0>;
- 			reset-gpios = <&pinctrl_ap 4 GPIO_ACTIVE_LOW>;
-@@ -479,6 +480,7 @@ port00: pci@0,0 {
- 		};
- 
- 		port01: pci@1,0 {
-+			compatible = "pciclass,0604";
- 			device_type = "pci";
- 			reg = <0x800 0x0 0x0 0x0 0x0>;
- 			reset-gpios = <&pinctrl_ap 5 GPIO_ACTIVE_LOW>;
-@@ -498,6 +500,7 @@ port01: pci@1,0 {
- 		};
- 
- 		port02: pci@2,0 {
-+			compatible = "pciclass,0604";
- 			device_type = "pci";
- 			reg = <0x1000 0x0 0x0 0x0 0x0>;
- 			reset-gpios = <&pinctrl_ap 6 GPIO_ACTIVE_LOW>;
-@@ -518,6 +521,7 @@ port02: pci@2,0 {
- 		};
- 
- 		port03: pci@3,0 {
-+			compatible = "pciclass,0604";
- 			device_type = "pci";
- 			reg = <0x1800 0x0 0x0 0x0 0x0>;
- 			reset-gpios = <&pinctrl_ap 7 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index caded1636f3d..4f9dccf839ad 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -55,6 +55,20 @@ led-0 {
- 			default-state = "keep";
- 		};
- 	};
-+
-+	vreg_pcie0_port0: regulator-pcie0-port0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pwren-pcie0-port0";
-+		gpio = <&smc_gpio 13 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	vreg_pcie0_port1: regulator-pcie0-port1 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pwren-pcie0-port1";
-+		gpio = <&smc_gpio 26 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
- };
- 
- &serial0 {
-@@ -176,6 +190,7 @@ &nco_clkref {
- /* PCIe devices */
- &port00 {
- 	/* WLAN */
-+	power-supply = <&vreg_pcie0_port0>;
- 	bus-range = <1 1>;
- 	wifi0: wifi@0,0 {
- 		compatible = "pci14e4,4433";
-@@ -195,6 +210,7 @@ bluetooth0: bluetooth@0,1 {
- 
- &port01 {
- 	/* SD card reader */
-+	power-supply = <&vreg_pcie0_port1>;
- 	bus-range = <2 2>;
- 	sdhci0: mmc@0,0 {
- 		compatible = "pci17a0,9755";
-diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-index 8a1494949e4c..412b2fe109be 100644
---- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-@@ -42,6 +42,30 @@ memory@10000000000 {
- 		device_type = "memory";
- 		reg = <0x100 0 0x2 0>; /* To be filled by loader */
- 	};
-+
-+	/* WLAN/BT */
-+	vreg_pcie0_port0: regulator-pcie0-port0 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pwren-pcie0-port0";
-+		gpio = <&smc_gpio 13 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	/* SD card reader */
-+	vreg_pcie0_port1: regulator-pcie0-port1 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pwren-pcie0-port1";
-+		gpio = <&smc_gpio 26 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	/* USB xHCI */
-+	vreg_pcie0_port3: regulator-pcie0-port3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pwren-pcie0-port3";
-+		gpio = <&smc_gpio 20 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
- };
- 
- &serial0 {
-@@ -356,6 +380,7 @@ &nco_clkref {
- /* PCIe devices */
- &port00 {
- 	/* WLAN */
-+	power-supply = <&vreg_pcie0_port0>;
- 	bus-range = <1 1>;
- 	wifi0: wifi@0,0 {
- 		compatible = "pci14e4,4433";
-@@ -375,6 +400,7 @@ bluetooth0: bluetooth@0,1 {
- 
- &port01 {
- 	/* SD card reader */
-+	power-supply = <&vreg_pcie0_port1>;
- 	bus-range = <2 2>;
- 	sdhci0: mmc@0,0 {
- 		compatible = "pci17a0,9755";
-@@ -397,6 +423,7 @@ ethernet0: ethernet@0,0 {
- 
- &port03 {
- 	/* USB xHCI */
-+	power-supply = <&vreg_pcie0_port3>;
- 	bus-range = <4 4>;
- 	status = "okay";
- };
+-EPROBE_DEFER can be persistent, devices should be powered and
+destroyed here as well.
 
--- 
-2.56.0
+> +				dev_err(pcie->dev,
+> +					"Failed to power on device: %pe\n",
+> +					ERR_PTR(ret));
+> +				for_each_available_child_of_node_scoped(dev->of_node, of_port) {
+> +					pci_pwrctrl_destroy_device(of_port);
 
+this misses to power down already powered up devices.
+
+One way to avoid the need to power down devices after
+pci_pwrctrl_create_device() failures would be to split the loop into
+two.
+
+The power handling is now done on a per port basis as asked in v1 but it
+is more or less a re-implementation of pci_pwrctrl_create_devices(),
+pci_pwrctrl_destroy_devices() and pci_pwrctrl_power_on_devices().
+For pcie-apple those are essentially loops over the the available ports
+with error handling.
+
+One annoying side effect of this change. I a single device fails to
+power-on we will break ethernet on desktop Macs although it does not
+need power control. So maybe ignoring errors except -EPROBE_DEFER would
+be the better implementation. -EPROBE_DEFER itself is still a problem as
+the power control for some ports are a optional dependency for other
+ports.
+
+Janne
