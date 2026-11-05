@@ -1,65 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793895622;
-	b=aHZW6jy/d1OZYioiy4xGYthwfPAa+xZ8N4up6Ep93LqRfkdIgnbNzajBKBLAFyeTCamj
-	 8XaNw6s6A0uWlBtMJOFSXERBnj35OtfNro5VoI5Vi7SdLzjbo32Mw78h9EoZfEuy6MvYQ
-	 roxhaIzHDf7qfsoAhPkEm9UZJFIpCuwMKr9faAG5Oc+NA8LFwo8yhbACMi/lAjHeGFWjk
-	 j5WOAzJ9OoaJTNze0cXmhwLqYxzWXFNmwdlt96+Xug1wPPWLaSC8ctGmnCklT5t+sPp8r
-	 pT3W9g9hdHBcaP7iQaPfaD3eJ+c6cmwKbkSOwjhQxFbEH/BG0Ah/VChFuOmcrEa9J5Q==
+	t=1793907229;
+	b=AaemWYBkfhX3GtKG21aziaLf4YoIuN87wS6watd9PDINeJwlrFUhbisvt7d6vLNnRFni
+	 Fw1hs6KPbftWot8cI39CGlR/WGkV4FG+F7fxpzbRqXgfS9ttp9yyTjjBF0EMkHFOQLHjZ
+	 LHmFJ0T31MQ5WEP/4e/yMEDzSgzZL5m45Osygf1hDewh0rn0YXL+rPJbOifnRM6BG9e4j
+	 8JYanrMlucNnvcot0BL/78JLXyRPBedW42BUjMUJ51YcxpMBYlRIIr9beLsJ0/KayhZ2L
+	 829wqMpalunMSY+P91oORJwtzs2f+2b1yOau18UYIUbkH7LP257fHHSbR1l7ZUJJxmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793895622;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=y/Sxw5ch/x81dY8hqEEEUwXIqUNRFcAb/AcfPGdjlMg=;
-	b=0Sfn9c7RKwSk/tfyNU4K6DJAi9eLaRCfRGff8BmX3V8G4ty+RpUdNtLtxPNLz/01K5FB
-	 1U4V6WkI5znxySpRJMqp19WywaU2bFzNlJHj7x7vnPYmtTapKppLJU/j15txsr0DVJrGg
-	 RsI2fGKkqUn3nH2+VZEqlXKtmaH7esbW8uTCxLtA1eA02uwZRMgJ4iq9EezWCtbv9Kc47
-	 BHppTjzB+kyxo7Jgvf5ji6/rG/cjFENnVyo6gp+n6eImbSxL7ZVBzogEkjuc5cVOa2awa
-	 3nl4zQXFAHJOWc+wrxpKYNjr+geLGUIsS4HjwQRYNb2sISCQFY6z27LJl41rFX5j49Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793907229;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=7U59FMNX4DCr6XqUc5APtHx1j8o76nRw6SIZUCXGvNA=;
+	b=R0JbCw452zsLl0GeT68K6f7DHmvUpFypVJQNFiZuIIO/P6e2YMbkcUOcmGmpvdJAJRfy
+	 VvR030fb7dBmGo3lEwxUotfleV74gPQ2POiQ1VLDEpgEI0IrSSF2J9lkRv87GhEMg3zP5
+	 4FR8j0MHLpjLWTaAP8sZUBE7T8TDgaHJIIGk6ly9RFRM8NNUTukE/AdbFrFe3+h0pvOYI
+	 lIJNgNJB68pu7kzrbzT+Ul8oLXTxqDOXDqsKV2ov/+1bodAPgFJvsDFRrghxCE3AQv/tH
+	 brUmw5iJFRFrC04TU2Ba66rHwdgs0qk74ZjvZHRhk4EEJyFyty9WOXYvd5XxRh0iuuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VAJWky2v;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ly0t1MS4;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95EB606A328;
-	Thu,  5 Nov 2026 16:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C594606A6F5;
+	Thu,  5 Nov 2026 19:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VAJWky2v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 798D01F000C1;
-	Thu,  5 Nov 2026 16:20:18 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ly0t1MS4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5501F000E0;
+	Thu,  5 Nov 2026 19:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793895621;
-	bh=y/Sxw5ch/x81dY8hqEEEUwXIqUNRFcAb/AcfPGdjlMg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VAJWky2v8e95w4biSTiGSqglMKizTFvJ3QYBSL7Y7qdFiE6pS7OVqAW1q/CxdAvtL
-	 FEFajLTAN3L0B4B1xNupBuHpMZKbtWrI2zWQexy4SqzzL6WzGLbkCBMlx0/QlfPhBl
-	 sh3QCsifx8Lb3/JwUQQM27f0WpazOgNTwyToZeMLxJhHjl8QbjQ//TvXyVUl5rXufQ
-	 iaXvySHs7vLFxhwukoO47IbsmSOkZ48I1q6aUZ+daOXvFwvvUvcRdboc7u+ZuLcEP+
-	 29HHp6yfaaWwEDiZyez1kdUJdgC/TN8AySACgsI6hAW2aktXweB+jXIE/nLPrUD2dS
-	 MPoy/k09V1rpg==
-From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Rob Herring <robh@kernel.org>,
+	s=k20260515; t=1793907229;
+	bh=7U59FMNX4DCr6XqUc5APtHx1j8o76nRw6SIZUCXGvNA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=ly0t1MS4/AHH7UPM+wnhImzJvbHZMROuabv79AZ9ia99QWiDYcKc869bLL072lhCy
+	 tD3UZUZ8LW9ESLmNA2fvQmqG4KhCwP3lqk2w+U6hab8vVBb58TwthzkvIDhEuQqhMG
+	 zfn+tuSuvCjLTCFYwj+fJjNnJwjOknyIEDLjrKf0QNnnDLjunb/QPnbqfCqwpeTeSX
+	 R+rPOSQfUXTVntTw3+5ytfINs+HCviXyLlKqgAlM3ICOmmFLuoWwaJLynUU39YLABK
+	 QU666843eHrMgP2kC+xJGycPA//PfRwnAJ1b/Drke3/AQ04GWYB2iwNaf4zU/ASHTe
+	 F+VxOCLel0uUQ==
+Date: Thu, 5 Nov 2026 13:33:48 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 0/5] I2C and pinctrl support for Apple A18 Pro devices
-Date: Thu,  5 Nov 2026 17:20:04 +0100
-Message-ID: <179389559452.15725.13059409362781617526.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261012-apple-a18-pro-dt-pinctrl-i2c-v1-0-6c757966a99e@cyberchaos.dev>
-References: <20261012-apple-a18-pro-dt-pinctrl-i2c-v1-0-6c757966a99e@cyberchaos.dev>
+	Mark Kettenis <kettenis@openbsd.org>,
+	Joshua Peisach <jpeisach@ubuntu.com>,
+	Michael Reeves <michael.reeves077@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] dt-bindings: pci: apple,pcie: Add compatibles for M3
+ SoCs
+Message-ID: <20261105193348.GA1552413@bhelgaas>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -69,33 +66,19 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-apple-m3-pcie-v1-2-e00a72a604f8@jannau.net>
 
-On Mon, 12 Oct 2026 13:52:31 +0200, Yureka Lilian wrote:
-> this series contains two small formatting fixes for the A18 Pro device
-> trees, and adds the required dt-binding for i2c as well as the dt nodes
-> for pinctrl and i2c controllers used on the MacBook Neo.
-> The pinctrl dt-binding was already picked up from the previous series
-> regarding this topic [1]. The dtbs_check passes when this is applied on
-> top of linux-next or otherwise combined with said change.
-> 
-> [...]
+On Thu, Nov 05, 2026 at 12:35:59PM +0100, Janne Grunau wrote:
+> The PCIe controller on Apple M3, M3 Pro, Max and Ultra SoCs are
+> compatible with the one on M2 Pro and Max. Add their per SoC compatibles
+> "apple,t8122-pcie" (M3), "apple,t6030-pcie" (M3 Pro) and
+> "apple,t6031-pcie" (M3 Max/Ultra) to the bindings.
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.5), thanks!
+Subject line capitalization for *this* file hasn't been consistent,
+but for Documentation/devicetree/bindings/pci/ as a whole, the
+convention is "dt-bindings: PCI: ..."
 
-[1/5] arm64: dts: apple: t8140-j700: Fix property ordering
-      https://github.com/AsahiLinux/linux/commit/2bf05983cf34
-[2/5] arm64: dts: apple: t8140: Group cache-related properties of cpus
-      https://github.com/AsahiLinux/linux/commit/d2de25922a49
-[3/5] dt-bindings: i2c: apple,i2c: Add t8140-i2c compatible
-      https://github.com/AsahiLinux/linux/commit/b843aa34726a
-[4/5] arm64: dts: apple: t8140: Add pinctrl nodes
-      https://github.com/AsahiLinux/linux/commit/f5fe46328186
-[5/5] arm64: dts: apple: t8140: Add i2c nodes
-      https://github.com/AsahiLinux/linux/commit/3757588f0cb5
-
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
-
+Since these prefixes are so long, I would reorder "Add M3 SoC" to the
+beginning.
