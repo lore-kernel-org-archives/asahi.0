@@ -1,114 +1,158 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878609;
-	b=bOJLx/eyrLYEQtF7mQ2skJoLXxnKWHuMVL2qJR+Uir0NJ0IcUJcZQti49RQVFdFDS25p
-	 eVSbYmHwzDJGxj5IzTgsm7+x1XEBXvKPUVNlJNRVaIBX+/GqzFusnWC4ik8IhGx6f5mEx
-	 oU7VQc00u6dhBLrD6bpiae7uSD66R6mOJ22+JocvPGEhcY1nI+hDLujdOc0gQPfOkr29C
-	 Nqto1p05oxliHPEiz8RW8xh6219nL1k2huFFWySthaFytuT1XKUN+oxrMgMFZyE59wULh
-	 9zpabF5iA0jrOJ7IS3YOvpKU6rzMk4bVIwJZi+vv8OTmziUTm5lY10Sk9p1GikitlMA==
+	t=1793881495;
+	b=mV275OzHZN0lyn4XQqjtAjDdOiHBx6GPbLu0CmFbfGzggoeuEk1xDzMvN3Ey5sy1heJi
+	 UlH6KKpRN+7fEDu5TcXnSuyVLqpx4WNUe0fhV8tRoo2iXRsd3YU9QgHNMu9sIOEXVs6WH
+	 50S8yCryCPhns1y4rHCoiP8NH4wLN2Fyl5EfEIR8ywSLIKMuJdO2dXKKqa+sXTjNIEsxr
+	 P81wFbLHoB5Bs/rCb3mNPPpP+QFNEZiWtJZyHy3UAO0CYoM9bTBKPhRssQNFpuKYebTA4
+	 90EyBUGp2bbCVPK/cegVep0Qd47nfuVUBYj7UxFPr167q+VgE3gCLi/HBUVdj06THaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878609;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=XSVyiFNYfW4Nl2FRS/OfflMk2nhb+NruofA5umsuAro=;
-	b=DmWIwcTgo6JY4NasPVrmddQzHrQH3axnrPUg4hWHj6ERfm6X2IDFN5lHXbxzymgweLip
-	 quRpPlKqcNF6K6WiaI/TM49UbE6N7X1D7Qc2urpEAaKENRw95H7eU3GcFaJ2svILsSESL
-	 6K91o1mVgfzVZy9oSMPtx2yrUs+Wj0acMBE/MvUj5Q6cI3So024viR02rzypi03E5StVa
-	 KUPQHqcP0M57bLqC0K9yVDpsmYyB9xs9Z1g4uAShpGM0ANZO0ReGZvdYwbTWhXl90aqzs
-	 x1BKWd5pJHdbFa2VJBB2XF0BOg8ci5vEjHfiVQsViVzU2qPOMFO+Mhd5GEoydUu4J/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881495;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=662NwdLNBtUdGCmzgsMnPMmCnx3lvo2FazCLn8DNyc4=;
+	b=fhuzCNhfOOFmFrN2c4Y2HfqrhedVmWdiqoLPGz4RreWvvLPRpGPVuyWD+oFumY+pe8Xk
+	 tUrD1Va9wQjctAbkUpu+DyrGNbJaLX8M/YMze84XeaJSKgrp1IZnAyYppmTB0Efs3Keut
+	 IQJiLpI/xjcmBSfSfPspuR5QuImWIns2/tiWsgFAJrbOJtamkKbdBwP3Cjrqxtr2Aezle
+	 1Sf3f22BrvxCOUe89mAlysR5dDru0TcdQ+suJ371syovtbcCqTl+vGiYdGOcjtkqLO+rm
+	 7y/IVXWsOlJIwx16W0kvmcx0u/h/UaNYhqyitnjiTgk9uYkFBU7042ZVT4Kn2CYiIKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jannau.net;
-	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b="dh/oXJNr";
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Cs3KuY0G;
-	arc=none smtp.remote-ip=202.12.124.148
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Sj48FKi9;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Y+NTeTZI;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B733E606D814
-	for <asahi@lists.linux.dev>; Thu,  5 Nov 2026 11:36:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B733E606D814
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AC0606A32C
+	for <asahi@lists.linux.dev>; Thu,  5 Nov 2026 12:24:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 00AC0606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=dh/oXJNr;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Cs3KuY0G
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 432A31D0015C
-	for <asahi@lists.linux.dev>; Thu,  5 Nov 2026 06:36:48 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Thu, 05 Nov 2026 06:36:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793878605;
-	 x=1793965005; bh=XSVyiFNYfW4Nl2FRS/OfflMk2nhb+NruofA5umsuAro=; b=
-	dh/oXJNrMQ4QHPKSA2At6GLG5sLPFxNacET7lbATMxmwGPBpCNqm3sUCN9eEeLJg
-	z7S1d5xHfIC0iHC2dt3W/2VBLgCixFORkc/wj1bVOQW6KzxOoXz/QjBb5v5oau3U
-	l3Tt6WT5bWE83Hj7uE/PxsN2ncZTr6GAXh8AlKJ6uJlQRsbb8fEODLPfNKhb16Lz
-	WA25victdm40cA6Jv9FK3qqrWSQoU03NjcTfbOJBtW4QOvhJoKCkmZ9C5zYgxyCt
-	NiKV3nHIKyQvbudbZtkALqrlWd8iT+4JAwTSOfbyNJSP+2F74Rwh5ShLYnuvXD23
-	WgbT9ck6XpiIKtTwvlVM7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793878605; x=
-	1793965005; bh=XSVyiFNYfW4Nl2FRS/OfflMk2nhb+NruofA5umsuAro=; b=C
-	s3KuY0GaEPsIOzxBW/FWhk/El/EPehtKxaq6hNyqZvW/xri4n7ixLqMqWWHgUMQv
-	vNUt/7ZjLMbGzwXdHFeSc+MAA+K1VJV/9PLOqANuDDjH9kSjSAiBFLlqD/VxWA8S
-	CQ5UrKuf5gGkau9DrMmDbWpmOHFrAKb9EVU5ozAGzIN3aWXEC7UmHIfysixm3OUo
-	kUtYVw2D7q2YwWZdHKeDtMxVCmFHREmLgeiJm6ArLK21pgdLyf8bV1adEsKXdeV2
-	1djv+KBg1lVaGKbquguVHoEno3QLm1nUs6BN3qCc/2lEvbPPf0O8u5q+q3PXGpdw
-	/4P+IneD4pMx5Wv12CcwQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793878605; d=jannau.net;
-	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:ehnOceueNaOHct7idJw+/Qlv/6fdZkc8p4v5okusHBulZ5Z
-	aDMUGtkOyBHDqg5h069kRGRAsZrPBzlKdkgi7+uycSohEGrBiEch/JGyiKdta90G
-	0Ev2HHQeqI3RUAw66kJQSfvzGOEn7xLVa9CBZ+G5GeUWmvRAFcv+Rj8lKp1ZazN5
-	NlD0UxZlpBTK8/R33yyOAweU9vVryezhVU3R8WZdc5mtN+yKPoW8+tEN+mPOc08H
-	owxs47nXBKeC/fUfJ9qQFzxyrWs50RkRItUTioud/Fk1olc1ky+f078m93MkYhKt
-	orKSe/0S1YbtnErQo4I+f1tO0Ft+/VLsXjwMxJg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:DIBoRpfwqRRRshR4iYw1v5Xig0iN2s5xbz1SxXao2l0=:5Ax+Tnl941iU4lcsG1LAxygu5i9bnuL5n1jpXo8dSZ8=;
-X-ME-Sender: <xms:TWrsagHne1mwFQfErcgrJM5jrmwaMwhuNVoRdKkncYFSUtNy0GcMwg>
-    <xme:TWrsaqvYUqAFHUvCSQYppozMdN2WPs3CYXypAZ3hfYTF_zdVI4e9bFO5Ys14vPswd
-    EbnCICXz0gWbAefqZK6a01ervDmqWOO3B9InrowdTkf_UTCvr11CP-X>
-X-ME-Received: <xmr:TWrsajaiSlXpEU92FeOTqlIix4pRZD572e44jqrVP5nCsi7KAPaG09yH6uELFM6B07X5447zpcR-ZzpdPci_8zsG5R1gQ_cP7dY>
-X-ME-Proxy-Cause: dmFkZTFxL6fPj/83KjW+fPrzD7XIhU0ugn9J7NLmcT7qkhSOHV6Af82MPa5XBOzqpSBIeN
-    Pp7p8OyM+TI/GES+hrNz1pWoLtoPr0PQyTaY9NPuTzBRGPiAAcJ3TBtaGIGFJ6EIOXXhvi
-    OmWkGixLiwFSU5Ji8fLekxxR6EJsv6volK4Aa+XkeiLpTkZTvhHs0PqHDFrfqL/zb/0ZP3
-    9znFWT6W8alLK2f1H3T6MWoAM3iYPGn74enSenY1WYKm4dI7WWKEv57BXjNOh+/gVX8bJw
-    C1jhLxJz5rZaO//peRzsXKtK782l6mQSftbsv/PkoCji5Zyj+60teGD5l3K8E1b3VAFAjI
-    sepznW++v/oO8DQNDri5/2KZRaYnF4UXUN2PgpunE0prH7Q+qtl8QGYkTkwDXchUeh3pTe
-    PXX8W1I00vXFDogD3e/Bko60udJtrKCJMYFPHxm1qXvep9kTJ1BNx28YkqzyTCDIZjsv+q
-    FzLDCV0/utyRnSGUWuDtxC2oBO7EtMxUk0Uo2DpaZxOzmJ/ZJO+8ERU4QrKw1ZCV689JKS
-    oeIsZIenpmL6SmNQ6gGh3/2pJGA5gGYR8Zk28W608WtSXSyKHCn7QxwQE7yGljMtWTpOwj
-    NJRmMYiTkbHdsKuXsKW1QwFVtQoB7TSo0y8CvdufhFgaIzezPPBT06EzgCVQ
-X-ME-Proxy: <xmx:TWrsaqVLQsB0tIQg3zU0dVM3f7q2GTUs2PIso7JwpkIOZ2dPtkTHuw>
-    <xmx:TWrsatJ88lONKSGcmNmwlYMb3g71e-ToVH2uZ0UudqdKlWrixYyVFQ>
-    <xmx:TWrsagEv39xFJweqIlWFgl_tebdrMpFFQsW8VJAQB6_LYfruE8XxIA>
-    <xmx:TWrsaqw7HXTwz0af7U7EruXkFIyLRDtgKrZpSqxSZChxOL-N80PnGA>
-    <xmx:TWrsakFJbMP7m8cSCSgmB3G2wSBQw7Ar33lLeUI3gOqJf3FuhmUBJTzu>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Nov 2026 06:36:45 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Thu, 05 Nov 2026 12:36:04 +0100
-Subject: [PATCH 7/7] arm64: dts: apple: t6032-j575d: Add PCIe device nodes
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Sj48FKi9;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Y+NTeTZI
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A59tcZY1028251
+	for <asahi@lists.linux.dev>; Thu, 5 Nov 2026 12:24:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	662NwdLNBtUdGCmzgsMnPMmCnx3lvo2FazCLn8DNyc4=; b=Sj48FKi9APQlwcOq
+	GDAZNmLT3CXSYY9O+PaU3TtvVQysmkBy1nFGyuUMO4SfoWoJlZtUpXCJkjnuYpzY
+	XhLBH0rApGtho+uA+IAj5i07YLstmB9uL4i1XBq2Fn4pAjyqtB4XhAj1DTYr86gX
+	5h0QIcNnJeXfVZBVW2XVKnFiBhtzA0BEg55NXJZTELlnDMVuiU85I18Gm8uTrsjx
+	Bm4Xmm9nnEkThsG1fvHwBfQqWaknlaKGAGhtveTyrF84F1glilfOAmggfSRVvvEd
+	rbtpKEm24aw9iEU5HrfbsTHWAsez6HxgkStnDOX7IuVgh3p0wZQ2I3uPsLJI53R4
+	TL6jqw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hrkaq9r73-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <asahi@lists.linux.dev>; Thu, 05 Nov 2026 12:24:52 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9308eafb465so506060785a.2
+        for <asahi@lists.linux.dev>; Thu, 05 Nov 2026 04:24:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793881492; x=1794486292; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=662NwdLNBtUdGCmzgsMnPMmCnx3lvo2FazCLn8DNyc4=;
+        b=Y+NTeTZIBsFeejItUmPJtU6ojOZs8dRaKYAVv155gxUcocuh/fTZUZdXIXVwKPpJRH
+         BTG2/9jLLVeVmlmXk66GrAoAfm+qp4xNaUg3LxG5vHvkwzmaDctPlOXcdw/WNNB4n8MR
+         FlxKrE8vAkA7XMN9xqAGjYHzP6CzAb8uBFbeP4+j0Z7EUXIaI4v+pXNuyV/z5wjCAHoo
+         Ci5cmjQgo2/YZ3wqt3bcUw6pdaEMMMi0IsCZKddNZjEOa9J6xiksnH0bIYyREblR9e6h
+         7uap+89jVACWGd6GEJWA14a0+IBCPyvmI64bwUsStSLuQweLSaCMKYjLp3oPPnHWLhrJ
+         jlOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793881492; x=1794486292;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=662NwdLNBtUdGCmzgsMnPMmCnx3lvo2FazCLn8DNyc4=;
+        b=bclk/JtH4FLBDdfnUACScE+cJiGoShm84rF6fXl7iGTCkV79zuDs+hvy1cAWqq5GJf
+         t0igCi8jzKtBrhfXi356LA2bKmaBfoAGKY6tlsPN0OsUwGd5ectw6+6jNFaPQ8KFiVdq
+         AIvfKW5esFvjNfSi30JArQ3ACr6E95bp1O/36MEy91FDKMq/G3LQyckXovfqaPUequa9
+         cT2cyljE2dfQznFlNCqtkYdplECE5IElzYbatHkmDYvXYbzeoN7X8TtXm/HTtpX+LhTl
+         ThN0urRsL6m1bMFwu6XNTgQSK7MsvHK4dhFEu5IeCG2qCqMWVK1XNLVxquHNaDeGWH7V
+         UVMA==
+X-Forwarded-Encrypted: i=1; AKwUvByLmVstFxdTUwrMXAP2N5H8WwSLDLNCRNUSF/FX/KT6+D3I9EN9eLphVYXtgQntBL/fxJQTYw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/5UMjANAGyww4c1L7Y7Ap5oSmHunga/sCq4gvmL8uBUSluG7rX
+	a5fAdp+KsX8jl//W+93uAfZx+BtobPYd7O8wEYsWcllveX6+7QUQBeV0fcOrKqqVswkwkdqI8qG
+	On/rlArv7zAZtDOqZfpu2SgGwyQpf+Z849ynDuk/mypSpTd43299dIdzNTQ==
+X-Gm-Gg: AYBFou34sqnBPtSkNGlKQKx4L2sngCp3w16NuTdf549maIYveZnVcQkeBqij/6lZUMv
+	/CEh0pc85nHrKP3h83sOMjTJGZImMtqnKgo31Cq4ajcuNyWjtRyrVwcnelByao35ZRaxhYiedyn
+	wpukhnjrfuCbeqGAAjuFxweTmRhgcaf9lvOoBXgK3jRXZGSBule1OpqoAdoO4+jbXBeaxSwEnRw
+	azUlMJnJyLPD1hh4qa+kVdH18iVXu1YEpTWbWRtHu/k5u6fsw/QNYbaiy3ug2fz+EvUuupg2LV/
+	ArRcyZVmMicjycAscIVCATnzK8F2SxxtXBsKbUnKzV5bzGziNt/K0DrSK7SLHxC6suWpbnj1zRn
+	l0vAfkluMO0x+p+pUrIOuyLT2wnd5sBNdLpMHhxoYloWotb2TmxoDKj17TCeFRRNhnyvewGVN5i
+	y6
+X-Received: by 2002:a05:620a:1a0e:b0:93f:2ab9:72a0 with SMTP id af79cd13be357-9442172e3a8mr3096712285a.70.1793881492127;
+        Thu, 05 Nov 2026 04:24:52 -0800 (PST)
+X-Received: by 2002:a05:620a:1a0e:b0:93f:2ab9:72a0 with SMTP id af79cd13be357-9442172e3a8mr3096707785a.70.1793881491600;
+        Thu, 05 Nov 2026 04:24:51 -0800 (PST)
+Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:8916:7b9b:97a2:6c96])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b5725fb0d1sm61320965e9.8.2026.11.05.04.24.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 04:24:50 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
+        Daniel Palmer <daniel@thingy.jp>,
+        Romain Perier <romain.perier@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+        Hoan Tran <hoan@os.amperecomputing.com>,
+        Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+        Mika Westerberg <westeri@kernel.org>, Hans de Goede <hansg@kernel.org>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+        linux-hwmon@vger.kernel.org,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev,
+        Yinbo Zhu <zhuyinbo@loongson.cn>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Srinivas Neeli <srinivas.neeli@amd.com>,
+        Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org,
+        asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+        openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com, Michael Buesch <m@bues.ch>,
+        William Breathitt Gray <wbg@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v4 00/23] gpio: Improvements around device-id arrays
+Date: Thu,  5 Nov 2026 13:24:47 +0100
+Message-ID: <179388146665.22103.2916811858448928630.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
+References: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -119,131 +163,98 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-apple-m3-pcie-v1-7-e00a72a604f8@jannau.net>
-References: <20261105-apple-m3-pcie-v1-0-e00a72a604f8@jannau.net>
-In-Reply-To: <20261105-apple-m3-pcie-v1-0-e00a72a604f8@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
- Joshua Peisach <jpeisach@ubuntu.com>, 
- Michael Reeves <michael.reeves077@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2348; i=j@jannau.net;
- h=from:subject:message-id; bh=5Ax+Tnl941iU4lcsG1LAxygu5i9bnuL5n1jpXo8dSZ8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqw3WZpzHHXSnps/rf+7TKpM+tbxf95ZR43F5euUvJb7i
- ZaseGnfMZGFQYyLwVJMkSVJ+2UHw+oaxZjaB2Ewc1iZQIZIizQwAAELA19uYl6pkY6Rnqm2oZ6h
- kY6xjhEDF6cATLX6b4b/fncrU9+zsgRWRVkHy00ue7zsrezrzZ86GZYnnQ8Rj2MzZ/ifzNSpaaR
- z+99qr/UTowzX8Mp/yWzx7TXvm79V7MMbTgYWAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: amq2Htf-93lbf9S8k_OFSZju1cmyPkGK
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA0OSBTYWx0ZWRfX3ueQAlML3GQU
+ cpm3isQG4utYl40jLdCBJ3p9BiF6L7Q8hy+ODX+O3Rv2MYWeiNAKzhhWIRVdch+U5aIvkNk8UvZ
+ gMcI5xg+AUMpB47I23UeSx6WLsHNEbg=
+X-Proofpoint-ORIG-GUID: amq2Htf-93lbf9S8k_OFSZju1cmyPkGK
+X-Authority-Analysis: v=2.4 cv=OZoNnRTY c=1 sm=1 tr=0 ts=6aec7594 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=VwQbUJbxAAAA:8
+ a=IpJZQVW2AAAA:8 a=EUspDBNiAAAA:8 a=k4E0auTuH4aaYxdkK-0A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA0OSBTYWx0ZWRfX/Qzz/pbjVMLC
+ 2rgAs6ooSsX4ULJ9OdNsaeuwJ7r8KzRP1bDMa7bFXG2JQZo3ikbTzlZxWIUDiuX6VHt1PzNcd7y
+ 9fAJRpKSvil3FmNbCnsSDC2JWVpaMHFQImDjyt/cdFYISaTGhggllpt+7ufExFn9E2OOk1VVAbf
+ NDGMKxNKfnH9MS91+icXby/r4aeJ3k6ZdYtQ3YhX9DjbTk40s2ZMjScbDaVCwyqJk6Cy41Xy1FT
+ Oa7Aa56ju22wVAVnd3rP27pseqmiOgbGZMx+U5NS+AwEIcHzW8zWradkGgIqbrK58HbTbuMd3I9
+ sSd9t4we9OmYTDP+j9UEMkT12xQ0WS0Eh4YBVNFkalc7Ds0CtB5EFE1zFev57pEdrWwPzLOfAgf
+ F8Vc38vz5D+uaeCnEO49o2Q908uzkwo8kLRb3b2oOBqQBUXt7TL2LhoOouDwCcZB9gRUpZGCyHL
+ kWMNZthpOwTQ9vz8+xQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_03,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 bulkscore=0 clxscore=1011 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611050049
 
-Add WiFi, Bluetooth, SD-Card reader, ethernet NIC and USB xHCI device
-nodes for M3 Ultra Mac Studio.
-The bootloader will fill MAC addresses for the network devices, add
-Wifi and Bluetooth calibration data and set "apple,antenna-sku".
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- arch/arm64/boot/dts/apple/t6032-j575d.dts | 72 +++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+On Tue, 27 Oct 2026 11:48:37 +0100, Uwe Kleine-König (The Capable Hub) wrote:
+> the original motivation for this series are the patches that convert the
+> arrays to use named initializers, see
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+> for the idea behind it. Looking left and right a bit while implementing
+> that, the series grew a bit.
+> 
+> Changes since v3 (available at
+> https://lore.kernel.org/all/cover.1793030820.git.u.kleine-koenig@baylibre.com):
+> 
+> [...]
 
-diff --git a/arch/arm64/boot/dts/apple/t6032-j575d.dts b/arch/arm64/boot/dts/apple/t6032-j575d.dts
-index 12991546d4bb..f99fd47dfc8d 100644
---- a/arch/arm64/boot/dts/apple/t6032-j575d.dts
-+++ b/arch/arm64/boot/dts/apple/t6032-j575d.dts
-@@ -16,7 +16,10 @@ / {
- 	model = "Apple Mac Studio (M3 Ultra, 2025)";
- 
- 	aliases {
-+		bluetooth0 = &bluetooth0;
-+		ethernet0 = &ethernet0;
- 		serial0 = &serial0;
-+		wifi0 = &wifi0;
- 	};
- 
- 	chosen {
-@@ -46,3 +49,72 @@ memory@10000000000 {
- &serial0 {
- 	status = "okay";
- };
-+
-+/* PCIe devices */
-+
-+/*
-+ * Force the bus number assignments so that we can declare some of the
-+ * on-board devices and properties that are populated by the bootloader
-+ * (such as MAC addresses).
-+ */
-+&port00 {
-+	/* WLAN */
-+	bus-range = <1 1>;
-+
-+	wifi0: wifi@0,0 {
-+		compatible = "pci14e4,4433";
-+		reg = <0x10000 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-mac-address = [00 10 18 00 00 10];
-+		apple,antenna-sku = "XX";
-+		brcm,board-type = "apple,aruba";
-+	};
-+
-+	bluetooth0: bluetooth@0,1 {
-+		compatible = "pci14e4,5f71";
-+		reg = <0x10100 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-bd-address = [00 00 00 00 00 00];
-+		brcm,board-type = "apple,aruba";
-+	};
-+};
-+
-+&port01 {
-+	/* SD card reader */
-+	bus-range = <2 2>;
-+
-+	mmc@0,0 {
-+		compatible = "pci17a0,9755";
-+		reg = <0x20000 0x0 0x0 0x0 0x0>;
-+		cd-inverted;
-+		wp-inverted;
-+	};
-+};
-+
-+&port02 {
-+	/* AQC113 10 Gbit Ethernet */
-+	bus-range = <3 3>;
-+	status = "okay";
-+
-+	ethernet0: ethernet@0,0 {
-+		compatible = "pci1d6a,04c0";
-+		reg = <0x30000 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-mac-address = [00 10 18 00 00 00];
-+	};
-+};
-+
-+&port03 {
-+	/* USB xHCI */
-+	bus-range = <4 4>;
-+	status = "okay";
-+};
-+
-+
-+&pcie0_dart_2 {
-+	status = "okay";
-+};
-+
-+&pcie0_dart_3 {
-+	status = "okay";
-+};
+Applied, thanks!
 
+[01/23] gpio: Remove __maybe_unused annotations from acpi_device_id arrays
+        https://git.kernel.org/brgl/c/c563f9a7ebdb8de36042b685c89b29a56bb4a2d8
+[02/23] gpio: fxl6408: Remove __maybe_unused annotations from of_device_id array
+        https://git.kernel.org/brgl/c/9ae231ac040cbdd9e24dda8a76e5b0a52195fca3
+[03/23] gpio: Drop unused assignment of acpi_device_id driver data
+        https://git.kernel.org/brgl/c/7a2dac6de054da359a0f986dc9b8fe7a1c2a97e4
+[04/23] gpio: max7301: Drop unused assignment of spi_device_id driver data
+        https://git.kernel.org/brgl/c/9d6f21a8154ebcf777d9836f2c804f65c4173b02
+[05/23] gpio: mmio: Drop unused assignment of platform_device_id driver data
+        https://git.kernel.org/brgl/c/9d14e246391f0caafcffa7fe5211b32d246fb327
+[06/23] gpio: ljca: Drop unused assignment of auxiliary_device_id driver data
+        https://git.kernel.org/brgl/c/526fd5a299da4e954a66124464fc272b9d6ec529
+[07/23] gpio: xgene: Add missing ACPI module annotation
+        https://git.kernel.org/brgl/c/c7b4f8ea5725363bb7209be26cd57428e534eb4c
+[08/23] gpio: sodaville: Add missing PCI module annotations
+        https://git.kernel.org/brgl/c/77e387153e2a871d1bd84fa170d1e0c2ba2cf78d
+[09/23] gpio: Add missing OF module annotations
+        https://git.kernel.org/brgl/c/93ff9d3beb2a20c7cc5a5d60e81de8ba8e770338
+[10/23] gpio: pxa: Add missing platform module annotations
+        https://git.kernel.org/brgl/c/1a93b8060780bc50b9348d28224986a3552f5d87
+[11/23] gpio: pl061: Use empty initializer for amba_id terminator
+        https://git.kernel.org/brgl/c/501a0376a582abee825d25fba42ab6f9f80433be
+[12/23] gpio: Use named initializers for acpi_device_id array
+        https://git.kernel.org/brgl/c/91f7e7fb10592850a7d9075e16aee5fbe83f1e9a
+[13/23] gpio: Use named initializers for auxiliary_device_id arrays
+        https://git.kernel.org/brgl/c/b3ef6bfd0e14450debf728225894b70a3379f514
+[14/23] gpio: pcf857x: Use named initializers for of_device_id array
+        https://git.kernel.org/brgl/c/5b2dcd61c2105f5b17591c3c44b10630d68001f7
+[15/23] gpio: bd73800: Use named initializers for platform_device_id array
+        https://git.kernel.org/brgl/c/92aa1d97bd10195df229851f4e008914a0e8445f
+[16/23] gpio: Use named initializers for spi_device_id array
+        https://git.kernel.org/brgl/c/7b86d1e3c33b95a85a5a3e6f72afdcc2ff717e0d
+[17/23] gpio: virtio: Use a named initializer for virtio_device_id array
+        https://git.kernel.org/brgl/c/7c01eb6861833cfb9d00673fbf8aef0b3e330dbe
+[18/23] gpio: Unify style of acpi_device_id arrays
+        https://git.kernel.org/brgl/c/6588211f4fe51a881ca56648dcc5a8fa1479d4e2
+[19/23] gpio: Unify style of of_device_id arrays
+        https://git.kernel.org/brgl/c/aee4187b00011bb65ee1aef578b1fceafae76fba
+[20/23] gpio: max77620: Unify style of platform_device_id array
+        https://git.kernel.org/brgl/c/1b454163287b3839bdfd219e3520456ce251bbe5
+[21/23] gpio: Unify style of spi_device_id arrays
+        https://git.kernel.org/brgl/c/17d6308e7d5a4d4f317c7f92cbca330bffcfc391
+[22/23] gpio: Unify style of pci_device_id arrays
+        https://git.kernel.org/brgl/c/aff8eccdb976f43298117b52a7bae6d13ca62554
+[23/23] gpio: Unify style of various *_device_id arrays
+        https://git.kernel.org/brgl/c/0fa38ba784896f2fc32c9dacd33822f844b21906
+
+Best regards,
 -- 
-2.56.0
-
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
