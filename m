@@ -1,49 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793887689;
-	b=cbAs1zfP5OGxDTroG18Pbjf3y2loxWFFGJILChVR2OWeBPk/kT5vVuyEn1nsjEfgMlkx
-	 CaFHudA34jURcvkHgUMMzs35t2upATuZ/QmtBLec38IdlGeBe5jZIpDKJQo4PZprkD4nB
-	 orn0MNFC2e+Ux8zGavJgGLf6PpecuTASXLf7pDg+AKfEy3D/s0+ulC+cpVAkcYKYJTL4R
-	 5Fg+7cGxt3QwNQxKy3L5WVNcm8C/rPpbDN6kqb7Uj7KytnJdVeaYvxMjAk/oFgWYYuNP3
-	 76Sbd1exUFkhNJGbH6XdPlYm6zqpqJCimSKq3T9Enmim/RRhHe7FE3up0E+nzOfalSA==
+	t=1793888580;
+	b=EnUZqPQG27Q3ZdEFv0ke/PtlfhCuMFtZSkH8kPxMR6Vjri+gJZhwYdPvnyyibtSbOvRR
+	 DvxYhM4CCvUIE8y0k9UwKf9DoaLe0VBqWUcb5gMhnpdZidcnVBSn+pBXAm7QigsbEjGpK
+	 O7aEnIQX0puPxB5+H0onVFyCTtDsmgiuhCdhTXS+SGJeEIVShP3pV5FmM39ZfLA0z14Ca
+	 3npQQJGaO3u/KygYPLaW+XXlY2DR19Qf+uxZq10N5ojTjtktqtZcg9qVoe5ldefILkq1x
+	 aWNgdEAQfYMNJdnds5uDXpMgkQzR0vKBLSgdRPLeBuI8na7pIZThMTuFIjx7KG5ldvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793887689;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wYlrDbfZKbiUUduhrjo8be3m9UAQA5iV14plflcbeiw=;
-	b=rap9iplt/QZI7V4yL6lcGaefenlylsqzskssdzeaK82K3K+kxfXq5gkCEkq9wa2+oSH0
-	 ZpvdIbBl5H5zq+ksDbtULOQARBnZVh8BbXyaKkSYEP9YXIBWUwCkbOGHIQ87TNvePfmae
-	 cgsoav/mauqckeuR8C9JQU1c0m3Z/AA3GoVFE/+lyE+YMQC9zc2ejPUluFuCtNwH7bNDZ
-	 QwU8AzET7AcJstZ0TxpFOvHbNAMWanuJk2v//8NcM9szAAN3NnJ0cUV1/YhGFhQZdVoPx
-	 bWS/4FskyedvyMYKyedGSISpbezvLr2rOBVa2o+xCuUu2dwnuv4I7ivZyCxb4NbNGSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888580;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=fr/sToHFkpF9BPihxA953uG8doO1fE0lFSHPRxWhDoE=;
+	b=Huo85aTqQVPjlEXKVqKPxi5Oo4RqWOdrsAqioDv0azqS+O5Hr3AfgSzQ/n6or/T+5r+P
+	 5r2eps4OdpdlD5cH97cUw9Y9e4ETnww9TkkItA+5wumxytksHeiCe//KIQVoGlMPT6OgW
+	 dMi1mSUAUdL9WWpinxE7yPXZVlbFSv6k+PvQ/CQza0ZF76SdHzYyiqJOw4tR3fTFjbQAo
+	 bWtaruLoJCdOtV/dtlnP9+n5sMTNO0SwIUESapJGFCPZS/zErOtfkr7fYs9Mr2LUiPZvO
+	 PKqQ1lIv0V74JKT+Vo2zInt+hXqRBoJ5RbO+aGfVIuOrr7eOxqWu3K9M7dwUzhDyUrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fskWyDIz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kqUQNpzO;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67FA606D810
-	for <asahi@lists.linux.dev>; Thu,  5 Nov 2026 14:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4A7606A31B;
+	Thu,  5 Nov 2026 14:22:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C4A7606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fskWyDIz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D70661F00A02;
-	Thu,  5 Nov 2026 14:08:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793887688;
-	bh=wYlrDbfZKbiUUduhrjo8be3m9UAQA5iV14plflcbeiw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=fskWyDIzs6Mxv8Q1kC65O7wpH8FDiZThEsCbUi/Jbnz8eJmqTb2rw0wpFuztZHK+I
-	 yEb6QIGqqAnxPT93vSIGh/rGm6VRwCtZoKgGlStcI2TfgWzCPj0VwSmsErjmFzEOjb
-	 3O5vT7ZMvtWBom6Sy9E3PPKcqU9EkRkY2yfJ8dwj8E8hw4p+v6hNhjpbgLSeavvXCR
-	 t/fDc9Xfn+F+QjpEa4GWMEB8KLzqfeqJSON5ZyLz7PZbVgTvxQD4f378EiV8bBopgH
-	 lccggDGwzlKaUHS2k3oZVICBQnsqIqNLtO31c+vSyPC0zXWe9G5Jn6zVLIN1E1T9kc
-	 6l3D8mqV/TlCQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Nov 2026 15:07:18 +0100
-Subject: [PATCH 01/83] drm/adp: Switch to
- drm_mode_config_create_initial_state
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kqUQNpzO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793888580; x=1825424580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8aE99+VJcMQQ2lFtFNMEVuo+WAHaGpOaIlVw0wUkjj8=;
+  b=kqUQNpzOAFCaYDSHcp8Wj4WmpoX3nJS4a+Kgf73h8jtx535iIXYYaWOe
+   K0Ea57swpZPo5j8bLuVT7bTDYB4F+f0tuwUQH4ZC99CXKTnfsFDX5TXY/
+   i6xUcn5URrVaHkYLilXDyz909mDABgqMSPSqwyt9RxltWwqH0JvaREGZX
+   Ofz5IGRm296N/vS+3rBNBIhX/rQ4IfGN4Uy7pR6YI8GSgrLaksPFXeES8
+   KU9Dr+YOg76ZZmPaFzwIFGav1dnKbeabAUU7RzNkIgXYEpEPxT85n/Ebe
+   bct31QF/JCTlCuG/1Mod9N6tbDgiVUZCYJf6T/+vjf7AaH8uVllOkmbT5
+   g==;
+X-CSE-ConnectionGUID: G9EnwDiERcS3FVjHlqREfg==
+X-CSE-MsgGUID: 0sQn1eNoQK2IeAEUkhwDOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2703084"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2703084"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:22:59 -0800
+X-CSE-ConnectionGUID: /K275MsMS2iu65atWdhLvw==
+X-CSE-MsgGUID: RsKg5am+RfCPmB5pvRDPCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7192371"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:22:47 -0800
+Date: Thu, 5 Nov 2026 16:22:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Lixu Zhang <lixu.zhang@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Imre Kaloz <kaloz@kernel.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Valentina Fernandez <valentina.fernandezalanis@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Daniel Palmer <daniel@thingy.jp>,
+	Romain Perier <romain.perier@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	Hoan Tran <hoan@os.amperecomputing.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-hwmon@vger.kernel.org,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	"Enrico Weigelt, metux IT consult" <info@metux.net>,
+	Viresh Kumar <vireshk@kernel.org>, virtualization@lists.linux.dev,
+	Yinbo Zhu <zhuyinbo@loongson.cn>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Srinivas Neeli <srinivas.neeli@amd.com>,
+	Michal Simek <michal.simek@amd.com>, linux-aspeed@lists.ozlabs.org,
+	asahi@lists.linux.dev, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-unisoc@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Michael Buesch <m@bues.ch>, William Breathitt Gray <wbg@kernel.org>,
+	Robert Richter <rric@kernel.org>, linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v4 00/23] gpio: Improvements around device-id arrays
+Message-ID: <auyRNagFOmxf_3nW@ashevche-desk.local>
+References: <cover.1793097104.git.u.kleine-koenig@baylibre.com>
+ <2hfpcbk6r56vvhkqyiex2apl3pinieybad5sd3vkvvabqs3uto@lydt3gin5kxe>
+ <auxh9PxpJScFO3i2@monoceros>
+ <le5gbua6s2mhhv32di4j77qr2we5z5ngzyzmiemhodmblvjiji@q4wf5tdgrbtv>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -53,58 +122,30 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-drm-no-more-config-reset-v1-1-763560c2cc3f@kernel.org>
-References: <20261105-drm-no-more-config-reset-v1-0-763560c2cc3f@kernel.org>
-In-Reply-To: <20261105-drm-no-more-config-reset-v1-0-763560c2cc3f@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Sasha Finkelstein <k@chaosmail.tech>, 
- asahi@lists.linux.dev
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=mripard@kernel.org;
- h=from:subject:message-id; bh=59FroMEoM8DobxGK+qYZEmLe1JeVhpd3TzvlRh+kQ9s=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlveuds2zt91r+VJcX9K6bOVlqbfajv+Il+G7OrEQfOu
- OzVEXK27pjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQAT6XzNWB/cFy8q3b5547xE
- l538pZwNfSJahWf8Yjr4U04mxW1l9Liwebf978f/XSperbCZnfrwMGN97vtSA4cL6pd7juV7PnD
- mZuRNrm+913ny3afmTuMk1dVG9Z02c84t36rKbPvjt/Mi5T8A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <le5gbua6s2mhhv32di4j77qr2we5z5ngzyzmiemhodmblvjiji@q4wf5tdgrbtv>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-drm_mode_config_reset() has a dual role: it creates the initial KMS
-state at probe time, and resets hardware and software state during
-suspend/resume cycles.
+On Thu, Nov 05, 2026 at 01:25:34PM +0100, Bartosz Golaszewski wrote:
+> On Thu, Nov 05, 2026 at 12:06:33PM +0100, Uwe Kleine-König (The Capable Hub) wrote:
+> > 
+> > Maybe you just need to add `-3` to your workflow? ISTR this should be
+> > the default for b4, but it seems if failed to mention the -3 in the git
+> > am cmdline.
+> > 
+> > Should I still resend?
+> 
+> No, it's alright. I would have preferred a clean b4 shazam but that
+> works too, thanks.
 
-Since the two roles need different behaviors (notably for objects like
-drm_private_obj that must persist across suspend/resume),
-drm_mode_config_create_initial_state() was introduced to handle only
-the initial state creation at probe time.
-
-Switch to drm_mode_config_create_initial_state().
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Cc: Janne Grunau <j@jannau.net>
-Cc: Sasha Finkelstein <k@chaosmail.tech>
-Cc: asahi@lists.linux.dev
----
- drivers/gpu/drm/adp/adp_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-index fdf0e6316175..795e8a5d3b13 100644
---- a/drivers/gpu/drm/adp/adp_drv.c
-+++ b/drivers/gpu/drm/adp/adp_drv.c
-@@ -451,7 +451,5 @@ static int adp_setup_mode_config(struct adp_drv_private *adp)
- 	}
- 
--	drm_mode_config_reset(drm);
--
--	return 0;
-+	return drm_mode_config_create_initial_state(drm);
- }
- 
+To make that one should really have a unbiased base with the gpio/for-next,
+say v7.4-rc1. Then with --base present `b4 shazam` should follow that.
 
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
