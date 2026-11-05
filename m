@@ -1,49 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892618;
-	b=e0mNpIGjPgWxRP95e/FlA04QFkYYOFoPJ28tO5zxLuRGdchsZBajaPGNckLveQ7tgaAU
-	 5ZbYRRH6CW3c6mIYbNYaqbunwV0JgjWe6wDA58pZXjw81fGNmGHeAq7xAdMYWaA74Y30k
-	 On05JZvhrxODlXF7bKSpIIOv889ruV1cfZ2O7SctxrZmQl1MpYCLtV4XQbK7XqbntIN/k
-	 lfeX52ss3x2iP29US/rqRxWG9klosjlVienNdsb/yzq99I5ouApwpZGrJH/+1heVeWrlJ
-	 29uFggVzvTBTMPNVBo9QXSShLALX4kTTWyySLKBpCI7XgakBSPNeEH4Eb2JVPbRy9+g==
+	t=1793895423;
+	b=uhdkyYVG2mLllr3pKoqKmcuY6ws32YFtnomxBRzm2bclgA/+u+WvKCQZI4QGkT5BIfyd
+	 XAiZgWxgexy1RQlLTfnzorCpLVPmVJmigYEGXeLayeJmQeEyPFwSBTmpU+pwKaRTXL7JW
+	 tEwWru/sYKkKoqHcBl/vf9pdobR4C6oM1zUsdovG3wFJS0mv513+YrCZK2FjPPP9UkiPR
+	 g7I2OyVVZI6+56xaRUmtHQ+/QnvpIY0DvazTiASQ8gxSwC+eDQoHLcP5OQagqKYT8qEPO
+	 tstVKJvHuHTV+ES4vbfJi+1oo+3o/ND/5mI2RbOqxiKpm36k+f8IBkfB046gKuTbUYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892618;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wYlrDbfZKbiUUduhrjo8be3m9UAQA5iV14plflcbeiw=;
-	b=LlYsMppS6sXgNGut9LDNjxric3YYp0WdUg/2HpPYV1MQ2kaiSWSkEq2drP/YI5dHrQco
-	 xguxod3/yEjPzuthFSJ1J1tOrf/pNGeoyxVis+BnZlhnLw31U/b3DaPKzKg/B8+J8s1x/
-	 mCurizYUBLQ6+bv+GIjGhY0a4wXoGQg8eh2wNzQWDpUB3aiQDxgc0v7daloOpdwaxSMEK
-	 yKocezbfFxA+Jirx6EMPVC0y3OweVrr9Q7J8sbkmXg0nUD97PUlA5R5zSW+14bIM36H5W
-	 H2G7oVrJ2I3KPwm8mSf8ejIu/RdhAczU5QrbshPnrHKi6IOEEhmk2Tp+o7nDICVMoAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793895423;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=F9GcNTDieh7QxkZrb/eoI09mZxtvLJXvzF3NFjQWsTM=;
+	b=SMXmY9NK12QbideekzBuUwiFK9GYFfPFUtSG7JYPlbx9qmq/ky4IpL6bUqxN+kHq94PE
+	 77BGWnHVjgpy0E1mWjNruwCOZuUmNL8hvu8c+ANO+MMG5GzqsX24GaYnArOkJ/QbXmpp/
+	 qwn3+QC1y6sqDZXYH1iPptBVG/6F8/gJrX2gDZYHTG2geBf0uwCfWsw1uSxXH0RYVF6M9
+	 GYpUDZIQ4MB12g+CUpdXWxBzxj+6jbT3xKGPxUvidCzl3BPd1Syd55PZGmWLrjHaU7EXn
+	 Gl365cSNbn/GyVJbFLJ9mBBMegaj6LUTWJKayNOruoS8zaziJdBRJiyUnHtt0cjHPYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Bp/aPeUA";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MqS68onA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731F4606D80C
-	for <asahi@lists.linux.dev>; Thu,  5 Nov 2026 15:30:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B802606A31B;
+	Thu,  5 Nov 2026 16:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Bp/aPeUA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531DF1F00919;
-	Thu,  5 Nov 2026 15:30:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MqS68onA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2AE51F00A02;
+	Thu,  5 Nov 2026 16:16:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793892617;
-	bh=wYlrDbfZKbiUUduhrjo8be3m9UAQA5iV14plflcbeiw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Bp/aPeUAg7cBjr5ovLe/rVnSJe2Gfjy6F9iky8xiSPixVGd0D0v2UE0tf138jjrqz
-	 kW3g9mjoww5DWgpf97S6mzvw0/K0N7fomXKiGWxLNBQAILl0r2YDndW+qQrAx84dCW
-	 vPkhTx/9v5fX5z+GR9gCGuFPgaRGmWrg4eKd7tNN6ONcwezpzmB8VumgsESFhEFX/3
-	 p7aQXbubfqQ4T0eNNRGukbOFMyY7eqW73BbmmS6vA84Teai3mlBPgb0ZWLbRJRev/6
-	 wKWRAB8gW/wYcfmpiWSqa0hVnLi6By0VEnw3PTS6eCG4PFajLWg/Vm4i7AO8dkO13d
-	 TQKsQ9SyeqhZg==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 05 Nov 2026 16:29:10 +0100
-Subject: [PATCH RESEND 01/83] drm/adp: Switch to
- drm_mode_config_create_initial_state
+	s=k20260515; t=1793895422;
+	bh=F9GcNTDieh7QxkZrb/eoI09mZxtvLJXvzF3NFjQWsTM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=MqS68onAEUCKLcBvYVt5QBRjA/8e9X/XYU5cabedf1Ungg9ErA00cRtuvD/IRALK9
+	 8Fan7/i7wd/knDNt7dPpATW0Bb2YI1oU6LpxhUUoLA6RiQeNLYQMxLkBknljJxuim0
+	 HIXYdD6JNDj2c2fNmhWQIcPTJp8NIahTrGDaTdDCwpTUbCuL9Bcn3+5i9yklBAmCbf
+	 mTJpCmFnfO55/mbfaa61I9EKQxYYYCcmPs1Bv+rC5TSqwweLeLfim4mQMn+PqI03Hs
+	 PQtX+ba7+F6pL/ISGWfnXxhlF5vKlZD6QKmjykd0+fz+kowAUNFMiRHuxnKWhjMEhn
+	 GZYmLwTg2XIcQ==
+From: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sven Peter <sven@kernel.org>
+Cc: Joshua Peisach <jpeisach@ubuntu.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: (subset) [PATCH v3 0/3] Apple SoC CIO (USB4/Thunderbolt) reset controller
+Date: Thu,  5 Nov 2026 17:16:47 +0100
+Message-ID: <179389539199.15122.3605196731930502187.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261003-b4-cio-reset-v3-0-e605f9e5c8a4@kernel.org>
+References: <20261003-b4-cio-reset-v3-0-e605f9e5c8a4@kernel.org>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -54,60 +70,24 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-drm-no-more-config-reset-v1-1-1f58d1e33380@kernel.org>
-References: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
-In-Reply-To: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
-To: David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org, 
- Janne Grunau <j@jannau.net>, Sasha Finkelstein <k@chaosmail.tech>, 
- asahi@lists.linux.dev
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=mripard@kernel.org;
- h=from:subject:message-id; bh=59FroMEoM8DobxGK+qYZEmLe1JeVhpd3TzvlRh+kQ9s=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlvFtyt1niz1b3Y+47lH55bN1SiG9c32xuet9lovTD1n
- HyN2tK6jqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRX9mMDa37Ur6dWCW8rfh5
- omRKgc8096D1r40m7Po/e8rm6QWTguUcplhc7GvwfZv63k/N9YNxCGPD+Q9/51v23Nx6REM7sbx
- HN9Lp5KnVvtdafRc1/Jof/onPPcfoSPNT1TUueVIC088euj0fAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Transfer-Encoding: 8bit
 
-drm_mode_config_reset() has a dual role: it creates the initial KMS
-state at probe time, and resets hardware and software state during
-suspend/resume cycles.
+On Sat, 03 Oct 2026 22:50:59 +0200, Sven Peter wrote:
+> The CIO blocks used for USB4/Thunderbolt on Apple Silicon SoCs have a
+> reset inside the power manager that has to be deasserted before their
+> co-processor can be booted. On t8103 and t8112 each port comes with a
+> dedicated register page while t600x and t602x use a single register
+> with one request bit per port shared by all ports of a die in the
+> middle of the PMGR MMIO region.
+> 
+> [...]
 
-Since the two roles need different behaviors (notably for objects like
-drm_private_obj that must persist across suspend/resume),
-drm_mode_config_create_initial_state() was introduced to handle only
-the initial state creation at probe time.
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.5), thanks!
 
-Switch to drm_mode_config_create_initial_state().
+[3/3] arm64: dts: apple: Add CIO reset controllers
+      https://github.com/AsahiLinux/linux/commit/9055977102a4
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Cc: Janne Grunau <j@jannau.net>
-Cc: Sasha Finkelstein <k@chaosmail.tech>
-Cc: asahi@lists.linux.dev
----
- drivers/gpu/drm/adp/adp_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
-index fdf0e6316175..795e8a5d3b13 100644
---- a/drivers/gpu/drm/adp/adp_drv.c
-+++ b/drivers/gpu/drm/adp/adp_drv.c
-@@ -451,7 +451,5 @@ static int adp_setup_mode_config(struct adp_drv_private *adp)
- 	}
- 
--	drm_mode_config_reset(drm);
--
--	return 0;
-+	return drm_mode_config_create_initial_state(drm);
- }
- 
-
+Best regards,
 -- 
-2.55.0
+Sven Peter <sven@kernel.org>
 
