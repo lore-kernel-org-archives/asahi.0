@@ -1,143 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793822018;
-	b=PHLfOl5KOBmEJRw29bYaP9OrEGhc7F9H1zTLxzsJ1/wf8V2oAYTDY+Hk/QMzQfeDU+jq
-	 LVlkgXn0rZoX+SkvByKbJFIa21TvSOWw3hspoT41hxxhnaMD8bISuKtNvVxWazp6wwnKp
-	 gqXGQNIIYLbuBd6pCbcFQfbXwC6UWNgKa+POp872WTxgj8STuFQxayyGLdVT9zA9TYXm3
-	 FqcZvRDXaewxPxzzTve2Akoia6mqvMvbVlk+GsGa8tfBNNP18l0aHJ3KMHkYlr4335+vN
-	 +M0c5lDSGhP2c6GzwmSl5rI2d8HPGXG0w8dB5OS9ahdw4J/q+Up7lT8jGkyfmREPpIw==
+	t=1793856182;
+	b=TWkoN+ODfopEsnxmV9+SVE8pnILzt5WgivXzOJX4hCwHetcGB//a3thoAAYuBL8vfOsP
+	 gsTkuBa3noTxvMwvgl9cq4YBzT7X1jCoph3o7FPuX/oMJENdIOc89Z3GvP6IY5sR9uvOb
+	 mt2Hyecf3w0BPqSWedHP9jc+U8jtswvpNnpiIJCG3RDVfsn2579WFyry60hA+/bpPsffB
+	 DOWf7VsYebipntpUgu5bqfUnjO7uu1RoHtuzHr0jLC6joH824RikE6T0VdSPcShGqWvf9
+	 PbiY4Z/4wf2a73XZk5o7qjuNlmYv3o9odPGuapAAxI0Ev/FxbGOFCYaK28GgtlgCdvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793822018;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=j77TQJheY9BNkuAUNT0wTTk7+HF7XEvTQj5keMW7u/I=;
-	b=OOsr9hpLZUS2rfUqXl22BmUCpFoDqFn/SIJE5YsgfHG2mSCWPGKHFRozwmhW0+yX8c5T
-	 /7moeNX5ZZ63nWpgB7HSWeNgQop7Aib/wy/jUuLpwNA6mVZHYpIiGvFJGnVQOr4zeHaPa
-	 Sdu7n6Iq+4Z1sxxKUoUHjmYOr+AMERdP/r9iOmBj4hQFtOFyBL38tZDtF837NvO3pn4CF
-	 WDS5OtjspRdxcVbpRZ1WzxIF4tss9He+Yt79qdRe6cSH8nur+ny+tTEKFA7gxuSsFnddW
-	 /Eobjfj7rKX6k3vJUMQB/x/5UnKB0HHzTYmASWazwRGNiiiMnE9iBZxCdkdIqNKV3KA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793856182;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=rQr7yvtDdjv+uqRleV0ogoSLK/6tS11R1tEZLnAV5R0=;
+	b=gE4soJeW2DKNgablRxK0SFRu1lJOOS5bQaElrWrgyFmPbgDJ8Al5MJBKv1heOeCOO3jj
+	 aBfim+/bowBs0foe6ZMdITQ8kcsQROqn34YqkeDJInmZYKPipLrwMRqVc9CK0K5GWb2UA
+	 vb4oDzF3jtiHoqeIwvX6I7Uq5SrTzK/khvl/X56+N6gyzkJzndKqzDj/MbIWLbj5fSRKF
+	 6Edvd8HWy6wiUun7cDyJnNOopimVHo/763sq/FevnEQiNneW0ksUPkPzK/M4tTh4Dx6Yj
+	 i9pT+7i8iJ5Qcdly3gm81FqaMH1nNsaOO3NxJxmjHUArt501BpK3r31aO1WbSynCyiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PIxcJtgu;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1zqNp6g;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAB160960A4
-	for <asahi@lists.linux.dev>; Wed,  4 Nov 2026 19:53:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCAB160960A4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5780606A326;
+	Thu,  5 Nov 2026 05:22:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5780606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PIxcJtgu
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-15ea896ddc8so1943048c88.0
-        for <asahi@lists.linux.dev>; Wed, 04 Nov 2026 11:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793822017; x=1794426817; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=j77TQJheY9BNkuAUNT0wTTk7+HF7XEvTQj5keMW7u/I=;
-        b=PIxcJtgujc2omTmmbQjSDoiHGfibpo5iTiDjqZbbLBGHAB5QPvzxnncTOTq5PX1+Yd
-         x4vGoaOgDd2rNFGsHvVTl7IgKbIrXQI5iOayHzfdN/6nNULDP9+dM8ILLKhvmO1AP7Xm
-         G6lxwhLp0IWaGRXlPWRp+d8DkJwCfOZ/XDlEowJtn6kTEaoR2SROIQx/NPGJmwVBzBCv
-         zSql93lPV3VHrUMbwCfTA5fg0pcx3YBTcZ9qGn4n86jok9uEmkaRa8CkMQAePQ3mDPLo
-         v2gbGJRm2wdbZOAUiwf2Z/nnqIavSTrUj/yfxtochzqTJDxb8+5HMmw56YYkJfumq0Zv
-         eJoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793822017; x=1794426817;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=j77TQJheY9BNkuAUNT0wTTk7+HF7XEvTQj5keMW7u/I=;
-        b=KeNIKuNJrD6KLbArJlt2mMr3sMzj05JRPzUcL57913RKBa2mAdUQsJAAjvahMHbH1v
-         PmCZsev6x1MP2Wvh2FGS9X/hla7vNfci4tIRMpQ5+iQTJ7AGwDNcFXkK8RwaUHHPQ93L
-         IYPTLd1gcRVQEwvAY0/lR/ahOUbLg7bB/M7N062l2kdEB7A/K6xy8/N/TEpzh8/bGQ6b
-         v8PInjRMzzo0dnfKbqK8ey+c9lCvkleUWq6p5K6LaNtfFWH1cfZamRDGGn5jtgGqsGNC
-         YQy+oZPhcv4dmqy/Gzwicg/yqfjgGz3OXj/hrzpbAn/pgpOnNdsEPzp3/PM1KEDuDn0C
-         a4BA==
-X-Forwarded-Encrypted: i=1; AKwUvBzbYnPkA+Xx+IP2eztsvzubPUrUTqYhRvzI8b9ZdsVlRYn5pxRAK1GTdU6zSk163QT6Nlcsaw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8xlVfVQJlXd5nr3dSBrcojsbTCUWrfoZu3ffg/L/oaNAQdZOW2
-	IuP5fPiRkgzSJFV2rD4XY338S/QkRbAKhLBal8WsAyGz2q4MsPRR6z8=
-X-Gm-Gg: AYBFou2Xd3DD4Wx+lDZa3qe1T4/KMtDZHLkxQWVaItqppGEHHAjAYWTASkJYVMZohPg
-	371XUBsDrsvYbTwLmiAkd9ahhaCh5vP7U7iolOtjMQDGtqJO0HX9ijwThYXTM5PL5W0kIFKNXCa
-	g6Uyoz7LQH1OsA/2w9oGCSsTT5Nt+7dEmxsLQRX/XTXaiDCr0x9Rbskivmq5pDVyDWZSryzB2P3
-	R63Fz6a6b3aU4t7ei9LM7y3349VYVIlEfsFvfjk4euVZphMzmSqJKhGpr7DN/LkMrJCXIl0I6hT
-	2AtHS2McZQg06QTvy+FO0Vg3BCsQGenXguewOpFh/IzBs2QqO15IcqbHDCcMZd3Lt04gctuFC9w
-	eeaq2G1uhwog5TQxRTSfJuzz/S40EsaFOuyjtO+yoNPfRtIFndY5O/NAUwaHENbwpWrfwWF7bw6
-	baSI8hF0d4eqOdGLgD4kYy9apM8J49ctDKClouj3Ovau0VWzACSfYJh6gQlMz0bLwe2JR/1pqgU
-	Qq0mlhgkQ6v2hNxL991VLD3friA3dKEK3Mokj62BC2Q4nx4ghWbWI9tlzqYhi/TmKzmGgDembyw
-	6HUtRsBBBGsxxlbi1eX1dFv2GvCmcd08HVVSYT5CmtqapaK6q7nUAfsAGyaA6PCY
-X-Received: by 2002:a05:701b:4241:20b0:143:2968:564c with SMTP id a92af1059eb24-1ac5b9cb040mr26455364c88.26.1793822016817;
-        Wed, 04 Nov 2026 11:53:36 -0800 (PST)
-Received: from at-Standard-PC-Q35-ICH9-2009 ([106.194.66.249])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c2d69asm9239684c88.11.2026.11.04.11.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 11:53:36 -0800 (PST)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: jic23@kernel.org
-Cc: alexandre.belloni@bootlin.com,
-	andy@kernel.org,
-	asahi@lists.linux.dev,
-	atharvatiwarilinuxdev@gmail.com,
-	bhelgaas@google.com,
-	bp@alien8.de,
-	brgl@kernel.org,
-	dave.hansen@linux.intel.com,
-	dlechner@baylibre.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	griffin@kroah.com,
-	hansg@kernel.org,
-	hpa@zytor.com,
-	ilpo.jarvinen@linux.intel.com,
-	j@jannau.net,
-	jarkko@kernel.org,
-	jmorris@namei.org,
-	keyrings@vger.kernel.org,
-	lee@kernel.org,
-	lenb@kernel.org,
-	linusw@kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	linux@roeck-us.net,
-	mfd@lists.linux.dev,
-	mingo@redhat.com,
-	neal@gompa.dev,
-	nuno.sa@analog.com,
-	paul@paul-moore.com,
-	pavel@kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	rafael@kernel.org,
-	roberto.sassu@huawei.com,
-	serge@hallyn.com,
-	sre@kernel.org,
-	sven@kernel.org,
-	tglx@kernel.org,
-	wim@linux-watchdog.org,
-	x86@kernel.org,
-	zohar@linux.ibm.com
-Subject: [RFC PATCH 14/14] mfd/macsmc: add ioctl to access smc keys
-Date: Wed,  4 Nov 2026 14:53:17 -0500
-Message-ID: <20261104195317.8284-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261101013817.22d67ea7@jic23-hlaptop>
-References: <20261101013817.22d67ea7@jic23-hlaptop>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l1zqNp6g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793856180; x=1825392180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q0/e6ShWRmdK7g8M5BxZX/k/BD9zq62vEtWX/MYfK5Q=;
+  b=l1zqNp6gdfoS+W1127Z7NnWzKSZfEfBk39TQOcI2n3dYmt0M4t5AJWvK
+   Brm+fo8+buS1Kp5sKJWN4KgTqqCdXslERrlYOwanJ1YfZjUnGe2J+IRP5
+   l3yIBiYWnQvqm/mGUN10iRvL6r8vPIx6I8v1xisJbauuHJGx670upmnbb
+   Nu3VFpPFYzQhGGgXqoQlFbSn8bfWlYUNOHGVWTApDhr+wwykUe8Pb73Ov
+   shlifWjsVanDb5y771OnSEXdHB49LWpsExci21QRHwGBL9mymgdVwtNgD
+   Ux3fvOYaJupLv+5kDMx69LqjfV8hIqLWSF9DEXDnFL3TvZoI6/uTst/5O
+   w==;
+X-CSE-ConnectionGUID: ZNm8ZhfzTXGCu5S5Fczvbw==
+X-CSE-MsgGUID: YB2qpvNnSV6f5ODusYD3gg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2519748"
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="2519748"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 21:22:59 -0800
+X-CSE-ConnectionGUID: WpFMwuZUQIiAaXokdmgZEw==
+X-CSE-MsgGUID: 5dMSsW/sRGu3mh6f50Anhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="7254379"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 04 Nov 2026 21:22:55 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xOpw4-00000000lih-2CSt;
+	Thu, 05 Nov 2026 05:22:52 +0000
+Date: Thu, 5 Nov 2026 13:22:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andre Eikmeyer <dev@deq.rocks>, marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
+	neal@gompa.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, 66ton99@gmail.com,
+	josemiguelo.ochoa@gmail.com, aditya.garg@linux.dev,
+	Andre Eikmeyer <dev@deq.rocks>,
+	Yossef Osman <Yossef.Osman@proton.me>
+Subject: Re: [PATCH 1/4] Bluetooth: btbcm: raise ACL priority on Apple
+ Broadcom controllers
+Message-ID: <202611051559.brx1v0og-lkp@intel.com>
+References: <20261104151601.70493-2-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -147,21 +89,34 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104151601.70493-2-dev@deq.rocks>
 
-> If this isn't matching some legacy interface, then we need more
-> on what these do.  Maybe they are suited to some other kernel
-> interface? In particular they might need the various controls
-> on how destructive they are that something like fwctl brings.
-> 
-> Generally an arbitrary opaque path to firmware isn't a good idea...
-> 
-> Jonathan
+Hi Andre,
 
-Here its required, if we write CPU/GPU Pstates and PPT to
-some keys (MSTS MSPC HE0N), we can reduce the temp by 10C
-And We can fix the dreaded PROCHOT signals on macs, Giving
-Same temps as macOS.
+kernel test robot noticed the following build warnings:
 
-But you and Sasha are right, that exposing all keys is a
-bad idea, so i have restricted writing to some keys only.
+[auto build test WARNING on 3f425f95ba3923d605f6a8b382e8fcdc59d479db]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Eikmeyer/Bluetooth-btbcm-raise-ACL-priority-on-Apple-Broadcom-controllers/20261104-161558
+base:   3f425f95ba3923d605f6a8b382e8fcdc59d479db
+patch link:    https://lore.kernel.org/r/20261104151601.70493-2-dev%40deq.rocks
+patch subject: [PATCH 1/4] Bluetooth: btbcm: raise ACL priority on Apple Broadcom controllers
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261105/202611051559.brx1v0og-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051559.brx1v0og-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051559.brx1v0og-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/bluetooth/hci_bcm.c:152 struct member 'acl_priority' not described in 'bcm_device'
+>> Warning: drivers/bluetooth/hci_bcm.c:152 struct member 'acl_priority' not described in 'bcm_device'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
