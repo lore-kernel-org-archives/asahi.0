@@ -1,104 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.97
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793986621;
-	b=TXpcPmZ+2zNYVzYK3L4oihBrJeOscuhap0lvIPFOR5K7OB+YAkRP0CbXujgkI23pV/1J
-	 TsQSE43wZOCZI+GFpIgEpXWJIkoWlQ3Duy63D5P/SWuw/30yG9vGQ1+d6S7F5yAtxZI82
-	 6YKR94k3w6xZQAqAXdWQbo/k++672PuRn1aeV101an9EALeoohblcOvrLPWcsQ1ha25HY
-	 Z11a1oOG1A5g0zihMJKD6eMuENgduaNqkmP6NBQXjHg2v5+PDy3z3sV8bqEjp9p/fcwYW
-	 N8IoCiAe1A5ZXNTfl12GCjTSPPq5go6WGKO3MnYICvl7w5Tjn4OeFk5EvLhhXVhpCkA==
+	t=1793987372;
+	b=FEEJmyee8JLjrOeeBkwitOIwK1NAvs1rdlw77hlx0RosCAwXxdLrhbxgfp6ENk6lnb4q
+	 KbuOXsgMlFBn4C/WTPuZMBwzxSZAUgOf1/rhvO6LusX4HIk/TfiYPnMZwpF93/sR+78cI
+	 rUi1Jwvv35zwgBic5pypJ/m8UckzBHK+2VilTK37xCx0riuCyu8TFLW3LjkA+BdOZhMa8
+	 SXTlRkncDCVlFNgQ6/LlScOhqsK9195pS0EdQDtZB7eaHfSKy0+e11435mjmeneze+48u
+	 EjTBWhP7eZ6F/tuLQqHrntIr3QWfKFDNMS9DnXXHfm31/lfw9by2OEqQWEMxNv8X9XQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793986621;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:X-Relaying-Domain:X-CFilter-Loop:Received:
-	 DKIM-Signature:X-Received:X-Received:Received:From:To:CC:Date:
-	 Message-ID:In-Reply-To:References:User-Agent:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=YYev/NC+kvw4uKd6ceqPEumrLblYo4RG50oIiemWCCg=;
-	b=UxSjF6oixTVs5c/tanEwMcDkbuOlx6bpODwd4/aG72bhEnCoqU6Amjn6j9hC+bw1l4ue
-	 BBuhjrDDs2j0NCqjLDqcP6u1x2oix6ib17fO9G3o4cbiM8ac/1TdsqXncRzjCs3hzsA7V
-	 HmlsYrZbzNTjyPNOIMsieozkWJBzKfokps2sq+22V6KUhoFGIsijD+WjgEZsMeeGF7bON
-	 HxCNgdluRXAl926Gdfh4YGE5kn7qT6k39XZKIz9LyWP6MLNxB1rYfDkiiJ+Xv0ar1tcAB
-	 CiKBXKkp7YBaMAAEceJiJzx8DBwEJzX5kFC5UT1lbGquhJpSBs9DIt3j8O6umN/uSrw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793987372;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=fYklhhhbRSQBfdXX2JpZkjACP3Hz9ptxY00BldJcWAs=;
+	b=nZevQ2JZTWGvw1MffwoqzeWMgYypwIAZZdo+nE08pjY3eihjAuPhup54vgIz54XaH/bA
+	 bwugZ2gU93DHjnF/VsP2Klf7RI8LzGY6cfRH/mGF8I0mFLKFGSCrKUuJ1sxjYmKnWqaK/
+	 QHAVO2M0qnXEe8O+DyI6Ryo8WeubyzSI96AdhVWyBehP+DDqeg/8cH3lUXjcuQw0DdtN/
+	 KNBMOgkgRuFvZYwEjTqkXIuDyGceo0UrXrpT0BbKyN0eMOHjepGOf4kIOKFvo2ym9WYB8
+	 wgn0GWI54ZZVVN78G+dacE8MOfnHvv7EAFngFIrG2ZTf3WsVtUkfKa/iAp4Hi3P/qjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=VhtTr3RO;
-	arc=none smtp.remote-ip=209.85.216.97
-Received: from mail-pj1-f97.google.com (mail-pj1-f97.google.com [209.85.216.97])
+	dmarc=none header.from=gompa.dev;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.161.54
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9399B606A330
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 17:37:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9399B606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=VhtTr3RO
-Received: by mail-pj1-f97.google.com with SMTP id 98e67ed59e1d1-3b0e61a4decso560140a91.2
-        for <asahi@lists.linux.dev>; Fri, 06 Nov 2026 09:37:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F4D606A329
+	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 17:49:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91F4D606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6d68de53053so624092eaf.0
+        for <asahi@lists.linux.dev>; Fri, 06 Nov 2026 09:49:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793986620; x=1794591420;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :user-agent:references:in-reply-to:message-id:date:cc:to:from
-         :dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YYev/NC+kvw4uKd6ceqPEumrLblYo4RG50oIiemWCCg=;
-        b=i2jKaEr0qrQDGzx9yoqPIHRzVplRmB7rskByrTK+7Vzv1Xh2Tz7ZqGTtlerYeJxFLE
-         es76EFgXjkSbUU3NvZYPq/+Oap/dTVN/8vD9Y/5SRm5+Ekx9oMkdJzucuqT/9ILgPFwg
-         e/Q8Q6WBTYFXkIoBJdkoQqzGxp+lSwGvz1b56cWcJ4hJIYd0i4pSrlHsGbzmWJIRjyGB
-         Zfma9BKmJxp2oM9swhYOWxnjtEZ3pPEUUKgQcWgXU5POY4bY6Rn6A13RYbLLPRdboC7g
-         sX2MqlpYiVeKeDkpxcgsdaDfaXeLkJvxPKjyzdsmq/mSFnA31a4rAv2Z82beohG16Lxs
-         p3ag==
-X-Gm-Message-State: APuU4Z9EGhXjpj4MwB69LaD7GvfxfCo2TZ2qFlgz9KWaM17Z48Q+ary5
-	Q+Bpz4jrpDixcelE7u9C/juBfc3exZ1k8PzPH5UMeAlXus2//ZYO43MrpCTU3soyzW7nDIHDo8i
-	W+xv7fa8Vt/S8Q+uZmSPmkqsSA6fuIb/wfdmOYKeyYwSpbncj5Bcxxx3XGbHwiDzle4EKm4szrj
-	AVh96DN2srOTFlCms7IVOewtMoucCezo0MyKFQ6ZpdqTDk6GdjUXRI00e3wWoWybhUZ8kofVNxz
-	fEcNkPl7HuOog==
-X-Gm-Gg: AYBFou2WZNWt0XRYtCF86PR5mrZk64ZLHhUEMVN2zvwbaR0erN0VYjoiskgOT5QXGKf
-	8mY9EgjcbVMHLaGXheVWuRhHwiE8LWf7hZLUXzGQxzRKndsKL2cAK/Z1stfbqHzpecDnJFuQbjf
-	E5gymUhV69HuP1/Xx52Mnmy1QVxLLxqCXOgNjPblsJOiS4uLx5wFMVOYq7jxCAMH6Lfk3ZBqAVH
-	3VuYeZvmN5n00lDHX9uCnbZ6lplblCg6rrTZbL/2xHwznjoPUgZrVdff+2uB5bB8Q9rbBQVAu2t
-	6uOwzhqr2aGgkuGperXssXfwAHYY4i6F9UTqHI/EQ75q0hOOXNc1zZsFDNbLIC60sWsLvcv96Mi
-	MjK9LyHQPeCfoiPY1mvy7jBZueWwZVjr/SsoazuaUJlR5j1A730l+KgY8pNfeSggmqu5yuQbY9S
-	QxzWmMrRuGgVKMXGGxifNU6lPqW6Pr5wBKR4eq09U=
-X-Received: by 2002:a17:90b:39ac:b0:3b0:9cc6:62bc with SMTP id 98e67ed59e1d1-3b0db6ebd52mr3161104a91.37.1793986619836;
-        Fri, 06 Nov 2026 09:36:59 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-13.dlp.protect.broadcom.com. [144.49.247.13])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b0d7da8e5asm2136413a91.3.2026.11.06.09.36.59
+        d=1e100.net; s=20260707; t=1793987370; x=1794592170;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fYklhhhbRSQBfdXX2JpZkjACP3Hz9ptxY00BldJcWAs=;
+        b=kAF128LAAF4LTandGP8qSiXW3xjX2WSN9dKsH7hxow36gWuQ3aE7uEnT3T7z/cUJMR
+         C0zRC8Pz/ARrvVUsdv6aQ+LcN/ISrzPKV7dCUnBiTCB2gOQD15TNypU23G+LI869oKys
+         /aRTUgFShLHZpOx4QxMH6f6VDv0O7bwmq78A7HjYj/2UWhruOHa5AhYPm7aDU34vHh6V
+         DWW0vm9ME9he05uS2u6EuSVH0gXz37FBWqUH88tRSty4OinjQs5UeLemLchXPdumgjFj
+         S0ZTPgh3eZc77/vnDJ9oxmbcEkeokv6jiVpr4JF3Nz70cQpYCzQdrB6hJ6Wu6mvH4Rw6
+         L6TQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxv6RfAk31qcFT3LPEgP+/4/5EN1d5XTYnsRLu4YE7FSDT6RiUZoOcFKtOqLi/2Ux9ynsfvzQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/ZSZzRFKs79kNk1FUZMUIZg8lpsLmPQzNFWiHR/cAwmzfj5q5e
+	C5h0Jo+wahmeZXjmVg5Gdc3RTOmaQ5Kl967DIgLO9xtjxVOHcrCP/gfnoZ8ZKeVU
+X-Gm-Gg: AYBFou0UE3WwJboEpsWzXuXK9iCl4ipE3CMTnLk4DEld4NVsOoyLKsgoWAR/3ahB+va
+	9wn6FUKHRnqyabGxehqMv+T+JE/9V2x2Sg8PtBqflAMsJK0sSPtfBIbzNYxMGbfOaZOreE0n0Jr
+	PKh6yWF9eUdqJXnBgZXaDMwBrFmwJwNq4zHYqfaWRpjkw5E2bAsZxFw+yUfCGX1YAj9/tSL79ys
+	C3oVoXH4DUBKG74oFLpNwL34TQ322YMTBMOfBx5KSV2jtMefuh1szrOqJ90kJBa2iNZ241eaRxS
+	1vIqZcZ//w38fWV1TtVoB4i/+6x+8gNn/bKPvRC3sSFq/IuyD/g8KEy7QY5/duh2RdGAtLd6WB4
+	um1RuS1HTA0I/XgxyppWv/vfWW+BEMCgpKuSeKKX8iFMy6762VPvMcDU1TYMimGGdncUlv0+Dcx
+	lKctoSCrU9xMfOeZGTbXZ9/zRQ4vWAhwrmWL9JEtvt4vT45To5Tk+9mq2OIyOMuVSsG8AnRGGM3
+	utcxicz07Eb3XN1YONjtHXJY5yaZTmQYzKiKHus4wNGkq5FAHZv/RFmEToMQvq04dPgrjU2IR+c
+	ZYQ0Twmw+ZV2+rJnB1ssxeVN6GjpvDFtNEz1NYNXWdly2KFcEKdm/EUlPCwK+mkbgkYVKa6QFof
+	0E4G0pd6nF0Ynwfp3PmagPr6tKmNDILYgx7bBtnT20pSNvluDSk4R1pqgPnuX0CwqSEra9SziDX
+	eEj/yVs0e0DBEawiAXq4R5
+X-Received: by 2002:a05:6820:c30b:b0:703:10f3:89f1 with SMTP id 006d021491bc7-716e790edd7mr1367125eaf.40.1793987370499;
+        Fri, 06 Nov 2026 09:49:30 -0800 (PST)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ad9787dbf6sm2644436fac.3.2026.11.06.09.49.29
         for <asahi@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 06 Nov 2026 09:36:59 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c25edb54d22so126941866b.1
-        for <asahi@lists.linux.dev>; Fri, 06 Nov 2026 09:36:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1793986618; x=1794591418; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :user-agent:references:in-reply-to:message-id:date:cc:to:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YYev/NC+kvw4uKd6ceqPEumrLblYo4RG50oIiemWCCg=;
-        b=VhtTr3RO3PvS9qOlioM184RmtJFrHuZJVJnDPMgMur1evBdIuHOdpC29v0yx+40tg7
-         /tAnPsbeyQH+CTjt1aBQTcmtaFtKI/qC91uHtzRsyEwTGYHOF9Kg4biOO9mGRjKbGAR1
-         7/A08kO2PmiLa0YzcvLpw/kuAuR37YH/1RFYk=
-X-Received: by 2002:a05:6402:2b92:b0:6b5:90d9:70a with SMTP id 4fb4d7f45d1cf-6b5977c1176mr2516070a12.15.1793986617859;
-        Fri, 06 Nov 2026 09:36:57 -0800 (PST)
-X-Received: by 2002:a05:6402:2b92:b0:6b5:90d9:70a with SMTP id 4fb4d7f45d1cf-6b5977c1176mr2516038a12.15.1793986617494;
-        Fri, 06 Nov 2026 09:36:57 -0800 (PST)
-Received: from [192.168.178.59] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b664ad2d0bsm919103a12.10.2026.11.06.09.36.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 09:36:54 -0800 (PST)
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-To: =?UTF-8?B?QW5kcsOpIEVpa21leWVy?= <dev@deq.rocks>
-CC: <asahi@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>, <brcm80211@lists.linux.dev>, <dberlin@dberlin.org>, <frankyl@broadcom.com>, <gustavoars@kernel.org>, <j@jannau.net>, <kees@kernel.org>, <kvalo@kernel.org>, <linux-hardening@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <linux-wireless@vger.kernel.org>, <marcan@marcan.st>, <meuleman@broadcom.com>, <michael.reeves077@gmail.com>, <pieterpg@broadcom.com>, <vanhoefm@gmail.com>
-Date: Fri, 06 Nov 2026 18:36:52 +0100
-Message-ID: <1a1b1ef4b20.2873.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <20261106153612.2aadef2a@kait2en-mbp15-1>
-References: <20261106153612.2aadef2a@kait2en-mbp15-1>
-User-Agent: AquaMail/2.8.1 (build: 200801029)
-Subject: Re: [PATCH 05/13] wifi: brcmfmac: Negotiate PCIe mailbox transport with firmware
+        Fri, 06 Nov 2026 09:49:29 -0800 (PST)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-843a4ca671eso411405a34.2
+        for <asahi@lists.linux.dev>; Fri, 06 Nov 2026 09:49:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBz9GA4BOmsSQsGfDLYf+1Z9CVfL/exeA3uYoSB8O8c7UnIiz/eF39BePiCzGTL5APghbuTP4A==@lists.linux.dev
+X-Received: by 2002:a05:6830:270a:b0:81b:9d18:75c with SMTP id
+ 46e09a7af769-85f1cf95bdcmr3174058a34.20.1793987369358; Fri, 06 Nov 2026
+ 09:49:29 -0800 (PST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -108,26 +83,80 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+References: <20261106-apple-dts-m4-dt-style-check-v2-0-1e715e80b066@cyberchaos.dev>
+In-Reply-To: <20261106-apple-dts-m4-dt-style-check-v2-0-1e715e80b066@cyberchaos.dev>
+From: Neal Gompa <neal@gompa.dev>
+Date: Fri, 6 Nov 2026 12:48:51 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je96B8OJwSR-3Kg74QCXyyBQ0CxYZ7UpLjvFn+UraDdjhA@mail.gmail.com>
+X-Gm-Features: AclHuK8hoZuMZCPNLtXxjvtNoRHB9-OULlZW_Ke3tPYAl1aigN1s6wtlzqMd3Lo
+Message-ID: <CAEg-Je96B8OJwSR-3Kg74QCXyyBQ0CxYZ7UpLjvFn+UraDdjhA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] arm64: dts: apple: dt-check-style strict fixes for
+ Apple M4
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Op 6 november 2026 15:36:19 schreef André Eikmeyer <dev@deq.rocks>:
-
-> Hi Michael,
+On Fri, Nov 6, 2026 at 11:56=E2=80=AFAM Yureka Lilian <yureka@cyberchaos.de=
+v> wrote:
 >
-> I tested 01, 04 and 05 on a T2 Macbook Air 9,1 (BCM4377/4). IIRC should be
-> the same chip as on T2 Macbook 15,4.
+> Hi,
 >
-> Arend, with the patch we get D3 ACK on s2idle and s3. So this basically
-> renders the D3 ACK WoWL workaround patch obsolete, you recently acked.
-> So it will suspend now without refusing d3cold transition, but BT is still
-> dead on resume, which is a separate issue. Just mentioning...
+> mirroring recent changes to the M3 and M3 Pro/Max/Ultra device trees,
+> this makes the M4 device trees broadly compliant with
+> `dt-check-style --mode=3Dstrict`, leaving the same exceptions:
+>
+> - the property-order and line-length issues in the generated pmgr nodes
+>   are left as-is
+>
+> I checked carefully that the modifications do not cause any functional
+> change in the compiled DTs.
+>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+> Changes in v2:
+> - Also fix indentation related dt-check-style issues (mixed-indent-chars)
+> - Change the ordering only where the issue is still present against
+>   current linux-next dt-check-style.
+> - Also fix any remaining line length issues in the t8132 dts except t8132=
+-pmgr.dtsi.
+> - Link to v1: https://patch.msgid.link/20260924-apple-dts-m4-dt-style-che=
+ck-v1-0-3ec651d75baf@cyberchaos.dev
+>
+> ---
+> Yureka Lilian (4):
+>       arm64: dts: apple: t8132: Fix indentation-related dt-check-style is=
+sues
+>       arm64: dts: apple: t8132: Fix blank-lines-related dt-check-style is=
+sues
+>       arm64: dts: apple: t8132: Fix line-length-related dt-check-style is=
+sues
+>       arm64: dts: apple: t8132: Fix ordering-related dt-check-style issue=
+s
+>
+>  arch/arm64/boot/dts/apple/t8132-j604.dts  |   3 +-
+>  arch/arm64/boot/dts/apple/t8132-j623.dts  |   2 +-
+>  arch/arm64/boot/dts/apple/t8132-j624.dts  |   2 +-
+>  arch/arm64/boot/dts/apple/t8132-j713.dts  |   3 +-
+>  arch/arm64/boot/dts/apple/t8132-j715.dts  |   3 +-
+>  arch/arm64/boot/dts/apple/t8132-j773g.dts |   2 +-
+>  arch/arm64/boot/dts/apple/t8132-jxxx.dtsi |  19 ++--
+>  arch/arm64/boot/dts/apple/t8132.dtsi      | 157 +++++++++++++++++-------=
+------
+>  8 files changed, 109 insertions(+), 82 deletions(-)
+> ---
+> base-commit: eea4f3b5e9e19389af3b99af64cdf7352b67c298
+> change-id: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+>
 
-Sorry, you lost me there. What is the relation between the patch in this 
-subject and D3 ack.
+LGTM.
 
-Regards,
-Arend
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
 
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
