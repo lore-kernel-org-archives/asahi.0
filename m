@@ -1,61 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969190;
-	b=2Kjx7iFzIWgUwcg0TweOajfpkumUW51v8eGt9CebKKZVxwV25vFOwUezdLNIY7Fo9zg5
-	 VrszUckspgVy69e6GUMidAOifIqtZbcLKMCymson3HHyjEI9uJrS/hQjm3Kr+zwF740Yb
-	 ggw0bnjgBCh0fS0qZG+soCyaQ4UPg3xh1lXQt6ROtf/W8a96gzhx60ywQMAFv2+RdPRjU
-	 PFJ0oqOIZr8W6QVHi5fXMTreL2+M0eo5QPsXlPkhuQNmD8MGcR1p7r9PDwCBKgR23OwxC
-	 wtiKfOD1VH7HoWDweM2WS9KSIePtO/XeSJ3d+kdrR2Ckc56VN6otHx1isipnPI610kg==
+	t=1793969730;
+	b=NLCE9u7U9r/rvpEPFRa85kJpnD6/XdevlRxepXtFXB9QI/aoiBV/M6qSAdrh3UlBnT5x
+	 LfrJWCOzIeVPY+nLsBf0CzImazaq2ZYjGM/PTmAjLvyAHUQ72mO3WXnqizd6i6JzZKHmP
+	 TSPhH5t+Aa9nI4Owgmi/JaS+93ysjE6I1E63fDUpwwsurdEj4fGB4twen0OUyBhP7VNoM
+	 xzlV7T4uSLMoKppseZgDAYfBEHY9MD0xMVAnOApFFsNFvv3D3DXv3vszml1KShr1sGf6j
+	 RbTnD7VDqmgL2AUsiSHPHwmVAOiK4QvWS7maDB110TK3K+F5Xfy3qcTaMUlEyPlzQGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969190;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969730;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=BPdc3G7jz54Uqtjn7AC8nrE7lGpl51rsY51aLrfVh0c=;
-	b=vK7CR8jj0FV152vNtnSxPTMAW5r7/jUbMCueEoo6g7tOe2uoCwIxz4Ctg4K0nQZff3Oa
-	 vMuik71cTsZ4NamTEZqoS4JeFkV3BZ44EG2bBCAKBUk6i7GDLdwu2XnTuHWJGhzDND7Xo
-	 a39UGU+VDjqAsldZIKKnNjhp/BZJZJK6BHtvMeAlP5tEV1AwNs3WZ6NloMznT1mrecyBZ
-	 YYl5ecZ27z3YCujcVEWf0U1pS/d7N/JhlV1SubIeVQusnpI3KkKfS48IvEtaqnA46QhUN
-	 Krbw0YVJDJ74eK+BFDQMs+Y92LdOV5jL4/gXmes+N/D0WB+MgInRE+CRAJqtVwz9+ZA==
+	bh=cVLVUDAQ/S8P7wIqNsNlHQ7D4Qx5qIHxAIVrj+ZvXUo=;
+	b=wP8v91b7t5e7d9oXXn+idYBvAY9BlG8jbUiN66vaVxGgPIztqsJp06KPhNldyGqWAj0H
+	 1DYmgSbzpHfeenQ3p9ysl0FBk+T3WbdWA3Ge9WJbzH22d22J5xM58ONx/wRxjmwJtYX40
+	 4fNP55t0r3alejkhSlUXiuMFWsoaQwfXu6gNDoLRFIsIbvtk0mAQ6zD3Yik5ytpOUv0Qh
+	 QTOsAHIlBJYIBypLInuyDhdqjWaAO2kKwJjVfgKPLo/GQ1hg3YVOEzCZmccrZlp5/fKIt
+	 fdl5v98Q74xhL68Cux3RAmy57kJZ/cC06LY69gz0NKsV+Xpo/kqRAv7yZbFO3hgu4kQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QfCNjwZv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECT3i2U5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3D9606A326;
-	Fri,  6 Nov 2026 12:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F043606A326;
+	Fri,  6 Nov 2026 12:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QfCNjwZv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FFF01F0089F;
-	Fri,  6 Nov 2026 12:46:29 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECT3i2U5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BAD61F008A2;
+	Fri,  6 Nov 2026 12:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969190;
-	bh=BPdc3G7jz54Uqtjn7AC8nrE7lGpl51rsY51aLrfVh0c=;
+	s=k20260515; t=1793969729;
+	bh=cVLVUDAQ/S8P7wIqNsNlHQ7D4Qx5qIHxAIVrj+ZvXUo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QfCNjwZvG+CC3xe0eQ7y6UM6w726zb7ufYTmtI0p1Ftuu85DVYYfmSTmHBnmcWuph
-	 Y9PK5Jvm8k3OS2FeKPm56HB66JXa4HaEHqwIdNZ3BmlSLCcMz0lJHOvDAlRZ2v3/ay
-	 sXV/z8qIDvgNYf1DhjV3M26yY2Mf+CriYIIcS2FvcvbuRyhDyWW7AxmG6Lm0CfXEoj
-	 Ld6aB6yq5Z3kl+NIjJ5NcA9Xvhmt5p3aoEhbqM7hfgE9kJ9D1f7gFhPUBlqh73y3gS
-	 D+xoy3ZafBK3VqN1noxIZaktAn2p7Fqx2TO3cmzRwwvErOWtsZFvoNCXBQyqgA6fVr
-	 hhG8crctKJ0Qg==
-Date: Fri, 6 Nov 2026 13:46:26 +0100
+	b=ECT3i2U5LWvD96+SCQy4BY79Px0+LDDQkEQLvJIAJSGkKs9QsvVoBFan9ktO5ZAoX
+	 va1/OGEa1g7t2MYQt/3KARMxop2KwWT3C6iksHVrLmmSjiCvaI1zdbVttb7dFnMK7v
+	 XbL211JxP8D+wxkDxkpaeehi6T0a9PmquD3ReY7t8B7KeasBnxexlU8oc5eyxDBwkE
+	 ATD0mGfwA4di50LX05xToAT/GDO6sk6aWM/0i13UdQMOjzoGYb6isYxZjKdT5sm7xQ
+	 kuXKCjfjhfuQKc8qKRT1/4wdspO2NsgdQi4rTVx5OsAmmREuauI4GFPpDJIHwQEM09
+	 HYtPH22IRay9A==
+Date: Fri, 6 Nov 2026 13:55:26 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+To: Myria Sarvay <myrialsarvay@gmail.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Sasha Finkelstein <k@chaosmail.tech>, Linus Walleij <linusw@kernel.org>, 
-	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2 6/9] dt-bindings: pinctrl: apple,pinctrl: Add t8142
- compatible
-Message-ID: <20261106-undetectable-vicugna-of-advertising-6d048e@quoll>
-References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
- <20261104-apple-m5-initial-devicetrees-v2-6-fd727a82d380@cyberchaos.dev>
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, Marc Zyngier <maz@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, Yuvan Shen <yuvanshen09@gmail.com>
+Subject: Re: [PATCH 01/13] dt-bindings: arm: pmu: Add Apple M3/M4/A18 Pro SoC
+ CPU PMU compatibles
+Message-ID: <20261106-meteoric-tench-of-proficiency-a000ee@quoll>
+References: <20261103-m3-plus-pmu-events-v1-0-a8eb6c1139fe@gmail.com>
+ <20261103-m3-plus-pmu-events-v1-1-a8eb6c1139fe@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -67,19 +64,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-6-fd727a82d380@cyberchaos.dev>
+In-Reply-To: <20261103-m3-plus-pmu-events-v1-1-a8eb6c1139fe@gmail.com>
 
-On Wed, Nov 04, 2026 at 06:24:19PM +0100, Yureka Lilian wrote:
-> The pin controller on the Apple Silicon T8142 (M5) SoCs is compatible
-> with t8140. Add "apple,t8142-pinctrl" as SoC specific compatible under
-> "apple,t8140-pinctrl".
+On Tue, Nov 03, 2026 at 09:14:36PM +1100, Myria Sarvay wrote:
+> Document the compatibles for all current M3, M4 and A18 Pro SoC PMU
+> variants. Note that the M4+ are split out by chip codenames, instead of
+> name for the types of cores, as they no longer have individual names for
+> the performance and efficiency cores.
 > 
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
 > ---
->  Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/devicetree/bindings/arm/pmu.yaml | 8 ++++++++
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
