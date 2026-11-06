@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793989120;
-	b=SL7jIpP4m+JVDvMgHg8FrcBYApEL2a22wlhNXrIsAQT9Iwte1ZTYQQczhng7cM6IqhU/
-	 V8fvMuL3+bQFq53TfyCCv4RwnATG5Pk4Nj/sTgycGbyxVdUnT3Bd6mAL4O/J12klOySfX
-	 l34Gi3IidoJMIEHXUMo6Ui2E0BHTowS7OK8ixfFrZ0fXkb0KVxoIgNLlQXWhy/2UB6KuD
-	 uzQ71yX2d8dlFqwyioIz83Uz4WVoR+oZkd/YIy9IMyzCkvAjm370m72MB8cXv26IdFgh3
-	 +lWrItbKsjpk96/D3ErNe8TrEnCbYB+2egb0bzJ7n6RZXNf2eGZW7QNVOzxB762P4NQ==
+	t=1793990221;
+	b=SktosXE9mr08XV8ZxTf5zSx8LZXPBrSee0MQ17qo+6FaN7rGQ2Ml6cKgPVfbxpWiNSlj
+	 XR4ZQ8zCVAMu/8RSobXhE3kGXMSKmhiccOhNZys9nPXLePIr1vSoft4fKrHyBhU0kGj2p
+	 8TwpgpUykmtMmb+TCrd3vJHrB22YcG4xc/s0BzEjx8dVT4Sl6NNkQaid5AFmtegxz4bAw
+	 Q/HFdFXHCZKQ5HZ5RY41jzzTtV9X2+3MJk9Q+zkykzVKHdkP0dDSTuhwOSBYMZo2C89mZ
+	 dzvIxTyjOyiBEbNR5lSUbpH4H5geJKHJfSuTuej9gFKVxtT5lsD6jqXg36B+EwUS9IQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793989120;
-	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=dyygcqcAN6zPeXsDXub4yWu3eaYgS8p+qfGLoA+tRmk=;
-	b=XWahTQbw1TqzUNLXmVhW69mnQCURHv3tYUEsuGPsSpms7iOxy2j/pRPUqS1Ru3nO9m3f
-	 kw/ulmT+HQwF+mwjP2ZBMxFKhpzBt7jJxH0KzJnoU5Btcr5wnvzx6IW4vdr0XFIK9xTfU
-	 urvYR6Yb/+WHikrR8XopvOznyPbR9gki6FSQBruB7SxxRkMxhbWzSNrOlD/0EJh1FFUTK
-	 mZ3uAmYPPsexQZIiECrrFk43RwX/Wn+PE1qI0v6OLDUUJleFisWk8mpzdvSIhZxvnZTir
-	 DF8QbItIR7Tc6JiVEuHVx+XutSlQ64qPWIfS4Qdc6nPp7bR+GPdKccOA1upMN00RGwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793990221;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=XXD9tIfIeyyf1tgZA9qRzZVpi+ZbPumJ8KIZL1TcJBo=;
+	b=Y/0XjQ408TW0A1C1hQYYt1we6ONRCjOf3Zh/icRXl9V91h/1G6CvJGEHCDXm2ei6q5lh
+	 6Q4hVxIkqPSpQx4vD3CArrF8TBaKdWiJavUunuEhZyTIv5a0HPl0emneZtYawzNh6tfyn
+	 BG7qT0iEb8f07CPwcvu1cAA92v+puxWMAP7UDW1+txpwEHKnL6w0o8xBiUbsE0+MWMY9u
+	 yqh4Mpn0pZv6af3zSIk3j/iTYvzKlmPP5SPMTziTQe7BCycy788sxSiAZAQmBbZvMZVpK
+	 t9PSN7mb3QwoqDIJF8/DQWaUiJyHX3EQjRB2AQuUnFAjPZEhGL4gYyvh5QJFwx4Rsug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	arc=none smtp.remote-ip=91.216.248.207
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JP6yeHxm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEF7606A32E;
-	Fri,  6 Nov 2026 18:18:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCEF7606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
-Date: Fri, 6 Nov 2026 19:18:26 +0100
-X-Lima-ML-UUID: 52e3c1d7-73c4-420c-837c-f7ae052149fb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1793989110;
-	bh=QKKFbfCa9dHm2YxFOGcOT17+76twgyOoEkQPZtq3Y0Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ft3ZTQYazgHJy+WiOicPJcdpdkn0Av1qnb5U8ypS+7+NwSnstj3u5W5OQ7i+LxZcv
-	 dqQv1FMGNoXEfpKUelayYiq5xLIAHld+EOG46Bdv9KCwyi4y2BbdD8K5VFM2MSCvqj
-	 NcMr3O1JWGDe11wiVU6xi+r9l7CYoUFND5rtTkJ+i5q1KyfpjX6/M1Ou6XVPeWNs0/
-	 g/+GYf3xTU9B4Z2Tfga6WhoIGJ+qEga6y3eA9BSB/uwIvF+6IRdpS9a0FA7KOanhpS
-	 7iAFFMX3K2cT/KOSR42AOTyuyruQPTGOa7mWvgU2z6TzFH+0W1+XxRwoR8tAvzbXIN
-	 flBdU7MnQin/Q==
-From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
-To: Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: <asahi@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>,
- <brcm80211@lists.linux.dev>, <dberlin@dberlin.org>, <frankyl@broadcom.com>,
- <gustavoars@kernel.org>, <j@jannau.net>, <kees@kernel.org>,
- <kvalo@kernel.org>, <linux-hardening@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
- <marcan@marcan.st>, <meuleman@broadcom.com>, <michael.reeves077@gmail.com>,
- <pieterpg@broadcom.com>, <vanhoefm@gmail.com>
-Subject: Re: [PATCH 05/13] wifi: brcmfmac: Negotiate PCIe mailbox transport
- with firmware
-Message-ID: <20261106191826.4ddb997a@kait2en-mbp15-1>
-In-Reply-To: <1a1b1ef4b20.2873.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-References: <20261106153612.2aadef2a@kait2en-mbp15-1>
-	<1a1b1ef4b20.2873.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-Organization: KaiT2en
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 18AF0606A326;
+	Fri,  6 Nov 2026 18:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JP6yeHxm
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A888B1F00904;
+	Fri,  6 Nov 2026 18:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793990220;
+	bh=XXD9tIfIeyyf1tgZA9qRzZVpi+ZbPumJ8KIZL1TcJBo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JP6yeHxmQzRl5hfaLX5+I2lT3SyYTBGhNYkoVJ3v7G8tYwAX5YnJz4/yR2RLzU6p5
+	 dyY+S9mRtfq3RtXpFzlRtNxJIQODDnmiIvrqTvMZBUyddA4H+AoMT7HIE9PjZ1n5Gh
+	 kpPk7c8qekKzTxRGBdZgcniYKpIiNah6X3+S8+6NvTiFw6wP25AwjWIV1AKKzURFjn
+	 PMFAdKiFHETWQEPItd/Xpy41tEJkfjvBp9XuIhI7b+vCTQh3hPXaDh4xcs+1kk53Eu
+	 +ATMDnWpC4Qs7IaKVqlay7SJbrE6J18NQXtYwMh5FtAqf2hDbRahmX7p6c2VT5//dD
+	 2nZa/uyHZxolQ==
+Date: Fri, 6 Nov 2026 19:36:57 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>, 
+	Linus Walleij <linusw@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v2 5/9] dt-bindings: pwm: apple,s5l-fpwm: Add t8142
+ compatible
+Message-ID: <au4eDk3-bAQ-EjlD@monoceros>
+References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
+ <20261104-apple-m5-initial-devicetrees-v2-5-fd727a82d380@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -68,34 +66,48 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cpcwbv7z5gtj3ayx"
+Content-Disposition: inline
+In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-5-fd727a82d380@cyberchaos.dev>
 
-On Fri, 06 Nov 2026 18:36:52 +0100
-Arend van Spriel <arend.vanspriel@broadcom.com> wrote:
 
-> Sorry, you lost me there. What is the relation between the patch in
-> this subject and D3 ack.
+--cpcwbv7z5gtj3ayx
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 5/9] dt-bindings: pwm: apple,s5l-fpwm: Add t8142
+ compatible
+MIME-Version: 1.0
 
-Hi Arend,
+On Wed, Nov 04, 2026 at 06:24:18PM +0100, Yureka Lilian wrote:
+> The PWM controller on the Apple silicon t8142 (M5) SoC is compatible
+> with t8103. Add "apple,t8142-fpwm" as SoC specific compatible under
+> "apple,s5l-fpwm".
+>=20
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 
-D3_INFORM and D3_ACK are mailbox messages, and 05 changes how they are
-exchanged. Without 05 brcmfmac writes D3_INFORM to the TCM mailbox
-and our cursed Apple 4377 firmware on the 9,1 doesn't read it.
+Fine for me to let this go through apple-soc.
 
-That is why I mentioned the D3 ACK timeout handling patch. I
-submitted that because I was sure the firmware wouldn't send it.
-But actually the transport was broken.
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
 
-https://lore.kernel.org/all/20261001085308.1688049-1-dev@deq.rocks/
+Best regards
+Uwe
 
-which was superseded by Sebastian's patch here:
+--cpcwbv7z5gtj3ayx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-https://lore.kernel.org/linux-wireless/20260915-brcmfmac-bcm43752-suspend-fix-v2-1-1bd84914998b@collabora.com/
+-----BEGIN PGP SIGNATURE-----
 
-So probably for addressing Sebastian's issue this needs to stay
-anyways. My memory served me wrong. I just read that his device is not
-an Apple product, but his patch incidentally worked around the same
-problem. Sorry if i was causing unneccessary noise. 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmruHkcACgkQj4D7WH0S
+/k6/Mgf+MNkIvT5Osv2p9FD0hPlNyAR3xgH22Qg5GmwtX8sdRXqeW/pfzrRa0gxC
+7KfnB3QUi973Kv/P/KotlgUNMyclAouMDla3PK9/qB154h/I2mAyYaxkMFxA6hiM
+BcmpD9nehcFqa11ZbSyK7woPht/jT/p0lGV/zwWtF8e9xauuKUJACSdOC0ZqCQ7s
+MEKrMqfFW1X0vkX7u1pIgM1/xOou1cM7QcCa7c5R3iH6Pikl0yNUE4orNB/C5DXm
+0zNp2ZaGX9KJY6GdRk0Lmx/01kAcUXUPo3qed3VVwfvZBI24n3tXoq2j1k3LmMQf
+OfVVqtR4am7GiKEOUkgkxdfS+ZLHxQ==
+=jNQA
+-----END PGP SIGNATURE-----
 
-Andre
+--cpcwbv7z5gtj3ayx--
