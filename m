@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980093;
-	b=4dKlee2V+2GCuCvoNscrQbKjJiwPOsx6XkKRXCspspOwlKGI/LIgS7IV+ojJwUK5YMcn
-	 rHW21fzsHCMFCboodxMbJYt72jBFBWmtiGMSHG9ehhyYHCuoW4cTunfQn2aheVcHSyNMa
-	 4xuesZrywwjWNz6heHdxOspGj2f2PsdL74/B+Rb4ssP5KFQ89BtZDdGaTWf6Oh22kom/I
-	 Dz+ku6ULMN8TK9eVzCskiWnreUbM6+wZW1mRPKfgrbA0pz5ZrqLE9IESkm9+netMBdM9c
-	 hzIcRtXffpY5gI/T36PvvXeLyuzWG0bWx4piN0dJ25H1M0gYlAT2a1excPMlOX7qJFA==
+	t=1793981865;
+	b=uCGYanxu01aJLjdFcAaN232BSuC5QDBtVE7mrqYU/0o7bkkrVsu7qMtc7D3sYvYHlUby
+	 9oNlaSazpZg20E8EnD4/QHzcMCyp/xklCxPwHYlL0CYWvfhs1E+yaiyYsCxP8UTRNccVy
+	 JKqNj+3CzUzW7vQen9soPnVCay80SodpSO/jqVMQ87hyInwYH+8M3xdPwcE4SKVWmrr1u
+	 LnaVojozqHHAoufAbIPGGlqM2CUOCTEymIzRWT3bNGSYZ6L3p1vswV8Cp7xCFOsEt2JIX
+	 bqkGupMwqN4QSqlxd6GTRUwwFzfqbnCRlZM2mHD02vGpZrrvuFHYW+1Odp445ejU9gQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980093;
-	h=DMARC-Filter:Received:Received:Received:X-Zmail-TransId:X-Mailer:
-	 Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
-	 Subject:Content-Type:X-MAIL:X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:
-	 X-CLEAN:X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
-	bh=/u8h+hcsj8MZ3F8YEpQZ/r2DyybrF8zCRIH94PeMAS8=;
-	b=f5VpLWTmUnN5vlOnNVKLiyiQW0QlMt3FCk7BUhg+fjE3ZDK2/xlMYPDEBzLuOQjlchvP
-	 lMkzIddi+2OvlAhJ506hnDynRlhvBZnneT0zIS9+UFcWTBTft7GDQ01GDQupRzMibJT9U
-	 wpl9nwxlofeW3lDD2t3eRwp8vPAcNnwEJJM4lv7EzIbqTHJJayOil61t1WFKLHwk7VaBO
-	 rsd6MOrAlHN8/LXyKxYQSl7oVebUBY+S45npRMLL8b4z+3WOqxCZCsmGAxtHGf/MNxa3w
-	 p2ZBzOoI94LyJeCw7klSNut+yw0J77gsrKK982tJ/B64fKFTRGrzgzjQzPpVGObtdAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793981865;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Subject:
+	 Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Last-TLS-Session-Version;
+	bh=dzJFO/S+7wj28zkoa8OYMaOX0CGTMgtEm0abeBbxaag=;
+	b=mBgyfq1aCXbSuOjYyeOiWw3DEUVP3whMz7Gv79JMavmqgBP0/k92NReHJ3oS0RQTnhto
+	 k2HxfOmMYi53mB3dlL3ebjIgbLPrU/WUPdUfBw9NaPyPV5jghicFhLHwNwkQKOJ6mIPoQ
+	 TRQV0hOv3GoJ2SNuW0Xa/m7fZEImxT3pGpZJELMWJ/q9X07IYoUKHGKCiygsnzeoCMZFC
+	 pPEqzdTKfmEUxtUgGy7QlT2SnoqMDNpJ1jnizG5dmji1y7tv2MwwHqD//O9Mvk0MMBaLh
+	 /t0O611VR4QvCkq0GLpH7Ni8Fq3x9naioW2MgObDkeiV+0vS/E4FSSLI1EAReUVDhiQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zte.com.cn;
-	spf=pass smtp.mailfrom=zte.com.cn;
-	arc=none smtp.remote-ip=160.30.148.35
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=W9m7kDZV;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D4C606A330
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 15:48:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69D4C606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jLk96605nz8Xrr9;
-	Fri, 06 Nov 2026 23:48:10 +0800 (CST)
-Received: from xaxapp05.zte.com.cn ([10.99.98.109])
-	by mse-fl1.zte.com.cn with SMTP id 6A6Fm1cp081003;
-	Fri, 6 Nov 2026 23:48:01 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp02[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Fri, 6 Nov 2026 23:48:03 +0800 (CST)
-X-Zmail-TransId: 2afa6aedf6b3953-a68da
-X-Mailer: Zmail v1.0
-Message-ID: <20261106234803459Z94udUX-Ai29-OfBFRND6@zte.com.cn>
-In-Reply-To: <20261106234751020Egf42VCVVlsSC_Msov4HO@zte.com.cn>
-References: 20261106234751020Egf42VCVVlsSC_Msov4HO@zte.com.cn
-Date: Fri, 6 Nov 2026 23:48:03 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABBE606A32C
+	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 16:17:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ABBE606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=W9m7kDZV
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 57DA04E4147B;
+	Fri,  6 Nov 2026 16:17:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 27FBE5FFBC;
+	Fri,  6 Nov 2026 16:17:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E0748103291BA;
+	Fri,  6 Nov 2026 17:17:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793981854; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=dzJFO/S+7wj28zkoa8OYMaOX0CGTMgtEm0abeBbxaag=;
+	b=W9m7kDZVuK5V/pTrifvzwAK7qqMYgQeVyTZNrHKeSIqBRzEgAj4Yr269jjOfHH18Alto5h
+	H8o3HyPhrxQfQXYzZdS1HnNae/LM/L1OvKI2XNDu9fp0HBmTE6oi+JSExaVbatcn7uqntS
+	hYA22kZnfDIyHctBc5qz4AcAdcelv96BzvLqkEZ+R3f39s1DPSpLHgEruianXC6GfIz510
+	fddVSC3bobRurQmx4bRYU2nNWl2PAR3FEzJiXbM1zpfkV/1j5RgUbFuRr7tLd5DdMu1q8+
+	3CN9eAzsJgHrxfgwvjcmg4c71GNqRLhwRkP18THra0Ig+Jbtrcx7EnpGjfFxoA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 0/3] drm: remove drmm_of_get_bridge()
+Date: Fri, 06 Nov 2026 17:17:03 +0100
+Message-Id: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,63 +61,101 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <broonie@kernel.org>, <linux-spi@vger.kernel.org>
-Cc: <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <pjw@kernel.org>, <samuel.holland@sifive.com>,
-        <william.zhang@broadcom.com>, <kursad.oney@broadcom.com>,
-        <jonas.gorski@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>,
-        <anand.gore@broadcom.com>, <florian.fainelli@broadcom.com>,
-        <rafal@milecki.pl>, <linux-arm-kernel@lists.infradead.org>,
-        <sven@kernel.org>, <j@jannau.net>, <neal@gompa.dev>,
-        <asahi@lists.linux.dev>, <ryan.wanner@microchip.com>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <claudiu.beznea@tuxon.dev>
-Subject: =?UTF-8?B?W1BBVENIIDUvNV0gc3BpOiBhdG1lbDogZml4IGRpdmlzaW9uIGJ5IHplcm8gd2hlbiB0cmFuc2ZlciBzcGVlZCBpcyB6ZXJv?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 6A6Fm1cp081003
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Fri, 06 Nov 2026 23:48:10 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AEDF6BA.000/4jLk96605nz8Xrr9
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zWNQQqDMBBFryKzbiBxodirlBISZ2KnNIlMVAri3
+ Rtbunz/wX87FBKmAtdmB6GNC+dUwVwaGB8uTaQYK0Or284Y3SmUqGaX6GW9MFYvFPNG5x5tDna
+ i5W/6wXjUQTsceqiHs1Dg9zd2u/+4rP5J43IW4Dg+lAabPY4AAAA=
+X-Change-ID: 20261106-drm-panel_bridge-remove-drmm_of_get_bridge-791bd0f0ad97
+To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Shao Mingyin <shao.mingyin@zte.com.cn>
+drmm_of_get_bridge() is deprecated. By now it is just a complicated wrapper
+to of_drm_get_bridge_by_endpoint(), and it does not implement bridge
+refcounting. Replace the only user and remove it.
 
-atmel_spi_one_transfer() calls atmel_spi_set_xfer_speed() for every
-transfer.  A device whose max_speed_hz is zero (no spi-max-frequency
-property, or created through the spidev sysfs new_device interface
-without a speed) leaves the transfer speed at zero, and the divider
-calculation divides by it.  spi_setup() would only clamp the speed if
-host->max_speed_hz was set, which this driver does not do.
+== Grand plan
 
-On cores without a hardware divider this reports "Division by zero in
-kernel" and dumps a stack trace, and on cores with one the quotient is
-silently zero; in both cases the existing "too high" check then rejects
-the transfer.
+This is part of the work to support hotplug of DRM bridges.
 
-Clamp the divisor to 1 Hz so the zero never reaches the division.
+Here's the work breakdown (➜ marks the current series):
 
-Fixes: d3b72c7e6bf3 ("spi: atmel: add support for changing message transfer speed")
-Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. ✔ protect encoder bridge chain with a mutex (v7.2)
+       7. ✔ of_drm_find_bridge
+          a. ✔ add of_drm_get_bridge() (v7.0),
+               convert basic direct users (v7.0-v7.1)
+          b. ✔ convert direct of_drm_get_bridge() users, part 2 (v7.0)
+          c. ✔ convert direct of_drm_get_bridge() users, part 3 (v7.0)
+          d. ✔ convert direct of_drm_get_bridge() users, part 4 (v7.1-v7.2)
+          e. ✔ bridge-only drm_of_find_panel_or_bridge() users (v7.2)
+       8. ➜ panel_bridge lifetime
+          a. ✔ cleanup DRM_PANEL in bridge drivers (v7.4)
+	  b. ✔ embed a drm_bridge in every drm_panel (v7.4)
+	  c. ✔ remove *_of_get_bridge(): non-OF drivers (v7.5)
+	  d. ➜ remove drmm_of_get_bridge()
+	  e.   remove devm_drm_of_get_bridge()
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. ✔ handle gracefully atomic updates during bridge removal
+    A. ✔ Add drm_bridge_enter/exit() to protect device resources (v7.0)
+    B. ✔ Add drm_bridge_clear_and_put() (v7.1)
+ 3. ✕ DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. ✔ Migrate i.MX LCDIF driver to bridge-connector (v7.2)
+ 6. … DRM bridge hotplug
+    A. … Bridge hotplug management in the DRM core
+       1. ✔ bridge-connector: attach encoder to the connector (v7.2)
+       2. … drm bridge hotplug
+    B.   Device tree description
 
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
+Luca Ceresoli (3):
+      drm: adp: stop using deprecated drmm_of_get_bridge()
+      drm/panel: remove drmm_of_get_bridge()
+      drm/todo: remove drmm_of_get_bridge()
 
-diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
-index ffc896e4621a..deebf7afabbc 100644
---- a/drivers/spi/spi-atmel.c
-+++ b/drivers/spi/spi-atmel.c
-@@ -922,8 +922,9 @@ static int atmel_spi_set_xfer_speed(struct atmel_spi *as,
- 	/*
- 	 * Calculate the lowest divider that satisfies the
- 	 * constraint, assuming div32/fdiv/mbz == 0.
-+	 * A device with max_speed_hz == 0 must not divide by zero.
- 	 */
--	scbr = DIV_ROUND_UP(bus_hz, xfer->speed_hz);
-+	scbr = DIV_ROUND_UP(bus_hz, max_t(u32, xfer->speed_hz, 1));
- 
- 	/*
- 	 * If the resulting divider doesn't fit into the
+ Documentation/gpu/todo.rst    |  1 -
+ drivers/gpu/drm/adp/adp_drv.c | 13 +++++++++----
+ drivers/gpu/drm/drm_panel.c   | 40 ----------------------------------------
+ include/drm/drm_panel.h       | 10 ----------
+ 4 files changed, 9 insertions(+), 55 deletions(-)
+---
+base-commit: 4524052b65a75166c1c557921c786bd82302de13
+change-id: 20261106-drm-panel_bridge-remove-drmm_of_get_bridge-791bd0f0ad97
+
+Best regards,
+--  
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
