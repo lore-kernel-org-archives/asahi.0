@@ -1,66 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793950427;
-	b=wFjHcB1zBRH4we/HQi0xgMq8bxcAba3sZScOoBGHo+fqAUdSDGHYi/JPHQ8HlmHTET//
-	 oIIZL3RMA8UqGlS29dNybESHRFqJ3gHhfmaqMsNZ9v7Icccp0lMCLqJb4HG3Q+tiio6hH
-	 bmSVMVJfsRZA9MhQtPYOAo1EFl9x4Mb6s35ZnvJZ9ayMCuPvpOdcSnlg2V4KWko4Ei/qw
-	 GIYuOSolakKEaqzRZs7t0hFbb32VbKaMNmfKxLoJvgqF99UXMtrFQsBTxQnX+DeMBE6ni
-	 1QqQSPeJ7GLZeyUlh9dh+LvcT8xRHK2RA66F6H7Ns3ICugifNLpYlidfZsqHzS9v9YQ==
+	t=1793958079;
+	b=gVcT+dQwEP3cyIGR9xPiWYRVsn/LFFbwyY/ve05YlaYw3to9kOKKQEfH48jEafC+RNtu
+	 j8891caNVxxs+ETRaTXDtj9pPiaYrxA2FVOsIPbrj0X/3ZwoTiNKzrzS0LXKG3J4ntqB9
+	 TKNZUK6ytliJU6CDrg+B1fEkzEj+c15AQ35KGCqcIfqp4OzqSTEgy8zDvW8F4OA4KVDyG
+	 FeuLFYKs+wYA575eCSK0ZyGsj7Q8+DMFihQyUcksQAvIjgfr7mn/dpiQhzwOcgW9cVNXu
+	 H2zR6R9njd1iDxRdPT9eH/W9FtKLq0ucIm+xauQzuLEnZIVr76yJ41bgy0cKimg8SRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793950427;
-	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=rKxzvGAlPRe95V0pVMlRztyt1v5h62ch9oQN2DY4Clc=;
-	b=qBSTz0pImiLX8sjPCbcpaAC/MaUqZQcHjYRVIK8O/NnEBlKLtMgrfBLG6d1kvI4DZDFk
-	 BkTbO8xzM9w5aWZ7rjLcQz934Fh5m/Szv+1qnCUpxtSR+h0SOD8jirvGGRNgX/Iq3mYSf
-	 L6ku8UsT24eCUpv+CA9qgxdL5rd+YqcpYPbiG+k64nekNjXEtQdv9te4iG1fwiGVTo621
-	 TsyhViDKUBtb8pCjHo5rEXCrvF/tE+6M1f3dwQlDaIA+zl0Xkyrj3cj/w2k/mIC+/3AtW
-	 3naMUuOPoGqTpmLqqWeCaqxffXddrkpToEdAezdbUGv756w7f2/LVMIzGHVVYUypoWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793958079;
+	h=DMARC-Filter:Received:DKIM-Signature:Content-Type:MIME-Version:
+	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
+	 References:To;
+	bh=YfbuL9NipT5CUX35p4YpXm85UJ/pLix7zAUVyhBYcLM=;
+	b=D4aP7Tk0rt9eaYx1fdRHiIuySLXa8Xbba1ozhX6Opuvh5tK1u/SU8vGv0wJmajLXABo/
+	 V/R4ZdKe3nckEi/66OEB3PwhNa83mk7nVrIObi6yF985vVmrA7ZcGEgc2RvXhY9m9ShhB
+	 v9ig+HVWy6RxlL3mrQs4VSeZWEpD7QrJEOAUrnmafG3N/vWTPQZ8F9+wC9FU6rnosEWD6
+	 osZ1r+4DbJmhse3gEt86nzWnG9Vf3vwxz3M8cBr3vfW9fzRndj6SSpKF3f3/47x6sA/NE
+	 DJLvvFg49E/4AE4M5kISvTG0Q2SOeNy0cn8hvTUoBk6ybv1gXF8mw9pfGCRCdD6vBSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=r3862YK+;
-	arc=none smtp.remote-ip=91.216.248.207
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+	dmarc=pass header.from=chaosmail.tech;
+	spf=pass smtp.mailfrom=chaosmail.tech;
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=sCZijAZD;
+	arc=none smtp.remote-ip=77.81.229.115
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F758606A326
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 07:33:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F758606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458E3606A32F
+	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 09:41:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 458E3606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=r3862YK+
-Date: Fri, 6 Nov 2026 08:33:39 +0100
-X-Lima-ML-UUID: efbc4d95-1bba-426c-9435-09581e33fd37
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1793950424;
-	bh=rKxzvGAlPRe95V0pVMlRztyt1v5h62ch9oQN2DY4Clc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=r3862YK+9lpiv6qXkmsupUVvoPmKKTuMSkwmoXBtEt1J2UDdsTGZQxuZaWt7uV1Z6
-	 aVB3DRULdeJM38mX2EwLQ4byQeH3TFmfP4nVeTiduKUE2ty+lAw1MG2XPWjgduG55v
-	 c2izJpRl2HNikrx/vcy6cU1U3ApgLRU5fUxW+FVFsf9kEvMG5xyDtP9n6UlzzXbt9b
-	 ygBAx8VYgcCEBKBs5OwV51TyDPv+haXs0MzCeyu7afPXUc7njU+bZxE5ond6DiVxO9
-	 0nm5Ef2v4Qry4tTJ5GfxccylX5PaZJceG7Uawu266B74Ln0S/aHn4nPae3u8hhhrnj
-	 V07HqlsjLQ3CA==
-From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
-To: Myria Sarvay <myrialsarvay@gmail.com>
-Cc: marcel@holtmann.org, luiz.dentz@gmail.com,
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
- sven@kernel.org, j@jannau.net, neal@gompa.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Yossef Osman
- <Yossef.Osman@proton.me>, Aditya Garg <aditya.garg@linux.dev>
-Subject: Re: [PATCH v2 1/2] Bluetooth: btbcm: raise ACL priority on Apple
- Broadcom controllers
-Message-ID: <20261106083339.677cc75d@kait2en-mbp15-1>
-In-Reply-To: <au1uH6uxtsw2vHfP@macbookair>
-References: <20261105085750.120392-1-dev@deq.rocks>
-	<20261105085750.120392-2-dev@deq.rocks>
-	<au1uH6uxtsw2vHfP@macbookair>
-Organization: KaiT2en
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=sCZijAZD
+Received: by chaosmail.tech (Postfix) id 5625C1CA444;
+	Fri, 06 Nov 2026 09:41:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1793958069;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YfbuL9NipT5CUX35p4YpXm85UJ/pLix7zAUVyhBYcLM=;
+	b=sCZijAZDd9/SGpPGFxtA64PrWjVAfOoTxQ+oP2NzEcuKFZxZbjRLYNDbBBGO/UByN4lGcs
+	ZrIeVD9/xINk1sveibgB0JKkkw2WAtBDbMQ9DqRg9xYrhqNEKq7lv7MTEKWYof7a0SCug4
+	Uri69wI3+2hA/uQrn2MgrKfT4f48X1Q=
+Content-Type: text/plain;
+	charset=utf-8
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -70,27 +56,39 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 1/2] Bluetooth: btbcm: raise ACL priority on Apple
+ Broadcom controllers
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20261106083339.677cc75d@kait2en-mbp15-1>
+Date: Fri, 6 Nov 2026 10:40:58 +0100
+Cc: Myria Sarvay <myrialsarvay@gmail.com>,
+ marcel@holtmann.org,
+ luiz.dentz@gmail.com,
+ linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ sven@kernel.org,
+ j@jannau.net,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ Yossef Osman <Yossef.Osman@proton.me>,
+ Aditya Garg <aditya.garg@linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CB3B84A2-76AD-45F5-B2B9-39E5A9ED3BE7@chaosmail.tech>
+References: <20261105085750.120392-1-dev@deq.rocks>
+ <20261105085750.120392-2-dev@deq.rocks> <au1uH6uxtsw2vHfP@macbookair>
+ <20261106083339.677cc75d@kait2en-mbp15-1>
+To: =?utf-8?Q?Andr=C3=A9_Eikmeyer?= <dev@deq.rocks>
 
-On Fri, 6 Nov 2026 17:05:19 +1100
-Myria Sarvay <myrialsarvay@gmail.com> wrote:
+On Nov 6, 2026, at 08:33, Andr=C3=A9 Eikmeyer <dev@deq.rocks> wrote:
+>=20
+> I'll drop 1/2 and send the hci_bcm part on top of
+> Sasha's patch once I've tested. Then we should have it nice and
+> consistent.
 
-> Just wanted to point it out, if you hadn't seen it before, that Sasha
-> has in the past sent a different patch [1] to run these priority
-> commands. They seem to take a different approach to when to enable/run
-> them. Wasn't sure if one was better or worse though.
+You probably shouldn't, or at least base it on v2, not v3 (that one
+ended up being a bad idea and caused firmware timeouts, so Asahi
+downstream ships something more similar to v2).
 
-Hi Myria,
+In addition - have your tests included entering and exiting stream with
+an ACL link active? That part always caused problems for me.
 
-thanks, indeed I hadn't seen it. Sasha's approach is the better one
-IMO, it only raises the links that carry audio. The dropouts I measured
-are on the BCM4364 of the MacBookPro15,1 and 16,x behind hci_bcm, which
-only needs hci_set_brcm_capable() on Apple machines on top of Sasha's
-patch.
-
-Luiz, let me tinker. I'll drop 1/2 and send the hci_bcm part on top of
-Sasha's patch once I've tested. Then we should have it nice and
-consistent.
-
-Andre
