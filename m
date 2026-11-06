@@ -1,62 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793990221;
-	b=SktosXE9mr08XV8ZxTf5zSx8LZXPBrSee0MQ17qo+6FaN7rGQ2Ml6cKgPVfbxpWiNSlj
-	 XR4ZQ8zCVAMu/8RSobXhE3kGXMSKmhiccOhNZys9nPXLePIr1vSoft4fKrHyBhU0kGj2p
-	 8TwpgpUykmtMmb+TCrd3vJHrB22YcG4xc/s0BzEjx8dVT4Sl6NNkQaid5AFmtegxz4bAw
-	 Q/HFdFXHCZKQ5HZ5RY41jzzTtV9X2+3MJk9Q+zkykzVKHdkP0dDSTuhwOSBYMZo2C89mZ
-	 dzvIxTyjOyiBEbNR5lSUbpH4H5geJKHJfSuTuej9gFKVxtT5lsD6jqXg36B+EwUS9IQ==
+	t=1793994723;
+	b=NPpT0ymcK7qp5srj4aK17Avcr+OmQW6rmsSDOWfbMLBFxkokovO59rsGzgWSPHEEXcZJ
+	 RwCHWLn9h52d1hf8hi0g1g7AXq6MWH9zHLo4/eZhw8EAWjRZNj2+ljzrutuGMJidqS//I
+	 8ivZAg2zfQDkON0YErR+SZGUgi/r6usex12KjeAQfOfhX9XI6um58a3+I9vkSyD1ln8Jm
+	 qqEsKAyaOvQFLs+QJoD7WEZNdlMissZZOw2wYvyb2imbX3/RNW/NxgjyohIcMd6Hmr8Qx
+	 4GnzoghvEtj0NxsjXNmGzOIaQuE93IVtv6JYJeZk6T06rGat/6wNAISVgFidKcmaQrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793990221;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=XXD9tIfIeyyf1tgZA9qRzZVpi+ZbPumJ8KIZL1TcJBo=;
-	b=Y/0XjQ408TW0A1C1hQYYt1we6ONRCjOf3Zh/icRXl9V91h/1G6CvJGEHCDXm2ei6q5lh
-	 6Q4hVxIkqPSpQx4vD3CArrF8TBaKdWiJavUunuEhZyTIv5a0HPl0emneZtYawzNh6tfyn
-	 BG7qT0iEb8f07CPwcvu1cAA92v+puxWMAP7UDW1+txpwEHKnL6w0o8xBiUbsE0+MWMY9u
-	 yqh4Mpn0pZv6af3zSIk3j/iTYvzKlmPP5SPMTziTQe7BCycy788sxSiAZAQmBbZvMZVpK
-	 t9PSN7mb3QwoqDIJF8/DQWaUiJyHX3EQjRB2AQuUnFAjPZEhGL4gYyvh5QJFwx4Rsug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793994723;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=FWoIj6liytooXdy4J5X8/rhyOjRa8fsYIflXbsEmQ60=;
+	b=gfQnVOr5GkaX5/F6bOBnq4Lmb9KSicy3T3gYUKhOVamE0aFrvcZjVeOcew2jNl0VvhEZ
+	 DF4+HTDiil2nB1091ZEgb0jfC6MJf0Z/i2rlyXBVzDTYGQ1n8Q0qWZQoI7IYoDDqbRPL+
+	 1WJ/0Xg87CLZr6ToogVjQJDZzV+6GDV6b4Hbc5LF/AhCLil0eQ/Q4TnfUIt/OL9aOKAhG
+	 igRoNCnla2BzLLT/bsFCXE5fvlydthncUq6//4PbVl3ZzH0xYfjCsrwT4FsoHGgmqhqaz
+	 wFdJQ8fiLoADzKTCKjLtFimIAaNzrL2ULW+zU8zC0vVaYt2UyDm9uWjBdbTk44XnL9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JP6yeHxm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gRM195IP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 18AF0606A326;
-	Fri,  6 Nov 2026 18:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D41606A32C;
+	Fri,  6 Nov 2026 19:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JP6yeHxm
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A888B1F00904;
-	Fri,  6 Nov 2026 18:36:59 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gRM195IP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1261F0089F;
+	Fri,  6 Nov 2026 19:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793990220;
-	bh=XXD9tIfIeyyf1tgZA9qRzZVpi+ZbPumJ8KIZL1TcJBo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JP6yeHxmQzRl5hfaLX5+I2lT3SyYTBGhNYkoVJ3v7G8tYwAX5YnJz4/yR2RLzU6p5
-	 dyY+S9mRtfq3RtXpFzlRtNxJIQODDnmiIvrqTvMZBUyddA4H+AoMT7HIE9PjZ1n5Gh
-	 kpPk7c8qekKzTxRGBdZgcniYKpIiNah6X3+S8+6NvTiFw6wP25AwjWIV1AKKzURFjn
-	 PMFAdKiFHETWQEPItd/Xpy41tEJkfjvBp9XuIhI7b+vCTQh3hPXaDh4xcs+1kk53Eu
-	 +ATMDnWpC4Qs7IaKVqlay7SJbrE6J18NQXtYwMh5FtAqf2hDbRahmX7p6c2VT5//dD
-	 2nZa/uyHZxolQ==
-Date: Fri, 6 Nov 2026 19:36:57 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>, 
-	Linus Walleij <linusw@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v2 5/9] dt-bindings: pwm: apple,s5l-fpwm: Add t8142
- compatible
-Message-ID: <au4eDk3-bAQ-EjlD@monoceros>
-References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
- <20261104-apple-m5-initial-devicetrees-v2-5-fd727a82d380@cyberchaos.dev>
+	s=k20260515; t=1793994722;
+	bh=FWoIj6liytooXdy4J5X8/rhyOjRa8fsYIflXbsEmQ60=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=gRM195IPeXcFlP41Ze6+edyjNYkY+yjIMs7gFzitL8c+DZYskErazrJIGklyDM1PN
+	 V46Cn5f1olE3VaoYNtvXMCsXZD4gDyFEa9+S+FFxoxl52RroALl0nXm5QnpeOFVgyN
+	 am/pZdcrPdQssfZOyjgJlauXBzOmRSiWTVrXX/GCOQKjjwFoh9HDvxwPZ1wSF0W+7M
+	 bQBASqaeN3ddSOeUEK2PIKX4EP4QuQnDeYqEezuRCGYKfS7IuQGfxjli9LG72m5nQr
+	 k0M4zvh1uJRcR8wKJjfUL/MW+0FlwEcMzA/MG6frL5Vpta764zjO3i7PuA6JjmfNLp
+	 +xFbE0/gNy0dw==
+From: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] arm64: dts: apple: dt-check-style strict fixes for Apple M4
+Date: Fri,  6 Nov 2026 20:51:46 +0100
+Message-ID: <179399468585.85920.11928833306229144804.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261106-apple-dts-m4-dt-style-check-v2-0-1e715e80b066@cyberchaos.dev>
+References: <20261106-apple-dts-m4-dt-style-check-v2-0-1e715e80b066@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -66,48 +67,31 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cpcwbv7z5gtj3ayx"
-Content-Disposition: inline
-In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-5-fd727a82d380@cyberchaos.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Fri, 06 Nov 2026 17:56:12 +0100, Yureka Lilian wrote:
+> mirroring recent changes to the M3 and M3 Pro/Max/Ultra device trees,
+> this makes the M4 device trees broadly compliant with
+> `dt-check-style --mode=strict`, leaving the same exceptions:
+> 
+> - the property-order and line-length issues in the generated pmgr nodes
+>   are left as-is
+> 
+> [...]
 
---cpcwbv7z5gtj3ayx
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 5/9] dt-bindings: pwm: apple,s5l-fpwm: Add t8142
- compatible
-MIME-Version: 1.0
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.5), thanks!
 
-On Wed, Nov 04, 2026 at 06:24:18PM +0100, Yureka Lilian wrote:
-> The PWM controller on the Apple silicon t8142 (M5) SoC is compatible
-> with t8103. Add "apple,t8142-fpwm" as SoC specific compatible under
-> "apple,s5l-fpwm".
->=20
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+[1/4] arm64: dts: apple: t8132: Fix indentation-related dt-check-style issues
+      https://github.com/AsahiLinux/linux/commit/c1d0c2e46812
+[2/4] arm64: dts: apple: t8132: Fix blank-lines-related dt-check-style issues
+      https://github.com/AsahiLinux/linux/commit/e63df4a6b4af
+[3/4] arm64: dts: apple: t8132: Fix line-length-related dt-check-style issues
+      https://github.com/AsahiLinux/linux/commit/0199d5131009
+[4/4] arm64: dts: apple: t8132: Fix ordering-related dt-check-style issues
+      https://github.com/AsahiLinux/linux/commit/84a1163b0a3e
 
-Fine for me to let this go through apple-soc.
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org>
-
-Best regards
-Uwe
-
---cpcwbv7z5gtj3ayx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmruHkcACgkQj4D7WH0S
-/k6/Mgf+MNkIvT5Osv2p9FD0hPlNyAR3xgH22Qg5GmwtX8sdRXqeW/pfzrRa0gxC
-7KfnB3QUi973Kv/P/KotlgUNMyclAouMDla3PK9/qB154h/I2mAyYaxkMFxA6hiM
-BcmpD9nehcFqa11ZbSyK7woPht/jT/p0lGV/zwWtF8e9xauuKUJACSdOC0ZqCQ7s
-MEKrMqfFW1X0vkX7u1pIgM1/xOou1cM7QcCa7c5R3iH6Pikl0yNUE4orNB/C5DXm
-0zNp2ZaGX9KJY6GdRk0Lmx/01kAcUXUPo3qed3VVwfvZBI24n3tXoq2j1k3LmMQf
-OfVVqtR4am7GiKEOUkgkxdfS+ZLHxQ==
-=jNQA
------END PGP SIGNATURE-----
-
---cpcwbv7z5gtj3ayx--
