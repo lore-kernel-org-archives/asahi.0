@@ -1,70 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793963579;
-	b=Avgxg7j0PqOxuLGhGvukWYdpI63+fb/SdII5NFFRC1/+CuU9K7D6zEbPXs+JIFawXfaQ
-	 wkFW/Nnk3KkI7H653qIOZ6+4F39ja6aR2Egjxq7IkzQQCHYQePle/TYWrDbv4HpjqFOr7
-	 K0dwJLYoJcMlaiwlOKbsMFnhMU1ZxSkDMToy68iKxCiZGmF0R5RKhaD2F2Urta14OtY40
-	 ZDwxkkJ88/Dk8wbRZcN5muCM/EHtY2ihvBK6nRzC2vE49/ulaK+C/Grj/jelGkU9bV2Ca
-	 loszGVzn9Lu/sS+mkU8pNWlwqvxTNxPBlIjgQyJwHR1WNlZwmpSn6RTgLFbITIDu9rA==
+	t=1793969190;
+	b=2Kjx7iFzIWgUwcg0TweOajfpkumUW51v8eGt9CebKKZVxwV25vFOwUezdLNIY7Fo9zg5
+	 VrszUckspgVy69e6GUMidAOifIqtZbcLKMCymson3HHyjEI9uJrS/hQjm3Kr+zwF740Yb
+	 ggw0bnjgBCh0fS0qZG+soCyaQ4UPg3xh1lXQt6ROtf/W8a96gzhx60ywQMAFv2+RdPRjU
+	 PFJ0oqOIZr8W6QVHi5fXMTreL2+M0eo5QPsXlPkhuQNmD8MGcR1p7r9PDwCBKgR23OwxC
+	 wtiKfOD1VH7HoWDweM2WS9KSIePtO/XeSJ3d+kdrR2Ckc56VN6otHx1isipnPI610kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793963579;
-	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=uOlICXe5m6UkPEsKQm5ZQ2HRTSw6FYz/OTKxqH66Wss=;
-	b=FWTTHXExtFS1Bgp+Mur80JUmps5PuQLD8MeQ7vsewPrLRbfBBVNsMtFpq/ckqPlyq4qP
-	 HcjSFiZKyPHpmciwy1Syvxq9rAEW7NjxDl34PND39VCcGFKpyr76vEn6STJ8qbVMfyCkc
-	 fr7ikmLdhclSP75Nm4CP2tLfAb0YIjHi0iffkmJAbfyMW4g7YdNX0hmDwju9XDZEmNdho
-	 VyJSuchZt02jB0ASNH/zTz4TnGUSilU3g2i3RKj5luG3Qcr75xphJf0hNC0u768fXLbFJ
-	 2EWp0tZkltqsC+sJwV+xtSc8qNzfS2PHcZQNNd1I3X4yxphryLlX4FD5W4Axlu/RKAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969190;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BPdc3G7jz54Uqtjn7AC8nrE7lGpl51rsY51aLrfVh0c=;
+	b=vK7CR8jj0FV152vNtnSxPTMAW5r7/jUbMCueEoo6g7tOe2uoCwIxz4Ctg4K0nQZff3Oa
+	 vMuik71cTsZ4NamTEZqoS4JeFkV3BZ44EG2bBCAKBUk6i7GDLdwu2XnTuHWJGhzDND7Xo
+	 a39UGU+VDjqAsldZIKKnNjhp/BZJZJK6BHtvMeAlP5tEV1AwNs3WZ6NloMznT1mrecyBZ
+	 YYl5ecZ27z3YCujcVEWf0U1pS/d7N/JhlV1SubIeVQusnpI3KkKfS48IvEtaqnA46QhUN
+	 Krbw0YVJDJ74eK+BFDQMs+Y92LdOV5jL4/gXmes+N/D0WB+MgInRE+CRAJqtVwz9+ZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b="h5JU/H53";
-	arc=none smtp.remote-ip=91.216.248.207
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QfCNjwZv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC8C606A332
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 11:12:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FC8C606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3D9606A326;
+	Fri,  6 Nov 2026 12:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=h5JU/H53
-Date: Fri, 6 Nov 2026 12:12:50 +0100
-X-Lima-ML-UUID: 21ffc2cf-d5b5-4b50-bff9-4d2e6e69e61b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1793963574;
-	bh=uOlICXe5m6UkPEsKQm5ZQ2HRTSw6FYz/OTKxqH66Wss=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h5JU/H53ovbcvOj9+4xwyKZtltEwUv5agWdUg/jQ7GqdM26PDum6snSV/4YFPG1fG
-	 SbN9TAjgfxPK/5YVKP10X3R5Isn2FdfgVTJLZ/lO/qPBcXkyEeB6WYP3onoGtXXKNk
-	 S+0Yqu4DV3FsKXwQ8eODr8JhLbSt1M+D5EabULuP/rfjug1oxH4Jr+9bk86CaIkEo9
-	 PzHG9wAM/xhyckWLV/9LsoPcxmoeopCG02BKo+JW//M4aTJvP1rfFCeqc5Fhl7Q0ST
-	 +2fh/+4cTqdMSBESXqsp/AFlHnmnqm38p6GL6BTUM1JrWPF5DxRiqHyBAppirQm/KC
-	 JdHIgN6H74zgQ==
-From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Myria Sarvay <myrialsarvay@gmail.com>, marcel@holtmann.org,
- luiz.dentz@gmail.com, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Yossef Osman
- <Yossef.Osman@proton.me>, Aditya Garg <aditya.garg@linux.dev>
-Subject: Re: [PATCH v2 1/2] Bluetooth: btbcm: raise ACL priority on Apple
- Broadcom controllers
-Message-ID: <20261106121250.0caf3299@kait2en-mbp15-1>
-In-Reply-To: <5F81A6CC-46B6-4C45-BB05-8483057EEE7C@chaosmail.tech>
-References: <20261105085750.120392-1-dev@deq.rocks>
-	<20261105085750.120392-2-dev@deq.rocks>
-	<au1uH6uxtsw2vHfP@macbookair>
-	<20261106083339.677cc75d@kait2en-mbp15-1>
-	<CB3B84A2-76AD-45F5-B2B9-39E5A9ED3BE7@chaosmail.tech>
-	<20261106113946.60c6c5f6@kait2en-mbp15-1>
-	<5F81A6CC-46B6-4C45-BB05-8483057EEE7C@chaosmail.tech>
-Organization: KaiT2en
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QfCNjwZv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FFF01F0089F;
+	Fri,  6 Nov 2026 12:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793969190;
+	bh=BPdc3G7jz54Uqtjn7AC8nrE7lGpl51rsY51aLrfVh0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QfCNjwZvG+CC3xe0eQ7y6UM6w726zb7ufYTmtI0p1Ftuu85DVYYfmSTmHBnmcWuph
+	 Y9PK5Jvm8k3OS2FeKPm56HB66JXa4HaEHqwIdNZ3BmlSLCcMz0lJHOvDAlRZ2v3/ay
+	 sXV/z8qIDvgNYf1DhjV3M26yY2Mf+CriYIIcS2FvcvbuRyhDyWW7AxmG6Lm0CfXEoj
+	 Ld6aB6yq5Z3kl+NIjJ5NcA9Xvhmt5p3aoEhbqM7hfgE9kJ9D1f7gFhPUBlqh73y3gS
+	 D+xoy3ZafBK3VqN1noxIZaktAn2p7Fqx2TO3cmzRwwvErOWtsZFvoNCXBQyqgA6fVr
+	 hhG8crctKJ0Qg==
+Date: Fri, 6 Nov 2026 13:46:26 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+	Sasha Finkelstein <k@chaosmail.tech>, Linus Walleij <linusw@kernel.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v2 6/9] dt-bindings: pinctrl: apple,pinctrl: Add t8142
+ compatible
+Message-ID: <20261106-undetectable-vicugna-of-advertising-6d048e@quoll>
+References: <20261104-apple-m5-initial-devicetrees-v2-0-fd727a82d380@cyberchaos.dev>
+ <20261104-apple-m5-initial-devicetrees-v2-6-fd727a82d380@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -74,19 +65,22 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261104-apple-m5-initial-devicetrees-v2-6-fd727a82d380@cyberchaos.dev>
 
-On Fri, 6 Nov 2026 11:53:13 +0100
-Sasha Finkelstein <k@chaosmail.tech> wrote:
+On Wed, Nov 04, 2026 at 06:24:19PM +0100, Yureka Lilian wrote:
+> The pin controller on the Apple Silicon T8142 (M5) SoCs is compatible
+> with t8140. Add "apple,t8142-pinctrl" as SoC specific compatible under
+> "apple,t8140-pinctrl".
+> 
+> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+> ---
+>  Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 
-> Sleep. I intened to say sleep and I have no idea how I managed to typo
-> it as stream, but that is what I meant. Sorry.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Bwah! Well... np. But you know we are using s3 on T2? So the
-controller will be off to Nirvana anyways. My last info is that Asahi
-is stuck on s2? So even when testing with s2 on T2, we have UART
-transport on the 4634 chips... So if at all the 4377 on 9,1 and 15,4
-T2s is in question, right?
+Best regards,
+Krzysztof
 
-Andre
