@@ -1,59 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793981885;
-	b=eOAWnY+tPBdcilUpgQxiIGzoqcZxavU9mD7qVbAhlLVlbgqhmG9vL7RwzSYbCAudOpqW
-	 UrFNxDLjx1rx53d1saZidU155rdBwD1haAjdb895bqxSHxktduc8zmP1i4o3AJP4ZH00a
-	 H6oRrjW2KJSe5SqVmQlq42k9xLM3fmx6Yoxw0d/PSDFieVClJlBjEHHS3l3SCAmbW8dVB
-	 avKQGEo9hqvcB7WMsjwpziQp4Xu/ho+aOctXJR3mohJvdgBkHGkJw2XRYdpHj3rFKCtUE
-	 kTBXNhqnZlHcnBaVGmY0+jiM1fVMXU6tzjk0nhRcDSykC8Xr1SIit8Y8BIPTn5DjM8A==
+	t=1793984189;
+	b=1g2bBNu05p9QaYN+TbGL/8G3zgMLXReNfo8gHkW9RnrfHElIdTsv4/rfumc/XykPVGnq
+	 rI7OB0iiY9OPix00K+y+6sCIjXFiSDYk16vGo/QPzAzDVdH0gC1JevcNa4GZ7m6gOwGI2
+	 p4zmj4TXq7DvT4ZikVMUTTyyzkaNut+cxupC4lXjOmX/bp59rk/PfzaVfss3iChULqHNd
+	 mlTyaohShRXWIwjq5pJi1Khes+fvSYEM6C8hQtxvnJjLh92mCbQZdOStmbW1pRE8P5FMI
+	 VGJ8iHZIaax1qGbHXrZ9iuitjOLkTH/mJJ4C2Aj04h94ExO8a2BtiQw234gKw9/TurQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793981885;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Last-TLS-Session-Version;
-	bh=3x7iGTfwP0zFRfuTC8P49hF9dS2iRlaB+/rk9f7a8BM=;
-	b=gLyLVz1hK7SeClbEeS8JVgU9L2YC/Ae4DtINzgm+bHtFhL3/sTMRrobQ4Xbq9Jy9jzYz
-	 Fksr3IgfSX8gMxVdKlS2M2zeya34FO0GXj8fBFC+a+SfEDux324snkjGSNYnLXY+01QgI
-	 cG35lYFuOYGFM14o7zGyHMsewWe6zN6fNCRojp3QXOMSVPUemPqZXAr6B8Sa9nDIo/m5y
-	 Gb99OeDcQc43hmlX02UX7cHn5JWF6gtMZUWuiYT3HdrCgloLBvCrBBTkedicdlzP9sWFr
-	 J1bTXTe7gJ1c9XutrhKMsfLXeDla2eLdcl0Ry3ypJdabZqerbXW//SbE83WGgbC+bOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793984189;
+	h=DMARC-Filter:From:DKIM-Signature:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc;
+	bh=I4Bt2sXHgjM8yxfvtsqejeEaDBGREdupk+UhPUCAq8g=;
+	b=pg8PglKPACWtxSZtoGYegViv0T7HoxHoZzsKk3kHX28vEmWlEcy2EuDL/3vaVzok5gPi
+	 HJALNsaauMoow9/WrkqFurwRdZW1Qo/c17aP62tlkdEw8dA8cW9I901BqGF813KlJ4VoI
+	 SPXYN8CqScNekmU32eJKZN75jTBBRQDbSoP9374/uNCA5XEH/ARiPbBabKWuzNBlBltgb
+	 mJqz7qPHx5p6ciPWl4BSU9FXvJ3iLohHahm9gX6WWNCzgEOdzHsclbZl6dlQVYLAv5IjN
+	 fe8G81DWYkwF+ybr0A6UV5v9b0tBL8rj6mgrcnC1Fqf50EvxUb2CfQ05HyjtaEetwIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lXdKDX5R;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dmarc=pass header.from=cyberchaos.dev;
+	spf=pass smtp.mailfrom=cyberchaos.dev;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b="vX/Rb0HX";
+	arc=none smtp.remote-ip=195.39.247.168
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3498B606D81E
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 16:18:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3498B606D81E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2C9606A333
+	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 16:56:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F2C9606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lXdKDX5R
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 570AAC69169;
-	Fri,  6 Nov 2026 16:18:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AE5305FFBC;
-	Fri,  6 Nov 2026 16:18:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF6D110329280;
-	Fri,  6 Nov 2026 17:17:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793981877; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=3x7iGTfwP0zFRfuTC8P49hF9dS2iRlaB+/rk9f7a8BM=;
-	b=lXdKDX5RICq5PX1ODUm/S7WmpspQRDhmOuEPTczGRZAr4Apd3iPVRY1EGMsRJ25rcEVBW3
-	XbDQbWKdiIrc9mStMpw/kqKFoCV61REuAbOnrgP+In6tqxEhdK702TMO0zHd+MlDy+2B9X
-	GrgzDR1beLKQGnqR5UmtPdf8mBnTG633PcLhxojFfvZBDXKelXI7PVmdHzilfG7J+4lrua
-	CpQ9pX1CN/7ZxOwZqbKWp0tU8Q5K50Mg4hqmG42d+70ittupJYY4is35jBGqW8IoDg2yX+
-	5arFEPSI9fgt8WPoNmfnuGieU7PUOronMHzqoei7alqLOMP8FPsnmXo3g/gz1A==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 06 Nov 2026 17:17:06 +0100
-Subject: [PATCH 3/3] drm/todo: remove drmm_of_get_bridge()
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=vX/Rb0HX
+From: Yureka Lilian <yureka@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1793984179;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=I4Bt2sXHgjM8yxfvtsqejeEaDBGREdupk+UhPUCAq8g=;
+	b=vX/Rb0HX5442BogFhvBqA/WpVt4Zza7HWNa4hcVvkfpgH8eLCC7o0OR7+3P1344gVRB5Pr
+	yKSdLaIai6TWz3H13t9pqpKikF6zU5hbwceE1EePd3BylYRqKkje6KJHtCxCeBajNy+6Ef
+	qtic2gwY5mJeUrlkjY0a6mgkeXQzQjY=
+Subject: [PATCH v2 0/4] arm64: dts: apple: dt-check-style strict fixes for
+ Apple M4
+Date: Fri, 06 Nov 2026 17:56:12 +0100
+Message-Id: <20261106-apple-dts-m4-dt-style-check-v2-0-1e715e80b066@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -65,45 +58,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-3-c0ea3382b798@bootlin.com>
-References: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
-In-Reply-To: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
-To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Dmitry Baryshkov <lumag@kernel.org>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OWw6CMBREt0L67TVt5SF+uQ/DB9xepCqP9NZGQ
+ ti7BTfg1+QkkzOzCCZnicUlWYSjYNmOQwR9SAR29XAnsCay0FLnstQp1NP0IjCeoU9jAPs5Mna
+ ET8hJtaXBUp9lIaJhctTaz26/VT/md/Mg9Jtya3SW/ejmfT6orfffUlAg4USYZ8oUWVO3V5wbc
+ vHyyEdDQVTrun4BWjghpN0AAAA=
+X-Change-ID: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Yureka Lilian <yureka@cyberchaos.dev>
 
-This function has been removed.
+Hi,
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+mirroring recent changes to the M3 and M3 Pro/Max/Ultra device trees,
+this makes the M4 device trees broadly compliant with
+`dt-check-style --mode=strict`, leaving the same exceptions:
+
+- the property-order and line-length issues in the generated pmgr nodes
+  are left as-is
+
+I checked carefully that the modifications do not cause any functional
+change in the compiled DTs.
+
+Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/gpu/todo.rst | 1 -
- 1 file changed, 1 deletion(-)
+Changes in v2:
+- Also fix indentation related dt-check-style issues (mixed-indent-chars)
+- Change the ordering only where the issue is still present against
+  current linux-next dt-check-style.
+- Also fix any remaining line length issues in the t8132 dts except t8132-pmgr.dtsi.
+- Link to v1: https://patch.msgid.link/20260924-apple-dts-m4-dt-style-check-v1-0-3ec651d75baf@cyberchaos.dev
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index e6d36f8da086..de4de6f7a0b4 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -477,7 +477,6 @@ transparently, and the are deprecated.
- The funcions to remove are:
-  - drm_panel_bridge_add_typed()
-  - devm_drm_of_get_bridge()
-- - drmm_of_get_bridge()
-  - drm_panel_bridge_remove()
-  - drmm_drm_panel_bridge_release()
-  - devm_drm_panel_bridge_release()
+---
+Yureka Lilian (4):
+      arm64: dts: apple: t8132: Fix indentation-related dt-check-style issues
+      arm64: dts: apple: t8132: Fix blank-lines-related dt-check-style issues
+      arm64: dts: apple: t8132: Fix line-length-related dt-check-style issues
+      arm64: dts: apple: t8132: Fix ordering-related dt-check-style issues
 
--- 
-2.56.0
+ arch/arm64/boot/dts/apple/t8132-j604.dts  |   3 +-
+ arch/arm64/boot/dts/apple/t8132-j623.dts  |   2 +-
+ arch/arm64/boot/dts/apple/t8132-j624.dts  |   2 +-
+ arch/arm64/boot/dts/apple/t8132-j713.dts  |   3 +-
+ arch/arm64/boot/dts/apple/t8132-j715.dts  |   3 +-
+ arch/arm64/boot/dts/apple/t8132-j773g.dts |   2 +-
+ arch/arm64/boot/dts/apple/t8132-jxxx.dtsi |  19 ++--
+ arch/arm64/boot/dts/apple/t8132.dtsi      | 157 +++++++++++++++++-------------
+ 8 files changed, 109 insertions(+), 82 deletions(-)
+---
+base-commit: eea4f3b5e9e19389af3b99af64cdf7352b67c298
+change-id: 20260924-apple-dts-m4-dt-style-check-6e1f9dc92807
+
+Best regards,
+--  
+Yureka Lilian <yureka@cyberchaos.dev>
 
