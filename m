@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793999066;
-	b=FnykSrig+7AS2tXiixXB8rufFl5fMzoVx/EHK9AGW0+n1kTvwLRTL1pUcu+LFzSws9r8
-	 I4jkU6URgcufJ6V1JouOdHIzkuQU0kgtCdmkRFbuAgJrT55QAX2Vv97Bcf+2wUy2SZPcD
-	 Wp//FPm47k5mZtnvFVf8n0+Ai0MBGzi8YAXLi4z+u5ktNqohK5SObluBeNwotnbgSrNTg
-	 7Xftb5EBsvkNrqHKHmM1zQvKlIzdMalzLK0y1SFyuFBGJzkc1kseGvUySsJDxxLbG40Xk
-	 wzbrhLsydiqK12bfDEkhExFFo+qH3Z8WmnHs2vKclMV4TQJ18lgu8d5t5zkKBkwwkTg==
+	t=1793999071;
+	b=nVUtu8Iob0yaRuH7EToulse11+fDqxQza+U8qN202OvMq/LQI0Ir9uRO+aieHROfqejV
+	 hxh0V73WpLt9OAwdT6vqHPpD0sjX8jxTT2pDbgBYkLHP49Jwd2yHwtgoUNi0vEtmwYE6q
+	 4TnKrs3XZVNK9zwnC2LTnRhF81JrXxFpWLvwBx0u3enSquGfSExK7WMxnjtmjsN0S1Y7x
+	 qu7Eqnmh/sc8EQSK2iDZA0GHzYYpMtqIV4S6z9EqcxcoMgCfDVT4pMJJAlpGjJbLE9O60
+	 EY7o/2KZjJ27pr0yqbx/Nyp7vnuPzKnQPbWe6dhqnimvgKW7Et3+PmAgi5m4KjVs0Pw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793999066;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793999071;
 	h=DMARC-Filter:From:DKIM-Signature:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc;
-	bh=vm1P29Q9pGIVuMvApDwWtOHri36Bhi1asrJ/ETI2sEA=;
-	b=04i8/KBTLY9/GpKK6WhSt964D7dGTSEQQd9+wErQCCV2GtiqY0RDJtLUDpyhjpQuL8C+
-	 oDTmqDAs7xQSUPHUMpVPbr4dkKfFG49XTTXvlzg1UD2yvvaO1Jt0G6VkwinfmHWD+ulop
-	 s2AHibWxMP4I3nvOstG2meMcQnlRzopLlgXqPPpurd5qSo0sodZ8PaEBvqa3t1K4SmFNf
-	 Xfb9ZD5hsE/lkPADNDg8lUauk8Qk6MV7ZeC5Vvb7eGqeYfK99WiJk3XM1+NhIFNqLU0B4
-	 mWcZmK/6iVyWQO5uFdiCFuDLtd/Xok4sAw5LmZNUCT5HRoDiKKCWLBjQipuef/54vdQ==
+	bh=tje/iAOgXLkukdf7IpTXxmJRYT/oZk9KALyauIZxbAo=;
+	b=l+YiyCVpTerPcZOm4FpWbalgfq2/YgrurRdAAq9d+4AQGQqi17tZ+f530DFSYUe7tom4
+	 3RlUHQHhTMp9k/BaTNx8qwrrJHACzju6wW9MbFta6advl4rS6IJLN8AdzipWpagLfo0nI
+	 +nlzWCLDA5/SFZkVqOeS1UPJd8oTl6igwqNZkuc+zWXkoHQr1HGA6AAmv5PoSWgXgDgrH
+	 3TlXLP8sQqrBa3ocoUXJSMajCb4uB+ayhlkmN/NYoXXia61UrWlI8ENDRsIW3lBfNstjx
+	 yLvIK5zhKN2ypG14OXxhg4ostMJ9o6YEdWj4Z1YyzoqCfgJLnaaMa0GlEuDnPND7kvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cyberchaos.dev;
 	spf=pass smtp.mailfrom=cyberchaos.dev;
-	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=mKzXtMPg;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=PODu4cFA;
 	arc=none smtp.remote-ip=195.39.247.168
 Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C30606A339;
-	Fri,  6 Nov 2026 21:04:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16C30606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BDC606D820;
+	Fri,  6 Nov 2026 21:04:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29BDC606D820
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=mKzXtMPg
+	dkim=pass (1024-bit key, unprotected) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=PODu4cFA
 From: Yureka Lilian <yureka@cyberchaos.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
-	s=mail; t=1793999063;
+	s=mail; t=1793999069;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vm1P29Q9pGIVuMvApDwWtOHri36Bhi1asrJ/ETI2sEA=;
-	b=mKzXtMPgtwT9JeGa8yf26RcZBkyDWsxcqmktl5FZMfFmOoebEWNzqP3OIq7NGPFQgK8X+r
-	4C3k4+Mi8GwMaltwSSFH3ik9mTxPcHX8LJZp0eT8fETfWCmQUpbcrTdIpV40F74yr+yAii
-	BMPUrTwc633PDwFz8LK4/KACwpkMqIc=
-Date: Fri, 06 Nov 2026 22:04:11 +0100
-Subject: [PATCH 02/15] dt-bindings: nvme: apple: Add apple,t6041-nvme-ans2
- compatible
+	bh=tje/iAOgXLkukdf7IpTXxmJRYT/oZk9KALyauIZxbAo=;
+	b=PODu4cFAfBCRmLvtm28kAPn82pmLcRFFLyT7RHSNr7UgEbNvbyrVT/GzaNy0qiq6UDTQHk
+	GQVM3OiaHd4hJpYHhK05GWyZjpqsYC3WgDtUS36uz6QUt15NoIoUGoD8Ez7iR822ZYOerZ
+	XkNfsyW0g8Ywf3q/AEZxNu5QbLDQG6k=
+Date: Fri, 06 Nov 2026 22:04:17 +0100
+Subject: [PATCH 08/15] dt-bindings: iommu: apple,sart: Add t8132
+ compatibles
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -58,7 +58,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261106-apple-dts-m4-m5-nvme-v1-2-22f4827b4ece@cyberchaos.dev>
+Message-Id: <20261106-apple-dts-m4-m5-nvme-v1-8-22f4827b4ece@cyberchaos.dev>
 References: <20261106-apple-dts-m4-m5-nvme-v1-0-22f4827b4ece@cyberchaos.dev>
 In-Reply-To: <20261106-apple-dts-m4-m5-nvme-v1-0-22f4827b4ece@cyberchaos.dev>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -71,37 +71,25 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  iommu@lists.linux.dev, Yureka Lilian <yureka@cyberchaos.dev>
 
-"apple,t6041-nvme-ans2" on the Apple M4 Pro/Max SoCs is compatible with
-"apple,t8132-nvme-ans2" so add the per-SoC compatible.
+The SART IOMMU in the Apple M4 SoC is compatible to "apple,t6000-sart".
 
 Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
 ---
- Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/iommu/apple,sart.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-index da260cb5597b..24c2be3b9544 100644
---- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-+++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -22,7 +22,9 @@ properties:
-           - const: apple,t8103-nvme-ans2
-       - const: apple,t8132-nvme-ans2
-       - items:
--          - const: apple,t8140-nvme-ans2
-+          - enum:
-+              - apple,t8140-nvme-ans2
-+              - apple,t6041-nvme-ans2
-           - const: apple,t8132-nvme-ans2
-       - items:
-           - enum:
-@@ -84,6 +86,7 @@ if:
-           - apple,t6000-nvme-ans2
-           - apple,t6020-nvme-ans2
-           - apple,t6031-nvme-ans2
-+          - apple,t6041-nvme-ans2
- then:
-   properties:
-     power-domains:
+diff --git a/Documentation/devicetree/bindings/iommu/apple,sart.yaml b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
+index 015158a9676b..8cf41473b808 100644
+--- a/Documentation/devicetree/bindings/iommu/apple,sart.yaml
++++ b/Documentation/devicetree/bindings/iommu/apple,sart.yaml
+@@ -36,6 +36,7 @@ properties:
+               - apple,t6031-sart
+               - apple,t8112-sart
+               - apple,t8122-sart
++              - apple,t8132-sart
+           - const: apple,t6000-sart
+       - enum:
+           - apple,t6000-sart
 
 -- 
 2.56.0
