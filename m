@@ -1,58 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969730;
-	b=NLCE9u7U9r/rvpEPFRa85kJpnD6/XdevlRxepXtFXB9QI/aoiBV/M6qSAdrh3UlBnT5x
-	 LfrJWCOzIeVPY+nLsBf0CzImazaq2ZYjGM/PTmAjLvyAHUQ72mO3WXnqizd6i6JzZKHmP
-	 TSPhH5t+Aa9nI4Owgmi/JaS+93ysjE6I1E63fDUpwwsurdEj4fGB4twen0OUyBhP7VNoM
-	 xzlV7T4uSLMoKppseZgDAYfBEHY9MD0xMVAnOApFFsNFvv3D3DXv3vszml1KShr1sGf6j
-	 RbTnD7VDqmgL2AUsiSHPHwmVAOiK4QvWS7maDB110TK3K+F5Xfy3qcTaMUlEyPlzQGw==
+	t=1793975782;
+	b=HuSPGnyFpqWD93PutbSr19RjoWV8e5ceusmaXip2KSkSovdPdIlcMspFld0w/saovkqM
+	 ODu9HXgm4hr2BJdznaQkD6/WcLpYd3Cx+oYkslBtEnvcNlpIoZLwG8v3iqNMNkq+YJx4C
+	 9rv3IS2eMVytIguLk6QFxslmKZZK4qNIsX4rPXA36jzBK9Y2ON5ARN5dRnGlwo7k6rDt7
+	 y3OsXibW3BJQc2wk9buECQKQzqc4vdf1EzSckEgVebVj1oxa4JYECuyBM5kChGNiAgtEN
+	 gpxp8pek2YSWk2cwM7txQVCMwFrm+HKZ4p6c+4l9vTU4T5ofuMGUQxQ+SHCN2FA/nDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969730;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cVLVUDAQ/S8P7wIqNsNlHQ7D4Qx5qIHxAIVrj+ZvXUo=;
-	b=wP8v91b7t5e7d9oXXn+idYBvAY9BlG8jbUiN66vaVxGgPIztqsJp06KPhNldyGqWAj0H
-	 1DYmgSbzpHfeenQ3p9ysl0FBk+T3WbdWA3Ge9WJbzH22d22J5xM58ONx/wRxjmwJtYX40
-	 4fNP55t0r3alejkhSlUXiuMFWsoaQwfXu6gNDoLRFIsIbvtk0mAQ6zD3Yik5ytpOUv0Qh
-	 QTOsAHIlBJYIBypLInuyDhdqjWaAO2kKwJjVfgKPLo/GQ1hg3YVOEzCZmccrZlp5/fKIt
-	 fdl5v98Q74xhL68Cux3RAmy57kJZ/cC06LY69gz0NKsV+Xpo/kqRAv7yZbFO3hgu4kQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793975782;
+	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:Organization:X-Mailer:In-Reply-To:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=rawHr2YVl/H9jkwI+2q/ek0LKfKPSyS72kN0JSTFTe8=;
+	b=0kjq5W8ygy0X+YcaHaBdSsCSPineeUm0MeqjbKRFciPxJAZsQ1Tm7YlbPg159QAhViIG
+	 jK1cXegjlsGk2E1kPW2Pn9NF2kO9fdSWZ9GIi1Dgxege3n4TcF7r5QkFZj50b6OnWw8Br
+	 YClgn0W2puB6C4Dkeag7Yp2UmPW6WlHCsNMTyEJVqRgUwmIxEy6fIIfIQfpvbY0b5LSf5
+	 rzi3CHaatGY5cp9y7cgJvEyiSPQX/GFlDUtfBe/ji9+7R5rfhsiW7rDcat6rbO/J2XTt6
+	 dBOo7X+icQG1rAF1xgTegkRHWq5pxyfhrEwClVUnmxb+5fcXdFrsFyIINegSS/OlfdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECT3i2U5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=hbL8du9u;
+	arc=none smtp.remote-ip=91.216.248.207
+Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F043606A326;
-	Fri,  6 Nov 2026 12:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21642606D81F;
+	Fri,  6 Nov 2026 14:36:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21642606D81F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ECT3i2U5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BAD61F008A2;
-	Fri,  6 Nov 2026 12:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793969729;
-	bh=cVLVUDAQ/S8P7wIqNsNlHQ7D4Qx5qIHxAIVrj+ZvXUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ECT3i2U5LWvD96+SCQy4BY79Px0+LDDQkEQLvJIAJSGkKs9QsvVoBFan9ktO5ZAoX
-	 va1/OGEa1g7t2MYQt/3KARMxop2KwWT3C6iksHVrLmmSjiCvaI1zdbVttb7dFnMK7v
-	 XbL211JxP8D+wxkDxkpaeehi6T0a9PmquD3ReY7t8B7KeasBnxexlU8oc5eyxDBwkE
-	 ATD0mGfwA4di50LX05xToAT/GDO6sk6aWM/0i13UdQMOjzoGYb6isYxZjKdT5sm7xQ
-	 kuXKCjfjhfuQKc8qKRT1/4wdspO2NsgdQi4rTVx5OsAmmREuauI4GFPpDJIHwQEM09
-	 HYtPH22IRay9A==
-Date: Fri, 6 Nov 2026 13:55:26 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Myria Sarvay <myrialsarvay@gmail.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>, Marc Zyngier <maz@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, Yuvan Shen <yuvanshen09@gmail.com>
-Subject: Re: [PATCH 01/13] dt-bindings: arm: pmu: Add Apple M3/M4/A18 Pro SoC
- CPU PMU compatibles
-Message-ID: <20261106-meteoric-tench-of-proficiency-a000ee@quoll>
-References: <20261103-m3-plus-pmu-events-v1-0-a8eb6c1139fe@gmail.com>
- <20261103-m3-plus-pmu-events-v1-1-a8eb6c1139fe@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=hbL8du9u
+Date: Fri, 6 Nov 2026 15:36:12 +0100
+X-Lima-ML-UUID: cf184ba6-36c4-4d0a-b5d8-4034eb89d686
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1793975777;
+	bh=cUspOtuWmA7XJYb4jzXp/qPVPvu+wOcxUbKsynPaRnI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=hbL8du9ufctCpUaLovUKKJcVq8POlp8KcWQKZ9pM6Cz0SzgdYKd9suBVx2OddI3H/
+	 Id9XxKNVG5QeAwS0DN+SrQl26rLWR5MzDtbgLSpUbvyNgJKznk2EAIvcaZ+aTacwQt
+	 Fir7WRTxEM5RYI0yFqaiNOSVeVwpGhDXTEo7hiL2vuVzKI0XZdqXCLpk41G08K4YvO
+	 9VVyIPqQrEy5TBvn/T6kQIpF8gX4GWscaifQVJDo3HN8U8U6rl45lcQ1/wrVzeoZxi
+	 GccCRnRcWxojEofWtHTATz+6wi9bGtp0wcYn1JH3Zd0uBvIefOXApecdUwJxcNjZZe
+	 LWqVUxCkSja4Q==
+From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
+To: arend.vanspriel@broadcom.com
+Cc: asahi@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ brcm80211@lists.linux.dev, dberlin@dberlin.org, frankyl@broadcom.com,
+ gustavoars@kernel.org, j@jannau.net, kees@kernel.org, kvalo@kernel.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, marcan@marcan.st, meuleman@broadcom.com,
+ michael.reeves077@gmail.com, pieterpg@broadcom.com, vanhoefm@gmail.com
+Subject: Re: [PATCH 05/13] wifi: brcmfmac: Negotiate PCIe mailbox transport
+ with firmware
+Message-ID: <20261106153612.2aadef2a@kait2en-mbp15-1>
+Organization: KaiT2en
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+In-Reply-To: <20261103135856.3676311-7-arend.vanspriel@broadcom.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -62,22 +68,53 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261103-m3-plus-pmu-events-v1-1-a8eb6c1139fe@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 03, 2026 at 09:14:36PM +1100, Myria Sarvay wrote:
-> Document the compatibles for all current M3, M4 and A18 Pro SoC PMU
-> variants. Note that the M4+ are split out by chip codenames, instead of
-> name for the types of cores, as they no longer have individual names for
-> the performance and efficiency cores.
-> 
-> Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/pmu.yaml | 8 ++++++++
+Hi Michael,
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+I tested 01, 04 and 05 on a T2 Macbook Air 9,1 (BCM4377/4). IIRC should be 
+the same chip as on T2 Macbook 15,4.
 
-Best regards,
-Krzysztof
+Arend, with the patch we get D3 ACK on s2idle and s3. So this basically
+renders the D3 ACK WoWL workaround patch obsolete, you recently acked.
+So it will suspend now without refusing d3cold transition, but BT is still
+dead on resume, which is a separate issue. Just mentioning... 
 
+Anyways Michael, the patch as acked now will fail on resume with
+
+  brcmf_pcie_send_mb_data: Failed to send H2D mailbox data (-5)
+
+brcmf_pcie_pm_leave_D3() sends D0_INFORM while devinfo->state is still
+DOWN, hence we get an -EIO, so the driver falls back to remove and 
+re-probe. The Asahi tree sets the state before D0_INFORM. With that
+change my 4377 resumes without reset.
+
+
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+@@ -2838,10 +2838,10 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
+        /* Check if device is still up and running, if so we are ready */
+        if (brcmf_pcie_read_pcie32(devinfo, devinfo->reginfo->intmask) != 0) {
+                brcmf_dbg(PCIE, "Try to wakeup device....\n");
++               devinfo->state = BRCMFMAC_PCIE_STATE_UP;
+                if (brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_D0_INFORM))
+                        goto cleanup;
+                brcmf_dbg(PCIE, "Hot resume, continue....\n");
+-               devinfo->state = BRCMFMAC_PCIE_STATE_UP;
+                brcmf_pcie_select_core(devinfo, BCMA_CORE_PCIE2);
+                brcmf_bus_change_state(bus, BRCMF_BUS_UP);
+                brcmf_pcie_intr_enable(devinfo);
+@@ -2851,6 +2851,7 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
+        }
+
+ cleanup:
++       devinfo->state = BRCMFMAC_PCIE_STATE_DOWN;
+        brcmf_chip_detach(devinfo->ci);
+        devinfo->ci = NULL;
+        pdev = devinfo->pdev;
+
+Feel free to fold it into v2, or I can send it as a follow-up if the
+series is already applied.
+
+Andre
