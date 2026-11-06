@@ -1,70 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793977616;
-	b=ccuCo1MI2MZG0d7/cSEOl9X79PabTTX4XeS5c8rS7PCNH+VvZpsUm2oyhxTNTsot0uCK
-	 zmmyc14eBuCDaOUlyQyPpFkn4IIE/xJK4IamFncZVzFrdRnaj7nIphwiIDVCPAHiGwuUW
-	 3WYM/y+aLlTKb2yg9BIAU79Gsy+1JQoxs0XaRmIqeFvrszgQqnldBi14YvLfTsH2wUzIj
-	 5kxeLsx+cONtwzIlLpHLhKbYdbW4wVzZh3iH9vuKBtcbw0DJqHgP2ZrO7hAW6dXaZlVlZ
-	 iHy8fI5SWSWrYv0SoN/upxQcYTL/u16gYSFfsoB322+aycJDZmW4XoY5Uzu0jG38oKA==
+	t=1793980079;
+	b=2ofcWXcZDSKL+mqXr9ofoHYWAC+2EALOTjlc8E5Zo0N5V069ecw4cFGVO5nOkMiWEgL9
+	 gAnYG15yhRkKJGEdnJBsrVgIkY1RmTy80aW5uyUS1EP9KWN7ZHT/RhpVwMpWh/8Cc0Ug7
+	 eZQprpyUgH7jdViJ5SLFYRrZnh5C5HniCFkmvE19xjY7+mS9Q/f0vGLixx0karsdnW5Eu
+	 Su/eNcQplZtdCtQ0+djpTNpqFWpPswIqBdSFGRs76wSikbO0cXTdyqfVqJ7RETrQm4oQ4
+	 Z2kacRdUdR3YoyzIo1yEbkBhAMdX47F3F1FYLfnINB45T9zH0R5ItaLXRO1Fm96bbKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793977616;
-	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=a24+d9xvaf+CDIz2+89Hx2fexrG15RfEetPbz91IQO8=;
-	b=ICA15ygx36/LFa6WlINECjkwL8ordg+Vvbklvz/+GV91hM3etqO63zC3N54okq6sdF3Q
-	 XTOEnGmiaPNtl3vrvL9rO2qqgtIl8q8i4lMXk88hApr2nNlqLm7hY8ekqAo4gexD8rQ3g
-	 CJgFsWDPxqhwYmm4zAy2Xd8HsvKdwtztM73oVA1lISQpcebpcJE+LaEAvEs/VozE8t+Pe
-	 eXNe2KEorBa98kFjWuxXu6RTwpSF/eYEsj/nlbCAf9KclQV1GKMZfjxSP1tUmPnFSR1MB
-	 AwrdQDrXzH3VEfQ8aqD9D7/8lc6q4W+KDcwN42wZP6rpdhy0uAnNE6090WGmLJfeSjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980079;
+	h=DMARC-Filter:Received:Received:Received:X-Zmail-TransId:X-Mailer:
+	 Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:
+	 X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:
+	 X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
+	bh=QrSS4RlyaBM4FHvHozkdG4FXIui6GgotEYZEXG8ABEw=;
+	b=wTxi8hxtKSqjzcr//17bleCB9fgxUGVOWTEFg9affJ1gjB/tfP/OIsLdfM7E+kbW07HV
+	 SvMIDimPXI+QIcwW4USckMaskOQpaLlqfQW0pfuRjuY1QtwajwDLrHIdwCT5/JPc9PJ8M
+	 3sbWX7qBRgeEgYKuvVGIEDi7TCBAhGmeRcYjRRZDftTy1Z2SVlXKj8xLpgzM+M33CgYdi
+	 rbr2Wq9Fb6IKfKxS/zudDxSe/60wKk9DkC5MVBT08EsdtE3NCIQCUKfv63MOmNyX/tuSE
+	 wEs6NmbSQgCUldwWQ3RfxkPZy9hOt/7BUwZwK5GhgCKkOjlXJdNIY+P8cl/2nYEgopQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=DcQqrWYJ;
-	arc=none smtp.remote-ip=91.216.248.207
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	arc=none smtp.remote-ip=160.30.148.34
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D6D606A330
-	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 15:06:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46D6D606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=DcQqrWYJ
-Date: Fri, 6 Nov 2026 16:06:48 +0100
-X-Lima-ML-UUID: 59084f74-4df0-4d05-8f4d-796d5e595ebe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1793977612;
-	bh=a24+d9xvaf+CDIz2+89Hx2fexrG15RfEetPbz91IQO8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DcQqrWYJrmn/TxAwJu3//ceI1EKsNKPNB8iDm6H18mLIZKbwXuz77tMxy2jzUuJoa
-	 IUZ2hw0xefq1/6Im1d3mtxNqxYDmw4m+OcCHHZF/IdnqcQGJ+VoQQo43iHqRmXPaSk
-	 YnXSFCJl1QLMYypmDUuFQDY3bNrV01msSjaXmFSzn1eBcW8DwKWqOo8os+EQ59X+qc
-	 TYDxHRB/h5CdG+ccCtGn9shroQvEX84ZFLZ8Gy/DjoMyaOZcb4Qj0+O4Sv4xrQ0wNE
-	 MnNR1H06/oBatRS969+5s12uKSIsXWFXz0Yq7UsN3m+Yqz/XpL9zxAsEktQl7+6PEi
-	 wUY2Nb0VTg8cA==
-From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
-To: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Myria Sarvay <myrialsarvay@gmail.com>, marcel@holtmann.org,
- luiz.dentz@gmail.com, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Yossef Osman
- <Yossef.Osman@proton.me>, Aditya Garg <aditya.garg@linux.dev>
-Subject: Re: [PATCH v2 1/2] Bluetooth: btbcm: raise ACL priority on Apple
- Broadcom controllers
-Message-ID: <20261106160648.05117894@kait2en-mbp15-1>
-In-Reply-To: <5F81A6CC-46B6-4C45-BB05-8483057EEE7C@chaosmail.tech>
-References: <20261105085750.120392-1-dev@deq.rocks>
-	<20261105085750.120392-2-dev@deq.rocks>
-	<au1uH6uxtsw2vHfP@macbookair>
-	<20261106083339.677cc75d@kait2en-mbp15-1>
-	<CB3B84A2-76AD-45F5-B2B9-39E5A9ED3BE7@chaosmail.tech>
-	<20261106113946.60c6c5f6@kait2en-mbp15-1>
-	<5F81A6CC-46B6-4C45-BB05-8483057EEE7C@chaosmail.tech>
-Organization: KaiT2en
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E62606A329
+	for <asahi@lists.linux.dev>; Fri,  6 Nov 2026 15:47:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60E62606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jLk8q5Qxvz5B12h;
+	Fri, 06 Nov 2026 23:47:55 +0800 (CST)
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl1.zte.com.cn with SMTP id 6A6FlljR080906;
+	Fri, 6 Nov 2026 23:47:47 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp02[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Fri, 6 Nov 2026 23:47:51 +0800 (CST)
+X-Zmail-TransId: 2afa6aedf6a75dc-a6563
+X-Mailer: Zmail v1.0
+Message-ID: <20261106234751020Egf42VCVVlsSC_Msov4HO@zte.com.cn>
+Date: Fri, 6 Nov 2026 23:47:51 +0800 (CST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -73,30 +56,67 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <broonie@kernel.org>, <linux-spi@vger.kernel.org>
+Cc: <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <pjw@kernel.org>, <samuel.holland@sifive.com>,
+        <william.zhang@broadcom.com>, <kursad.oney@broadcom.com>,
+        <jonas.gorski@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>,
+        <anand.gore@broadcom.com>, <florian.fainelli@broadcom.com>,
+        <rafal@milecki.pl>, <linux-arm-kernel@lists.infradead.org>,
+        <sven@kernel.org>, <j@jannau.net>, <neal@gompa.dev>,
+        <asahi@lists.linux.dev>, <ryan.wanner@microchip.com>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@tuxon.dev>
+Subject: =?UTF-8?B?W1BBVENIIDAvNV0gc3BpOiBmaXggZGl2aXNpb24gYnkgemVybyB3aXRoIGEgemVybyB0cmFuc2ZlciBzcGVlZA==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 6A6FlljR080906
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Fri, 06 Nov 2026 23:47:55 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AEDF6AB.000/4jLk8q5Qxvz5B12h
 
-On Fri, 6 Nov 2026 11:53:13 +0100
-Sasha Finkelstein <k@chaosmail.tech> wrote:
+Five SPI controller drivers compute a clock divider from the transfer
+speed without checking that it is non-zero.  A SPI device whose
+max_speed_hz is zero (a DT node without spi-max-frequency, or a device
+created through the spidev sysfs new_device interface without a speed)
+therefore reaches the division with speed_hz == 0.  The SPI core clamps
+such a device to the controller limit only when host->max_speed_hz is
+set, and none of these five drivers sets it.
 
-Hi Sasha, coming back to this after testing
+The series is organized by driver and is independent patch-by-patch;
+each patch can be applied and reviewed on its own, and taking a subset
+is fine:
 
-> >> You probably shouldn't, or at least base it on v2, not v3 (that one
-> >> ended up being a bad idea and caused firmware timeouts, so Asahi
-> >> downstream ships something more similar to v2).
+  1/5 spi: sifive: fix division by zero in clock divisor calculation
+  2/5 spi: bcm63xx-hsspi: fix division by zero for devices without a max speed
+  3/5 spi: bcmbca-hsspi: fix division by zero for devices without a max speed
+  4/5 spi: apple: fix division by zero in clock divisor calculation
+  5/5 spi: atmel: fix division by zero when transfer speed is zero
 
-Linux doesn't keep ACL link across sleep. The core disconnects all
-links before suspend ("terminated by local host for suspend"). I saw
-that with S3 on the BCM4364 and with s2idle/s3 on the BCM4377. After
-resume my headphones reconnect and my patch sets the priority again.
-On the T2 Macs the BCM4377 BT itself does not come back from
-s2idle yet, even with patches 01, 04 and 05 from your 4388 series,
-so I couldn't test there. Would need to investigate, tho s2idle is not
-my priority right now.
+All five clamp the divisor to 1 Hz, the same approach as the recent
+spi-jcore fix.  The division does not trap on the SoCs these drivers run
+on: depending on the architecture it produces a bogus divider, a zero
+quotient or an undefined value, so the patches remove undefined
+arithmetic rather than a crash.
 
-Since connection time works on these chips, I'd keep 1/2 as it is while
-being open for proposals.
+Shao Mingyin (5):
+  spi: sifive: fix division by zero in clock divisor calculation
+  spi: bcm63xx-hsspi: fix division by zero for devices without a max speed
+  spi: bcmbca-hsspi: fix division by zero for devices without a max speed
+  spi: apple: fix division by zero in clock divisor calculation
+  spi: atmel: fix division by zero when transfer speed is zero
 
+ drivers/spi/spi-apple.c         | 6 +++++-
+ drivers/spi/spi-atmel.c         | 3 ++-
+ drivers/spi/spi-bcm63xx-hsspi.c | 3 +++
+ drivers/spi/spi-bcmbca-hsspi.c  | 3 +++
+ drivers/spi/spi-sifive.c        | 6 +++++-
+ 5 files changed, 18 insertions(+), 3 deletions(-)
 
-Andre
+---
+base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
