@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794048549;
-	b=iws9Ks2cO1X2rO9I7ut5zstVlro/dRairTcnn7tRuAqBG0Y82AeAVNJtvE3i46qoLbva
-	 rPSS0EQuYxll40BGPuS6Mq1wKyhYSXz1f5cLagmDpcqSdvaPm1B8gY7NEyUlkYLS2Q5sU
-	 fcZ/AtJW7QhS3J97sTTIXMu/99EVoJqZKcFmDSQlC98aS9oO5ylMHC72Smc5KBoA/sQKx
-	 znpYu5pOyOCLWdXYljp3YAqHmvJ53yeF7a3n6DnAkSHwC3kaFoKuQd06vKHH59nguXgQd
-	 fuvmn7I0t87pK4hjrhjeAUVZM9e7gd+zwAhA5ClzQC7EAI+Gp7i4pAGwmEoYhpO3VYw==
+	t=1794048546;
+	b=zxoBa4RVHk+f6+gXuv624j+YuyiLO77zDx5KZQL/9xQ+u8al3qUyQutF2/ZVeDAtnFnZ
+	 TH30viiGa8GxRTbRDlPi+F1XdO0k7aQvzGPVIwki4L8oE8fsJ9K4rO0phqPRsbJ25ZbCg
+	 nymeHL2vVk8L4DIZlZzNaGuelo22D9l5nVenpVu+xQtztWjLmlnkHoO3f0pWzy9lrCi7j
+	 ner/mTnwWyCsj+cSOtHoJztezDqJSWNR3w3xOWVDEL2R1UfYqSy6PxEpIM8/rM3k1p0At
+	 G4C5aEBzTCc7tLTPO4BqjLoXfl7xZc2qO8ULaeXkB1S3asVG0LZcZHdbpeuyQmR0GWw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794048549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794048546;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=F6jX/+Nqs2fcYN6TvsVCxH9Qlb1iwQl+YtobY55zdXo=;
-	b=mQGImswV3ayzM7XlVH/LUNnDRG1IoGTzLS9xs8JYz4YrwbwL9po2DoGsorsMkN43xFNK
-	 swvyv0rdVURyTkD0yNBKZzURKJQxkSo+KGzrwQ6n8y4ZqFOtyr1tybbDEbYZjSRpgFFeH
-	 OqAUuDGDSDKk2CIk047K1aFxpuX3SJIpQg6YVlRkgcCEHLw3/LCS09P+/HURK40ZNHRZh
-	 s13K7svUoU2VwGDAhKeMOS3wC9tMRTk/5UCWXUW2Q9nRtrqoSX/edwvpPiKsnc4WYAYUY
-	 jRboaYk1vOx4AVCIH68CXdJWjiLrfThdDNdB2eEwT3ncOEhrOTpqyzZFAQHJ3oqsvfg==
+	bh=vIYgct9FxdEdL8Nwdi7Ov80zcE71hXhp5102ksEy65Y=;
+	b=saURBOVEUN+0f6zVXyTqPpMO+Qw2x/z4NOAw2IgF75n7sADlMrY4DQD8IdYMxvjbEj4v
+	 VjOXFd0PU5mbnmMInczj2nP+Pq5o1ySxlbaRhLNnMQlCw6/Ld4tzpxXbisgvKW3YpYG5U
+	 bHdOKAEf5721f6L7Urfm6LXYvcZfDrPnmSZ096X2bgII1DwUTU9j4j03lnRn+7yokTNSx
+	 EsByugw2ajaL6uZ2n/t97PPA2ru4+CPO9n2p6JSAUBA6DGZWvyZ4Vm1N2co8xuBsYdq1t
+	 zkbaKPTqePcrujcHCjca+q53P7Vb71PiRZEAL5dE5gHcjEq7TVO1j+rc17ATKSVNahA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bAHsVhJX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z7nBQC8k;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62664606EE83;
-	Sat,  7 Nov 2026 10:49:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C143606A333;
+	Sat,  7 Nov 2026 10:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bAHsVhJX
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z7nBQC8k
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794048549;
-	b=LLL8Kx5NMHYg/xqYcEEJFq90VNrzWtLH3XAie0DwG6tnRuS0tAnEpnfGjzTUZl7O8iMq
-	 Pyt2mHTqlQG6RrQGH9+ZQZwmEitAq7JBgdLikY/FHqW3XuRjyDh2MS+ID7Nr/Slo4eN6H
-	 rIej/HD7BiCCixMf7RfxNiIecB1/0BdV9VDq0D1oVkLlGiEJhQI7NSMCAjHcS2tjmO0EA
-	 VbSlb28KPny/TMYUSpQ7esilj0+yYz2kU5TiF+fKN7z5vg1kBHT47ocmYcsYUNMVbmKTM
-	 wUVMK/4iI3J8Xg8Y3hDarARgnoaF728QeW6XrJ6A0brxLyzLiHvG7XKw88ubCPyMfNQ==
+	t=1794048546;
+	b=zT3PUvKOMnKur9dP6GlyhJNOc3I9UV39mCzo/q05/vQ5uChn/jfrTSmqnpS7Uterkpvw
+	 X/3tV46CWzdkn8k9CTCHg7mkteMKCngf4lYAYtLD4pc8LRqT1Hzip9ppIjV6Wr2SzZ/Sx
+	 DuZ7cSTFiUk7PD7Oc5V3030jTsuFosccpdoiSVSUyhVNmKOrqoI7cNaKo9obzIcXIiOjY
+	 mK88Tl8v8i6q4hJDcGYxSeomx/Ds/3WS4yKD5ZFN/LDwA4LsnrY2nALn98+Fc54sGSjzE
+	 mntkkrUmW6o+aY+z9hFnuMsXcfxE9Rl1sfFrzvTfJaMs4CkZhAMZe79UrYugOexjkwg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794048549;
+	c=relaxed/relaxed; t=1794048546;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=F6jX/+Nqs2fcYN6TvsVCxH9Qlb1iwQl+YtobY55zdXo=;
-	b=RGuvcc44dWkatSHh8ZyMjiuq4m/lU9DqpLCnn5fsfcparQX4ckjPp4u3lb9EOAVafk4Q
-	 LtSBhbIYdBB6Y6VGVmg+bQmtNwYAFVImfKKOsKbvH2ynbAH6yXAeK6nX5uEETcmFo84DL
-	 iKtelE6Rb608n2wcbSKhKNZfhcSQiATxmuJ3iIpblbu+MiEcas9RSzF7vjztU3XgEwui/
-	 vKWP4DSXFgT5k16FWecL/oHRLLbRw+vYCqqtz61nB3Bg3re/jpwFVqYszJGVMcv5zWfUX
-	 t0p8oTEs0jfNPan9rl6vYhzn1f8+BC9MQ2O4WBb8SWiIPhkQFK+AURrGshoqVdYDg1w==
+	bh=vIYgct9FxdEdL8Nwdi7Ov80zcE71hXhp5102ksEy65Y=;
+	b=Jx7b1LlaXHaz3sIOre+IXcxdcdZtJOl7euTx6CNM8MRqhZcsq/2PBDHKNcs915DFKXLu
+	 maW4ulDuzE+TD7JhDI2I9+1+IDj1mOVfk4iXG8/JAJy/Egy42QVk+WjlLdjVTS6HHfdIE
+	 TlE6MfOZGmwvQfyU9rFCEoFWnpZzf5HjfUcKWXlM3y7k+O2BJVCxgk5xXKUjKdFzn7eIY
+	 bpc/8fbKs3es71dtBua7idkCu/0niLZODonwENne6m5isg3fBbjH3Sqk3cBfRAEMFX856
+	 3eHQsGO7NaG+W7VbOeMeZvguIVnhMJy6piayJh3M2Jh2+imDMI/cW+2ue0oaznxk3hA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 93FDB1F008A6;
-	Sat,  7 Nov 2026 10:49:06 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0B3741F008A2;
+	Sat,  7 Nov 2026 10:49:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794048549;
-	bh=F6jX/+Nqs2fcYN6TvsVCxH9Qlb1iwQl+YtobY55zdXo=;
+	s=k20260515; t=1794048546;
+	bh=vIYgct9FxdEdL8Nwdi7Ov80zcE71hXhp5102ksEy65Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=bAHsVhJXVqRRyDXnhqz/CXoQYhokavqGoRqGv0G9bUsgcdrw+DSGinmJ2niDhESoL
-	 oCevq1WnjTw9xGo3GHCXaWMB3gvKHZcSHfnYfbI/C19X54Ca8dlwfdDYkjmIXaA5r3
-	 1quYdGH9zHdurGS4Qt4A6kUj1B70/bxtUPLiMOipJN5nxgJ5WsXei3JcZSfHUUUEoL
-	 ClFKU3FbFHrvTz/p7lzXkNLhrZs3tnDt7lrV6K1iCt56mGiwTZcijMy5dzsE4h3aA0
-	 Ohx96eVKQnqAFTydfCjeI0FsgFoI23p5Rew8HoWsAdXk2uUuUpt3n0wXbhyalfDmEI
-	 TdpKNUVPXkbaA==
+	b=Z7nBQC8kyTKj6pW+T/+5no8MU9flRduqht6Xe2Hg8h2v/Cwhgk2GjP7JKF9zibNd9
+	 kTW6oPKjtsSbopQVY3UN33JBv+gKFn8mIYFT/g4qv3QeDlStOpoqMwQEdj7i3cr/2U
+	 m/VUt/VSxt1eckFk56XnBu6JvasbWWHt+fLrAxJaqzT/3U7hPdxPRHyxX17pQ9ahsY
+	 YDRefqVHqmrqU/hiHBV0v1FK/FNUSGng/gBW5SaO/55ybDlV0/wjt4x84Xuu4J7Oit
+	 f3KMqx1ObVoe4WLhfEyQ0tBc9+WY75fxn39otEaYUO8Ayi7GFqZDzrvXKy/TdmPAuc
+	 nbTwsJF551k3g==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E5A1B47B8E;
+	by lkml.kernel.org (Postfix) with ESMTP id 86F9D47B76;
 	Sat,  7 Nov 2026 10:49:04 +0000 (UTC)
 From: Myria Sarvay via B4 Relay <devnull+myrialsarvay.gmail.com@kernel.org>
-Date: Sat, 07 Nov 2026 21:48:55 +1100
-Subject: [PATCH v2 08/15] drivers/perf: apple_m1: Add Apple A18 Support
+Date: Sat, 07 Nov 2026 21:48:49 +1100
+Subject: [PATCH v2 02/15] drivers/perf: apple_m1: Remove unused variables
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -83,7 +83,7 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261107-m3-plus-pmu-events-v2-8-acf1e78da039@gmail.com>
+Message-Id: <20261107-m3-plus-pmu-events-v2-2-acf1e78da039@gmail.com>
 References: <20261107-m3-plus-pmu-events-v2-0-acf1e78da039@gmail.com>
 In-Reply-To: <20261107-m3-plus-pmu-events-v2-0-acf1e78da039@gmail.com>
 To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
@@ -96,13 +96,13 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
  asahi@lists.linux.dev, Yuvan Shen <yuvanshen09@gmail.com>, 
  Myria Sarvay <myrialsarvay@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1387;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1077;
  i=myrialsarvay@gmail.com; h=from:subject:message-id;
- bh=s/45yDdB8ys2vFBvaE4TXv63SSRkLqDeAYlpyd8V2AY=;
- b=owJ4nJvAy8zAJRbk4iixYu2/l4yn1ZIYst4zyUyM93DXiI9rWnfb4LvHynVG57bEuTsyN5SkL
- Sr2+3D4g39HKQuDGBeDrJgii75pmvZktoZLpctct8DMYWUCGcLAxSkAE5H2Zvgr5714Rpeyioqf
- w7GnS1Sb25oNN0358UDwwo1TJz7MMno7k5Fhtq/Vx5YCt4c6mzxDbBYlWJloHOFy0TbrZNtpvGD
- fkUBmAFLcRuQ=
+ bh=EV9fXCfpL3fKlyENxSrnQelkd6v71gDBFcBUcbGRPcg=;
+ b=kA0DAAoWUkRBGKit/ukByyZiAGrvAhuiEb8Z1U79UtMuB3jppw2vSZr9YBVd6ehn9EEHlYM5m
+ oh1BAAWCgAdFiEELzVmK5MGgNJ1pkW0UkRBGKit/ukFAmrvAhsACgkQUkRBGKit/ulGHQD/ZBKe
+ pqjGQ6JyFX3Qkph4r3K87D0/UipcTgbP1BRt11kBAOos0/WKS4V4c/u8rgoYM9oFAk67XawY2h1
+ r7RuF9jcC
 X-Developer-Key: i=myrialsarvay@gmail.com; a=openpgp;
  fpr=2F35662B930680D275A645B452444118A8ADFEE9
 X-Endpoint-Received: by B4 Relay for myrialsarvay@gmail.com/default with
@@ -113,35 +113,33 @@ Content-Transfer-Encoding: 7bit
 
 From: Myria Sarvay <myrialsarvay@gmail.com>
 
-The A18 has events and affinities identical to the M4, so use it.
+These variables are calculated elsewhere as well, remove the extra dead
+code.
 
 Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
+Fixes: a639027a1be1 ("drivers/perf: Add Apple icestorm/firestorm CPU PMU driver")
 ---
- drivers/perf/apple_m1_cpu_pmu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/perf/apple_m1_cpu_pmu.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-index d6fa58aee886..318baf1a75c4 100644
+index 1f73c8a77462..de4026c63afd 100644
 --- a/drivers/perf/apple_m1_cpu_pmu.c
 +++ b/drivers/perf/apple_m1_cpu_pmu.c
-@@ -1154,6 +1154,8 @@ APPLE_PMU_INIT(m2, avalanche)
- APPLE_PMU_INIT(m2, blizzard)
- APPLE_PMU_INIT(m3, sawtooth)
- APPLE_PMU_INIT(m3, everest)
-+APPLE_PMU_INIT(m4, tahiti_e)
-+APPLE_PMU_INIT(m4, tahiti_p)
- APPLE_PMU_INIT(m4, donan_e)
- APPLE_PMU_INIT(m4, donan_p)
- APPLE_PMU_INIT(m4, brava_e)
-@@ -1164,6 +1166,8 @@ static const struct of_device_id m1_pmu_of_device_ids[] = {
- 	{ .compatible = "apple,brava-p-pmu",	.data = m4_pmu_brava_p_init, },
- 	{ .compatible = "apple,donan-e-pmu",	.data = m4_pmu_donan_e_init, },
- 	{ .compatible = "apple,donan-p-pmu",	.data = m4_pmu_donan_p_init, },
-+	{ .compatible = "apple,tahiti-e-pmu",	.data = m4_pmu_tahiti_e_init, },
-+	{ .compatible = "apple,tahiti-p-pmu",	.data = m4_pmu_tahiti_p_init, },
- 	{ .compatible = "apple,sawtooth-pmu",	.data = m3_pmu_sawtooth_init, },
- 	{ .compatible = "apple,everest-pmu",	.data = m3_pmu_everest_init, },
- 	{ .compatible = "apple,avalanche-pmu",	.data = m2_pmu_avalanche_init, },
+@@ -421,13 +421,6 @@ static void m1_pmu_configure_counter(unsigned int index, unsigned long config_ba
+ /* arm_pmu backend */
+ static void m1_pmu_enable_event(struct perf_event *event)
+ {
+-	bool user, kernel;
+-	u8 evt;
+-
+-	evt = event->hw.config_base & M1_PMU_CFG_EVENT;
+-	user = event->hw.config_base & M1_PMU_CFG_COUNT_USER;
+-	kernel = event->hw.config_base & M1_PMU_CFG_COUNT_KERNEL;
+-
+ 	m1_pmu_configure_counter(event->hw.idx, event->hw.config_base);
+ 	m1_pmu_enable_counter(event->hw.idx);
+ 	m1_pmu_enable_counter_interrupt(event->hw.idx);
 
 -- 
 2.55.0
