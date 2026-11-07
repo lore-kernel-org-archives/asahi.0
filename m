@@ -1,74 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794060469;
-	b=vDBBqBA1jN262BnKj6sBBFMzJQIBS0X3bFK65psS0LeG6o9gy+pqgIa8bBBI+GRAMT1B
-	 VxOA/+Yi63GwON0UJyg+nLGy5TuR+zGEMxRYJ1OraBupw3mYrew7s0RML38WvXteZLXLh
-	 ulKelH4O0K2L9QXrWREPeMq/bxklEJXFqltAkdVSbDDRkRC6MOqqybqKYzLB2pn4pzrgp
-	 /uTgz/A0k2tFccoZZzuOd0XvoICu0cIINatHo7kWqyiCQmzeAEt1neFzb9R4bOpHB0l/f
-	 /nXjCRN8iX51Wm7u5dh6rRLB/s17ytrD8o6eDR6MQSevWzuwJj/ByNRoa3Mgf7Ke1Bg==
+	t=1794066504;
+	b=XedE5CrQ7qMPruL3M15hXxjiuYYiNhUti89Gn5U3wYy7fBCvy6kct1ZbeODKzJGLzxjS
+	 YmYajQFHfyc3TkCdh0Rx0J8btk7a24YoFg+rAyBhSDfe4UVzKjXH+THe1R73GI+Sx/P9T
+	 UcPO3zOqGmhgvis3HxuSDqVemXQQ8IO0PBd0RcMsiI9RN4Oj1qy7NyorYobJr+78/n24e
+	 Vicwxtfnk3NmCOMS7HPuVBqCCb2TAlCSX9Z+q0ifG7pDQMYlTFeiFa6MQDnPxXm7RlyMx
+	 4uuuxdCbChEUEgOsYwajuU1p7QIkMcZwfKApvrT30ktyzIgm7Gr5eIv65qnrGvgtJzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794060469;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=nKkg05I99+uQhW9KEZpbGaMFfkVpBZ+oFRIsqMlTLGk=;
-	b=p8NUVL4r0V64nVpCdbk5rxk8WMaZgH6IY3VVYOgwnFxF4yrRzCC2e9ENA0RV0tHsscdz
-	 easSfvz8Qg2LgQegqMG2pXBGXIvokG0gQVNF3WuJlzhdwTCFKp32OuyQIug6jdJ0b319l
-	 PvYXLFLksVyY/2xW9d8IBgSuWrYvauRv25+Gr1HHUBHw1wMj00BR4IJ4o4Hua6bX1MiM7
-	 jrbw4YRmGmyE8IBsspL1F7VgTnzMFVs49y2ihDefLTo2bZkJ08R8WUTy0JO+kI8EsA7Cb
-	 01pNlW+O1f3M41OA8ivHCQWigrBG1FOfVWVH410vrCwaaju9I7Gd3AXoZTzvucNbldw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066504;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=2TSwzs4toJkuTQ0MSsNXskQy4m0VfDGBoS0m1W9mFYE=;
+	b=GzFacT2coSSiiHe2ZbMWfyIAypieM7IhWVcn0Go6uf3Yra6lt/EeBEpNLqg+PQzwr1cP
+	 uTTqZwD9Ne6mJjfSKL2btwWJPJ/c2XeG+A03CnslPqbzTemSscui8xmAgf9KGFEpXzVSv
+	 QMe5xHGOK/roUHGNS4+qAPimnLrJHC3aTPa8iW6T25eYrKmG/+SB+nsO0w9F8eHmAr+oJ
+	 Z7JnE282CxbYKbstT/tWUeRPL7H+eU3zd2BNKXfIfbBSjDZjNmD5GcC5YPKnYMOa9PyzW
+	 rIGL8FubBU1QvpDVEY9gOp0iovdndG0zbVahSyj833ikLWQq/XLqylNeb1Wmhs8CYxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=sang-engineering.com;
-	spf=pass smtp.mailfrom=sang-engineering.com;
-	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=az57Bq87;
-	arc=none smtp.remote-ip=194.117.254.33
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=GTOuLeMy;
+	arc=none smtp.remote-ip=91.216.248.207
+Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7865606A326
-	for <asahi@lists.linux.dev>; Sat,  7 Nov 2026 14:07:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7865606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D43606A33A;
+	Sat,  7 Nov 2026 15:48:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02D43606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=az57Bq87
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=nKkg
-	05I99+uQhW9KEZpbGaMFfkVpBZ+oFRIsqMlTLGk=; b=az57Bq87c2CQgHhK/9n5
-	8/YVmXgISKAdBBrBNKjBpPQGOPT6Dq8P7LYTUZ9IMpuqEStP4aR0ELTWFlvS2ovl
-	9F2mtwlyWKl8t38l8cuz/lz6p+sL4MQAlnSX2A8B8oizEgeDtxerWNXWrW77QH2f
-	5odvcHiCLmLHsrpFlqBj4X2Npf8pvw1wyB5AdzkqRipb6LonO2OM6LjETNeu1Me+
-	J8ZBZlPZAmXo8QQHpKs8wFWEIPfY3fl8XUbheRPbGo+8cgoYeYtINzJIG0xYLf5M
-	XzHmaMa3Z2FsRFWxyefVWO6kfIr7k9M93QYmS1tDHcKaUFLkcMdp30XkDCX7Phm5
-	Xg==
-Received: (qmail 2526305 invoked from network); 7 Nov 2026 15:07:44 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Nov 2026 15:07:44 +0100
-X-UD-Smtp-Session: l3s3148p1@4+FpQLBfktwFFu4j
-Date: Sat, 7 Nov 2026 16:07:39 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Yureka Lilian <yureka@cyberchaos.dev>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, Thomas Gleixner <tglx@kernel.org>,
-	Radu Rendec <radu@rendec.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=GTOuLeMy
+From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: af9fc4e5-9ee0-417b-900e-491deda6e2f1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1794066493;
+	bh=uTpTCkCVs2J2SIQukI3selteqaCydXP7zz1h7Ezajk4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GTOuLeMycp+Q9ysJdonMalNh8l8q5MUBe7Vyuy47zb7GIf02+khYfw4dxeU07Txtm
+	 l3VEKipvkOnLLOZN6cmrympZrM5oYqbKHfvKCDaeGi6bi79X14IwZUPrjq9429bSES
+	 0ixG+b6yI494RWnk05EqmCjZIbg7sYjwrB6Acyd2srTQVL5sOws17VTJv/8+vveoFj
+	 qf+KEYagEMqZW9xWIxbEzeuCzkfRHdQyJmfX8PuhD04A7+Zoea03oTl8QIyAd8R7SL
+	 lcCYWgEaxyrTZddugrKh/2i9Uzp/PFissUT5fnPmMXIZ7JrfphhW4x2S090Qa5PgYH
+	 Vr4UlEU93/OLg==
+To: Arend van Spriel <arend.vanspriel@broadcom.com>
+Cc: linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	Michael Reeves <michael.reeves077@gmail.com>,
 	Hector Martin <marcan@marcan.st>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Linus Walleij <linusw@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 7/9] dt-bindings: i2c: apple,i2c: Add t8142 compatible
-Message-ID: <au8wq8Bqr4tZ8bj8@shikoro>
-References: <20261106-apple-m5-initial-devicetrees-v3-0-cee55de54b2f@cyberchaos.dev>
- <20261106-apple-m5-initial-devicetrees-v3-7-cee55de54b2f@cyberchaos.dev>
+	Janne Grunau <j@jannau.net>,
+	asahi@lists.linux.dev,
+	Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: [PATCH 0/4] wifi: brcmfmac: pcie: S3 suspend and resume on the T2 Mac chips
+Date: Sat,  7 Nov 2026 16:48:06 +0100
+Message-ID: <20261107154810.89780-1-dev@deq.rocks>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -78,19 +67,54 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106-apple-m5-initial-devicetrees-v3-7-cee55de54b2f@cyberchaos.dev>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 06, 2026 at 10:24:56PM +0100, Yureka Lilian wrote:
-> The i2c block on the Apple Silicon T8142 (M5) SoC is compatible with
-> t8103. Add "apple,t8142-i2c" as SoC specific compatible under
-> "apple,t8103-i2c".
-> 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+This goes on top of Michael Reeves' BCM4388 series [1], which also
+changes how brcmfmac talks to the BCM4364 and BCM4377 of the T2 Macs.
+These patches are follow-ups to it.
 
-Same comment/question, as for T8140. Better via apple tree, or?
+Michael's Patch 5 moves the mailbox to the control ring when the
+firmware does not set BRCMF_PCIE_SHARED_USE_MAILBOX. On the BCM4377
+of the T2 Macs that makes D3 work at all, since this firmware doesn't
+read the TCM mailbox the driver used before. But that caused some
+other issues as an aftermath.
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Patches 1 and 2 fix two things in that path. D0_INFORM on resume fails
+while the PCIe state is still DOWN, which I reported on patch 5 [2].
+And with host ready as a capability, the host ready doorbell at init
+halts the BCM4364 firmware.
 
+Patch 3 probes again after a resume through the platform firmware,
+since the chip loses its firmware in S3. Patch 4 stands on its own and
+drops a tx status wait on flowring delete that the BCM4377 firmware
+doesnt satisfy.
+
+The Bluetooth function of the BCM4377 gets the same resume handling in
+"Bluetooth: hci_bcm4377: resume after ACPI S3" on linux-bluetooth.
+
+Tested with S3 on the BCM4377 (MacBookAir9,1) and BCM4364B2
+(MacBookPro15,1), and probe on the BCM4364B3 (MacBookPro16,1).
+
+[1] https://lore.kernel.org/all/20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com/
+[2] https://lore.kernel.org/all/20261106153612.2aadef2a@kait2en-mbp15-1/
+
+
+Andre Eikmeyer (4):
+  wifi: brcmfmac: pcie: set the state before D0_INFORM on resume
+  wifi: brcmfmac: pcie: skip the host ready doorbell at init once it is
+    a capability
+  wifi: brcmfmac: pcie: probe again after a resume through firmware
+  wifi: brcmfmac: msgbuf: send the flowring delete without waiting for
+    tx status
+
+ .../broadcom/brcm80211/brcmfmac/msgbuf.c      | 23 +++++++---------
+ .../broadcom/brcm80211/brcmfmac/pcie.c        | 26 ++++++++++++++++---
+ 2 files changed, 33 insertions(+), 16 deletions(-)
+
+
+base-commit: 991a73f4909f1348ffb4b38765cdb522a775e4c2
+prerequisite-patch-id: e3427132df0f9740b79d9b3f84bc14c25f787514
+prerequisite-patch-id: 1a0aae8b057854813ca6d1f20d3bf153a7b761ec
+prerequisite-patch-id: 3453364de54d0d786a6126fca792567f13aa3679
+prerequisite-patch-id: d40a127ef83ad7d898ca7c3d643b45b829051477
+prerequisite-patch-id: 5bd50905bb42d138eb6fda7d5ad795615348ecdd
