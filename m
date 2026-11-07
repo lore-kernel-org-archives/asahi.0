@@ -1,53 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794083800;
-	b=kObIPq9y2PzCGUcHBS5+YNPA0WUF2fLcV0ryd5/yxw1cCa+RUG3yWUaVt1l/lhxmkTsc
-	 lsVUJlentwvswB6zaljkMGCs9VkpwcpVctHmeeTMtPzg98MoWXXXlKTgGLD8sk+OLBLYz
-	 n5R0BD7e/350VKH8znLtXiFxL1FdzS0s67iJRtMmgO02PuZAsYRahaumDZjEkZsTSaWoT
-	 ksvorUD8J6744bHcuwJokwi2X9//OKKt70eUDOwugIdRfBkY3LajgcJo3hAnbFva0HPmR
-	 siRjkXJVxvOwyW1hFhbSfpjjItWH5E5fHmBKiRHGpFo7V63cWX2eB+gCbBOvstqjetQ==
+	b=M7gqhMsd9fYYK37mucygdBO7TKa7r/QZgh+xc5SEklt+An8YbiQwltGrmneNbIChB8pR
+	 nXvp4A0ZNABwBu71E42kLtF1D8V+u8yqIwu1/6HBUK4q+JVh/4ew1RHOz2E9vtx+T+a2g
+	 XgERJ62a4sQmf4YxI10HJC89zzmKlLJXxaRZqx0KFfY8wh07w45NfE3n24bKPfer+xuiA
+	 6e9Iyo50DatagnDE7CkxQy3lMPfHGXDIdVvA0jXFBqGbNdQhOR9dMnsOo1OJtrgIi0XJ6
+	 BtLWoijMAAz/fwABjYBrhHpFEt8m+ivnS32ywXlo8+yNwHYaPUefVnEhs2q2hEiUvTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794083800;
 	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key;
-	bh=m1cywuN9POCHGVkY3HMh/Fn+/naoEZscsamoMt9C/K4=;
-	b=tps2tFX0cSzEz8rTTzoIp5jFr8Aie9iwT4FwxrvZ+8bJ4SjoesaC++vaqEkAqHUOCEdZ
-	 2cB7UdxqcGhGHBnJFVG/GYBfejA5WJROokvjiMCICGc1u03dx3jXM9Ih2IqajNC5uAQM5
-	 TICakYJer9JhB0Y1Qc+tVRZaFwzhXJdAEDSHK0w/DlXigyBu4HG4QIOgCzFRSYnAbatzG
-	 7OTzqUq4Tkp4ywWp8KhTWCLvCzRqSNLrjs1idL7qsZun1hYO6OYdEUyGZVpYbZwyx3avz
-	 5wMgO+OyO6fx4GS7S9SsKjb1/DrL5hVgaEUgRhUU6vKmCIzsZnPnfKUo0uCMsHsO7cQ==
+	bh=C2sizMumrU6ZkmgLRCVGfCVsT99H5CNjhvx5bAA7wsY=;
+	b=kRODCXrZFqG8qtuKWY7M4q6ZjuOodXWFlVZHaTV+/Zbytxdf5LI5I/rV5iI86uoRP/ud
+	 rDTXQEECDLlnqLRCYNCDbsERPgJNsZyZwha1YVNwATwKka5GdbwoHTiYvcr5T7ydMT5CV
+	 Y9alLxVRo4DX3U5iX/6Pgddsf5hjCEMZR2ufUvaUi4MuGKGN/LOb0fJ3IEAp3F19tb5WQ
+	 3TISEH776+hvD8B1SnbeLwYb8fa9PLxqoyJS3dZoZNgyh1DQHy4O6seJRH7dpbByIGbQF
+	 6xVoil4uVgbvZqzMUK6LvBB0rP+kMvsGRNsqvDJDQ+OCOy9rtlUHCcZgYC6u4c1t83g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chaosmail.tech;
 	spf=pass smtp.mailfrom=chaosmail.tech;
-	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b="dF/Q0i3z";
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=LkAf2X5V;
 	arc=none smtp.remote-ip=77.81.229.115
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5496606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C15606A332
 	for <asahi@lists.linux.dev>; Sat,  7 Nov 2026 20:36:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5496606A326
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57C15606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=dF/Q0i3z
-Received: by chaosmail.tech (Postfix) id 26AEA1C984E;
-	Sat, 07 Nov 2026 20:36:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=LkAf2X5V
+Received: by chaosmail.tech (Postfix) id 629471C9690;
+	Sat, 07 Nov 2026 20:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
 	s=mail; t=1794083791;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=m1cywuN9POCHGVkY3HMh/Fn+/naoEZscsamoMt9C/K4=;
-	b=dF/Q0i3zig4kCsRUNVXV7SRnJTy/JaqYkyYAtzVy0CjZetGNwZw0mTrQ2B7eh6l0QkXN3V
-	4c1+Ipgj8ckiVnl33gyEYVW9KjmslCnCWxl5q/HgD9CSMgzPv8iOYsH8R034nybaSmditG
-	KFG2H1ATm6TzimaMHTxM/qDSvkkrdlA=
+	bh=C2sizMumrU6ZkmgLRCVGfCVsT99H5CNjhvx5bAA7wsY=;
+	b=LkAf2X5VAvOKqnQ8ej4NhLF2T582iEg0Xdg3J3OdDkbnb5OcMv6GiICLgK8ws8zLmir1G3
+	1ynBCFF8ZJ2er4uttL/UAe1krJIPy3OdgpBv/ByOgNfmYLli3DQRNZlVSPsEg2uhg8J3Qt
+	Kp79yIshf6+Hbnji4LMfSAU3u3Jy0Pg=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 07 Nov 2026 21:36:24 +0100
-Subject: [PATCH v11 2/6] spmi: apple: Validate FIFO state
+Date: Sat, 07 Nov 2026 21:36:23 +0100
+Subject: [PATCH v11 1/6] dt-bindings: spmi: apple,spmi: Add t603x and t8122
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -59,7 +59,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-t603x-spmi-v11-2-322490215f58@chaosmail.tech>
+Message-Id: <20261107-t603x-spmi-v11-1-322490215f58@chaosmail.tech>
 References: <20261107-t603x-spmi-v11-0-322490215f58@chaosmail.tech>
 In-Reply-To: <20261107-t603x-spmi-v11-0-322490215f58@chaosmail.tech>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -68,118 +68,79 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Sasha Finkelstein <k@chaosmail.tech>, Alba Mendez <me@alba.sh>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794083789; l=3000;
+ Sasha Finkelstein <k@chaosmail.tech>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794083789; l=1683;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=oo0A5mTyjhQs/shRoCqBQAm46h7YyRWHCbKW2E+1Huk=;
- b=E6Fi/ubY3mpQ6PvfuFKfQiucxMwtWJRy97qI91vrIK3FjwC0qtyiiiiVRcRfITMOVInxCWyFq
- k3pnBU7mOPAAYRL/gCL6kSuu34DX2ngUzBGOsTLFS6RB5Spkx3KSO+z
+ bh=w1uF1sHRL6ww/RmxY7obycFKrx9sLGMqFsMCKG2iCz8=;
+ b=9N/LH6P0QJldMuPlVKH0Ue9dShBgGSQnDpOga7GZ6ZFr7rPuW/5OlcJMjd6VEI7o3FoJ0GPc1
+ M5MMtV7pyFxAKHuvJ190sSg1GGV/LnEIZzJCn+dVdCv1/NvopChg1q+
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-From: Alba Mendez <me@alba.sh>
+Add t603x and t8122 compatibles, interrupt support, and support for
+SPMI controllers that are not always-on.
 
-Check for data before reading the body of a reply, and check for
-end of data afterwards.
-
-Signed-off-by: Alba Mendez <me@alba.sh>
 Reviewed-by: Janne Grunau <j@jannau.net>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- drivers/spmi/spmi-apple-controller.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ .../devicetree/bindings/spmi/apple,spmi.yaml       | 29 ++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/spmi/spmi-apple-controller.c b/drivers/spmi/spmi-apple-controller.c
-index 376cf682c43e..15721cb41d5c 100644
---- a/drivers/spmi/spmi-apple-controller.c
-+++ b/drivers/spmi/spmi-apple-controller.c
-@@ -21,7 +21,9 @@
- #define SPMI_STATUS_REG 0
- #define SPMI_CMD_REG 0x4
- #define SPMI_RSP_REG 0x8
-+#define SPMI_ACT_REG 0xa4
+diff --git a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+index 3e5b14bc8c31..4e73083ecec3 100644
+--- a/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
++++ b/Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+@@ -20,8 +20,11 @@ properties:
+       - items:
+           - enum:
+               - apple,t6020-spmi
++              - apple,t6030-spmi
++              - apple,t6031-spmi
+               - apple,t8012-spmi
+               - apple,t8015-spmi
++              - apple,t8122-spmi
+           - const: apple,t8103-spmi
+       - items:
+           - enum:
+@@ -34,10 +37,36 @@ properties:
+   reg:
+     maxItems: 1
  
-+#define SPMI_ACT_FIFO_FLUSH BIT(0)
- #define SPMI_RX_FIFO_EMPTY BIT(24)
- 
- #define REG_POLL_INTERVAL_US 10000
-@@ -29,6 +31,7 @@
- 
- struct apple_spmi {
- 	void __iomem *regs;
-+	bool prev_fail;
- };
- 
- #define poll_reg(spmi, reg, val, cond) \
-@@ -49,6 +52,7 @@ static int apple_spmi_wait_rx_not_empty(struct spmi_controller *ctrl)
- 
- 	ret = poll_reg(spmi, SPMI_STATUS_REG, status, !(status & SPMI_RX_FIFO_EMPTY));
- 	if (ret) {
-+		spmi->prev_fail = true;
- 		dev_err(&ctrl->dev,
- 			"failed to wait for RX FIFO not empty\n");
- 		return ret;
-@@ -67,6 +71,11 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	u8 i;
- 	int ret;
- 
-+	if (spmi->prev_fail) {
-+		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_ACT_REG);
-+		spmi->prev_fail = false;
-+	}
++  interrupts:
++    maxItems: 1
++    description: Optional, operates in polled mode if not present
 +
- 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
- 
- 	ret = apple_spmi_wait_rx_not_empty(ctrl);
-@@ -78,6 +87,12 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 
- 	/* Read SPMI data reply */
- 	while (len_read < len) {
-+		if (readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY) {
-+			spmi->prev_fail = true;
-+			dev_err_ratelimited(&ctrl->dev,
-+					    "FIFO lacks reply data, controller stuck?\n");
-+			return -EIO;
-+		}
- 		rsp = readl(spmi->regs + SPMI_RSP_REG);
- 		i = 0;
- 		while ((len_read < len) && (i < 4)) {
-@@ -86,6 +101,11 @@ static int spmi_read_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 		}
- 	}
- 
-+	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)) {
-+		dev_warn(&ctrl->dev, "FIFO has extra data\n");
-+		spmi->prev_fail = true;
-+	}
++  interrupt-controller: true
 +
- 	return 0;
- }
- 
-@@ -97,6 +117,11 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	size_t i = 0, j;
- 	int ret;
- 
-+	if (spmi->prev_fail) {
-+		writel(SPMI_ACT_FIFO_FLUSH, spmi->regs + SPMI_ACT_REG);
-+		spmi->prev_fail = false;
-+	}
++  "#interrupt-cells":
++    const: 2
 +
- 	writel(spmi_cmd, spmi->regs + SPMI_CMD_REG);
- 
- 	while (i < len) {
-@@ -115,6 +140,11 @@ static int spmi_write_cmd(struct spmi_controller *ctrl, u8 opc, u8 sid,
- 	/* Discard */
- 	readl(spmi->regs + SPMI_RSP_REG);
- 
-+	if (!(readl(spmi->regs + SPMI_STATUS_REG) & SPMI_RX_FIFO_EMPTY)) {
-+		dev_warn(&ctrl->dev, "FIFO has extra data\n");
-+		spmi->prev_fail = true;
-+	}
++  power-domains:
++    maxItems: 1
 +
- 	return 0;
- }
+ required:
+   - compatible
+   - reg
  
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - apple,t8122-spmi
++          - apple,t6030-spmi
++          - apple,t6031-spmi
++then:
++  required:
++    - interrupt-controller
++    - "#interrupt-cells"
++    - interrupts
++
+ unevaluatedProperties: false
+ 
+ examples:
 
 -- 
 2.56.0
