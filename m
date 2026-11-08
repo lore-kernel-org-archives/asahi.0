@@ -1,58 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794159184;
-	b=0p7xwgNm8SpzQsxRFw3qdK5QQ0tHUFBQ67Vc6cTR/VZ7HalcOX7fd2mqJ59ADrxq9Mjl
-	 7RWd+SZlwL/hN/bfa3rSI4R/MI7YGm5BRIhtQ3/ZJvU1Oaaq/5MLjwhtclxOGIdheEPmL
-	 c+44M1p6oITWd3UPMTY3kDBE3TIBvXqlDJswK6/4kyHqdVSRvWOcKtuLOrB/RMv26YHyz
-	 KV1B+OAuK3BMflBPNvWzXRloZ6S/oqyNSe14URwZSlG0MtqIG4x9uNO1auo3CVAQdS/gM
-	 dV9cVMCPvJy/7JRN5o5/PKHZKDw9lBfpAG7h1NO3gzWfKsHQHCaB2aVoSxCn7rpsHUw==
+	t=1794161750;
+	b=JizUtIcR2m1o7Yd3soNLH3y+5HLXDT+Gjra5Qdq53ALt7nuKCbaroCDj4YnwJP23Ftea
+	 DQmBwamgCbS/ymeD1QB3Dj7NPPgQwm3V5t1kSZjBHHP0Xq7GF/2+tay9qLupG8+CpogaB
+	 Q759BWxaDVVqlC7Qo0hxW9rcb/UeKU+MrlGNSOw2RE7nvd8ln6jSARQouQGh1h5XvvTAB
+	 CS9VU/D70p+qlF3GPZ1WZeELrzcq5fH/PSW43hbqTR1GJN5BmFc9XSc1hBAY3wS8FYLIF
+	 D/e09Rxrz4Af+x4lO2div//OWhyYkGjvb8PcHdcXIfvCP0/fTbc+3YizpR/tdSehU+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794159184;
-	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
-	 X-Forward-Email-Sender:X-Forward-Email-Version:
-	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
-	 X-Report-Abuse-To:Mime-Version:Content-Transfer-Encoding:Content-Type:
-	 Date:Message-Id:Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=mmRDTsFTMdkB1knSlLyF6ragoIMpPyE7Nd3fqt3pBKI=;
-	b=cvFv7oL5lPM/x7IDaksuA4NYxMpAnRNE4PSROdzOtram8WLXLaQww5yFX74hexDJYVqO
-	 i4B0ZC2qoXMnACfF5r3JPDSZVtuZgtyVt0Bzipk4nx0DctQHJa2Ke4zD6/DOhC/bXYWWN
-	 UzWErxu4LWJf6/BMgKcLmMLzO7ozFdooGInhUtuF36kJT97siiloGIj3z5c78tnwHBmn8
-	 4YvkL5GvpY4l0bJgiQCAGikGJnRKNeTlaxEXbi1fBYUi50XFUgZSsDstyAmSwNvbVQz57
-	 U3b84c8vRg7ReEsrxNZmjx3Kv8jnOjPx/+BEncmDP1sUozpJTTixV65RV48U7iQH1/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794161750;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=9XXKh7vT6Q9jU2uqPmQkXruUZ4A17pBIXI6HbC2dxI8=;
+	b=lbgdy9u3RMpl8x0321XYjD+3zmm3inyO98QqI8nRUX6l0jBH1g1rtzy/d5QzoTZhLcJU
+	 K461VJFR76o1Et/mLAtXhtGE3u3ltHuoUyLLbmNkvzhbYpEnJVCl7d/XackDlXUwB28Gy
+	 EHm2Kp3MDCmewr4/mmmJ3oPXNqhXEMI1p7EpnOoTMtLtmoOqIWYQOoPn9yZnBJsXRgfOr
+	 tuHNx2tTZd19TKDgFdj831lc20iI+uDyXJdPkv9yncjePuxreDOQNDIg/wi1hkFhrGeeH
+	 62S5523GiraJ7IGu+po96DO6TUlgZlpOroJ2bDavog8Jrn2Rp2rLVEW/v9JQhpNjHHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ubuntu.com;
-	spf=pass smtp.mailfrom=fe-bounces.ubuntu.com;
-	dkim=pass header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=WNGR+i0w;
-	arc=none smtp.remote-ip=149.28.215.223
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EpOJe8fu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15909606A320
-	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 17:33:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15909606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27003606A31C;
+	Sun,  8 Nov 2026 18:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=WNGR+i0w
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1794159183;
- bh=mmRDTsFTMdkB1knSlLyF6ragoIMpPyE7Nd3fqt3pBKI=;
- b=WNGR+i0wgJQ/WOHln4C0I4S5W0BVlyvuhBIddxiOugG/Ht7OswlQFToLSLv6d6e+MvunGBIwa
- /c5Eqhh2dk5YNRE7BUkimCOIrWreZWtZQRGvC2WmhtvyYkLgx18iOB+at+IFuAL17AOsZl/V+y1
- tkXviMwquRyh5gedAKK775ZBtDKZTG9PrX4MyAgXiRZqxmPsF08hp+xCs2XPUE18iVZbqgIc8vf
- zf9g8ipEe1QAsVLpPJwlPsqwe9M0pQT9BPAQ1Id2l1K4MYLbX0h/8A76zLxmlEu/Le4oQNJ0b26
- bl0E2ksi6jbM+CqHq/epqmaiKrjbEOgJ0dp7UUjAveIg==
-X-Forward-Email-ID: 6af0b240935e4de7801c9067
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 2.19.13
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EpOJe8fu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A13D1F0089F;
+	Sun,  8 Nov 2026 18:15:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794161750;
+	bh=9XXKh7vT6Q9jU2uqPmQkXruUZ4A17pBIXI6HbC2dxI8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EpOJe8fuD462bWokak//lTzCAvxRzr/1+rYPgEcxh6qM0WkQFziwQfD7EZRrWOK0B
+	 KQusSYWyp/GOrFqo8nIalkTpyDoj4vbHw/t+dpp90XILSplXDo8kHwU0671KBULaAr
+	 RQAXYwtaqkspNvWVcNsFoSWiTDQfzCVwnQfnHb+Tpu5hcxwiVuRo+g5nAD43diZrVT
+	 zUMCtRghKc+aqiSWk/UctFlsGMsyj76lXzCEksXdekiLvuMEh60+7ign+ztb4ct3ec
+	 bX1XgDkmlpXC4YFTaoR7x8oHAu7000cSocwSegkNVGzEJBs646yD1p7RdTTIZhWZ5s
+	 gHKAWwG9+egig==
+Message-ID: <2ec53558-07d8-4824-821b-03e39da672aa@kernel.org>
+Date: Sun, 8 Nov 2026 19:15:43 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -61,82 +50,89 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Sun, 08 Nov 2026 12:32:46 -0500
-Message-Id: <DMQ0CENBZQGW.L35BD1BXYE9Z@ubuntu.com>
-Cc: <linux-arm-kernel@lists.infradead.org>,
- <linux-perf-users@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>, "Yuvan Shen"
- <yuvanshen09@gmail.com>, "Nick Chan" <towinchenmi@gmail.com>
-Subject: Re: [PATCH 00/13] drivers/perf: apple_m1: Add M3/M4/A18 Pro Support
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: <myrialsarvay@gmail.com>, "Will Deacon" <will@kernel.org>, "Mark
- Rutland" <mark.rutland@arm.com>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Sven Peter" <sven@kernel.org>, "Janne Grunau"
- <j@jannau.net>, "Neal Gompa" <neal@gompa.dev>, "Marc Zyngier"
- <maz@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20261103-m3-plus-pmu-events-v1-0-a8eb6c1139fe@gmail.com>
-In-Reply-To: <20261103-m3-plus-pmu-events-v1-0-a8eb6c1139fe@gmail.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] phy: apple: atc: Add initial M3 series support
+To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261108-t8122-phy-v1-0-c2783b2a53a8@chaosmail.tech>
+ <20261108-t8122-phy-v1-3-c2783b2a53a8@chaosmail.tech>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <20261108-t8122-phy-v1-3-c2783b2a53a8@chaosmail.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Nov 3, 2026 at 5:14 AM EST, Myria Sarvay via B4 Relay wrote:
-> This series adds support for the CPU PMU in the new M3, M4 and A18 SoCs
-> presed in apple devices. These PMUs have new encodings for events, along
-> with larger codes for these events. All of these events are as Apple
-> describes them in the various kpep files found under /usr/share/kpep on
-> macOS 27. More events may exist, but we have no idea of their affinity,
-> or what they actually count, so we don't include them here.
->
-> These patches have been tested on my own M2 (t8133-j413) and M3
-> (t6031-j514c) devices, as well as by Yuvan on their M4 (t8132-j713)
-> device.
->
-> If possible, the device tree changes should probably go through
-> apple-soc, as this is where the recently picked up M4 Pro/Max dts are.
->
-> Tested-by: Yuvan Shen <yuvanshen09@gmail.com> # on t8132-j713
-> Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
-> ---
-> Myria Sarvay (12):
->       dt-bindings: arm: pmu: Add Apple M3/M4/A18 Pro SoC CPU PMU compatib=
-les
->       drivers/perf: apple_m1: Remove unused variables
->       drivers/perf: apple_m1: Support per-implementation event size
->       drivers/perf: apple_m1: Use macros for per-implementation init func=
-tions
->       drivers/perf: apple_m1: Add Apple M3 Series Support
->       drivers/perf: apple_m1: Add Apple M4 Series Support
->       drivers/perf: apple_m1: Add Apple A18 Support
->       arm64: dts: apple: t603x: Add PMU Device Nodes
->       arm64: dts: apple: t8122: Add PMU Device Nodes
->       arm64: dts: apple: t604x: Add PMU Device Nodes
->       arm64: dts: apple: t8132: Add PMU Device Nodes
->       arm64: dts: apple: t8140: Add PMU Device Nodes
->
-Maybe the folder should be renamed to 'apple_arm' or something like
-that?
+Hi,
 
-> Nick Chan (1):
->       drivers/perf: apple_m1: Support per-implementation event tables
+
+On 11/8/26 16:43, Sasha Finkelstein wrote:
+> Adds initial support for the new t8122 phy. USB/TB only for now, DP
+> will fail to negotiate
 >
->  Documentation/devicetree/bindings/arm/pmu.yaml |   8 +
->  arch/arm64/boot/dts/apple/t6030.dtsi           |  12 +
->  arch/arm64/boot/dts/apple/t6031-base.dtsi      |  12 +
->  arch/arm64/boot/dts/apple/t6041.dtsi           |  12 +
->  arch/arm64/boot/dts/apple/t8122.dtsi           |  12 +
->  arch/arm64/boot/dts/apple/t8132.dtsi           |  12 +
->  arch/arm64/boot/dts/apple/t8140.dtsi           |  12 +
->  drivers/perf/apple_m1_cpu_pmu.c                | 664 +++++++++++++++++++=
-+++---
->  8 files changed, 662 insertions(+), 82 deletions(-)
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 > ---
-> base-commit: acb925da49876e74b806ccd48a7518d2d3368e5d
-> change-id: 20260929-m3-plus-pmu-events-e4010ab44135
->
-> Best regards,
-> -- =20
-> Myria Sarvay <myrialsarvay@gmail.com>
+
+So I wonder if it's time to split this into multiple files now.
+Maybe something like atc.c that does the core stuff (probing, 
+phy/reset/etc. interfacing, mode transitions, tunables, etc.) and then 
+atc-t8103.c and atc-t8112.c for the hardware specific parts since 
+especially DP seems to be quite different between the two generations now.
+
+
+>   drivers/phy/apple/atc.c | 382 +++++++++++++++++++++++++++++++++++++-----------
+>   1 file changed, 297 insertions(+), 85 deletions(-)
+
+[...]
+
+> diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
+> index 45f1280a6faa..256a08499646 100644
+> --- a/drivers/phy/apple/atc.c
+> +++ b/drivers/phy/apple/atc.c
+> @@ -100,9 +100,15 @@
+>   #define AUSPLL_FREQ_CFG 0x2224
+>   #define AUSPLL_FREQ_REFCLK GENMASK(1, 0)
+>   
+> +#define AUS_COMMON_SHIM_BLK_BIAS_REG 0x0a00
+> +#define AUS_COMMON_SHIM_BLK_BIAS_REG_BGBIAS_OV BIT(1)
+> +
+>   #define AUS_COMMON_SHIM_BLK_VREG 0x0a04
+>   #define AUS_VREG_TRIM GENMASK(6, 2)
+>   
+[...]
+>   	atcphy->mode = mode;
+>   
+> @@ -2201,6 +2387,7 @@ static int atcphy_probe_mux(struct apple_atcphy *atcphy)
+>   
+>   static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+>   {
+> +	size_t tunable_count;
+>   	struct {
+>   		const char *dt_name;
+>   		struct apple_tunable **tunable;
+> @@ -2216,8 +2403,14 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+>   		{ "apple,tunable-lane0-dp", &atcphy->tunables.lane_dp[0], atcphy->res.core },
+>   		{ "apple,tunable-lane1-dp", &atcphy->tunables.lane_dp[1], atcphy->res.core },
+>   	};
+> -
+> -	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
+> +	if (atcphy->hw->gen == ATCPHY_GENERATION_T8122) {
+> +		tunable_count = ARRAY_SIZE(tunables) - 2;
+> +		atcphy->tunables.lane_dp[0] = NULL;
+> +		atcphy->tunables.lane_dp[1] = NULL;
+> +	} else
+> +		tunable_count = ARRAY_SIZE(tunables);
+
+nit: I think else { .. } looks nicer when the if already has braces even 
+though it's just a single line.
+
+
+
+Sven
 
