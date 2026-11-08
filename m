@@ -1,47 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794143663;
-	b=mpzjfEyM+7xsdKqG5WqUYi5xxGbE5AcFD3yMiD/HEnCARxDfi4YzWJVUMV9tZkh33UK2
-	 Lj1ILKJqROoZeQXH7s6kjVPkqD9cLxpXaq0lH82pMBdA3DvqMegMitTjyqcWJJqpZEWG8
-	 scBLGm6xiTiSfwjbhd63CM+uu7XWBzCnSD3UgEVALm6cy+u4kcmZd58QcjkiC/4eaVHoD
-	 xKmeaMwflM8Ydjy3ugH8IYKTmwXFhQ6U5AYWs8B0IT72FLPrUw5iyHiAyTy9Ns2EBRO9v
-	 ejt6JFEOsXagcG6f7Zcmx85m+Cfe9itPkFS62QAFKToAjMNqajHSx8AzJY3OoFadm7g==
+	t=1794147774;
+	b=StaKeLE9oZYgziZBtL4ALZOvj2cWrC70DUe323kImSyImWPs+64K/DTR3pq8Rs0zpbn/
+	 iWrezKd8JNOk1eEFZpdev8V2gskDnfYYPVpcYy0Csn2FQor+dLLqPnw5c5N4YGmByX9XS
+	 butvaSWJQXVJRMT7uhDLTNcyv/RYduVuTK2WD5Rd1DLfBn6QYjV0KRJ5fNsYwaeDoanE1
+	 IwMye5zd778zarHsyJ6edr8VugpV5YIewIEucspJMXnhxzmUk9YHbem1UIStNZ5kmYOC2
+	 j8Ge+4wY1T0p573KUWP0sFq2/Tkj4e+fvgcz5IkxCQofl+Bpx9KIivlPyocs9L7zUAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794143663;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=fg4uIh/MG2OfipaWGWYSlCru/4Mi+6sgfqQg3WGOEHs=;
-	b=pwutTdizE6ZgAvw/C+ensWf8dCtIh/vmtroj4Jr039tN97XHVz3jwqd6KQ4lOYXpYruy
-	 CdxSf6fQ6GJhHn7qbC7MeJOFIxk1sCtllDVxwe0tMZovsEwxJu4BmwgnzDjfNwQXb7I5m
-	 qyprP5qog4LdsfQiFlxlZLKuKVSlgOQySu5OL3v+M8sOazG3SSs8Z/QqYelpi41pquSma
-	 A2E75cazx6S9n3Oo6yvAQVhQ1ZlrdMp7uUs57biNzAIRC+7UWhfuKSD8OgKpOHqhl7Nhj
-	 vY5sc5Ta30gv0rbRJS108L3ck2+6QEjrt2R1LSkxjQYr78UUsJYukte4KPt99j8KZeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794147774;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=woCjHpIzbFmhHn2FzYvCeJCH86EIjicWwYTiJAIuiP0=;
+	b=N+BIz0dtKMXpIjc8t2akAXrEsBKiUNpUSxyTigA54mm/Jt4P3cwIKbBvBST2oXElVcCO
+	 AdZ4Jv+5i1NNCDpcW8DLQzCWc2Z0pyoGO8qY8rN62psQ40sT7NxIHilD8i97aF6X2dDmz
+	 K63hmJ3AeyBepHo0PFM5e0xdNgMEHAyI7+cxtMJRyTy2PY9gCiAZY5cEMyaQhkJQnosPn
+	 9fg8IrHauIKGHgRs+ty09Ot2zKYuL88a3LHLiuqMRGOuCy38qdjj4von3cru6nIxbXS7b
+	 i5b/nHU+qrdp9+lr71alfm05b1wmIA7qHVr4oD189hOTJZAFdoFjO3KqrpjtOL4slnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nak5s6JX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=jannau.net;
+	spf=pass smtp.mailfrom=jannau.net;
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=g77xhHKi;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=S1JiRCX5;
+	arc=none smtp.remote-ip=103.168.172.153
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49132606A31C;
-	Sun,  8 Nov 2026 13:14:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A5B606A331
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 14:22:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28A5B606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nak5s6JX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A2E1F0089F;
-	Sun,  8 Nov 2026 13:14:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794143662;
-	bh=fg4uIh/MG2OfipaWGWYSlCru/4Mi+6sgfqQg3WGOEHs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nak5s6JXIINDfcpzUQw7iu5+QUcMc5Dqn0XKcOFvQcc9WDYKHEBOtoI2wgekh3BLP
-	 J+eH1Gb1VFqVNix5WdY/f4UXeC5i69yF08Uqst8gqOD5YwRPi+ym099YTgbIYpt7OR
-	 h1TO4pxaT7Nmy13A8mQr9f9Rwi9kLZbKalvTJw0xVrQMPVTf0ufJ+BpZPdYOvV/axy
-	 D3bz57nIX2McRLxqb0f28bIMTEznkldEZ5tLK23ShzpnunNdmFv76qNACTCGvcGMxq
-	 xX3XiK6Z3Ib2l8CaAO5w4U0g50EKcl0hO7ovwqxqLXNvfWxbnHU5px0X6UbLXmS5c9
-	 z1QdSFNQ7Z3iw==
-Message-ID: <98867385-b28c-4eeb-9301-8c284ee8a089@kernel.org>
-Date: Sun, 8 Nov 2026 14:14:19 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=g77xhHKi;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=S1JiRCX5
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 64611140008F
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 09:22:52 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sun, 08 Nov 2026 09:22:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1794147772;
+	 x=1794234172; bh=woCjHpIzbFmhHn2FzYvCeJCH86EIjicWwYTiJAIuiP0=; b=
+	g77xhHKiwGUpPp1bAq1Bt83pcZ/Jis0P5OCRhrdwiIgXa5PX7UgyxVFlvy2p7oG3
+	TNA6XxQlX809+unZUcLVQucJJXM2v6CPA5LX4rEvE4fA6kaar7XCUlSa+G4DNsJK
+	g7lGoPqJbf6Fgk+kCwSKkN+Ye1R+c9agfzxRuG9bkuws2OVmuyMuycg0QvrDAWuQ
+	pICkgYMdeBBV1BdsGurhMBS6LLsBIcwd3eUlH+IWC7nU+XkQP2sVRM8GyECJabpl
+	C7gs6gYT3SxtYYILNXLnF0YdjxHC7450QJZMqQAn8KisHAaX2SyDJcso/IBhPrxL
+	awczdOyRop8uWNOV+X7zag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794147772; x=
+	1794234172; bh=woCjHpIzbFmhHn2FzYvCeJCH86EIjicWwYTiJAIuiP0=; b=S
+	1JiRCX5tY492f+3KvqZTvRcUjN0u8uSL9qTEO/eYdxQUDhVacHwACGFDRg1q9WpD
+	CtpuBYDNN8dDl+07cN4seVcojM/t2Me1DtHnPGdAuCKWacNyr7NspoapzNblZMuq
+	c61i2280C/pLQp2h+kDHFAIvqxa79DSywxKzrrd5Oi8rWlulz4mjhycg9Xw+5s2c
+	XkC2cjEdDvzO3BWrYBWLK6awX4nI0fE7pWjMjkbIGl/droSkWBpGmImlE75vcT8y
+	HyE4fOM+H9X/qrz+/c4SkxN49L3O0tRBs1SMcXKYu6T9f9VQinxhK4/P1y/zXynO
+	yx1EGq52g6dlB4n/GDMFA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=jannau.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794147772; d=jannau.net;
+	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:uSvDMWwUfM2NRRyO9CGtovZakFzAxjp9z7pbkgQXYcXzc4A
+	x2nWEHk3e8es4jFQuXoAF1G49z1g9VDF62X3Qfs2ZZrCfpzEJJFnFZdwqp3mnLyo
+	VBrrg2lMSEz1lWYdMvbfToFmcpsDSbLKyDLb+/nfygyNTrhpbBWoxEKj0tcCbceu
+	gHwooFCh2ewkxiyWQyLbSOfwoiN0FbA5nw1te/WKCTRTIIyAB7fyYoWABs+owIIt
+	y2YMz+b8MXleBdQUEW6M+fShyb1/Iu0wwqQm7A8R8c5LPAWo1NhHHan2CN/Qyj0N
+	/dZLzmJQ2pG2ie2dAhL90OnoJ+CNPXg8J3IpB6g==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:ONM+wdC2mc2GHio0FXqthaw8hL3ScbvB1IVRgFrqR4U=:4YuJB7yJn3hvOe+uv0QUJ7U19Zk9FgiQxUYecbj5q5o=;
+X-ME-Sender: <xms:vIXwan_1KhIzNOuJKcz2qUmMWo0Iotl_maUZ0B8WJnjkCMe9btZCiQ>
+    <xme:vIXwalE4CSo6V4bHtD897kjqIyJxNMMQTh8sq4BQoCX6YKIjFPRM2Fwlf9qyUcwKJ
+    fVPDgIYEO9G8LkYqTqEN2oCXI_jKIYZSItw9RUtOOPxfZNTNpWKuQxv>
+X-ME-Received: <xmr:vIXwauR_6PKSOhYnD6mgXm4dpNbVmxSlaYufiVqO_8fdRZ3exY8XNfOSo-pFE2LWIcD7BB5tbCEayk_sJFqnVFrRHTDUdH2VU58>
+X-ME-Proxy-Cause: dmFkZTGAYn/JwI0NEHfb7CIV0+JF4g1gQSai3gkcHhm/2QbriRgW/y5c2skXuQufRnEs4B
+    Zliq3AjZY4mmGjBkelBsYyJVBEkqVwHh5ON65q1orasDnTAQVYfc8yCFL3HjBq9Cjw2vet
+    DuKRRPH+34k7V7hOnH2lkf+HFY6hXu/s4B2JQov+1sPyV3JDoiBigbmQ9m9rCMyZgrJc1j
+    0952wIsVkerVEgKSSz0oxOnpfKFk+0tXBqCoLojENDwRF143YOTStk4ujykJBNzByTM+1x
+    d/u6jgutlWOuyk5bFqmopUjAfGRljp7tv8RdgJJOkBWLlx8FcpR+ErFd+ogIPl7x8SPTgY
+    idH6qRdNkfNKC6KWuFjtq7Lp6kBuBAsUw45kl/jSWoW6yOms1wkRzHH6UIL1I3ZT5CEeAS
+    YSJnGrP+B1cgHkEUZADi4kX20wHML59eTSElfkNfmQykZivFT3WI6UInUROn2vHrDRtpac
+    m0YiSy4PRDvHzZBC2DmOE2DN3jhu1ESNNdTOU5+Qbo7XOzTHb4IGBk2m1tpkBYy2Csm8kZ
+    J8V0X95zOKwa2UxFdKN7MT2cBt6KtHgLgTpuejk8L/3kFpstvF+U+F+absRFADeA2b5JSk
+    fuYduKCHjU8lI08OvR6g1UfNjpmizzYkswBd3yZELuL6hdPDh8ruL2x2U5QA
+X-ME-Proxy: <xmx:vIXwarsCDPK1J6OGyi3DiYf_d_Mioe0_-DBSdgHeIZAvOitlr51HGA>
+    <xmx:vIXwajA1m52ioj7VLugpb-TzlM652I1iQ1ZQB6fEfG4N_-CBbFEDvA>
+    <xmx:vIXwagcjAkpMGyaUAND5swdA65Nj_gM_5aSE4o1o6CfqKSK6EERl5w>
+    <xmx:vIXwajqGxHwxvW-NFWe0Qv62tSnfuv7jfgoJ3Idw5_wY7UrZu4UllQ>
+    <xmx:vIXwah84xXQv-VFC14xVYKNgzP0GpHu6Akwg5yoYBv2pj9ok6u5ACY1n>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 8 Nov 2026 09:22:51 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Sun, 08 Nov 2026 15:22:35 +0100
+Subject: [PATCH v2 1/7] arm64: dts: apple: t8122: Keep ps_apcie_phy_sw
+ always-on
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -51,43 +119,58 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Bluetooth: hci_bcm4377: treat only negative
- hci_register_dev() returns as errors
-To: Andre Eikmeyer <dev@deq.rocks>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261107154839.89941-1-dev@deq.rocks>
- <20261107154839.89941-2-dev@deq.rocks>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20261107154839.89941-2-dev@deq.rocks>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-apple-m3-pcie-v2-1-0e5ffec71da4@jannau.net>
+References: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
+In-Reply-To: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
+To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
+ Joshua Peisach <jpeisach@ubuntu.com>, 
+ Michael Reeves <michael.reeves077@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1044; i=j@jannau.net;
+ h=from:subject:message-id; bh=4YuJB7yJn3hvOe+uv0QUJ7U19Zk9FgiQxUYecbj5q5o=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqwPrVumWWs/zn+Tfz0yLkUh4cLu5dwRdy+Fu800f3ZZz
+ THzWIBux0QWBjEuBksxRZYk7ZcdDKtrFGNqH4TBzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
+ RjrGOkYMXJwCMNUszxgZtghvkHDIOvROQOL1veqUc4e3NvgW7VzVbSm16pGm+OXzLxgZdjxbV/b
+ PVkL5n4b6Ed6IW7NMRGwmCNfyTTb6V7XcIMacBwA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+The APCIE_PHY_SW power state is in Apple's device tree a child of the
+virtual storage and general purpose PCIe power-states. MacOS however
+keeps it always powered on. Mirror this behaviour like the M2 Pro/Max
+device trees already do in t602x-pgmr.dtsi.
 
+Fixes: c65ab4905e58 ("arm64: dts: apple: Initial t8122 (M3) device trees")
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ arch/arm64/boot/dts/apple/t8122-pmgr.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 11/7/26 16:48, Andre Eikmeyer wrote:
-> If another controller already holds hci0, a USB Bluetooth dongle for
-> example, the BCM4377 is registered as hci1 and probe returns 1. The PCI
-> core takes that as success, but the devm action that unregisters the
-> controller is never added, so it stays registered after unbind while
-> its driver data is freed.
->
-> hci_register_dev() returns the index of the new controller on success.
-> Check for a negative return, as the other drivers do.
->
-> Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
-> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
-> ---
+diff --git a/arch/arm64/boot/dts/apple/t8122-pmgr.dtsi b/arch/arm64/boot/dts/apple/t8122-pmgr.dtsi
+index 3f8be74b5ea8..3206787dd208 100644
+--- a/arch/arm64/boot/dts/apple/t8122-pmgr.dtsi
++++ b/arch/arm64/boot/dts/apple/t8122-pmgr.dtsi
+@@ -899,7 +899,7 @@ ps_apcie_phy_sw: power-controller@4a0 {
+ 		#power-domain-cells = <0>;
+ 		#reset-cells = <0>;
+ 		label = "apcie_phy_sw";
+-		power-domains = <&ps_apcie_st>, <&ps_apcie_gp>;
++		apple,always-on; /* macOS does not turn this off */
+ 	};
+ 
+ 	ps_atc0_cio_pcie: power-controller@4a8 {
 
-ouch.. good catch!
+-- 
+2.56.0
 
-Reviewed-by: Sven Peter <sven@kernel.org>
-
-
-Thanks,
-
-Sven
