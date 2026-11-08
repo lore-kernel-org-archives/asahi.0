@@ -1,115 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794147783;
-	b=JH7wZoQEgmnNcC3kD093futH4a6VQkf/AniD4s2TETVxz4K3mhvbbFGgRTpOdCD0Zums
-	 qgX5Vf2gFPB0/G2qw8spnj01FJwbQp0AxNkzi17Vn33tx61ieIXu20Ft8MYFsiuwpQza1
-	 hA2F9PrwA53U9a7vGiepze/xteeHatZEbOuIjRiBFT+6W4hrUa9xrUvzNFFEkF/9VaJ2O
-	 pjglmcyprPZuGmwEDGnVaF86I6dMQFu07pSCDBMIBukeVXbGTl34pOS7fUz7K1tDMIQQl
-	 m6Yu16FSZ7eZBrRMewgg4i5ga7O/dm0GDLlxQozuGA8lvMJCrn7uwXCYug/DCpwdFPg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794147783;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=aI72RnemPfgqAGvAnqPYoxeIqdUZbHxOjDefy4jubv0=;
-	b=AdktDrEYm2zoGGRfvvbWE5ZKWfiDOZ8UCc3f6UY6VssxKAqn9+boksFi8dlp6AZXdZC5
-	 34PA1ufyyK9qf3FUihHCcuPuKm7MbY7gsC7ncnqS3VlZxJbWcSVOLlw4oIU3cvawf7gX6
-	 wImUa3aZ9P5HQC+u5t2ABp1Iz8j5Cwv798suZZBgfVzn/Ov77OtKfTNRntE20Z8FX0wfW
-	 W8n8tQZp7cM3IwJ38m9qJKrJOaW6rfTdlJAOP8Ou4ygj69ny2OpCqNF7yxdzYtBgXYSzD
-	 Ke8YpnrRhMnYQXV3zcJW8OdEXiXNp/n6cKxAEHNDmJ/RZlzrCrqKRf/gPn7MsN1ghFQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jannau.net;
-	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=JZ1scAon;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=TVnBRbOf;
-	arc=none smtp.remote-ip=103.168.172.153
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794148524;
+	b=Lx5sgS+lnpnVc6lM7LWL+poFthg64NXvN6Mpba7EuFPvKNpixWpjo/Eg4WAiJHqv59zG
+	 03rdb8BlDI60Kypkx0HLOYihPvqhKQfGJQM6C8JUxUty1SLcjm6rDdeHz/lD/r4vtkf1s
+	 KZ9nBavn9KmVM1PROpVPJFY6FntBfaqVE7rduqcvb6x49mWgXZXTN1agpaadr3OzvfS89
+	 bnkUHXoDeCPQj7efwIIVtYBnh/+j+FzrBGABs5RpjJZmziZzxuKr55FPcJlF7KWgzuJep
+	 NP2unNZBv68bP+tOQxZ451mYHo4u/kVN7bQnWzcZmL91cqSOkHHGLsw1POgA88vDnhw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794148524;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received;
+	bh=TacDs2nTqrMpcBDIpEm1qHluc5ZSa4Yvd3fGHf+4+7c=;
+	b=yvDrcgpckeaoDQNuQ0uK9hyokyNPUdhVLrLxRYu8t6P/wTjVrPbhK6/jK1lZ4HhLfNUT
+	 L58R5IF3N8brZQJxM9Z4NcIYhEBgxiHNYgDpY+hRODhr7C0F/PgS/ZrBnYDDtH6v8cs/Q
+	 qg7UnEOij0OkKawKwgcukr13c91/Oh38tfhBG2xpN4bwDsxPYd1CMgKQ2oxPpgfNOafSi
+	 Ob/wJpsZVU789LB0iBBbqGE5OxQs+RNJAt6w3c9tQNd37SvJleARn/3IGGNggRR/oTPBs
+	 pkSn5TMSY9HDftpH7AiEVHBBRwtU5/F/4bFbSBU9zK4P62OP2Dbk4x4bCi8PXlP748g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BJMyEDqQ;
+	arc=fail smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BEA606A33D
-	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 14:23:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54BEA606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B70606A323;
+	Sun,  8 Nov 2026 14:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=JZ1scAon;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=TVnBRbOf
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A975814000C1
-	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 09:23:02 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Sun, 08 Nov 2026 09:23:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1794147782;
-	 x=1794234182; bh=aI72RnemPfgqAGvAnqPYoxeIqdUZbHxOjDefy4jubv0=; b=
-	JZ1scAonkokh3SB6QqYoJbNE/YYlg0gyOPD9kh2Ka2IX6HL3V3XL6zgOm+Iwff4t
-	oVcUv+eOgGyGQmZu2FnWE501Wp7XBh6R9RFelb3/8dQMUFwe1kPOSyTPdDrdJUHX
-	dlbbOM0BCiZ9CEOw4xyLpwLcA+V4V0CTlxnflhTlB8mMZHCfGY2MMiZo3rsJVbJv
-	+cAUwGdT13aGkEER9Gn4oRToxmok89vptHacqEptM0a5zhl9pWTVEdrfMM9hXCDt
-	8oBL5zjeVLeDrxYR6bn5uif99B9qJPYnZusWHfY+a17AgfuSc6acmPP+aXaxLeyX
-	MQxpCR0ruXEWjW0pI8+E0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794147782; x=
-	1794234182; bh=aI72RnemPfgqAGvAnqPYoxeIqdUZbHxOjDefy4jubv0=; b=T
-	VnBRbOfmfY5x6jwJ0tB/DGpPpcU/IiHHFNbgfk0+GSqirvZ2k4BYFcgzJ0Lua/K5
-	n2xAJ3zqVKKB8Y58yOadDaNZAnwFW7r7lhTuvx4yq0HH3HZI/VFWplY6t5R2VprA
-	byeBm0+ScjcfFLvXWpewWAaDVaEWZnpSrx1tuEQIrmhSOR7Lrqw1iRx8yH7IMPWS
-	1JIN/HX5J/8wjDb0xS9m0uM5f/KXppg1eUpETWb6ojkQnndRfQIXL5Wr4V4Iz3MY
-	7x2pzBCgZY9opV0/cLPjTBDMRXkQEKeqhj1SBUeLm/qtDIHOheOkLizThC8FB68H
-	MvaNInyX3gxApmx9sFkTg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794147782; d=jannau.net;
-	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:QN5DpzevNOPYnbAnM1XhwIvXBXzj7xngD1k8Du9BmG4MmZr
-	pxeBowDPz321tQPMARHiFMOtMLoQ096lZqz3smvHxMsK6j4I7XSs9k3SdvXVGvRO
-	n35NrMWt87Upa7SUYRCh08EtfK01fDkY5XdLKBW0tqiz+Bka8FzbTzKM/lB5EUX5
-	FODxIOvBrhBULLqxPEIP+umVmRXMUJ19DwgddY9MQ4F8RF1jl9Lo+f/BwwqzwKTi
-	O+VX0WIEixODhsfEJ9FP9GrsmJY57jn4E33WIdnWPekOoRN4z1ZUq3q4WIColtHf
-	bBZqcMB4BayOXT/+Qgw+94oWkg3157fatlGOFFw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:7VU4eQGgYYPPvcgfjzyscnmx8tobKf1dArdkuzn9Yw4=:A79coCvVOs+xrKvBa3dJDJwY4bxLrS2yHlD+ojtPLBU=;
-X-ME-Sender: <xms:xoXwal7rW2LNO6b4X9Jn8RKEDMtm1Y237RLO6YRfLi7YxltIepE60A>
-    <xme:xoXwaiLj9xlv4eCjcoFR0fPr2MQJlWuWbkWfK5bZw0-Su7u00LbQV3KMkYj7aKQ2H
-    ktS8lDRZKC1--XefFWPSeCDNAbr7ZS2askx5RdtZMa5ICR9UAED4KCp>
-X-ME-Received: <xmr:xoXwavQ1U758X6kHP7rhEEkLP8PnO9iSEPEABm1MHvBoXJqPoGYgHBl9Rb7W_fbS34oIaJgYqow80jDrjWhZzDjKkePHCutcBMo>
-X-ME-Proxy-Cause: dmFkZTGr97Ugm4Lw1uWXHAbm6vRQHHSmAZqg2KlP2XDjPoWUO2WE9ZVqibkqMDFgtrtYNT
-    kOKLbnHGHpAeLNXsjow4Ek8AjW6sOl6K5SWu7rEUwrJH+TTVpXNtNnbLtAHULtMfHNJM9z
-    UQkgKEDeRjM8mqPhmdAZGHoglPfNAkXvvBaR5O6MNaA2F1VW8O5csGZOQLgHWVq0XXisTM
-    xRvjAdA+Y6CWc7X4i8dqhChIWSKlUSUab2PioslGdN07uWERgEvY2tSy1LGUtzlrS2r3nP
-    D2AdjHjPjw7Hipx/uwNmqZEdKCqoahm64FXcFjIxhqlQcFTlLJsrlw4OTpChRBR1+SPNpo
-    HtftMjYQbV2Ff9bRnbyRXipvtMInWDyW+eU2JlMKndiw+/HLkj8/7FFlDvXWFYrcKSkEwn
-    OEEhsgfTll8a8zqDD1/QgUeOAWZF1cPFoSG933VTEmjkUckVbF9xwiFtnBACQLsh6ixTY7
-    AROR2G/rOgli/ZtEoTb3LLWP/Z0btahoHfPxgSfV1qKpFb7zhIkCxBxwXv4xVKH9IVHb++
-    sRRtloQP6Bfwu4WJTmqqB9eVS8y7TGqSZMyuzlysj7yRujrb4006F63xQZQ8eTHsR3qLs0
-    NIR3UxVFB1awNTaIg3LfvcrwuQ1QOKlJW1pZ4AMA/RfaJfvFtyAtciqwj0mg
-X-ME-Proxy: <xmx:xoXwaloIqZ0XcKST9Btpxy0nOYtXxa0KlUaweGLPhuLC-nZpaqtTdw>
-    <xmx:xoXwatayvfC9TGH0e3052sHp14jxGRjGk7Dfs-S1XZ0VGtkY5lVU2Q>
-    <xmx:xoXwagS4vDxICkeJsxjGQGO8t7PUIbDwVkXQy3rB7FS7achP6F8kOw>
-    <xmx:xoXwarfYcY5pJQFBqjt5MOcpDIkFPpYqRbtCL0BD0cqImyWzcFv1zw>
-    <xmx:xoXwait-EyrY92Jt88K4SnrGe1be7ExpA7WMTnqM5iNWr75JKwxgHP1u>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Nov 2026 09:23:01 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Sun, 08 Nov 2026 15:22:40 +0100
-Subject: [PATCH v2 6/7] arm64: dts: apple: t603x-j514-j516: Add PCIe device
- nodes
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BJMyEDqQ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794148523;
+	b=ZhaACSiZQjflroDKJhnaHnD9Cpcqm6Ln6p2wm0kwlqiJKCklC/Rczdg39A3duSthb0K8
+	 DjSn5pYT+wnzFHdA4ksFeHJIoT1Rgr/1N5O6x4bneF1S8zfZWHDbTlmuQToMviBBTtUHx
+	 Q7lyp8+8NbpLCAsem4TJvPZ4ZTiZ+ww2Hmz17JuqmjP52rjGpP7/Ya5+X3KZ06nJ900rq
+	 Tsj3BXzB0QqXTMRNH2A1qxdysZj7ciKoKyvAXHKbbe7bAAusV3207ffJE5d5EF7F/TgKY
+	 tmNsjCEY7mVTfsJGTvWQCpQW7FRVOHF6dSURdkeKyQPFLeAmBOJpcRkAonSHcGuYVCQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794148523;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received;
+	bh=TacDs2nTqrMpcBDIpEm1qHluc5ZSa4Yvd3fGHf+4+7c=;
+	b=kRDtD6uKxzPsoy8sWnuaiSN7T2TsHvczEGz/mG+g6yzLT23/sk9qvbrkepSXMC3t68/l
+	 bu+K3qo9l2TN5HUSgcWhs16DZ9z2edABK+tz+VtEklxS3/qYEupVkG/LAw9cr16XubC13
+	 KBt4F9+FIvc5bpgVnWPyS8OXiC/UjNlQm0slQ1PHAXELFBgLwWLHHQ/pwy0puRbDaoY7j
+	 ieph2nZ0EyvMhP2iEZJ7Jz+EnQ+bSYbWEVQAi3W943G20MaL+LYLzgvMu8xn1O1B27vsO
+	 g1I7asEQNxfH8VUe3PY8857XHzi9PAYxuAqM8boeVxejOpbGYNuls7VC8TQVrmC7ErA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 277F81F0089F;
+	Sun,  8 Nov 2026 14:35:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794148523;
+	bh=TacDs2nTqrMpcBDIpEm1qHluc5ZSa4Yvd3fGHf+4+7c=;
+	h=From:Date:Subject:To:Cc;
+	b=BJMyEDqQEWckRuLgSb44ZmzGzlU3T2CeHfBX0BkYSFJw2NPT66UsQPHe49HE21KDp
+	 6l+hcKdOO/u0nAkm1vDCc8gSTJcntGGDHljAoH6zLNZOi1ywWlWid8UFpzTgMJYpXe
+	 5VU51QGsiHYhO+TN787/RjL3d4KDGkmkg0fvqgPgJI2kc0hdDLhMgDsL77U8qG3t4M
+	 uNUJvdOdE7pZ4B/j5UHjnX1Nzt/2fA/lUDxShMoeApc7wqogO67w2/k6V+EVUvGECr
+	 XacfcyNrEFfAnpdUHGS/Z9V91Cltv+hWwcNIsIvMqwKQrDhRmuyZgpMFJZJzn42sE8
+	 4Obqd9QSetR7g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 80EA847FAD;
+	Sun,  8 Nov 2026 14:35:22 +0000 (UTC)
+From: Sven Peter <sven@kernel.org>
+Date: Sun, 08 Nov 2026 15:35:11 +0100
+Subject: [PATCH] soc: apple: Fix swapped paddr and size shift
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -121,210 +83,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261108-apple-m3-pcie-v2-6-0e5ffec71da4@jannau.net>
-References: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
-In-Reply-To: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
-To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
- Joshua Peisach <jpeisach@ubuntu.com>, 
- Michael Reeves <michael.reeves077@gmail.com>
+Message-Id: <20261108-b4-sart-fix-v1-1-dab7dc1e9adb@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw5AMBCF4VeRWZtEXRrxKmLR1mAskA4iaby7Y
+ vmd5PwBhDyTQJME8HSy8LpEqDQBN5llJOQ+GvIs10plNdoSxfgdB76wsn3htCrNoDXEx+Ypzl+
+ t7X7LYWdy+5uA+34Aa4Yrom8AAAA=
+X-Change-ID: 20261108-b4-sart-fix-5bd3c614af66
+To: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>, 
- Yureka Lilian <yureka@cyberchaos.dev>
+ linux-kernel@vger.kernel.org, Sven Peter <sven@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5268; i=j@jannau.net;
- h=from:subject:message-id; bh=zkIhhD2NmqoYf8eX5nIre2dd31NDDPBOJDfauDzHwj8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqwPrdsS/imx7i/K19d87brEs9/a/OEvZ3Yl/en52g2sg
- arae493TGRhEONisBRTZEnSftnBsLpGMab2QRjMHFYmkCHSIg0MQMDCwJebmFdqpGOkZ6ptqGdo
- pGOsY8TAxSkAU51VxvCHj8dj6wTf8BfblH133zbeIfqr/af+99+9Hhr2M//nlOt3MvyvlV1TERY
- +79+iOTxTlwUuZQ6bNdWsMSJiR39NPsMu87uMAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1075; i=sven@kernel.org;
+ h=from:subject:message-id;
+ bh=CxvqlaaGSLGOU+O2kAABji4s/QSx7FuuOM5btlD5e0o=;
+ b=owGbwMvMwCXmIlirolUq95LxtFoSQ9aHjvkrhfl3h+32X7JAaIXs7deRJkvUjt4zS7FrWJy3x
+ m1RWdbEjlIWBjEuBlkxRZbt++1Nnzx8I7h006X3MHNYmUCGMHBxCsBEZrky/JWcejTtg+WHhmVL
+ 2l3r9ayX+p+td9+0PVNc7dC9Gwnv3mkxMvwPyun98WiSwcOCdXaNDL8zr6/OVlMKcY4NsD1UY/t
+ qPj8A
+X-Developer-Key: i=sven@kernel.org; a=openpgp;
+ fpr=A1E3E34A2B3C820DBC4955E5993B08092F131F93
+X-Endpoint-Received: by B4 Relay for sven@kernel.org/default with
+ auth_id=407
 
-From: Yureka Lilian <yureka@cyberchaos.dev>
+Right now we assign the paddr shift to the size shift and vice-versa.
+Luckily, this doesn't matter because they are the same for all SART
+versions but fixing this doesn't hurt.
 
-Add WiFi, Bluetooth and SD-Card reader device nodes to all M3 Pro and
-Max Macbook Pros.
-The bootloader will fill MAC addresses for the network devices, add
-Wifi and Bluetooth calibration data and set "apple,antenna-sku".
+Fixes: b170143ae111 ("soc: apple: Add SART driver")
+Signed-off-by: Sven Peter <sven@kernel.org>
+---
+ drivers/soc/apple/sart.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
-Signed-off-by: Janne Grunau <j@jannau.net>
+diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
+index 66b99955b395..5f1f9ec5d311 100644
+--- a/drivers/soc/apple/sart.c
++++ b/drivers/soc/apple/sart.c
+@@ -258,8 +258,8 @@ static int sart_set_entry(struct apple_sart *sart, int index, u8 flags,
+ 	if (paddr & ((1 << sart->ops->paddr_shift) - 1))
+ 		return -EINVAL;
+ 
+-	paddr >>= sart->ops->size_shift;
+-	size >>= sart->ops->paddr_shift;
++	paddr >>= sart->ops->paddr_shift;
++	size >>= sart->ops->size_shift;
+ 
+ 	if (size > sart->ops->size_max)
+ 		return -EINVAL;
 
 ---
-Changes in v2:
-- fix copy'n'pated error in WiFi/Bluetooth PCI device compatibles,
-  adjust to BCM4388 used on this devices
----
- arch/arm64/boot/dts/apple/t6030-j514s.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t6030-j516s.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t6031-j514c.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t6031-j516c.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t6034-j514m.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t6034-j516m.dts      |  8 +++++
- arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi | 41 ++++++++++++++++++++++++++
- 7 files changed, 89 insertions(+)
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261108-b4-sart-fix-5bd3c614af66
 
-diff --git a/arch/arm64/boot/dts/apple/t6030-j514s.dts b/arch/arm64/boot/dts/apple/t6030-j514s.dts
-index 3ba2c9ca4347..f7c1307e76bd 100644
---- a/arch/arm64/boot/dts/apple/t6030-j514s.dts
-+++ b/arch/arm64/boot/dts/apple/t6030-j514s.dts
-@@ -20,3 +20,11 @@ / {
- &framebuffer0 {
- 	power-domains = <&ps_disp_cpu>;
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,texa";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,texa";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6030-j516s.dts b/arch/arm64/boot/dts/apple/t6030-j516s.dts
-index ab07bf7939ab..9f9609575ed0 100644
---- a/arch/arm64/boot/dts/apple/t6030-j516s.dts
-+++ b/arch/arm64/boot/dts/apple/t6030-j516s.dts
-@@ -20,3 +20,11 @@ / {
- &framebuffer0 {
- 	power-domains = <&ps_disp_cpu>;
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,jura";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,jura";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6031-j514c.dts b/arch/arm64/boot/dts/apple/t6031-j514c.dts
-index c1507158325e..8cc2224ee0fd 100644
---- a/arch/arm64/boot/dts/apple/t6031-j514c.dts
-+++ b/arch/arm64/boot/dts/apple/t6031-j514c.dts
-@@ -16,3 +16,11 @@ / {
- 	compatible = "apple,j514c", "apple,t6031", "apple,arm-platform";
- 	model = "Apple MacBook Pro (14-inch, M3 Max, 16 CPU cores, Nov 2023)";
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,texa";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,texa";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6031-j516c.dts b/arch/arm64/boot/dts/apple/t6031-j516c.dts
-index 841b2bb10b06..5dfe886d47a9 100644
---- a/arch/arm64/boot/dts/apple/t6031-j516c.dts
-+++ b/arch/arm64/boot/dts/apple/t6031-j516c.dts
-@@ -16,3 +16,11 @@ / {
- 	compatible = "apple,j516c", "apple,t6031", "apple,arm-platform";
- 	model = "Apple MacBook Pro (16-inch, M3 Max, 16 CPU cores, Nov 2023)";
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,jura";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,jura";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6034-j514m.dts b/arch/arm64/boot/dts/apple/t6034-j514m.dts
-index e31bd0bc0592..dfae771ec626 100644
---- a/arch/arm64/boot/dts/apple/t6034-j514m.dts
-+++ b/arch/arm64/boot/dts/apple/t6034-j514m.dts
-@@ -16,3 +16,11 @@ / {
- 	compatible = "apple,j514m", "apple,t6034", "apple,arm-platform";
- 	model = "Apple MacBook Pro (14-inch, M3 Max, 14 CPU cores, Nov 2023)";
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,texa";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,texa";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t6034-j516m.dts b/arch/arm64/boot/dts/apple/t6034-j516m.dts
-index 4d6513558597..dc5c202a787b 100644
---- a/arch/arm64/boot/dts/apple/t6034-j516m.dts
-+++ b/arch/arm64/boot/dts/apple/t6034-j516m.dts
-@@ -16,3 +16,11 @@ / {
- 	compatible = "apple,j516m", "apple,t6034", "apple,arm-platform";
- 	model = "Apple MacBook Pro (16-inch, M3 Max, 14 CPU cores, Nov 2023)";
- };
-+
-+&wifi0 {
-+	brcm,board-type = "apple,jura";
-+};
-+
-+&bluetooth0 {
-+	brcm,board-type = "apple,jura";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-index bbee373044f9..a3e4e5d734c6 100644
---- a/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-+++ b/arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi
-@@ -21,7 +21,9 @@ / {
- 	chassis-type = "laptop";
- 
- 	aliases {
-+		bluetooth0 = &bluetooth0;
- 		serial0 = &serial0;
-+		wifi0 = &wifi0;
- 	};
- 
- 	chosen {
-@@ -67,3 +69,42 @@ &serial0 {
- &fpwm0 {
- 	status = "okay";
- };
-+
-+/* PCIe devices */
-+
-+/*
-+ * Force the bus number assignments so that we can declare some of the
-+ * on-board devices and properties that are populated by the bootloader
-+ * (such as MAC addresses).
-+ */
-+&port00 {
-+	/* WLAN */
-+	bus-range = <1 1>;
-+
-+	wifi0: wifi@0,0 {
-+		compatible = "pci14e4,4434";
-+		reg = <0x10000 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-mac-address = [00 10 18 00 00 10];
-+		apple,antenna-sku = "XX";
-+	};
-+
-+	bluetooth0: bluetooth@0,1 {
-+		compatible = "pci14e4,5f72";
-+		reg = <0x10100 0x0 0x0 0x0 0x0>;
-+		/* To be filled by the loader */
-+		local-bd-address = [00 00 00 00 00 00];
-+	};
-+};
-+
-+&port01 {
-+	/* SD card reader */
-+	bus-range = <2 2>;
-+
-+	mmc@0,0 {
-+		compatible = "pci17a0,9755";
-+		reg = <0x20000 0x0 0x0 0x0 0x0>;
-+		cd-inverted;
-+		wp-inverted;
-+	};
-+};
+Best regards,
+--  
+Sven Peter <sven@kernel.org>
 
--- 
-2.56.0
 
