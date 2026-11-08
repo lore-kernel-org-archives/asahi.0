@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794122714;
-	b=VjKGR1uKfuahnjKHCzqkowi/pbmOBp2PIvdBICGhl0x1bIV/1VCgeHop/4l2ASvh8+IW
-	 nqlwZtpjqQM5RvGbaG99n62qalfUMEBtVHbIJ2zOKD/lPeuEvzyIH0o7LmkFFYMm+mJD8
-	 S4esAhmZM2pZOBghLIvPmvwlsCZxEn0aFHhHKIuclIzRCO4twO7LdjlfenrjZd5DNNtRU
-	 vXw8SyEDpC8aHoS+H3ywbp1yd3wWhTNmXyh3dr/IMy7wlvBlYih1hxSiXVV1YAVPXMf1e
-	 /ZMlJWu3Ld6NZxNt1E27KsO1CKSZKCQ9stmq0qSWTwt5hj9LikQhZaIRv78uddFan5A==
+	t=1794122715;
+	b=vVHGWKWW+5KonIhHKquQTsXVxJpUBDMxMDc7isid0wV0tluE9Cx5IbKJGHjdf+K8OSMr
+	 +6Rtcpkv1HIzgfred3koLaCoYHxGSeRxbSmeTTaitdqV+Jae6zQThawR9MV8Dr4cYAaaD
+	 d4/WCzAaqTtu9Vs22Ggt7JkTDHdhePKCgqEjJMklHe+cXhVeLVxden1M4mccPfzaDJLGk
+	 q1bNnaBzHV/y2jHO61BhGkkJgPoADp9IxPsvnmSA2REmUie1OqiAV7OdgwjREZm0JnEmq
+	 yafMzd30/xxfHJdfGoydcNr2IdR+o+n9MviEhi9AvnDuUEFOjdXAN/XEXEeBU50b6OA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794122714;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794122715;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=CMJPYHCR3UWFcu4EK4LpYSERF3fcb1Y5+7uAUBqJvYc=;
-	b=Bpg9gQzDoWF+Nb6G2oaf4qLKKewrW7eljLRyAWdeTIxgY6muUISxbzlRh2rCVP9YnPBZ
-	 z4O3EMJANBCYE/d5Pm7gqI6efyQ4pynLIo6V7OWrm9BaSqM6I0b6a0axCkivjIM06Ym4R
-	 jvc2I41gGAiFZDGw6KauCpAHZXcI+e22gHuowsarSR89mv97H9xBml9kJ2McnbRN3Tb32
-	 6GaIZeSm8hpvTYkooD6JZmuN/l1XEWB7ns2a0IvPVh3sF8oAOvj+dTbr9PrJhL2pMkmhv
-	 Krmj7Nop47Rb2G5WSzCbGLGkWibOg9NsYgZc18DofAzXgYEMMB+/Udp+YcaUyiC05hA==
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=zRB7rwqmRY2LuYlyLM/gqxBcgYofPW2PHvkbGtfLE0Q=;
+	b=k8FPbmBHkcLDrTVAnIKZvL1BKbOknRy2nGnL2qfZ2BhRv+yZOaLkLTSocq1XQbckEMDA
+	 Fd9ad/98HHAVLVYDGdIq/HDa94Wa97JXV0Js5QfcbZd4z83MNCZBuu57KToVfM+jHBEHw
+	 63iQEawkXTs9we6eUULWqHkb/YLv8hisToOS3c9hn2U5yl8k7PreZJ48U4UgdQtI9Q8qk
+	 TGPQc4GU7/DY+VV6fCI6ypiXQJLC6gyM4KyYDKn1cu6l0d/2vNQ/Jf7dhyuYgPi5dbpfi
+	 iyX+WYlOPK+oUfgRl5yWbpJvtBZJMH+fV0QepIHuyUySti7htDSglwbBkWDedeHiL+g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k8i9txHT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtjN5ruZ;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D782E606A336;
-	Sun,  8 Nov 2026 07:25:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D2C606A335;
+	Sun,  8 Nov 2026 07:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k8i9txHT
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtjN5ruZ
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794122713;
-	b=TllsEtyi6wTlyO2xU/Rg+T8p5Frk330uUX6AV1YpiAEZW8zNln9ObcFkb76VgjR20e80
-	 3ern6ACToGW05aGg5uIGxpeTlVA9T8EcHhOPATkYqIN1HkTtGVPs1CscuDV0yS+Z0TgsH
-	 PqF+sMTDAicFaw/cxQ2ZceQPgBsu5AmOO6511e/Ij/WE0yO62Zm8/JoYYkGSpZRxxMhJf
-	 PqhFXu1i3VfpuchMS+hxo4H4O3KVM20rqOwLb7uW0xaIcOLINZgAwsbuL/5mAEuYqppXl
-	 r1cun1Wk4xvIAMIBle3oTDfFXmlkzbOmY0UBGlnDJB9vIEQqFDkNgJxOr99XNvTO8TQ==
+	t=1794122714;
+	b=jmDEABVIc2KwWtQ4TQf9LrPqRKz2rQxjlm8AsPVnh6KjFcnUHCPSo6i4CQKLlWxWIAJG
+	 M5rmXuLpV/KiSR/PoyF0E1tt4GnQT69KH2etzNP1Iv+jpne/zMot2uYXPktht8FTGen2O
+	 Us4psaTE+mpnf05jYBNs2igxTtCgLp/pBpysffluGRylmD+tel0ZJHcKJd6u/sL11a6F5
+	 OaA8+dDixv9M/MS/de1FoA3LUMUbSj8mfp5LmhI7qjVIMQLHFgDKwJGB5c6kLPIIy91Fa
+	 jf/43rbjQeX9na2gwfHxD5Cf9/6B32JA1V63lS2mTnQV0U6LprdRzyvYKVEnvXH3Rjg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794122713;
+	c=relaxed/relaxed; t=1794122714;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=CMJPYHCR3UWFcu4EK4LpYSERF3fcb1Y5+7uAUBqJvYc=;
-	b=HpBrenB3GcPfBPGQaYFg30g1zfHGv9G4pyRH2sfwk9HdvYHF7HLJ2YiniyWqJ34kKigg
-	 H2mn6kuZifLHjXlGuv0f2klZdnMEpzbw4jNgwfIm6JMErPLzkB6Zva+SNzh41O5DGEtYp
-	 vgIasgG6qYb65K7h5mttNFuEUugcp2Qk54GYoWvFg47/Il/uNbdQ304KfJfCC572InytQ
-	 +3xvpCFQBZPg5pXJOvuV3kPmJUhGqImQiApKSf9sYR0a300Bl9EnAjvYhJGG+H/eJu5ZB
-	 hVUR4OMsxcAhfmTR1egNwskFI7hqmCSZT+akDQpoFoexN3PcrOcq2BWJRjWZuxmhwfw==
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=zRB7rwqmRY2LuYlyLM/gqxBcgYofPW2PHvkbGtfLE0Q=;
+	b=ARiZyXBdrEvbxi1KTWQYD0cS8VVsjtM4b9Fb18paoq4Ryqg8XMhNrO7xkxzX3mR0/Nel
+	 e0wShtc3Rpv6U7xVdNSz8Vzvwpc5DoHV17KXyqkkiucT0ZkACwb+lExBsJYjc69iUG8Pn
+	 aoASS/k6V0GNkhYF4PFsaUwgvTUjhjR5DrB6tTRaMBpDVvfy5IIiEuAvnC5sSnDuFs6t2
+	 XsisychgcGSXcbk9op6fPIc6OLplybiY99D8HXheuZ7OPWbbyu0NbKxMzbYrMoBCu+Ety
+	 NtfdlWDN/mMStFZVOF9WGZk7EvtafzGkfzuNDPMBvN5F56jOCCle631mAwUSFoFS24g==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A72DC1F0089F;
+	by smtp.kernel.org (Postfix) with ESMTPS id C15981F008A6;
 	Sun,  8 Nov 2026 07:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794122713;
-	bh=CMJPYHCR3UWFcu4EK4LpYSERF3fcb1Y5+7uAUBqJvYc=;
+	s=k20260515; t=1794122714;
+	bh=zRB7rwqmRY2LuYlyLM/gqxBcgYofPW2PHvkbGtfLE0Q=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=k8i9txHT0H7aeOvmB33vcR6VTjnDep0IXOm9BretlbSHqoEsw4pCloo5vRyK5UcA3
-	 BmVFnLvdJ+NKmQIhT5b6QwoJ6dkaJ74YJWjnv59S4geS0EYAbdMibXVmiWx4jYfCg0
-	 m48aTV3sDYXfU3tGLXmhfzpkuPh69zg+8QbVnbCMLq+1cCJN2m+COWDB76YyHs29Lh
-	 efHQ4Lj4ZAx3IuvWUJ5vUzvYw1rZi+4Q4TMakjB35Edmemv5pJsUh0b3hAwukTcfh+
-	 QvBEZ+oZmIv+t6GWwd36o0futTbvqia3zD0eoNmSNHxMFOgcCD/j1Ea6TCn1U92+tp
-	 oXT28l43rkMog==
+	b=MtjN5ruZPNolCHioKUjEtBaz7Tj9rahkZ/Xe7SptUjGV7Ro8KjkFVC81eHdBhwv21
+	 q7b04FZNwkxdFVFxWUR3AEJJwoMtFBV8kTaQl5qv1ITIySy/tUyXLF5iHcyCmcuoeb
+	 ZJOA7sFXUWaerl+ZjEogMXiLqSmhcmO6ph6fIm95FoFrERN/UWdr6FZw/z8C0IwDWJ
+	 On1mx7Vk2ItGxoLVVAlIdC4CswxmkZwzeVCKOKdFYXD+I80x7lyB9gnpoJ3OAWSR9y
+	 C6O0IS0Ty3MeC7kctSw0xc5Te+p/R4JSKZaxEBF4LfAHioRupnh7Ev7kuuLmiXFm8V
+	 PleCPHLrRT6Cw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 2098647E25;
+	by lkml.kernel.org (Postfix) with ESMTP id 4FB3147E63;
 	Sun,  8 Nov 2026 07:25:12 +0000 (UTC)
 From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Sun, 08 Nov 2026 07:25:06 +0000
-Subject: [PATCH v5 1/8] dt-bindings: mailbox: apple: Add DockChannel
- mailbox
+Date: Sun, 08 Nov 2026 07:25:09 +0000
+Subject: [PATCH v5 4/8] soc: apple: rtkit: Add tracekit endpoint
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -84,7 +83,8 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261108-b4-apple-mtp-keyboard-v5-1-e2c97b82669a@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-b4-apple-mtp-keyboard-v5-4-e2c97b82669a@gmail.com>
 References: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
 In-Reply-To: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -96,144 +96,55 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
  Michael Reeves <michael.reeves077@gmail.com>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-input@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
+ linux-input@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794122710; l=4117;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794122710; l=1200;
  i=michael.reeves077@gmail.com; s=20261107; h=from:subject:message-id;
- bh=q8ZQCkixKuefi/vxbk7igJsaOCC31V/LgDgV4zCFnzo=;
- b=G/y6CarAnTtn4Yzb866F46SzwZVdrqfl5xBLJ2vYkbpRTmqPgF9IlhFYb330CUU31rNQgWyIZ
- rKtFg11n9TCBOWGJyUm5ZzzGc+XNe+y/LU7X3HFVJDv0UhKLCMAZyYu
+ bh=mLYyKOITM/jTtMK0WXkDAyPYTTFaFy9v6Ps6Q8WNUHI=;
+ b=yiCbQT+t+5q+O7ZI0VPjarqlMZW8OnLxDct5ORNSpQHNzQgVz/BKBVFVL2gHYk0+7LVjY/IwC
+ DuvqVYIDKt1CIhwTVmT0nT/RQEa0iR4Y/4CYzSy8yNTkdbc1UFPs8Lv
 X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
  pk=ykwkLcuByJYb/cdLc2UuoYP03pIzwrscEZg30+4tJL8=
 X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20261107
  with auth_id=1442
 X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
 Reply-To: michael.reeves077@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Michael Reeves <michael.reeves077@gmail.com>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-DockChannel is a FIFO and interrupt block used by Apple coprocessors
-to exchange byte-stream traffic with the AP.
+The TraceKit endpoint is a system endpoint used by MTP, AOP, and
+potentially other Apple RTKit coprocessors.
 
-Describe it as a mailbox provider for HID and serial clients. The FIFO
-interrupt pair is configurable because MTP and DebugUSB use different
-pairs.
+Start it automatically when it appears in the endpoint map, like the
+other known system endpoints, to avoid warnings about an unknown
+endpoint.
 
-Suggested-by: Yureka Lilian <yureka@cyberchaos.dev>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
 ---
- .../bindings/mailbox/apple,t8112-dockchannel.yaml  | 88 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 89 insertions(+)
+ drivers/soc/apple/rtkit.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mailbox/apple,t8112-dockchannel.yaml b/Documentation/devicetree/bindings/mailbox/apple,t8112-dockchannel.yaml
-new file mode 100644
-index 000000000000..9afd58613074
---- /dev/null
-+++ b/Documentation/devicetree/bindings/mailbox/apple,t8112-dockchannel.yaml
-@@ -0,0 +1,88 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mailbox/apple,t8112-dockchannel.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple DockChannel FIFO Mailbox
-+
-+maintainers:
-+  - Michael Reeves <michael.reeves077@gmail.com>
-+
-+description:
-+  DockChannel is a hardware FIFO and interrupt block used on Apple SoCs for
-+  low-latency byte stream communication with co-processors.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: apple,t8112-dockchannel
-+      - items:
-+          - enum:
-+              - apple,t6020-dockchannel
-+              - apple,t6030-dockchannel
-+              - apple,t6031-dockchannel
-+              - apple,t8122-dockchannel
-+          - const: apple,t8112-dockchannel
-+
-+  reg:
-+    items:
-+      - description: Interrupt control registers
-+      - description: FIFO configuration registers
-+      - description: FIFO data registers
-+
-+  reg-names:
-+    items:
-+      - const: irq
-+      - const: config
-+      - const: data
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  "#mbox-cells":
-+    const: 0
-+
-+  apple,irq-index:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    maximum: 15
-+    default: 1
-+    description: |
-+      Index of the FIFO interrupt pair in the interrupt control registers.
-+      TX uses bit (2 * index) and RX uses bit (2 * index + 1). The configuration
-+      and data register resources must describe the corresponding FIFO.
-+      If absent, pair 1 is used for compatibility with older keyboard nodes.
-+
-+  nonposted-mmio: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - "#mbox-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/apple-aic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        mailbox@24eb14000 {
-+            compatible = "apple,t8112-dockchannel";
-+            reg = <0x2 0x4eb14000 0x0 0x4000>,
-+                  <0x2 0x4eb30000 0x0 0x4000>,
-+                  <0x2 0x4eb34000 0x0 0x4000>;
-+            reg-names = "irq", "config", "data";
-+            interrupt-parent = <&aic>;
-+            interrupts = <AIC_IRQ 850 IRQ_TYPE_LEVEL_HIGH>;
-+            #mbox-cells = <0>;
-+            apple,irq-index = <1>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2eaee98852f..0c1963150f04 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2720,6 +2720,7 @@ F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
- F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
-+F:	Documentation/devicetree/bindings/mailbox/apple,t8112-dockchannel.yaml
- F:	Documentation/devicetree/bindings/mfd/apple,smc.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index a3fdac8f6f06..1059b4bd8732 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -22,6 +22,7 @@ enum {
+ 	APPLE_RTKIT_EP_DEBUG = 3,
+ 	APPLE_RTKIT_EP_IOREPORT = 4,
+ 	APPLE_RTKIT_EP_OSLOG = 8,
++	APPLE_RTKIT_EP_TRACEKIT = 0xa,
+ };
+ 
+ #define APPLE_RTKIT_MGMT_TYPE GENMASK_ULL(59, 52)
+@@ -191,6 +192,7 @@ static void apple_rtkit_management_rx_epmap(struct apple_rtkit *rtk, u64 msg)
+ 		case APPLE_RTKIT_EP_DEBUG:
+ 		case APPLE_RTKIT_EP_IOREPORT:
+ 		case APPLE_RTKIT_EP_OSLOG:
++		case APPLE_RTKIT_EP_TRACEKIT:
+ 			dev_dbg(rtk->dev,
+ 				"RTKit: Starting system endpoint 0x%02x\n", ep);
+ 			apple_rtkit_start_ep(rtk, ep);
 
 -- 
 2.56.0
