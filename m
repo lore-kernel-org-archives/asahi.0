@@ -1,114 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794147772;
-	b=23dpQiqSczMXziHwT4T+gP8B0f42dyYjwfwBuYa2/O+QWjOG9+5o+bAqvXbK8CwFulj2
-	 NtTDMA+JKv7WykqP+0VE+L/+/inmyMtHSWkvdsSerQ63BHHoRAA6ipchSqzABCP5aKj+f
-	 jNrB76rAgntbNeKs6N5Q0BaKQzNsAg+OKRxZTbWHrbJZ/dQHO/wYRXbcsPuGO1iqd8USh
-	 5Q0NV/1Ooy3+3Z7ezTPPUrUBXJDAO8utGvc/U6zlXVN0IbUP01ztN/ufQiJvJd0P5t8tx
-	 VzSUFZrlxfNuNhlFy8ycbB11r5Vw2eeWO56WrzHSNBoLztyUZXidoyvI+i02C8duawA==
+	t=1794147778;
+	b=OHCenU2Cefgv+d7b4pK39DHlgLmfDX1HkwnM852fPA1RJ/pam6n3GgvwuaPNYseuowgh
+	 QXfoqjm0Qp9pvMhmnQs/gQH1ny3Eunj3i4BrsGIoBbdMqrMN2XF14FJt8Y7Zy9GIYsxno
+	 jI6qNMmeUObX4px5cN/VxFkw7UF8xBB6kEpjl4+4N3zhiIqdtP9bMd58Y3hTvHtCt5aIr
+	 i7GIFM0v9CTe1tkosTXSR6vg86NgFFca1HJG9JPtXaywlM/x41+y3W8hF7qcuZ7vxgMo0
+	 HpeIQLSh919KR/fNGOW5aibiDXZ0OzQMlbA2vAvY1oLh4B4gW4Akq0isai4MwqIYQJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794147772;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794147778;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=lDzVcp1bTgJqeWMJHHLt9xWG+oSgGYewvfT7h6V9gqk=;
-	b=tf747Gnf3uj4+cIghOhEELRohutBcZo50ghlyprsIDNDwgC6wPHmBtajMbYKSPe1/RXK
-	 sDInBujSH2M/gQHxSQbJ58/35poFPYm5LiIDeCMI17znexgG3Y2lw03DmCUqZEXkxRBnn
-	 GF4CdwEf12gI6Bt/ywrJtX1p2oGbBbH+Te9dofjIyWZcMZBCxi1GS2VS67M56ilQqRQXp
-	 D8uW6LsWgsVsBJgahvY01OsRIgoIA1tHaKvDKmeYEFovT9y2jK3Tc8T5s/S0GB1kxZ0ru
-	 P7T2Ruyv6h8KIs7XJaL1315EUI4r3KT19xCJGPBUzhPjJMUMiUij7xQBFf80wU1ILkw==
+	 Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Kte5WYMT424VKNrj5TrTokW/zcBpMOsYidoEzhcRPUY=;
+	b=O60I11Umxo06nLEbVB3sN08679/80pUNKqwBKld3Nec8w5W63P1/uQtgbfk8aPsqjldG
+	 0ozyh+CHikHJy8OJLUe234RVT/v3wcd5kUIhaUi+6Jy5tc7TpBiDb0Ao14+zWI4yojHty
+	 qcF1O3+qCiUPedUqclJyHhpaYEZ1wfmhQyZZTWkFhRLv472IhMcIbjbSjesEBXzyhfK0b
+	 3gz+hGuWW5LitgxGNRrBg/Lpi/PeysoGzpbMG6QL8zbG5JBSyTVB3AfA3iNEH3giGuo4v
+	 i3mji+0/mmarhqPTi0Z/WHE0npBth4lkz1pnU/Jh2gFBD7tfvUrKlEEKQOXIgONOJ7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=jannau.net;
 	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=b8RVwu1v;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=3IwuG92D;
-	arc=none smtp.remote-ip=103.168.172.148
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=P1qyvvqa;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VqasOx12;
+	arc=none smtp.remote-ip=103.168.172.153
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CDFC606A31C
-	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 14:22:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CDFC606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC8D606D81D
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 14:22:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABC8D606D81D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=b8RVwu1v;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=3IwuG92D
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 7004BEC0227
-	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 09:22:50 -0500 (EST)
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=P1qyvvqa;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VqasOx12
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 06CC61400083
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 09:22:57 -0500 (EST)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sun, 08 Nov 2026 09:22:50 -0500
+  by phl-compute-03.internal (MEProxy); Sun, 08 Nov 2026 09:22:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1794147770; x=1794234170; bh=lD
-	zVcp1bTgJqeWMJHHLt9xWG+oSgGYewvfT7h6V9gqk=; b=b8RVwu1vXK0QBfk0pR
-	+n1rq6wsI7x7yPEayVsgTKpoV0HuETQ7M+Wjb5HlRGdAqfeKno1BytXwW12nq3y5
-	DaFE6Yf9IssjZYHbf+TnAssW5/f3QcXlftmqzkLqs6o5YXPfUc7jpFr35VBH1q9z
-	dlHz5Zl4ODbwEkCXOt/xdbjlZlTkyycR36yU64hat+UXTVmxw0Asza9XespUwNdX
-	ffko4J1UvgdAYdVwPoabcFTeJaI8sTU+HttZoXMMHGsXjFm5Zbz0+dsbKcWk7pni
-	hJpfdQl+zpOm71kTybvNfO7izUm5y9zxdGFGJUpkGaC8DklhTppfMNaZVulrzHDS
-	I5aQ==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1794147777;
+	 x=1794234177; bh=Kte5WYMT424VKNrj5TrTokW/zcBpMOsYidoEzhcRPUY=; b=
+	P1qyvvqaxvQuU2Zqb16/NRPVib9d89UgSfgHMASgYY/skgYVEZva8YUQdgcM0E0G
+	4PrLV1fQleZcVnoa+kJvic0y+ISl2wQ8R4oidlj0xeh9Be3JTdzMTw7Jh7DUqERS
+	YRYa35sX5DppZv6nuOoWvN5E8Dbg2lGBrkBKGDOSdJfcUg2+4Ipg8d+DewDccMT8
+	aVSTfuE46aofjRYo+Ydx2TFyaWiiuj14HrDZ3BiQgfh1obkfUQL8onKNsBH3bBMj
+	uCRWVuqZLmN7IfFtCP/y0FdMdjtIrBb5WYPjMYW42iKs57gT7rQayuZmPkXZP4o3
+	ksSPxm1YkipMtcVh+mF2Kw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1794147770; x=1794234170; bh=lDzVcp1bTgJqeWMJHHLt9xWG+oSg
-	GYewvfT7h6V9gqk=; b=3IwuG92DuIplhpgvDwSmntV2pwMpoCzdNDeDWrXD9IfL
-	GVQVmEsEN+UX7BExavvJe72ii5j/q+jbs/4EaqkgLy7LAuieQYL7VBo0HeNvcypP
-	3lCopLJmClZyepr/ORvIbXqBE4SWURK0xGx0zFqlkm7XO8nvJxsROiaXmnrZMRde
-	iSGsJ7Ro1CsXG77kHfwcdOGviWQA1w3Ag2mOp2ei5Lurj9uYJfZ9KfKqQzjxaGAH
-	Cp2MzQPsnvGPAEwp5oyBBrmKOsxtDQjMbmlwAU7K+YM+ilgWkJs1yladNKjKk/Aa
-	vfsCJ5zyMi+uCIVIRbuOLLwpEbY2sOQ/XdR8MAs6QA==
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794147777; x=
+	1794234177; bh=Kte5WYMT424VKNrj5TrTokW/zcBpMOsYidoEzhcRPUY=; b=V
+	qasOx12qUdPznG4L1H+OUr58fmAy051kNtsrr758TxdhuxtEwxYYdcHOeUC9KMKM
+	oVeDpcX3WmLIk/QY25AKox9OwSlygQ/J4OK6OJ3WjQenihRJfCSxOw6R8RUs5P0x
+	xcKkSmi8Qu+3tyfph/Tw4B2C4VnzXqdjSFSyDrMIajcd6AmdiC6Q9p/tKoKj26lV
+	oyc3RdemFH5rp+TXemMRONu4CMvOutp2F1msUKHrSW3ozKdIc4V+rys3D8GQfyBi
+	q3oWH+GUayXKghXCw6VVDzvrdUf9uDDz+wZ1kRcVXhp1KbwbNVSavwzxuc/HaY34
+	2p6b9S/S5iNEfd7k4wHWQ==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794147770; d=jannau.net;
+DKIM2-Signature: i=1; m=1; t=1794147777; d=jannau.net;
 	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:gPX3T4h5gFo9YBT0nSl1aSzliS7vDa8GXSNjnXsTTEdn0WY
-	pf7EiBbfV/g7TOKxykM6wczcbphgQRd7dZBxF/FOJ56o3ViDFWwMWt5XdYjCwL8K
-	7VHmdXrqGO/TD5cVaN13XfHz7eVBCS030YEyx6zGUS/YfYWXK7ZoDFbHpvTsFrsC
-	Ic6k6vR3LhufDcmVHOw42IhUB6nWRt97zThr2pS9Bk4x50aHKa0x0xvf3PbVMM/j
-	LrDrviBATUUuUSkv/xsHzEtLYrW4/MvuvlAkrR3ZGkPytQpzs6c/Z/dln6IVIzMB
-	grx+h3t/mQST3uHhhPJgq8cWWDnl4/eptj3istg==;
+	s=fm1:rsa-sha256:H6Ei6GHZJxtIgBozQ64ozeYe/miA9xqAOcvsbX4Fo4GL8Az
+	62Ud/fKqL40SL6s3/zDP2bZbb8uAhVOSTcOhxFDhbQ1VQmYwJoRn0FR5ykFr3Rd9
+	GxN7NRstHbXkvIsy3YkUQJUA6J5MUid+S9X1/rJUCSTV47wHlN4FNJFl64/XF14s
+	gWqvOGvu2lOXXCLBssER6Hd/V6eu042vEQd1p8OBTLT3qYpI6a0dvXz8Syuf1RsY
+	h9weOajbCuPK4znVx3sbD4XGaMC7GNcqrek1v7dRRXgRMo+myBulKf/HSzthIn2o
+	VsA624VXcLNY7wjHQ0H7cAw3fXYnKnO+YmmqZZA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=10;
+	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:1NsXmGMa0eRM9nJfuJllF4HmbWds1tNITnd/go8q+lg=:1FSI7VpvI9HBAJVh0slm9bQWgX2OZnVpTVVJnzGdiI4=;
-X-ME-Sender: <xms:uYXwasT14ATms39quBxYU1WCqxTlQ4vt1-WdRPk7n2atbdeQB4Y64w>
-    <xme:uYXwaoKmuQwOyP5BetltZ01_jWwrLohjwyYmgUEk8AwFOd16mpjgG_9V8GINffeFl
-    235LFJylvBIL9gR5CsQ3TcqThfW0dbqeSJc4uk48VGXTz2EX2coTls75w>
-X-ME-Received: <xmr:uYXwal1q6O3Lkj5jJ2q5zWGM4Dy5wbM93Lem8vbUWWd-Y5PBJf-RNvVAZ7gKEyvrgqEtDOE83v1ax1IVOOiHtsQZhorUhwyaxn8>
-X-ME-Proxy-Cause: dmFkZTGVCEBAWNMuvpK4V017RQEy3JhGATTzG9560omovpYbMERWekm4tSfbH36O9c5CLA
-    hlj4+Qh9d7zUKlcLlScb2uKVP+8nPNz+q3+eRgDfvfGuQqeAc6PuIQSCphJKYt818Y5/5O
-    dCf68+QuC+S5wGxW/N+0qDcQi2fKYs5+rnAK3oxCobmCYfEh4Iq4sXcmBhgI0qvpmd2iZq
-    3kk66y5Aw+XbqgARuRrcMwrc+XawzMSNmc15eIqnIa1iHtB4GlObjVV8DXocDGIDILClvn
-    rMZMZO3miwdfJJCMMCsRkDc2g6cIv9vJ8VRSoBWSuEwCGiczcna3dI+n55rI4cBEv2IkOs
-    eoEQDCYlQ6KIOkyo9brIX8C8nc+bnoLxNAFSj228VlTNmj4c4fiBElSs9DDXPrQtRy0CXd
-    dOT8NAH8Nkhs1MvJO9yG57hUrJ0OECLZpW/Tr6I80RTKAEpgghpWO5V4thLX18+AeWSpKN
-    shmbPp46ZHH49uPJvpetiSJdcSyXZEU+lSWWpM62YUaiqHm1EPY53X2TkhDBMa0l4lOJGi
-    M6zWkbFznuN2utKcjFxgG6IjDpKfnJclDa1Mf6fS6qvV28GuY7PWbuSL66iI3anbJdCknO
-    eDOjAf1hBiDhwDb1HrruHovzxRgppmSsdhLS4DpUBGeSLk4x2qFch3eURScA
-X-ME-Proxy: <xmx:uYXwajJunI_g-4ZmnWA8ZJAjIQqh0jSefe8LCczdCwmyhnpKIhRF9Q>
-    <xmx:uYXwatn4fayorFh4hXlZDfN40zOIOIxxzYo-scXIM3EPcTOEjsnxHQ>
-    <xmx:uYXwapOeUP9pkQF_SJSyslkYEg-xO4u8BZD7H4tFrL6NUlvFn1CiUQ>
-    <xmx:uYXwakykCUyCURyftSP-VI5hahvKhEoIzyuClhzTJcoVQbfvyGgs3w>
-    <xmx:uoXwamCCWno5wVjIbz6sgCBxyNaQMQt9LrPaUiwPVBny-NAeba1m95cu>
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:0kLRbMVsEm5LotXwHYnzJehhpAoO6fySlBkC1Y53QFQ=:38WaFZSMlnnR6BRrfybqqIYKvxpuFmMHf44pTN+EAS4=;
+X-ME-Sender: <xms:wIXwaiAiQ9wX3T1RX9jNCSppwH-3M0FSl15SQuNJlv-iS92N_7TnSA>
+    <xme:wIXwat7e2LB_b48ScEQRdU5dE2ArxPGQrC9FN0oqmG8tpDSL0JUZ3n__C-i6sRLxk
+    zbX2no9ugu7oNm3xuUvjhhf-YzJRdXNbul8NFTCuwxLmk2R4kmX_Q>
+X-ME-Received: <xmr:wIXwau0X8bgTcFURfiWS6MI5nwKjSh-dKgTv3JuXGC71hH_97hr49y1I5nB81N29DX-IpakrZCc2KJs1sab6ar3wppYu7tTqGX4>
+X-ME-Proxy-Cause: dmFkZTGo3CfmNkGVcoCqQm+2xF5BgQTQHLEob89QGgMg/fmpPsx9Ba22YEWDsCMCAsJVht
+    iPMwYglQfWngG0EQiTCIk1j//mHbmcbWVDR0k5U/uGGvuPWIdI5VF0QmVDi2K9omMvQXse
+    1SsImkgs2/+NnGnQwBHgKzDKk3rdaZCpy9lOm/CBgsoPRaB2SL90jN/DpplvLkjqri7DRF
+    34GZFZT6mx2KG6dtb3J1oKeeuxv77VarACJ5K9flwFuG4XW+zRuJ4up6S+R6m6RCgUFeXK
+    suuZS7ohMrlLQBXad0P686p3sxTyrb8JLChbCEM521ZgNKvK+lIcmDaAFt7tO6sNGMYcXc
+    ERWeo+bc0+cJk00Nc1WuHBj4r2aWD0sY5QgTsRBu11aBmc2RbF0NVzOMWi/ky0pLGb5jG5
+    xgpLLBw69wEh56SbLbjxtuaNMIER9vRNau2PW3CPQL/xjo8klgzL7DAaz4BmHd/8yQrtPy
+    8swXaLzCNR5u3LXhviVURghCNt0sRL3L42uaPEvbipWbXQYNzhcdOTwPzLuv64z0X7QsLk
+    Y3NCH6ASQ/raumVNH1dVG+7ISJtSwu1FyVlVCKg5/Zbqps5Hhhq4OcwLlyKPR86tGOoKoI
+    C2d7OuGoTfnsap6BU3lLGgcBxnL4l1JTRlR/rWTaCbH89dXB0QuHUizxFWlg
+X-ME-Proxy: <xmx:wIXwapDUmPLK8OCsTVgICrT60ZXVfvOr9X9lXC-41lcbgm5vYsyLpQ>
+    <xmx:wIXwauHqcYRwb8RNHdROFOHo7M8gMtAeOlUto46gIubJxYAjS8KSEw>
+    <xmx:wIXwamSF1nc2A4uBmvIE6Ae27Fxe2nZ6N1knli7xnXeH6R3I5tybcA>
+    <xmx:wIXwatP1TSQI06zPg_SmbCZPM5V4JcxASevN2qD3R6NGQEX4PtODKA>
+    <xmx:wYXwapA60ATdUerfQmZyTFE2mWCZdwJ7rMnl_58_2FEyjOlM1rd6BdSD>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 8 Nov 2026 09:22:48 -0500 (EST)
+ 8 Nov 2026 09:22:56 -0500 (EST)
 From: Janne Grunau <j@jannau.net>
-Subject: [PATCH v2 0/7] Apple M3, M3 Pro/Max/Ultra PCIe device trees
-Date: Sun, 08 Nov 2026 15:22:34 +0100
-Message-Id: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
+Date: Sun, 08 Nov 2026 15:22:37 +0100
+Subject: [PATCH v2 3/7] arm64: dts: apple: t6030: Add PCIe nodes
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -119,12 +119,10 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12NQQ6CMBBFr0Jm7Zi2IhBX3MOwGOogQ7Q0LRAN4
- e4Cxo3Ll7z//gyRg3CESzJD4Emi9G4Fc0jAtuTujHJbGYwymdYqRfL+wfg8obfCSJybukizmqi
- BdeMDN/Lae9fqy3GsO7bDFtmMVuLQh/d+OOnN+7XPf+1Jo0JWinJDmUqbouzIORqPjgeolmX5A
- AWZfv69AAAA
-X-Change-ID: 20261104-apple-m3-pcie-ae72b846baaf
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-apple-m3-pcie-v2-3-0e5ffec71da4@jannau.net>
+References: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
+In-Reply-To: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
 To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
  Lorenzo Pieralisi <lpieralisi@kernel.org>, 
  =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
@@ -136,111 +134,218 @@ To: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
  Michael Reeves <michael.reeves077@gmail.com>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-pci@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>, 
- Yureka Lilian <yureka@cyberchaos.dev>, Alyssa Milburn <amilburn@zall.org>
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4167; i=j@jannau.net;
- h=from:subject:message-id; bh=1FSI7VpvI9HBAJVh0slm9bQWgX2OZnVpTVVJnzGdiI4=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqwPrVu2fjqtLSAdVC3y2mb+qtUcnt1vzPe6rzzBtv35u
- ndSLwq3dUxkYRDjYrAUU2RJ0n7ZwbC6RjGm9kEYzBxWJpAh0iINDEDAwsCXm5hXaqRjpGeqbahn
- aKRjrGPEwMUpAFOdIs/I0DndUYFXoTfY7tTW6S3fKx/3Wj7g/fFXx4fvTZ7ksiWn1jP8D3ux6c8
- esRkTlKviFfcciMhitv03MbGBVepGbvb5umVfGAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6143; i=j@jannau.net;
+ h=from:subject:message-id; bh=38WaFZSMlnnR6BRrfybqqIYKvxpuFmMHf44pTN+EAS4=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqwPrVt31Z6tMtf8Nv+fH6/cos0TdKtK10gc+nYke9liu
+ R6TZNU3HRNZGMS4GCzFFFmStF92MKyuUYypfRAGM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFRn+jMynFl/3c/I892aQ9z7lSbNXZkeGhvhd+3l9rTT03Lvz87Zu46RYUFj3VT
+ jGe5r9mQ8kE7YW9Au5/lP//bv11U77A4HivbI8QMA
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Hej,
+Add the PCIe controller, its ports, IOMMUs and clock request pins to the
+base M3 Pro .dtsi file.
+M3 Pro is only used in 14 and 16-inch Macbook Pro which connect PCIe
+devices to the port 0 and 1.
 
-this series contains the device tree changes for PCIe support on all 
-M3, M3 Pro, M3 Max and M3 Ultra devices.
-The PCIe controller on these SoCs is compatible to the M2 Pro/Max one.
-So add the new per SoC compatibles to the dt-bindings and add PCIe
-device nodes for all M3, M3 Pro, M3 Max and M3 Ultra devices.
-The series contains a fix for the M3 (t8122) power-state devices tree
-nodes. A power-state required for the PCIe controller and the NVMe was
-not correctly represented. MacOS keeps this power-state always on and so
-does the device tree for M2 Pro/Max. Do the same on M3.
-
-Based on apple-soc/dt-7.5 [1] to avoid trivial conflicts with the NVMe
-series and to import the M3 DART dt-bindings from [2].
-
-The series passes make dtbs_check and make dt_binding_check and does
-not introduce additional dt-style-check --mode strict warnings with
-dt-style-check from next-20261103
-
-ciao,
-
-Janne
-
-Link: https://github.com/AsahiLinux/linux/tree/apple-soc/dt-7.5 [1]
-Link: https://patch.msgid.link/20260925-apple-mtp-keyboard-final-v4-0-304c267518f4@gmail.com [2]
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Changes in v2:
-- capitalized PCI and reordered words in dt-binding's subject line
-- adjusted WiFi/Bluetooth PCI compatibles to BCM4388 for M3
-  Pro/Max/Ultra devices
-- Link to v1: https://patch.msgid.link/20261105-apple-m3-pcie-v1-0-e00a72a604f8@jannau.net
+ arch/arm64/boot/dts/apple/t6030.dtsi | 165 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 165 insertions(+)
 
-To: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>
-To: Neal Gompa <neal@gompa.dev>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Joshua Peisach <jpeisach@ubuntu.com>
-To: Michael Reeves <michael.reeves077@gmail.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: Krzysztof Wilczyński <kwilczynski@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-To: Mark Kettenis <kettenis@openbsd.org>
-Cc: asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-pci@vger.kernel.org
+diff --git a/arch/arm64/boot/dts/apple/t6030.dtsi b/arch/arm64/boot/dts/apple/t6030.dtsi
+index 85a16d03e22f..4bac0fbcea8c 100644
+--- a/arch/arm64/boot/dts/apple/t6030.dtsi
++++ b/arch/arm64/boot/dts/apple/t6030.dtsi
+@@ -7,6 +7,7 @@
+  * Copyright The Asahi Linux Contributors
+  */
+ 
++#include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/interrupt-controller/apple-aic.h>
+ #include <dt-bindings/interrupt-controller/irq.h>
+ #include <dt-bindings/pinctrl/apple.h>
+@@ -431,6 +432,14 @@ i2c8_pins: i2c8-pins {
+ 				pinmux = <APPLE_PINMUX(51, 1)>,
+ 					 <APPLE_PINMUX(50, 1)>;
+ 			};
++
++			pcie_pins: pcie-pins {
++				// clkreq pins
++				pinmux = <APPLE_PINMUX(163, 1)>,
++					 <APPLE_PINMUX(164, 1)>,
++					 <APPLE_PINMUX(165, 1)>,
++					 <APPLE_PINMUX(166, 1)>;
++			};
+ 		};
+ 
+ 		pmgr: power-management@350700000 {
+@@ -579,6 +588,162 @@ nvme: nvme@38dcc0000 {
+ 
+ 			apple,sart = <&sart>;
+ 		};
++
++		pcie0: pcie@580000000 {
++			device_type = "pci";
++			compatible = "apple,t6030-pcie", "apple,t6020-pcie";
++
++			reg = <0x5 0x80000000 0x0 0x1000000>,	/* config */
++			      <0x5 0x91000000 0x0 0x4000>,	/* rc */
++			      <0x5 0x94008000 0x0 0x4000>,	/* port0 */
++			      <0x5 0x95008000 0x0 0x4000>,	/* port1 */
++			      <0x5 0x96008000 0x0 0x4000>,	/* port2 */
++			      <0x5 0x97008000 0x0 0x4000>,	/* port3 */
++			      <0x5 0x9e020000 0x0 0x4000>,	/* phy0 */
++			      <0x5 0x9e024000 0x0 0x4000>,	/* phy1 */
++			      <0x5 0x9e028000 0x0 0x4000>,	/* phy2 */
++			      <0x5 0x9e02c000 0x0 0x4000>;	/* phy3 */
++			reg-names = "config", "rc",
++				    "port0", "port1", "port2", "port3",
++				    "phy0", "phy1", "phy2", "phy3";
++			ranges = <0x43000000 0x5 0xa0000000 0x5 0xa0000000 0x0 0x20000000>,
++				 <0x02000000 0x0 0xc0000000 0x5 0xc0000000 0x0 0x40000000>;
++			#address-cells = <3>;
++			bus-range = <0 4>;
++
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 1038 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 1047 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 1056 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 1065 IRQ_TYPE_LEVEL_HIGH>;
++
++			iommu-map = <0x100 &pcie0_dart_0 1 1>,
++				    <0x200 &pcie0_dart_1 1 1>,
++				    <0x300 &pcie0_dart_2 1 1>,
++				    <0x400 &pcie0_dart_3 1 1>;
++			iommu-map-mask = <0xff00>;
++
++			msi-controller;
++			msi-parent = <&pcie0>;
++			msi-ranges = <&aic AIC_IRQ 1342 IRQ_TYPE_EDGE_RISING 32>;
++
++			pinctrl-0 = <&pcie_pins>;
++			pinctrl-names = "default";
++			power-domains = <&ps_apcie_sys_gp>;
++			#size-cells = <2>;
++
++			port00: pci@0,0 {
++				device_type = "pci";
++				reg = <0x0 0x0 0x0 0x0 0x0>;
++				ranges;
++				#address-cells = <3>;
++
++				#interrupt-cells = <1>;
++				interrupt-controller;
++				interrupt-map = <0 0 0 1 &port00 0 0 0 0>,
++						<0 0 0 2 &port00 0 0 0 1>,
++						<0 0 0 3 &port00 0 0 0 2>,
++						<0 0 0 4 &port00 0 0 0 3>;
++				interrupt-map-mask = <0 0 0 7>;
++				reset-gpios = <&pinctrl_ap 167 GPIO_ACTIVE_LOW>;
++				#size-cells = <2>;
++			};
++
++			port01: pci@1,0 {
++				device_type = "pci";
++				reg = <0x800 0x0 0x0 0x0 0x0>;
++				ranges;
++				#address-cells = <3>;
++
++				#interrupt-cells = <1>;
++				interrupt-controller;
++				interrupt-map = <0 0 0 1 &port01 0 0 0 0>,
++						<0 0 0 2 &port01 0 0 0 1>,
++						<0 0 0 3 &port01 0 0 0 2>,
++						<0 0 0 4 &port01 0 0 0 3>;
++				interrupt-map-mask = <0 0 0 7>;
++				reset-gpios = <&pinctrl_ap 168 GPIO_ACTIVE_LOW>;
++				#size-cells = <2>;
++			};
++
++			port02: pci@2,0 {
++				device_type = "pci";
++				reg = <0x1000 0x0 0x0 0x0 0x0>;
++				ranges;
++				#address-cells = <3>;
++
++				#interrupt-cells = <1>;
++				interrupt-controller;
++				interrupt-map = <0 0 0 1 &port02 0 0 0 0>,
++						<0 0 0 2 &port02 0 0 0 1>,
++						<0 0 0 3 &port02 0 0 0 2>,
++						<0 0 0 4 &port02 0 0 0 3>;
++				interrupt-map-mask = <0 0 0 7>;
++				reset-gpios = <&pinctrl_ap 169 GPIO_ACTIVE_LOW>;
++				#size-cells = <2>;
++
++				status = "disabled";
++			};
++
++			port03: pci@3,0 {
++				device_type = "pci";
++				reg = <0x1800 0x0 0x0 0x0 0x0>;
++				ranges;
++				#address-cells = <3>;
++
++				#interrupt-cells = <1>;
++				interrupt-controller;
++				interrupt-map = <0 0 0 1 &port03 0 0 0 0>,
++						<0 0 0 2 &port03 0 0 0 1>,
++						<0 0 0 3 &port03 0 0 0 2>,
++						<0 0 0 4 &port03 0 0 0 3>;
++				interrupt-map-mask = <0 0 0 7>;
++				reset-gpios = <&pinctrl_ap 170 GPIO_ACTIVE_LOW>;
++				#size-cells = <2>;
++
++				status = "disabled";
++			};
++		};
++
++		pcie0_dart_0: iommu@594000000 {
++			compatible = "apple,t6030-dart", "apple,t8110-dart";
++			reg = <0x5 0x94000000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 1039 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_apcie_sys_gp>;
++		};
++
++		pcie0_dart_1: iommu@595000000 {
++			compatible = "apple,t6030-dart", "apple,t8110-dart";
++			reg = <0x5 0x95000000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 1048 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_apcie_sys_gp>;
++		};
++
++		pcie0_dart_2: iommu@596000000 {
++			compatible = "apple,t6030-dart", "apple,t8110-dart";
++			reg = <0x5 0x96000000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 1057 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_apcie_sys_gp>;
++
++			status = "disabled";
++		};
++
++		pcie0_dart_3: iommu@597000000 {
++			compatible = "apple,t6030-dart", "apple,t8110-dart";
++			reg = <0x5 0x97000000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 1066 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_apcie_sys_gp>;
++
++			status = "disabled";
++		};
+ 	};
+ 
+ 	timer {
 
----
-Alyssa Milburn (1):
-      arm64: dts: apple: t8122: Add PCIe device nodes
-
-Janne Grunau (4):
-      arm64: dts: apple: t8122: Keep ps_apcie_phy_sw always-on
-      dt-bindings: PCI: apple,pcie: Add M3 generation compatibles
-      arm64: dts: apple: t6030: Add PCIe nodes
-      arm64: dts: apple: t6032-j575d: Add PCIe device nodes
-
-Yureka Lilian (2):
-      arm64: dts: apple: t6031: Add PCIe nodes
-      arm64: dts: apple: t603x-j514-j516: Add PCIe device nodes
-
- .../devicetree/bindings/pci/apple,pcie.yaml        |   6 +
- arch/arm64/boot/dts/apple/t6030-j514s.dts          |   8 +
- arch/arm64/boot/dts/apple/t6030-j516s.dts          |   8 +
- arch/arm64/boot/dts/apple/t6030.dtsi               | 165 +++++++++++++++++++
- arch/arm64/boot/dts/apple/t6031-die0.dtsi          | 157 ++++++++++++++++++
- arch/arm64/boot/dts/apple/t6031-gpio-pins.dtsi     |   9 ++
- arch/arm64/boot/dts/apple/t6031-j514c.dts          |   8 +
- arch/arm64/boot/dts/apple/t6031-j516c.dts          |   8 +
- arch/arm64/boot/dts/apple/t6031.dtsi               |   1 +
- arch/arm64/boot/dts/apple/t6032-j575d.dts          |  72 +++++++++
- arch/arm64/boot/dts/apple/t6034-j514m.dts          |   8 +
- arch/arm64/boot/dts/apple/t6034-j516m.dts          |   8 +
- arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi     |  41 +++++
- arch/arm64/boot/dts/apple/t8122-j433.dts           |  28 ++++
- arch/arm64/boot/dts/apple/t8122-j434.dts           |  38 +++++
- arch/arm64/boot/dts/apple/t8122-j504.dts           |  26 +++
- arch/arm64/boot/dts/apple/t8122-j613.dts           |   8 +
- arch/arm64/boot/dts/apple/t8122-j615.dts           |   8 +
- arch/arm64/boot/dts/apple/t8122-jxxx.dtsi          |  29 +++-
- arch/arm64/boot/dts/apple/t8122-pmgr.dtsi          |   2 +-
- arch/arm64/boot/dts/apple/t8122.dtsi               | 175 +++++++++++++++++++++
- 21 files changed, 811 insertions(+), 2 deletions(-)
----
-base-commit: 6c799b8c0df41869fa0d059f7e54f8f84b3989ee
-change-id: 20261104-apple-m3-pcie-ae72b846baaf
-
-Best regards,
---  
-Janne Grunau <j@jannau.net>
+-- 
+2.56.0
 
