@@ -1,47 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794161857;
-	b=AqpkZxGcnfgLNVC2kEdOSgvFqwEK5fI4KhBeq4gGwpXxhYPzV5UODQhZwdKqhruvkLFa
-	 iIe2HHv21Yd58kqPfTgiqmrMgpd4+zSslau5UfMF8C2PxxmlGdLYKxNzOd4JRqxSjvP0J
-	 QmaKu3aNoA3V4inlSV1wSH7sFDw7LzNkpIsg8g0tStkrf+YwXRzwqbGhHi2pMmaq1kcI0
-	 J5zDUADDb2uuF9oFwzymXvGV57aZc9RWZs9GLEkvIaQfEbACvYRerlYTJ5BLt9EpvqqgC
-	 ptAOqAzwA+MZ55Gn1kjqxMlr2rvOudou0Z9P2/6WU74ZSni5OUdJyrYDav1D9VxtINw==
+	t=1794162119;
+	b=KaAerD3pGrCiStAJibV9w22gAbywhwf9M7fqGhGux/9eJPqxrfw0B+VqsGt4BCMIeccH
+	 xzOt3CvAGfrk4nc4R/BMDbrAfabp7GooQ4Nac+snUxPWLUHin8hM7jMC9m8bAzeuXRzLW
+	 7ZRKynE0UNfAAY75TMnlpyEyDT0sblrb55Xo4wV4JVRpNct7HBXFuGKQQeO0PtzA65FLs
+	 xvD2rlXTBolmVMbeI8uejGuFJYQ2fv8S+BdIprC4CjLxDZ8OyvIxW71xVusiOEWZYAW0K
+	 s1eYnDamniyh9D3krUh2AfQvXy7BMBObrJ0E4+pwd0zbdw9AdbvzxQ5ZwY3UwYzvBHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794161857;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=g4hSmDe/hNxM+mVYy6mm3ToAC8B9Vj/cAi+kvaP3/tw=;
-	b=aYj7et84qdQFFE9Vxq0O361dD0ydfV2bJg6dv74yRvB9x3Phv+DxuFBOZsh2giyoNPOA
-	 1hMC6/p4LucJs6AEIxMkZVpdh0tUHYQiX13F/7a6awW6WX+VlEzDy26n9V+lhbenDtniv
-	 NVYpQDIJZqnXRlaELiKhbyCto1U4Gv2dO2jtWbyif/3B21aiqlPkMkL4I5ZO5pBIqgmAt
-	 Y4UerW/SCKX57OHO7p9ax6yodneczwcYZ7zDdutKntSzN2YF5cIOCvgKYsc0Olyb62Mx5
-	 H/IF/V1zxbwSPYlGiknCs6yPCr7CgXO/MMV+igCAY3AFy1AD97b9KtydOz6fiPWWC6Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794162119;
+	h=DMARC-Filter:Received:DKIM-Signature:Content-Type:MIME-Version:
+	 Subject:From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
+	 References:To;
+	bh=IEc9ZGuUWt0IoGuerT4chM8IoSWASGRdad0LdA8y7vY=;
+	b=qK17RStoSj+5d6B90CEjo3hlbfiY+9VBXGZT9RMm0BfmgwD7Ls/06S45l9gJhNnmo7Rn
+	 tDe6FbE1INPMtHMqJgXhySiCuh0yOw+lrvoEiLfnuwodQV2O/fiGfqgIGfdU3TqJ3Gb/p
+	 C6LnWnzg8JfDNDAq5ysykvFmC+dMaiqfKUHiBXgGxt3IbYZfpBH368Ne+AfAsCuc6A6wG
+	 Y4Ct8z1YzpEnuOUdI3UsaMJoDGLcW4FIzjLKQ/eEj/wAZWiVqGeUzyeIL29sQOX90wXf2
+	 gcr/Slu0hGiW+HgbxpOFPf6P6ri60qpyjCbCCeR+R4sygon9f//jpT0Ify0VHoH1+1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hAkHLf5B;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=chaosmail.tech;
+	spf=pass smtp.mailfrom=chaosmail.tech;
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=vnZPO7K9;
+	arc=none smtp.remote-ip=77.81.229.115
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FF8606A31C;
-	Sun,  8 Nov 2026 18:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DD8606A320
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 18:21:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9DD8606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hAkHLf5B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6208F1F0089F;
-	Sun,  8 Nov 2026 18:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794161856;
-	bh=g4hSmDe/hNxM+mVYy6mm3ToAC8B9Vj/cAi+kvaP3/tw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hAkHLf5B2tv9F1+dzjDqdVR6k60D/15cmhkxtgW897siA9SGc0XscJqjW4V/ech4K
-	 yw4+9h2O/FbgBD1BN1G6gPOX5mRPlKi0hUZ5cvwoWE1bIZwdq+QUcCsQFvYBMnHbyN
-	 WGgBu3JWpqhRt+n23qKZZJbXARtzGL9jgaQX/1h+DOLJzl858I8c4rws/umvBP0qW+
-	 s7phRIXI/RdWSD3keJZ5xTw47MTDzittQDNDjWQx6IO7JsyRV6VgSLFp6vC3MpHyBj
-	 JwMrf8s/nt18oV4+im+WnzWjrdwAsHo13pxY26pXPdUaOLfrRG7cZeVivDVJ3wVmky
-	 dEFab83yXXfJw==
-Message-ID: <4a6ae329-0d73-4ab7-bd87-7acafcb8778b@kernel.org>
-Date: Sun, 8 Nov 2026 19:17:31 +0100
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=vnZPO7K9
+Received: by chaosmail.tech (Postfix) id E1BB61C9627;
+	Sun, 08 Nov 2026 18:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1794162114;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IEc9ZGuUWt0IoGuerT4chM8IoSWASGRdad0LdA8y7vY=;
+	b=vnZPO7K9kRlz8SghCkQLzjjKHdtO6/FrK0I3NE0t7dobQRFY0AGulEeGu+0+k+wsOIpnY6
+	qSaYI9iUJw+tZXBFSZURadW3JlutQhW+cSOU4h61BeF5wu9CwxGXKi72lJ/hSjkZjdcp8P
+	oKPKITy4nEc80X+NqPAXOBiAfaWvBhA=
+Content-Type: text/plain;
+	charset=us-ascii
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -51,51 +56,48 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] phy: apple: atc: Add initial M3 series support
-To: Sasha Finkelstein <k@chaosmail.tech>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>,
+From: Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <4a6ae329-0d73-4ab7-bd87-7acafcb8778b@kernel.org>
+Date: Sun, 8 Nov 2026 19:21:43 +0100
+Cc: Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>,
+ Vinod Koul <vkoul@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org,
+ devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <F39FDF3A-E5DB-44F8-A31C-7856F7FA41F9@chaosmail.tech>
 References: <20261108-t8122-phy-v1-0-c2783b2a53a8@chaosmail.tech>
  <20261108-t8122-phy-v1-3-c2783b2a53a8@chaosmail.tech>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20261108-t8122-phy-v1-3-c2783b2a53a8@chaosmail.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <4a6ae329-0d73-4ab7-bd87-7acafcb8778b@kernel.org>
+To: Sven Peter <sven@kernel.org>
 
+On Nov 8, 2026, at 19:17, Sven Peter <sven@kernel.org> wrote:
+> 
+>>  /**
+>>   * struct apple_atcphy - Apple Type-C PHY device struct
+>>   * @np: Device node pointer
+>> @@ -599,9 +647,10 @@ struct apple_atcphy {
+>>   struct apple_tunable *lane_usb4[2];
+>>   } tunables;
+>>  + const struct atcphy_hw *hw;
+>>   enum atcphy_mode mode;
+>> - bool swap_lanes;
+>>   int dp_link_rate;
+>> + bool swap_lanes;
+> 
+> ugh.. somehow dropped this comment from the email i just sent..
+> is there any reason you move swap_lanes around here?
 
-On 11/8/26 16:43, Sasha Finkelstein wrote:
-> Adds initial support for the new t8122 phy. USB/TB only for now, DP
-> will fail to negotiate
->
-> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
-> ---
->   
-[...]
->   /**
->    * struct apple_atcphy - Apple Type-C PHY device struct
->    * @np: Device node pointer
-> @@ -599,9 +647,10 @@ struct apple_atcphy {
->   		struct apple_tunable *lane_usb4[2];
->   	} tunables;
->   
-> +	const struct atcphy_hw *hw;
->   	enum atcphy_mode mode;
-> -	bool swap_lanes;
->   	int dp_link_rate;
-> +	bool swap_lanes;
-
-ugh.. somehow dropped this comment from the email i just sent..
-is there any reason you move swap_lanes around here?
-
-
-Sven
-
-
+It saves 3 bytes of alignment padding. Yes, it makes no sense on
+machines of that performance class, but I could not resist. Can drop it
+in v2.
 
