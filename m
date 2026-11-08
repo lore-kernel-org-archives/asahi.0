@@ -1,58 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794150461;
-	b=yanuTds93UxUiFiLaceTYDCt79MebGINznqF1cL4lkF0QdHGoIev+oWti9f4TqKt3T79
-	 mS3KDiDmUs862At7fSv+Fd+sjc4xbrIiwlyDTSXDnKGG0DCO2SuEzFph6j8CLJLxpAhQ3
-	 9gkDwsGjFxVDjCPhUiL9RmzLEb8j8A4GltWIHBwEGHdE/upNj1g7w5IYb6G5vyQTlMrEg
-	 SHpGtZlt9PLlBGYEAwQj/kMqsxXxMSJWyeapmQ09+s0SwntvnA75h98YxrriiGAl5IUwh
-	 MTNFnZUzg1cxvRFEEaP8DGl6N0RDLmkcXGVjJvBt7WI8ltdErJxVArq5syJhY2lSynA==
+	t=1794152640;
+	b=qHK2AMqaolkinop4TmmZCaOtKYqdJM1333pdrepqHbOwMSK5zTjfVXhwkonRtrZgf4+o
+	 aO4WiKdwWC00aKwp76R1LfbBDtOhI5v5a06EDcV+465DRWO/x2Ev/Z5QOSg8JCIOQUzt/
+	 lPDatgFRF0yo/A4tvdU789dXHZ7m5lDXZ0zBjNVeBb7m/doYqU5993VR4uxSWI5Q0HWS7
+	 Brbm+LN9DsyD5utUoV2+lVLiUPCMKiMCCGxLTymPsFBg2St1xDxpUZ0HQmv5W9IAnLtb+
+	 6AWUvHzjBBtn8lZzZuV/tKSCSKqlHE5klLeJZMx5Tc1lm8FVdR5ZRBJ8AEapQYzAqwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794150461;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=rBHrMEhi6xxvoRTT2czlxljVcAmDyHII2xQE70QmPwc=;
-	b=fbqR3+DtFp6MrZG7enCEjK6uAfTJv05GU2mqELjsHoAiJwEB6NodZpZ+d3mIKyRdkHmt
-	 zk4182yEZe+h9PrZTe28Bj03/TD6VdIjTcZfhGChhI2baJXaPnOAO8GPCmqBhttN8Ve7T
-	 N89bjaCWnlDRMhiVaYP/t192aOmxI+pEY2C0toS/Dv+7qKthkgquC1jEiZG9cI4SsTWcc
-	 YQWYChU9EPZySEriTWwjEVbd07CtBYHRlnXs/K6yhWzBRga9jOSFYv4w/GHrpuqgbQO9i
-	 0sORyGyvO8gZAw0/7ayAKa4Ri3wVIQ//h8po5LOCgFvEPXOHJZr5/HlrTVa6ppRGHqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794152640;
+	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key;
+	bh=BbD1zRVt830j/6FEa37AOCaw0v+voPN0QhLYn1eKXlw=;
+	b=GY6+obI351AWxB/BYwfi3mtTDRcf2BSrLLxhUgETA/JIfZ9xfJVARyrVpqGR1ntqFFWj
+	 7mrteWJUPm5iOcXKqZ8l9Fi/z+xE/Ofw9s5KNOpzF3WpYvx1xZwFZaVguB5G4WUIWi+Kk
+	 AqI241o+QOUuP9LsKBo+5j5fade6znNoA2gi5Ii23kQttjFRyQYvhyCQnacKp/Vdr6+QK
+	 VmUHAqVAL+2FWgnpB+nQ6PJ8s5TGFgOSptuFNsJzpyp3p2y4XqEx4brMx3Swd6S5wFxsH
+	 XGgz59bS+ZNug2Nw6sStRgqMnPjsABqX/hMgR1eQ1rOcuq2S7lAzh1kdqgYE520tITA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kvDIO0i8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=chaosmail.tech;
+	spf=pass smtp.mailfrom=chaosmail.tech;
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=huDZ8nUu;
+	arc=none smtp.remote-ip=77.81.229.115
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09703606A31C;
-	Sun,  8 Nov 2026 15:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4573F606A32A
+	for <asahi@lists.linux.dev>; Sun,  8 Nov 2026 15:43:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4573F606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kvDIO0i8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB85F1F0089F;
-	Sun,  8 Nov 2026 15:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794150460;
-	bh=rBHrMEhi6xxvoRTT2czlxljVcAmDyHII2xQE70QmPwc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kvDIO0i8t+ikkjV+8fasMd+zwlCW0OZ4kIAekjecHHWYU11C/PPBUvG+6Sgo7py+6
-	 33Jm1+473qaMMU0uk6YDFjvhIC16ta4jqd2B9uZGO4V64J0xW8hCR6Mwu0fgecP3kk
-	 VGxEZIZJUlvd3kDgtdRsDZPvfg8yWyivxmw0Os+KuKw7mbVezhVmFZPrgDlbDjmiQ1
-	 qYTOPXp7mExtvGgWaXAitDAbqXShH84TFBYFdIBRwvT0OZLSl+VfmBS82qWcgoJKf7
-	 fdbESbDXpW0wWs8uw5uxD88hL5LewEGl/8tf/RC3CX2mNDVYBgA+sVqv8HoeUSHI4i
-	 b3+lsAnbPMtLQ==
-From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Sven Peter <sven@kernel.org>
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: apple: Fix swapped paddr and size shift
-Date: Sun,  8 Nov 2026 16:07:26 +0100
-Message-ID: <179415043385.189632.1773761622821260875.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261108-b4-sart-fix-v1-1-dab7dc1e9adb@kernel.org>
-References: <20261108-b4-sart-fix-v1-1-dab7dc1e9adb@kernel.org>
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=huDZ8nUu
+Received: by chaosmail.tech (Postfix) id C78E41C9690;
+	Sun, 08 Nov 2026 15:43:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1794152636;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BbD1zRVt830j/6FEa37AOCaw0v+voPN0QhLYn1eKXlw=;
+	b=huDZ8nUuPuZlPb6rGLkG1O4TRZLhCNdhU3ucOKG6n0lWUUx2S5JsWS5CJngKz9jYDsQKNI
+	RTBqGyiSCAm/z+ocJdazN8jIFEQ5VF/sql5oCbWyBWbCPU+zTq8EHnRJOQbzVTF8LPG+sg
+	ajjFyLbumfQ+fc622LVdi19Pj2amQks=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Sun, 08 Nov 2026 16:43:41 +0100
+Subject: [PATCH 2/4] soc: apple: tunable: Allow passing NULL to
+ tunable_apply
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -63,19 +59,49 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-t8122-phy-v1-2-c2783b2a53a8@chaosmail.tech>
+References: <20261108-t8122-phy-v1-0-c2783b2a53a8@chaosmail.tech>
+In-Reply-To: <20261108-t8122-phy-v1-0-c2783b2a53a8@chaosmail.tech>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794152633; l=646;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=tJNNb61/4tJlpWC0322q+2yhiEktKqEr06Kk4Nb8njs=;
+ b=Q8GuumKxSRJxH3/hIEU8kY4tFaiOjpFlNYj/mZ2ub8pRKuOc3ltoadcpa/bQmxdShKxgw3ZBX
+ /LrSZ2tyatlDpIPr0JELHxr0HnoY+DCdWyp7P+Phi1JlHndc2XMp4nG
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-On Sun, 08 Nov 2026 15:35:11 +0100, Sven Peter wrote:
-> Right now we assign the paddr shift to the size shift and vice-versa.
-> Luckily, this doesn't matter because they are the same for all SART
-> versions but fixing this doesn't hurt.
+Make it easier to have optional tunables by tolerating NULL entries and
+doing nothing when one is passed
 
-Applied to local tree (apple-soc/drivers-7.5), thanks!
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+---
+ drivers/soc/apple/tunable.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[1/1] soc: apple: Fix swapped paddr and size shift
-      https://github.com/AsahiLinux/linux/commit/7f8656f4f83a
+diff --git a/drivers/soc/apple/tunable.c b/drivers/soc/apple/tunable.c
+index 659323839171..e89e8f9bb455 100644
+--- a/drivers/soc/apple/tunable.c
++++ b/drivers/soc/apple/tunable.c
+@@ -63,6 +63,8 @@ void apple_tunable_apply(void __iomem *regs, struct apple_tunable *tunable)
+ {
+ 	size_t i;
+ 
++	if (!tunable)
++		return;
+ 	for (i = 0; i < tunable->sz; ++i) {
+ 		u32 val, old_val;
+ 
 
-Best regards,
 -- 
-Sven Peter <sven@kernel.org>
+2.56.0
 
