@@ -1,48 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794256070;
-	b=MIKZH4kGtimTbZ7VDeBBOX1kiPqpB+jTXe7Uyx+lWyhzDaGVpsSYOIvW4NmSucm3qjFb
-	 TUAcW1XkK70mom+3myqzlQcyoCGpEfxrOuICUK1MWyc+RuyKA7TbPa8/gihvlcIZjR3Kv
-	 NMWR87V48V+QhhKae1tUFigzQ3q016o9vL3QufpAmgh1MBMx8okhWtG6JWOVcxQiUoHe7
-	 Cv7wbRW86c+ODqgdtGfoj48HunxPt1BkzFditNpzyprXTwxp30mdCoEq8/4rrfiNFOxN6
-	 Ql7exJMt/zWvuPJcNlPc/aQ1gMKCBUVzvZ7vs6UO7Om1+oUgiBVlyLpjOSS4rOHPrfg==
+	t=1794258021;
+	b=XLzfZjldPqAxVUGqXgh4Bg9WcTxtLYGXvEoh0vmC9Hvu3guENugzCbhcVoHCYOY61uHr
+	 fhz9kzUH99GpYft4XZ6A5cTJI870JCnKtJiy658zBEsqpm/1iQDv6FWgB3nf9qL4EW0Pw
+	 q+eglijslHuGJMoVVfY4lCL3ZMxvZU7oiNClEXE+MhQXwPUA1Wc+tJOpiUUNCCDnzunUZ
+	 X1wdUg8LJN0Eg+lIkRBcf+eh9/xAAKo7gI8gmPly5idGNXMxNvnOvohJ4HSeJY8xfOLvZ
+	 7HQiuZrwtxmFkbnpZ29fbO76vRyfFQKX5+MapBcLkQ3SBEfai9QVEJzIevMxNYeJZ4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794256070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794258021;
 	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=uSmqEwTPBCw7yv/vu+RoTvS1k78wUQRDkeFSllXkLKI=;
-	b=TWoBjtrjfD3oxHZBq3z7WIGxzJElgpsKhvkgdEtKZVn4R1544M8LUmXvb+SqalzU3bCo
-	 /27qnv50wKQKO2iVGexRjSr2SDXU/oG89r1QX+Y4G+xz0reA4UBcRJhKvHOiY2+qBa7T/
-	 c9yWcqEJkXqAaY+yD9T92ohBhgaSZFjasCxl4GahbxgNuE/GH/x0+2OF6/0BDC3TY+GO0
-	 fPOolFR/yID7QE19zVYKbvmomIfqVuQNGyIHKGoFEmsKyRa4K1G2thkCFmC+qXtQA2odI
-	 2reWauTXJmbT/EflcelRwbM8aJKJtAjOUB0gMPKuhB2QMJWol/ixc8nQDpI8UUsHViQ==
+	bh=eQU4KWpZu4AHbLVPbyS0nA/90up/X89Iryoj5KvLp9s=;
+	b=tk/clhrTdKV+haYwCfZNgSQXi+176nhNs+6QnvetH0pefq93BbXxZaDvscDhyX039arW
+	 if29TZyMGyLLKFcC/FK3f52f71FWMo1GVf9Eczui/r3NCN43/wS5dZO3DuBSieMPh/Dsd
+	 US4NpVeDEXrRKZqMf6UcyaJA1NpQXDSDHnVTFwxb4+E64UEiaqWMYbj7ehsRgnT/spaIT
+	 rb2Nroc28I9FI7dNS+dgRabQCdue3Jpz/me3dGSf1+C3AdFshlDB2tzMMeokKvVnZh8IQ
+	 S5TRSV47bnGrK3EfNYGA2ac9Skw9DB4VI8iDODRnUvAvXlKkkZI5kzX9zmzzsW8w8Sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A8FIBdKP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sderx++f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53322606A31C;
-	Mon,  9 Nov 2026 20:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B653606A31C;
+	Mon,  9 Nov 2026 21:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A8FIBdKP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7830A1F008A1;
-	Mon,  9 Nov 2026 20:27:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sderx++f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 436A71F0089F;
+	Mon,  9 Nov 2026 21:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794256069;
-	bh=uSmqEwTPBCw7yv/vu+RoTvS1k78wUQRDkeFSllXkLKI=;
+	s=k20260515; t=1794258020;
+	bh=eQU4KWpZu4AHbLVPbyS0nA/90up/X89Iryoj5KvLp9s=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=A8FIBdKPcoGsNZlhGhiZxSuNdfssvT5PPZ6PrGGJaBdnGlh1o1Uoc3D7idyPnLDiT
-	 opYuDkhI6iTo2Dkz+j/2fqI0v2JoKsTponThIl770h6qo0JswzOFpuPxvcoISfhMLO
-	 96j3RJ4LE5aydnXA6E3B6PD9yMVvYhuO+YDa7DOayKR1+meLwulbZPWOyrGw/Zy9XR
-	 15iPrvzzJn0jCEPLUw84HtOy53ejShG6QX23kJRYzSx+whednhH04vvje3HVr3t+Dm
-	 nW4yxHSm4PYTVRKI2m50h9lbf4d2syeJKmb9gnxqIi/Ac3TCjiT0EH0AYw5cSRm0nW
-	 MzROyVWkrB9Sw==
+	b=Sderx++fo/HfdI6QP6KQ65+xMyjra3lMttoQs9e+WUX5dC2lA+uuLEqHNhdlv30CJ
+	 Xha81pxdujOCDp7s3LiHOJjswvZbKPwzqh36Elszp4zKRvajSIMIGjqlak/RUewNzo
+	 /ywr2LVe44T1stvh0RSflW0xpbayAsKbrhR022URmv3kBmSunPqvh8XPZenUvAXrM0
+	 vY5eU9HK5EcIxkvAoQtilZkTEyYP0U+PJmfxZGixLOnTAJjsKLGNZBPOdiFR6fApqA
+	 dpu0Pc5b3AvmqWw2wPN3sYEIuFO7ELudH+lbis4me/RdcF5/71wxSmSpQJudjS/Soz
+	 Hz/W6GxAjgv8g==
 Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 7B1B130216A7;
-	Mon, 09 Nov 2026 20:27:04 +0000 (GMT)
+	by traversing.sirena.org.uk (Postfix) with ESMTP id E68EA30217EC;
+	Mon, 09 Nov 2026 20:59:39 +0000 (GMT)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -54,53 +54,132 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 5/5] spi: atmel: fix division by zero when transfer
- speed is zero
+Subject: Re: [PATCH v4 09/22] ASoC: apple: Add macaudio machine driver
 From: Mark Brown <broonie@kernel.org>
-To: shao.mingyin@zte.com.cn
-Cc: broonie@kernel.org, linux-spi@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- pjw@kernel.org, samuel.holland@sifive.com, william.zhang@broadcom.com, 
- kursad.oney@broadcom.com, jonas.gorski@gmail.com, 
- bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com, 
- florian.fainelli@broadcom.com, rafal@milecki.pl, 
- linux-arm-kernel@lists.infradead.org, sven@kernel.org, j@jannau.net, 
- neal@gompa.dev, asahi@lists.linux.dev, ryan.wanner@microchip.com, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- claudiu.beznea@tuxon.dev
-In-Reply-To: <20261106234803459Z94udUX-Ai29-OfBFRND6@zte.com.cn>
-References: 20261106234751020Egf42VCVVlsSC_Msov4HO@zte.com.cn
- <20261106234803459Z94udUX-Ai29-OfBFRND6@zte.com.cn>
-Date: Mon, 09 Nov 2026 20:27:03 +0000
-Message-Id: <179425602307.3711751.7845465463671042950.b4-review@b4>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20261103-macaudio-v4-9-637484efe46d@gmail.com>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+ <20261103-macaudio-v4-9-637484efe46d@gmail.com>
+Date: Mon, 09 Nov 2026 20:59:38 +0000
+Message-Id: <179425797819.3711751.16786276718513108020.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=913; i=broonie@kernel.org;
- h=from:subject:message-id; bh=5Ht5M+VjLA+M4Oeg4Wh7v9V7rBg4ioA0/PuJ6uvdihU=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+6cwo4GpdvnHDs+b2EqXGWWmFbOv3bLGv27Gy+iRXw
- +xl6+0CO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjAR/XKG/+mKh+SPln9/OHVZ
- iTCL3Tnj7mVTVhZfq9utt/jr8s0KtXMY/udUHd3KsWHVo+SciZ4KfYlxvJ7TO/hbzxa9OPSEs/v
- IY04A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3005; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Dx6ZAvak6FM1JVv55O6fY7vNpn2fIMYkCHcl6jCDEqM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+mVgbdL7eNKOkoN/SosV+ibDynn1ONYcsNC5KXGrO5
+ 5NVXnyjo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABO5v4qRoeeA0mvTY5cez/xu
+ rLb94zGj7LK9vJH3RZSdazMWW1/gt2T4p8M8Q1nHYEWUwmbbBIms39Ypz7S45W4e63bb+M3o2KU
+ ofgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> atmel_spi_one_transfer() calls atmel_spi_set_xfer_speed() for every
-> transfer.  A device whose max_speed_hz is zero (no spi-max-frequency
-> property, or created through the spidev sysfs new_device interface
-> without a speed) leaves the transfer speed at zero, and the divider
-> calculation divides by it.  spi_setup() would only clamp the speed if
-> host->max_speed_hz was set, which this driver does not do.
+> Apple Silicon Macs have a complex audio subsystem consisting
+> of an I2S peripheral (MCA) and multiple codecs of various
+> models and capabilities. Some machines have a basic mono
+> speaker with hardware downmix, while others have a very
+> intricate stereo system consisting of multiple codecs and
+> drivers per L/R channel. Some machines report voice coil
+> voltage and current information back to the SoC, and others
+> do not. All machines have a headset jack.
 
-...
+> +#include <sound/simple_card_utils.h>
 
-> Clamp the divisor to 1 Hz so the zero never reaches the division.
+This is unused.
 
-> -	scbr = DIV_ROUND_UP(bus_hz, xfer->speed_hz);
-> +	scbr = DIV_ROUND_UP(bus_hz, max_t(u32, xfer->speed_hz, 1));
+> +static void macaudio_vlimit_update(struct macaudio_snd_data *ma, bool take_rwsem)
+> +{
+> +	bool unlock = true;
+> +	const char *reason;
 
-This has a similar issue with limiting, in this case even worse as we
-generate an invalid SCBR value and then validate it later in the
-function.  We should just set the maximum instead of bothering with the
-division if we're subsituting a default here.
+> +	/*
+> +	 * If this has been called from either of the safety interlock
+> +	 * workqueues, the core API has not taken controls_rwsem for us.
+> +	 * Take the write semaphore since macaudio_vlimit_unlock writes
+> +	 * to the kcontrols.
+> +	 */
+> +	if (take_rwsem)
+> +		down_write(&ma->card.snd_card->controls_rwsem);
+
+The callers with take_rwsem all have volume_lock_mutex.
+macaudio_slk_put() is called from snd_ctl_elem_write() which has
+controls_rwsem already so we end up with an ABBA deadlock.
+
+> +static int macaudio_parse_of_component(struct device_node *node, int index,
+> +				struct snd_soc_dai_link_component *comp)
+> +{
+> +	struct of_phandle_args args;
+> +	int ret;
+> +
+> +	ret = of_parse_phandle_with_args(node, "sound-dai", "#sound-dai-cells",
+> +						index, &args);
+> +	if (ret)
+> +		return ret;
+> +	comp->of_node = args.np;
+
+This gets cleaned up on failure but not on success.
+
+> +	if (rtd->dai_link->num_codecs == 1) {
+> +		dai = snd_soc_rtd_to_codec(rtd, 0);
+> +		ret = snd_soc_dai_set_tdm_slot(dai, mask, 0, nslots, MACAUDIO_SLOTWIDTH);
+
+> +		/*
+> +		 * Headphones get a pass on -ENOTSUPP (see the comment
+> +		 * around bclk_ratio value for primary FE).
+> +		 */
+> +		if (ret == -ENOTSUPP && props->is_headphones)
+> +			return 0;
+> +
+
+We don't otherwise check the return value before we start overwriting
+it.
+
+> +	/* Fallback, jack only */
+> +	{ .compatible = "apple,macaudio"},
+
+The cover letter said this was dropped and the binding did so.
+
+> +static void macaudio_devm_release(void *data)
+> +{
+> +	struct macaudio_snd_data *ma = data;
+> +
+> +	cancel_work_sync(&ma->lock_update_work);
+> +	cancel_delayed_work_sync(&ma->lock_timeout_work);
+> +}
+
+This is registered before we register the card with devm but these work
+items use the card, they need to be stopped first.
+
+> +	ret = devm_add_action(dev, macaudio_devm_release, data);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_snd_soc_register_card(dev, &data->card);
+> +	if (ret) {
+> +		for_each_card_prelinks(&data->card, i, link) {
+> +			snd_soc_of_put_dai_link_codecs(link);
+> +			snd_soc_of_put_dai_link_cpus(link);
+> +		}
+> +
+> +		return ret;
+> +	}
+
+The action registration doesn't do the unwind that the card registration
+does.
 
 -- 
 Mark Brown <broonie@kernel.org>
