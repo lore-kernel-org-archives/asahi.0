@@ -1,60 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794228820;
-	b=cR7oTYNc3th3i7Knat+gl4JCNtLN4IS6WFZKFjxgp+BswK8JwE0TdU79C5LG/7+IYz6o
-	 AuQ+Ud0rLlEDUy42+CdkOIFuXh2c+15Gk2uLqmd9zik0rT4OmV6R6UvbNwdpfh9npxadY
-	 ik5re3d0rokm01i64QB1Qmjjj+wBnr254d3D4fKWF1tER109/uS64uTahg98Inim9OjBM
-	 clV7vuDPo4ljpl7LVAh4SuavY/AuE7IfVVSR1orHQcvuFV0PSlbfycfccCh4ZQ0HIXsL7
-	 9iCXdWwLC5GtJasYVLWe74jNZijx/E8QftLVWfB3USQ63KN9jUoOhqQsPbHfwCl6egA==
+	t=1794250274;
+	b=1LVFdZ+KFl1486ZpH3mtJ7nebRs09XSx31SNYuy22yi4H0wp7f1bPGra/4nSigkv+jzs
+	 o6LBHZuj9qLQ6jygc+uBOe8nq5z4qyvHWoGyg/nJ7LERafj63cdqaKNxOG6QVSWbPnrBV
+	 GWnprMuPgyPvC0XnPnpAJ7Mg4rduY/SoRA4SMjHILHvAetH4mPBKE7V/j4Fr/OmI0bagm
+	 YY7q+u2WAh/CSyeTKmZ0NsQFckHKEvI7E/4F3qWPZLkYlw7FXkuePWmJz/tX6kh1tFdjf
+	 J7FlYhcZNr/Pu+4v0iiWN4HxFv1dkDruPQbqhU1LwNog4bgW3atzeudX4ZppFiMvFoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794228820;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Ux+kRKXXPI8nIz9tVs7F7c1iyRd71QPMq85RyBOC8hs=;
-	b=UIn16VWFVAfNkaTF1ZZb1SfFPb3CZ1uUidlReBpZBt6f+viEspJiScJ9x9pPIDnkLblb
-	 6d8mrrqg8+2p2+/Uz2sjIMelGlw9+5bni/ic79ExRBheS/jU9K/BfyVlleQbDXAd2wJ0t
-	 rfbqjbVluG+tL6wpZ0RTZOSsb+LoASxYxrCcyj1uAf4/ofH+LYxFPFVaGrq2/2yhPwRAn
-	 EvAq4VGRMJAEXVsZ9O2BBso0zp5G8Cy3vvgJrndTOTE/EYj1S5kRmHnY9kYvYJ2EM8u4F
-	 wGicEcKAOWllqaw+xrUXN3NkUplO0p9RY2bpblvBpBk5B4SMT9eDxI3Q2f1KX0OMvnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794250274;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=04MCtVZmlwiBs9vcUce/ObNuwxitxH4kYS6YKmZb4Gc=;
+	b=T49oDwBXZd2lyb5m8NwIC2xAoxVlg1gc15LRAWcJMz3IeDorBQBNWI+3MXhS7TKCtO1I
+	 wsQ9itiwXNU9m3lKJQ1wCm/fAUrAqht5Pq6Af/a2gbD/Pp/qp9cZW+JnQagccZlEzYuHI
+	 0VL2rG9QoYjXmqTqUnHI3XWZQgDR5PgHlRGcvyh8x8Wd2lWXAjuk62iRhxun0mezVTonW
+	 Jm9OttrZfUU47FjeF5MTATx3ftDAm5Ko1/1gUiQwgZCbHwjAcdOzNyBeIkPShhAUWuBnL
+	 3iWYhTwYAXYEwSA3Uz8X50iX7QyGNN7ILTL8om266iZ41Lp5S9s6mnDmAevtOuTxyBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LslcekGx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8veV+sm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A25606A31C;
-	Mon,  9 Nov 2026 12:53:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B8960A260A;
+	Mon,  9 Nov 2026 18:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LslcekGx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80E751F0089F;
-	Mon,  9 Nov 2026 12:53:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d8veV+sm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 985B11F008A1;
+	Mon,  9 Nov 2026 18:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794228819;
-	bh=Ux+kRKXXPI8nIz9tVs7F7c1iyRd71QPMq85RyBOC8hs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LslcekGxXHGx640hxCX1qU4y3Ga4SG1UR8Prf0X8VgVs1GLzCg5bCzJw7B6pO32OU
-	 mKE8Dk3709O1waviv0YC2ar9tj4kPP0W92IwaElOgyxliKvC/kLXaQvXl4V78Uh5Bv
-	 GEkPYWqRewIIWHjIODWTtSMgOG/Yxhml0mXxm+h+3Si3ha23p3V79Nucsxd2xFYK9N
-	 1AhHI+FgW+xMTowP399WLCuO9yTJv6bdpy3Dp2DmJhxT1hwwq1Rk+u3gBg8jzo2L1J
-	 /9GFrZ7CPEw012u6tph2ZiGmWrODeXW8JikeNqTDzb24v2YsdhmfYTuvemRn864i06
-	 k6iNs29nDkH1w==
-Date: Mon, 9 Nov 2026 13:53:35 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Joshua Peisach <jpeisach@ubuntu.com>, Michael Reeves <michael.reeves077@gmail.com>, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] dt-bindings: PCI: apple,pcie: Add M3 generation
- compatibles
-Message-ID: <20261109-athletic-shaggy-cougar-88b8bf@quoll>
-References: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
- <20261108-apple-m3-pcie-v2-2-0e5ffec71da4@jannau.net>
+	s=k20260515; t=1794250273;
+	bh=04MCtVZmlwiBs9vcUce/ObNuwxitxH4kYS6YKmZb4Gc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=d8veV+smqgRDY2qvU6Op9/CWZdLUa7sLQFe8thMfU8j7JpTS3XIpYvacf+PJUxM8L
+	 tWS2S+MBjVbz17OU7C7tvtq8bli0Wr8Hdm/38c67HqXqQzPnRxPI1sW9s5a8b3d/Dp
+	 gVA7qzmIH0JBPwuJykppspgKyT9y4jAKuqIAEkwywwvXGhLGSKqoCmAh8bsBUOkvmO
+	 lOB+HbJS6XCKpIxYZ6tY687kF8Tzt+AstzfcmsGwx9WHA68p3Q22M7d20SHHBVau2C
+	 SUQpheOXC4xJ61pxiOEUCv7lOb8m1gRipRrll+QHJVIhdR0f0EC9cKQ32tj+nWvGYn
+	 UC52+ARXsDrlw==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id E87A22F535A8;
+	Mon, 09 Nov 2026 18:50:34 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Sen Wang <sen@ti.com>, 
+ Frank.Li@oss.nxp.com
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-renesas-soc@vger.kernel.org, imx@lists.linux.dev, vkoul@kernel.org, 
+ Frank Li <Frank.Li@nxp.com>
+In-Reply-To: <20261106-dma_sound_cleanup-v1-0-5eb8a7b81e87@nxp.com>
+References: <20261106-dma_sound_cleanup-v1-0-5eb8a7b81e87@nxp.com>
+Subject: Re: [PATCH 0/4] ASoC: Use dmaengine API instead of
+ chan->device->dev
+Message-Id: <179422835746.3711751.8137830978577011930.b4-ty@b4>
+Date: Mon, 09 Nov 2026 12:45:57 +0000
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -64,27 +73,64 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261108-apple-m3-pcie-v2-2-0e5ffec71da4@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2033; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Dr9RhZEz40c3IT2UO7hdspYOyzkFqwQqUdbRqgdf+l0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI+iX4LexY0TcB2UobJ81PrtwTUFv3+N9lx/9Nzp4/rT
+ iifknHlXUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmsvsaI8N357WnxbJUo725
+ C2fKPOV57MnzLvbjxYt3Mr+duhjwZnccI8MKCU47ZWnnVTfVBO9+mLRy2sX1C39s8ZBuyLKpO/H
+ s01sGAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, Nov 08, 2026 at 03:22:36PM +0100, Janne Grunau wrote:
-> The PCIe controller on Apple M3, M3 Pro, Max and Ultra SoCs are
-> compatible with the one on M2 Pro and Max. Add their per SoC compatibles
-> "apple,t8122-pcie" (M3), "apple,t6030-pcie" (M3 Pro) and
-> "apple,t6031-pcie" (M3 Max/Ultra) to the bindings.
+On Fri, 06 Nov 2026 15:13:44 -0500, Frank.Li@oss.nxp.com wrote:
+> ASoC: Use dmaengine API instead of chan->device->dev
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+> Replace open-coded chan->device->dev accesses in ASoC drivers with
+> the proper dmaengine accessor APIs:
 > 
-> ---
-> Changes in v2:
-> - modified subject line
-> ---
->  Documentation/devicetree/bindings/pci/apple,pcie.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   - dmaengine_get_dma_device(): returns the device used for DMA
+>     mappings; may return a per-channel device if the dmaengine
+>     supports per-channel IOMMU mapping.
+>   - dmaengine_get_provider_device(): returns the dmaengine provider
+>     device that carries the of_node, used for device-tree based
+>     channel filtering.
+> 
+> [...]
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Applied to
 
-Best regards,
-Krzysztof
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+
+Thanks!
+
+[1/4] ASoC: apple: mca: Use dmaengine_get_dma_device() instead of chan->device->dev
+      https://git.kernel.org/broonie/sound/c/69d9cfe10445
+[2/4] ASoC: fsl: asrc: Use dmaengine API instead of chan->device->dev
+      https://git.kernel.org/broonie/sound/c/5aacfc0388c4
+[3/4] ASoC: renesas: rcar: Use dmaengine_get_dma_device() instead of chan->device->dev
+      https://git.kernel.org/broonie/sound/c/77c4d4f760d3
+[4/4] ASoC: ti: davinci-mcasp: Use dmaengine_get_provider_device() API
+      https://git.kernel.org/broonie/sound/c/2a2c53477627
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
