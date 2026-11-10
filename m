@@ -1,114 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.99
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794329217;
-	b=Tsx9tf+ZQkuibEZ1GfoH4XXxUfjesddWFQmPCVrzltAauOahy80tiU5tSVwBh/g2f0J2
-	 SXJJcPcNr2FjxqYY/ghkj3zireCHxJamHqpz++DvpEm3eMz3UnbpBC8lu9yg+JVrNGysd
-	 fH3bippF+Z4rSeUjakI6yNfe3CaYiv8VVuSRPNppHYfC0EAw4zd7rxE2RvaPe6RLjt870
-	 jObkKxOlsRay1Yon48YGVLVfcwkNWG/t3Hednua3n09fOF4Z8j5rShYP4zDKjxo+FwuWQ
-	 XC1fdJkhhI7s3V8DiqbHYuRCBCDqG3ovm3rq57Bqx+JZzgSandxERo7mgNBsC0+DavQ==
+	t=1794342621;
+	b=TUOd4/hVco5GUE+N/8dIFeid/85R2nGc6fY0JDwpRjCcIABuyIdUtR5f0wb2HzWYT8Yn
+	 Dm2UicyGwLLSUp9EOBQ8XEXY5VQ+hBMdsGdBMdsZYU+HIAXAUdXZoiJ7D/XQZ2RNwOcg9
+	 7emumba6jWY+l3b17AVnnJzmKEdnhVsKIvkGYAR1ieMxDUsMUuU63ViO20mw5KFev4Y5N
+	 4LGzxCRDa4G2m5X3TwGLx+c5Z1cTBSdvk/Ixe9qKDLK3w73mhVzoRASiuw3tQJmlJEPBJ
+	 0twLGq3BkdVTqyfdnpkJ2x2RBlxgqQ6uksiFY/xpIEX1ju8KQZump5Me4Dqoz+97NbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794329217;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=rU+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=;
-	b=aXLF3XKXEVEWyiSvv1SxjeYgCaODQcW32cXlkdgcd0I2Y0uaUNFZv518spflvII7Q6rR
-	 Oyxu0rBGxftH5lzW/Th6OHaWcEFdlocgclXvJCdsqqwnCUvve+2NGGY/REu0GtS/WmTgc
-	 /Y1Em5tIX1g6QEkWaseybPd3GWb+Dco2zI6Z40ErsSK78LRuXUdzezS8qpZb5X6AuLhkK
-	 61NgN1ZxM9c8YOD7ZgZZPGV2vhFFOwIo/RhZ8vkZ4MQ/cjVoEtr4VYj9n09uwYu28VMFY
-	 WShxbVQjxRCzcX6XcH0TA+chYmj/S23cOaJSY1Jiqqg83OhNVmtI/dqc/MaMt1pUGRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794342621;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
+	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
+	 Content-Type;
+	bh=z+EVXRsGZLcdjTO2LDvD/0M+sJBYSZvn/+TQXmJ91sk=;
+	b=wXZEDtRcy9PwIrbuA/eN9IzJ8Nz6RbFG/B0MHUJBg7KskxOkiDqiVZif6bX40L+z+1jO
+	 CJ2QvjnhVz/fWT+9GZWgNeESt5c+tmXN6pYvpm7VBjeOca4o+mQ5v/Cj6mla576vp8XbR
+	 y5TDC16eDw07M54ki0nKN7cZsHIBiL4UBSvjNRmvqoFx1mLrmOAF7dpASVjznuE8qKzI1
+	 kBL1KcKo/SSv31E2yEPRQm5pu0S/ri1DSULHSw4oOpYXsmbfVEjRUqZN+Ibgisxopwt+u
+	 D1le46aZiKD7tslilSMjH/JN9NSPL01vbhMyYNpZkUNxhzSPBclzehW+HNe5jUjkCOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jannau.net;
-	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd;
-	arc=none smtp.remote-ip=202.12.124.153
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=broadcom.com;
+	spf=fail smtp.mailfrom=broadcom.com;
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=ZkymmRIC;
+	arc=none smtp.remote-ip=209.85.222.99
+Received: from mail-ua1-f99.google.com (mail-ua1-f99.google.com [209.85.222.99])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C16A606A320
-	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 16:46:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C16A606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604E6606BA7F
+	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 20:30:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 604E6606BA7F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 020FF7A0271
-	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 11:46:55 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 11:46:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1794329215; x=1794415615; bh=rU
-	+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=; b=nUlyMvegnGhgPtx0TL
-	DP3VDE0HgrQZ/vnK/BHUetvJtw+1aGOSgMfMXujwt0s2Bqs/8L58G/Qa1tSMAMie
-	Gx+ehAd2Nl9A+QjUSvRpun7XHHT264z2cV+MsMrTBICttMQSLbele0GK+1bZQjFf
-	gSywAIsErFNR4IHD8OcMeN/Cr+HhKtYnurpMmeZY/fhaDOyY4PbktFhTShBQUVOT
-	Pm1DQCG68SbXpBPG36IACAKLg6XtVzY2hAidPh7WXHxRZwH0ZGM+dCJb0VxpUZTq
-	TAr4Nh7HBLSnEC8/3T5I1Sf267TDziDSl5kGX4KKY0INKUWdEHTYjxZ1jyHr5eXb
-	G82w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1794329215; x=1794415615; bh=rU+xzOknJq0zAItZwFEgG+rOiipQ
-	+A4n6Y7JItCDQ6M=; b=VKJosJQdJp+2KBnUGUt4AMPIagYAJTUZQa7DUivYtq4w
-	sIFYK30LpYy/npOAskZKHL5hpRktZII6cN/32jQbuqBYr1e0u6VD/YG6QDyxXLtG
-	GRTgjT9S4gIVskcpPx8brcm34eAVmoLiHqOi7sZvXdZyQSBvszdwsbDJsgpm2huK
-	5ro8yGqT06IVne2zN82Z+7XmpCj7EBdb3AdqIKEbxzlh0T5+M1zAiG9yKBYm7AxY
-	B0oLRzw6B7vcZsF0ISUM+O4gWN7cLpRCVtaPmTfZl/fpBuQo9HfXLgeKhSpsCQmK
-	RMf5NXJw3Eo/LJerdQLYzoy3hysuK3eG6U7UCnDXHQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794329215; d=jannau.net;
-	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm1:rsa-sha256:jca8JiC5xcQkdwVURki6lIxFrBMGtqv1y0KDIHplReeVZ3V
-	REmNCt/4MkElFeeqpfBk8k17moN3IoB39TR5nSRgIQKSJEGb3582DyFYGCqvWYSG
-	YlDYksOMyWNjDGIu3ogN2OT4hOLlUdtnOMgUIk853711BGGKq6nHD8gAahHgsl92
-	VV+akrkBkFliYH7F+HniRapjr0aMI+X1B2RMpRwM0WUn2/aw6wNYloWoth0dSfir
-	sGpjGHe49itjiBnpYRPPVG+DViJvK4kQpXMgTrPUPVm+3yXa8jWgtOiX3NzVf1aJ
-	S1ceP4gVvOl1QtNt+WKa5S6mjnYl26NxudYWCGQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=10;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,message-id,mime-version,subject,to;
-Message-Instance: m=1; h=sha256:35UdO+sdZhhvJT5i03Cri8LNT3N13uOTI4sW4YOm/gU=:v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
-X-ME-Sender: <xms:fkrzajrSiHa9prD7S-JpiPx8wmTljsHD5hKfw3cwkXXwLLNnlWXS6Q>
-    <xme:fkrzajoWnFcxGMMgMCrhSEOaz17HtL_3_ozBn_lE0qrPJZy_zPs9AljiL7yQjSwEt
-    -in71asgPi5FI5kQ5EaEUgI0kk1wgZArYpylYMnLVZMQRa31q1lqMc>
-X-ME-Received: <xmr:fkrzarD7pebKhqV3oVpsVmF9qimWGdzsc4DqifzxIpm1w44HrxGPZeZLbBzzqk4OAW8ZBSs-I_aRN1yXE90iwyzSnUnMzY0k-sYeIA>
-X-ME-Proxy-Cause: dmFkZTGkMoNYIGIESfraO/0wvb6EFswweUTDOEsTCLdPS1mG2124pEvHT5pQ0qNDLP2aJf
-    b6BbmEF3geHKAdMQ+MxwMSw5Qno7d5PJwQix/bH2k1WC5zmUBk6B6b7letCnWZPKiXNlI6
-    vjoUBmeJZnWUWIq1Ro3la9Uy+xxM+bOmSwOGpG9qsU/CXprQ4U7vNPg/MAkiEzO5OVJ/+8
-    WT7nLbAx0XCIWriK1J8/yrUxM3QZXONieGcQHpwZKIm86iesmejPjJ2+OgVwbcTruaYH/1
-    PKmNC7O1dN0kVOPY38bt1usRjamQSU+c3dWiJMeog5Okx8sls7C0hD41RVaxkM6HUwI1Zy
-    X8jbc/3vRN1G2iYlwq2bVPhwsbjUH2ro4hyS0rRapUeGua+z5dpfdAu+eSPMu/StqAG1h4
-    FgRDCZxaSDhtkqh2/omvB+wjRueAEgzxg/ju00lIVdnJcVG7F9S0h/HDZhLy+YimGA7era
-    Tt84/F3N+nUa+9psN05QmrjRRTKkoK4eMDnYycFOZbYjWyb1antb2ixYJe5IC9vvTom8Uh
-    cX3018hrC8kE8vjEjvR1p+WnMSMxwgl0dWyH8AC7X++oZa1xs3WwmUKCXoi/vOx3PYhwBf
-    IvJ2/NNOW7gvchXc8auDukNm/qt4HSRr3nm8nhTadeue06ijs/LXRjv2V0lg
-X-ME-Proxy: <xmx:fkrzaptafr1k-ttkUfSZfdPyaOiaZedseH4Fsw_yaWhMOKfJ6nB_Aw>
-    <xmx:fkrzaiKYkq4rF1M6zZGaKgunK68v99Y7MmwL0sb83OreBKCbL3I6LQ>
-    <xmx:fkrzaobY6SahZpw-5ZcYy2Gbi23YYksJJfBQX9tyC2HvvaIIk48dbQ>
-    <xmx:fkrzasDY73Dx662ItJnIQSGQWfI225mG1nkMbmz-Rl7R6FA2vg6fmQ>
-    <xmx:f0rzajqjqalkaPZ2joKwfD3yLwggGSfhG9Kmm-P6zac4WGwchRwdZpcz>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Nov 2026 11:46:53 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Tue, 10 Nov 2026 17:46:46 +0100
-Subject: [PATCH] ASoC: apple: mca: Fix clock selection for clock consumer
- FEs
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=ZkymmRIC
+Received: by mail-ua1-f99.google.com with SMTP id a1e0cc1a2514c-99bf7b97f12so1361077241.0
+        for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 12:30:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794342619; x=1794947419;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=z+EVXRsGZLcdjTO2LDvD/0M+sJBYSZvn/+TQXmJ91sk=;
+        b=YSD6mFG22NQVEuHJ0vmT6CqInKSBfXKoUGZXqYIRl/qS8il5oqfrBFUnSsDi98dPMX
+         FmCT4RW+cCXBOdsiM3s5F9aceSinv+bMdVTGpuFerP1/SeprjpFRcY+/6cfogTslm0fG
+         z1xXx58I/d6N4J2eky1m3gs1R+yMVxTlMwV8i9LK2F1dbOQ+gfq1i4puokheNUk+AU9n
+         c1U20N0sL7j/sUXMLN0hXnQnwxqrdjnasyHD8LTDblztLtepG42m38qud0b+8ed0SNZa
+         LDWZ89OH2FY9luw7nSFSDdwJ9M4N6gO7kFWO+8XFHWAxJfFk/2lYQaFJiyr2tL2SHesb
+         E7Pg==
+X-Forwarded-Encrypted: i=1; AL+hErFagHLXLBmPlJsLldnzU2NgZPfoWjiCRTetlm5oDzA3lzPRUsz8Zz+1u352qb+nvY5tnlo/VA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/hksMTuDCW2SsSJvq3TaCnpUsuaQs1VyZgpIQA4RMo6MnWMr9R
+	HBJJWCS1maUMr1BlggofGnb30+5iV1hEJUcoZHKtLKzD3aw19fHzFexBAfYbn2G7pm2W+z2zh+H
+	rfcB+JRidIhPXfhSvzLIAfcwwVkp8bQU4OLjZGw/O3ifkorhZKMIsc9LTHCEOt87WC52ACPA+Od
+	N8BHd9NnlQnmahfuGmlWhKojZOdrBNSOX+k8POhAcWIH3joe3TU+3bgyBmXWZGPCZUWpOaULUtT
+	8BYqgFyWBk=
+X-Gm-Gg: AYBFou2CX06TLWW2BUPyinNoRKvzRLWAWn4t18dOTpyVPhqlxbf/wYMxhOQmyN6O4RN
+	XvQXHwBE567BseeNASbdcUSArY11HdoghjDe6Mf4louFB4w0VsZV4pyumCSa+Rafqt2fkvWxHJD
+	submHtThy7OgBjqAlOReuy6Czg/VEGHrZ67QA2jYSx3HOcqK17IEJ+74hya9M4/mOACupxR+Mke
+	WRj0AyixRRMsUzhzBqxMvxvTK4dg619ekiW5FRrRr2u0J1HAEJg1h+8gZ+W+2noZ418VGHZ2TC0
+	2u3cTvt88Ru3qQzof9biI0Z9OrYFDLiYrUG5tUDJuDffg1bIV4KMiwnz0vfeExmHxJaaYpf1DmG
+	ONPzPMxEeCqEaEeB9CV64TtIFQpNAhpCe0WcHidB/48uAr9Z4zLv14gRHRcOOlbssNAVRPKQXze
+	JUiXhq8DMwfPrShboBhP/g+GBK+5fyOeMR9JSJ
+X-Received: by 2002:a05:6102:84c2:b0:7d2:d876:fb3c with SMTP id ada2fe7eead31-7d494ee6bc2mr166043137.35.1794342618958;
+        Tue, 10 Nov 2026 12:30:18 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
+        by smtp-relay.gmail.com with ESMTPS id a1e0cc1a2514c-99c2037ef92sm203923241.6.2026.11.10.12.30.18
+        for <asahi@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Nov 2026 12:30:18 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab260600easo3574890b6e.1
+        for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 12:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1794342618; x=1794947418; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z+EVXRsGZLcdjTO2LDvD/0M+sJBYSZvn/+TQXmJ91sk=;
+        b=ZkymmRICJ3O85AAtqqQSwf3+rRjMxdWtBHATSAVXYD/Fgt9/vb+I3f1kbDeb9V2Uv8
+         zla/3GK8XpNiOTr9GSksjxPfwIK4WZ5A5MnYL918Vj4nkb9NaQ+2Z5zzWcePvJTllNVv
+         4/C99otE4I2qe4h2xSA+doUesSQLul6s0IdvA=
+X-Forwarded-Encrypted: i=1; AL+hErE99m5f9ktlvasmtSoZecQt4lPoIQ3DBhUQNje6NO4zrUZVASAmfA2i8UhL/908lz1ipYC/uw==@lists.linux.dev
+X-Received: by 2002:a05:6808:1b25:b0:495:f8a5:8797 with SMTP id 5614622812f47-56866c26ee0mr1910142b6e.0.1794342618063;
+        Tue, 10 Nov 2026 12:30:18 -0800 (PST)
+X-Received: by 2002:a05:6808:1b25:b0:495:f8a5:8797 with SMTP id
+ 5614622812f47-56866c26ee0mr1910115b6e.0.1794342617599; Tue, 10 Nov 2026
+ 12:30:17 -0800 (PST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -118,99 +98,185 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-snd-soc-apple-mca-capture-multiple-be-v1-1-d9569a8374c5@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NywqDMBBFf0Vm7UAeVUp/pbiIyaQdsDFkVATx3
- xvdnXMW9x4gVJgEXs0BhTYWnlMV3Tbgvy59CDlUB6NMr7VWKCmgzB5dzhPhzzv0Li9rqbxOC19
- xJHzah+272JkwWqhbuVDk/f55D+f5B2OA4sp3AAAA
-X-Change-ID: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2914; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzPXtVVskYvPxRayhjX1e/4sI+v/old4Nk7Eqd3/1l1f
- ZtO+NLFHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACbyN4Xhr+jcrDDptcu3xIjU
- LQvacIKJS6x6LfPpzSknHEy8PF9s/cjwP27KznUVbyWmGH/yKsmOX5X/RV408ZvMn18t9kKV10/
- ZMgMA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+References: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn> <20261110233459277eFsXn1VXUPZl1EA9CCa5Q@zte.com.cn>
+In-Reply-To: <20261110233459277eFsXn1VXUPZl1EA9CCa5Q@zte.com.cn>
+From: William Zhang <william.zhang@broadcom.com>
+Date: Tue, 10 Nov 2026 12:30:05 -0800
+X-Gm-Features: AclHuK_JleX22zVRIqA91EWx7AC2g9xfD0FqItQwFTVyAjuP5RyQh16KDzAl-TY
+Message-ID: <CAHi4H7GHGO27Q=O8Upfds8jk-ujSHU5h91hCZw6qjftNX7a2Ng@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] spi: bcmbca-hsspi: fix division by zero for
+ devices without a max speed
+To: shao.mingyin@zte.com.cn
+Cc: broonie@kernel.org, linux-spi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, pjw@kernel.org, 
+	samuel.holland@sifive.com, kursad.oney@broadcom.com, jonas.gorski@gmail.com, 
+	bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com, 
+	florian.fainelli@broadcom.com, rafal@milecki.pl, 
+	linux-arm-kernel@lists.infradead.org, sven@kernel.org, j@jannau.net, 
+	neal@gompa.dev, asahi@lists.linux.dev, ryan.wanner@microchip.com, 
+	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+	claudiu.beznea@tuxon.dev
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000005f9528065ff1f2a1"
 
-In commit 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock
-consumers") the syncgen clock selection was misunderstood resulting in
-selecting a random clock. In the capture on multiple BEs for IV sense
-data use case the configuration worked partially by sheer luck. On
-Macbook Pro's with 6 speakers it could result in desync IV sense data
-triggered likely by sample rate changes.
-When the FE is a clock consumer select the clock of first used BE as
-SYNCGEN_MCLK.
-Add function like macros to determine the clock index based on the FE or
-BE number.
-This is functionally equivalent to the state sent in v2 of "ASoC: apple:
-mca: support simultaneous I2S capture on the frontend" in [1].
+--0000000000005f9528065ff1f2a1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Link: https://lore.kernel.org/all/20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com/ [1]
-Fixes: 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock consumers")
-Fixes: 108a14b20f95 ("ASoC: apple: mca: Support capture on multiples BEs")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- sound/soc/apple/mca.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Hi Mingyin,
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index 26022a42a95e..5e644b596854 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -53,6 +53,8 @@
- #define SYNCGEN_STATUS_EN	BIT(0)
- #define REG_SYNCGEN_MCLK_SEL	0x104
- #define SYNCGEN_MCLK_SEL	GENMASK(3, 0)
-+#define SYNCGEN_MCLK_FE_CLK(n)	((n) + 1)
-+#define SYNCGEN_MCLK_BE_CLK(n)	((n) + 7)
- #define REG_SYNCGEN_HI_PERIOD	0x108
- #define REG_SYNCGEN_LO_PERIOD	0x10c
- 
-@@ -313,7 +315,8 @@ static int mca_fe_enable_clocks(struct mca_cluster *cl)
- 		return -EINVAL;
- 	}
- 
--	writel_relaxed(cl->no + 1, cl->base + REG_SYNCGEN_MCLK_SEL);
-+	writel_relaxed(SYNCGEN_MCLK_FE_CLK(cl->no),
-+		       cl->base + REG_SYNCGEN_MCLK_SEL);
- 	mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
- 		   SYNCGEN_STATUS_EN);
- 	mca_modify(cl, REG_STATUS, STATUS_MCLK_EN, STATUS_MCLK_EN);
-@@ -390,7 +393,7 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
- 
- 	/* Turn on the cluster power domain if not already in use */
- 	if (!cl->syncgen_in_use) {
--		int port = ffs(mca_fe_get_portmask(substream));
-+		int port = ffs(mca_fe_get_portmask(substream)) - 1;
- 
- 		cl->pd_link = device_link_add(mca->dev, cl->pd_dev,
- 					      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
-@@ -401,7 +404,8 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
- 			return -EINVAL;
- 		}
- 
--		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL, BIT(port));
-+		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL,
-+			   SYNCGEN_MCLK_BE_CLK(port));
- 		mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
- 			   SYNCGEN_STATUS_EN);
- 	}
+On Tue, Nov 10, 2026 at 7:35=E2=80=AFAM <shao.mingyin@zte.com.cn> wrote:
+>
+> From: Shao Mingyin <shao.mingyin@zte.com.cn>
+>
+> A SPI device whose max_speed_hz is zero (no spi-max-frequency property,
+> or created through the spidev sysfs new_device interface without a
+> speed) leaves the transfer speed at zero.  spi_setup() would only clamp
+> it if host->max_speed_hz was set, which this driver does not do, so
+> bcmbca_hsspi_set_clk() divides by zero in DIV_ROUND_UP().
+>
+> On arm64 the division returns zero instead of trapping: the inner
+> DIV_ROUND_UP() yields zero, which is then used as the divisor of the
+> outer one, so the clock control register is programmed with a
+> meaningless value.
+>
+> Clamp the requested rate to 1 Hz before computing the divider.
+>
+> Fixes: a38a2233f23b ("spi: bcmbca-hsspi: Add driver for newer HSSPI contr=
+oller")
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+>
+> ---
+>
+> diff --git a/drivers/spi/spi-bcmbca-hsspi.c b/drivers/spi/spi-bcmbca-hssp=
+i.c
+> index 8c01475886e8..84015110557a 100644
+> --- a/drivers/spi/spi-bcmbca-hsspi.c
+> +++ b/drivers/spi/spi-bcmbca-hsspi.c
+> @@ -196,6 +196,9 @@ static void bcmbca_hsspi_set_clk(struct bcmbca_hsspi =
+*bs,
+>         unsigned int profile =3D spi_get_chipselect(spi, 0);
+>         u32 reg;
+>
+> +       /* A device with max_speed_hz =3D=3D 0 must not divide by zero */
+> +       hz =3D max_t(int, hz, 1);
+> +
+>         reg =3D DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+The bs->speed_hz is typcially 200MHz,  reg(Frequency Control Word)
+will be zero when hz clamp to 1.  It is not a valid reg setting.  FCW
+must be 1 or larger.
+The same applies to bcm63xx-hsspi driver.
 
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
+However IMHO the upper layer should fail the new SPI device request
+when its max_speed_hz is set to zero or maybe the spi core should set
+it the max clock that the spi conroller can support rather than having
+the controller driver to override with a risky 1Hz clock.
 
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
+>         __raw_writel(CLK_CTRL_ACCUM_RST_ON_LOOP | reg,
+>                      bs->regs + HSSPI_PROFILE_CLK_CTRL_REG(profile));
 
+--0000000000005f9528065ff1f2a1
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+PRi27wH/XHTDMdyL0Org+kxniXue6MSNJvcQwaLO/UQrmgTygBlVGa+Qg9ZFfS00xvuqeYH7tImO
+48WiXeu9rgn5KTH0IWP1+R74KIgxJQ+65la+caZvxwC9V3ik5p/LOGA2qS4GEjGuaYF8QKhRTR4h
+/QBSktqZLbzVxpjJXrqFTA2BLlYRp9hPhqNxbn46WuLufpMWhFtjUoQi/8fRRWRsMAY0o1J0f+kB
+6EI8FoxPTOpvuLRonqHIWMHk5YRnDdqJ3G5Oc8zmV+UCAwEAAaOCAd4wggHaMA4GA1UdDwEB/wQE
+AwIFoDAMBgNVHRMBAf8EAjAAMIGTBggrBgEFBQcBAQSBhjCBgzBGBggrBgEFBQcwAoY6aHR0cDov
+L3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyNnNtaW1lY2EyMDIzLmNydDA5Bggr
+BgEFBQcwAYYtaHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyNnNtaW1lY2EyMDIzMGUG
+A1UdIAReMFwwCQYHZ4EMAQUDAzALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgoDAjA0MDIGCCsGAQUF
+BwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzBBBgNVHR8EOjA4MDag
+NKAyhjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAyMy5jcmwwJQYD
+VR0RBB4wHIEad2lsbGlhbS56aGFuZ0Bicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYBBQUHAwQw
+HwYDVR0jBBgwFoAUACk2nlx6ug+vLVAt26AjhRiwoJIwHQYDVR0OBBYEFHjI7pbQZurVKsSRE/a9
+7gUEyVCkMA0GCSqGSIb3DQEBCwUAA4ICAQCFA4fU1GnG8sY7kyUXp5tle+VeWveoWb272jPauU5R
+w+udkhVXmnR0Kg7RgkCD00PLTKHNRyegXXDMArs3N9NhO3s9eSp9KjDh+h3WuQWCJH3QBHLGW0qE
+fyV87wUtBIy/QsHwO4S8OlOZiXECR7V1EGIF6t3s0W+3UzgYeHL+Ttuhda+2wIVY0EbS0eNH9Vob
+4YG17VTBBe7hyobXFpd9d1JGENFzIWncPUshOE0Wv7KlkrRc6aBOpL4p5xO1pHi9h9w8utyHkMoV
+nefXixkn5YVHnuV/jbSF/IM4Mlqt0E+n/TRp2c0eR+1AauZKENV2syNBo4aMa0BkmikBjLSnDjt/
+TYQdwHNWdV495n71idvueWwTFUhUsnudYcnh42eZENopBOYjVu2WhsffyrNz0hsuR85LriqSuBbf
+drd9DMo3DgtfJ7hh4sEAhSw/x/Br86rfLBftZMU02htlnkOI9Tp1QuDsr9+MsqY6AjKeXAy67m7H
+TVAZ9uyO9N20yU0p7igESOWKR1ccL1TPA1jrSHK18Y75ot5199FNWeE/UKoDKSML39iPZho9XPh/
+/RlsfRFiVOPrI5Gwi4YfIfi0jjEWf310/CYEmA5jrp5gUQSdo/+FgfXLKDFiEHCf5b3B1l70r6bR
+WkDCNNacYJWZtSp87i6jmw+l5xx7OkEJ9DGCAlcwggJTAgEBMGIwUjELMAkGA1UEBhMCQkUxGTAX
+BgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKDAmBgNVBAMTH0dsb2JhbFNpZ24gR0NDIFI2IFNNSU1F
+IENBIDIwMjMCDD2ooFIye/WiO3KgZTANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg
+tXjb5BYFZKNuMImlxmOlyD3AkKTSJRueJMdv5b3HJxswGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
+ATAcBgkqhkiG9w0BCQUxDxcNMjYxMTEwMjAzMDE4WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFl
+AwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAUp5BS0Y7+m5dxAIkx44eESSHl2P1Upqj4zQM
+lL3kE1eq+Cx0SmOPOxyUI4pyyXj92mqsA044dI/StZU6lfdIiwiD6KYLWkFthPxKO0Trmq4FVImK
+o58QitCfUyyIDDIUdbJqxaNR6IuCRar+qAZNwh/5ghFmYYDInEW40aMWQULfCkA8djWsljbJWq/c
+No3X+E9NTO2wMKtsJrLHLwljZsVPz6nCBKj12Hr2EhKWK2y/QVWNvrsXY8HWMKcdJvxhLcYFsg+H
+gNpMu2LHh/vzwy9+xjI/QvuE6iPAhT6KqmWYa0Vjtt8RL+5/9w17ZQudpuuHySyNWC8p0MxpVnmV
+ug==
+--0000000000005f9528065ff1f2a1--
