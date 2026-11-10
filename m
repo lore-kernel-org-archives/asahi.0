@@ -1,62 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327268;
-	b=kJqtj9uzRIjxD30kcMO8f2W5r3iIKe9s3dFbWk6O3CPhcrd0TICUVaGyKf/u/QTSutfl
-	 QjpaohulqsB8yyzvw+tK24PFXkVOvMPs3G2JjRGAf8aYeghmGhoZqU6bqT2wgDBdzjYw/
-	 jNSwEfELCh+kcZ5vmk2lfZsxxeucQtC+gK3YLgjCkW4Nuo44NWXMelPFjUTUeEEUcrVsa
-	 rMR+XCnHZahMPKie1ALJUlW5jLWs7xtGJ7rcBlle2NooNhLPAP8shf208ce7dnY8rocmk
-	 B66oL6o4XzYPhPiZitmfhbbVhMMpStn+NiupXoRRYlJlV0PbLFtS1fWHjvK54wG9YQQ==
+	t=1794329217;
+	b=Tsx9tf+ZQkuibEZ1GfoH4XXxUfjesddWFQmPCVrzltAauOahy80tiU5tSVwBh/g2f0J2
+	 SXJJcPcNr2FjxqYY/ghkj3zireCHxJamHqpz++DvpEm3eMz3UnbpBC8lu9yg+JVrNGysd
+	 fH3bippF+Z4rSeUjakI6yNfe3CaYiv8VVuSRPNppHYfC0EAw4zd7rxE2RvaPe6RLjt870
+	 jObkKxOlsRay1Yon48YGVLVfcwkNWG/t3Hednua3n09fOF4Z8j5rShYP4zDKjxo+FwuWQ
+	 XC1fdJkhhI7s3V8DiqbHYuRCBCDqG3ovm3rq57Bqx+JZzgSandxERo7mgNBsC0+DavQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327268;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=VTwH4AZAnTqvqVIKDfDqEJbISyn1E7hgr1jsha5Pows=;
-	b=09WfACwKoGw/B4y7hopIBtpTAP/nesLxzcFeMADhbps1UJ+KUsSOqvU5oBn8msVCKYTp
-	 ugdOwL6Gst3rmTfhCXv2R5SsfatrugA6RIjD4kdyYDGg/uNERt2g+ULOSHdwGefXTPpTn
-	 4Al6VMT7LN33MywHPiGOClZuCyPWAoW5UEL6NKuC0ZpkiphBVb0kq42QYZiOkX8CRflgg
-	 WowZc5zRn9CfNleoDYvuTnJFI/Gf+wSZYUogeiOblsPlTuIlj0GU3O6Iw8UeJ7Xf7eMCq
-	 VrTQhp5OVXpS8Z7y2akYejPXisNOjrxqdtfsiPuAzcxf1nxLACZwz6qfY9b1rW5+cpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329217;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=rU+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=;
+	b=aXLF3XKXEVEWyiSvv1SxjeYgCaODQcW32cXlkdgcd0I2Y0uaUNFZv518spflvII7Q6rR
+	 Oyxu0rBGxftH5lzW/Th6OHaWcEFdlocgclXvJCdsqqwnCUvve+2NGGY/REu0GtS/WmTgc
+	 /Y1Em5tIX1g6QEkWaseybPd3GWb+Dco2zI6Z40ErsSK78LRuXUdzezS8qpZb5X6AuLhkK
+	 61NgN1ZxM9c8YOD7ZgZZPGV2vhFFOwIo/RhZ8vkZ4MQ/cjVoEtr4VYj9n09uwYu28VMFY
+	 WShxbVQjxRCzcX6XcH0TA+chYmj/S23cOaJSY1Jiqqg83OhNVmtI/dqc/MaMt1pUGRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cc341CzK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=jannau.net;
+	spf=pass smtp.mailfrom=jannau.net;
+	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd;
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C294D606A323;
-	Tue, 10 Nov 2026 16:14:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C16A606A320
+	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 16:46:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C16A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cc341CzK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69301F0089F;
-	Tue, 10 Nov 2026 16:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794327267;
-	bh=VTwH4AZAnTqvqVIKDfDqEJbISyn1E7hgr1jsha5Pows=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cc341CzKf3+9oxvcpT7QttZs9OydXOP4Mod0tAIw/DHQljIirxUE+rTD2YpumnkaM
-	 jJMGxPixCGODU590DVjqvZ72dFaySeRIVaZ3Micaj2z64YeRIWBkcZdu39xzcJA0QA
-	 VVsLfZGsDZt8Ieey7XfftMD0YygqNkWuDNSCIhGC4XRWIPLu3LbQuQTR5XXL/pbIHS
-	 qsp0s3OXm/yMxiBMzrTo/vUCbbWJiUFXcnARzEK5HuyVP1fO6rNEfrSI5FYhqRB0kU
-	 pYx0vZY0o/K5k8H18HmVh1d+8IEA2KOe91IKoYba3GJ6FecaF6KU1RS4WT9+Dg422w
-	 gPa/Xvea5ayJg==
-Date: Tue, 10 Nov 2026 16:14:21 +0000
-From: Mark Brown <broonie@kernel.org>
-To: shao.mingyin@zte.com.cn
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, pjw@kernel.org,
-	samuel.holland@sifive.com, william.zhang@broadcom.com,
-	kursad.oney@broadcom.com, jonas.gorski@gmail.com,
-	bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com,
-	florian.fainelli@broadcom.com, rafal@milecki.pl,
-	linux-arm-kernel@lists.infradead.org, sven@kernel.org, j@jannau.net,
-	neal@gompa.dev, asahi@lists.linux.dev, ryan.wanner@microchip.com,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev
-Subject: Re: [PATCH v2 0/5] spi: fix division by zero with a zero transfer
- speed
-Message-ID: <b8b3dd8e-7d66-4d8f-87f8-c88148334ebf@sirena.org.uk>
-References: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm1 header.b=nUlyMveg;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=VKJosJQd
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 020FF7A0271
+	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 11:46:55 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 11:46:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1794329215; x=1794415615; bh=rU
+	+xzOknJq0zAItZwFEgG+rOiipQ+A4n6Y7JItCDQ6M=; b=nUlyMvegnGhgPtx0TL
+	DP3VDE0HgrQZ/vnK/BHUetvJtw+1aGOSgMfMXujwt0s2Bqs/8L58G/Qa1tSMAMie
+	Gx+ehAd2Nl9A+QjUSvRpun7XHHT264z2cV+MsMrTBICttMQSLbele0GK+1bZQjFf
+	gSywAIsErFNR4IHD8OcMeN/Cr+HhKtYnurpMmeZY/fhaDOyY4PbktFhTShBQUVOT
+	Pm1DQCG68SbXpBPG36IACAKLg6XtVzY2hAidPh7WXHxRZwH0ZGM+dCJb0VxpUZTq
+	TAr4Nh7HBLSnEC8/3T5I1Sf267TDziDSl5kGX4KKY0INKUWdEHTYjxZ1jyHr5eXb
+	G82w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1794329215; x=1794415615; bh=rU+xzOknJq0zAItZwFEgG+rOiipQ
+	+A4n6Y7JItCDQ6M=; b=VKJosJQdJp+2KBnUGUt4AMPIagYAJTUZQa7DUivYtq4w
+	sIFYK30LpYy/npOAskZKHL5hpRktZII6cN/32jQbuqBYr1e0u6VD/YG6QDyxXLtG
+	GRTgjT9S4gIVskcpPx8brcm34eAVmoLiHqOi7sZvXdZyQSBvszdwsbDJsgpm2huK
+	5ro8yGqT06IVne2zN82Z+7XmpCj7EBdb3AdqIKEbxzlh0T5+M1zAiG9yKBYm7AxY
+	B0oLRzw6B7vcZsF0ISUM+O4gWN7cLpRCVtaPmTfZl/fpBuQo9HfXLgeKhSpsCQmK
+	RMf5NXJw3Eo/LJerdQLYzoy3hysuK3eG6U7UCnDXHQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=jannau.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794329215; d=jannau.net;
+	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
+	s=fm1:rsa-sha256:jca8JiC5xcQkdwVURki6lIxFrBMGtqv1y0KDIHplReeVZ3V
+	REmNCt/4MkElFeeqpfBk8k17moN3IoB39TR5nSRgIQKSJEGb3582DyFYGCqvWYSG
+	YlDYksOMyWNjDGIu3ogN2OT4hOLlUdtnOMgUIk853711BGGKq6nHD8gAahHgsl92
+	VV+akrkBkFliYH7F+HniRapjr0aMI+X1B2RMpRwM0WUn2/aw6wNYloWoth0dSfir
+	sGpjGHe49itjiBnpYRPPVG+DViJvK4kQpXMgTrPUPVm+3yXa8jWgtOiX3NzVf1aJ
+	S1ceP4gVvOl1QtNt+WKa5S6mjnYl26NxudYWCGQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:35UdO+sdZhhvJT5i03Cri8LNT3N13uOTI4sW4YOm/gU=:v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
+X-ME-Sender: <xms:fkrzajrSiHa9prD7S-JpiPx8wmTljsHD5hKfw3cwkXXwLLNnlWXS6Q>
+    <xme:fkrzajoWnFcxGMMgMCrhSEOaz17HtL_3_ozBn_lE0qrPJZy_zPs9AljiL7yQjSwEt
+    -in71asgPi5FI5kQ5EaEUgI0kk1wgZArYpylYMnLVZMQRa31q1lqMc>
+X-ME-Received: <xmr:fkrzarD7pebKhqV3oVpsVmF9qimWGdzsc4DqifzxIpm1w44HrxGPZeZLbBzzqk4OAW8ZBSs-I_aRN1yXE90iwyzSnUnMzY0k-sYeIA>
+X-ME-Proxy-Cause: dmFkZTGkMoNYIGIESfraO/0wvb6EFswweUTDOEsTCLdPS1mG2124pEvHT5pQ0qNDLP2aJf
+    b6BbmEF3geHKAdMQ+MxwMSw5Qno7d5PJwQix/bH2k1WC5zmUBk6B6b7letCnWZPKiXNlI6
+    vjoUBmeJZnWUWIq1Ro3la9Uy+xxM+bOmSwOGpG9qsU/CXprQ4U7vNPg/MAkiEzO5OVJ/+8
+    WT7nLbAx0XCIWriK1J8/yrUxM3QZXONieGcQHpwZKIm86iesmejPjJ2+OgVwbcTruaYH/1
+    PKmNC7O1dN0kVOPY38bt1usRjamQSU+c3dWiJMeog5Okx8sls7C0hD41RVaxkM6HUwI1Zy
+    X8jbc/3vRN1G2iYlwq2bVPhwsbjUH2ro4hyS0rRapUeGua+z5dpfdAu+eSPMu/StqAG1h4
+    FgRDCZxaSDhtkqh2/omvB+wjRueAEgzxg/ju00lIVdnJcVG7F9S0h/HDZhLy+YimGA7era
+    Tt84/F3N+nUa+9psN05QmrjRRTKkoK4eMDnYycFOZbYjWyb1antb2ixYJe5IC9vvTom8Uh
+    cX3018hrC8kE8vjEjvR1p+WnMSMxwgl0dWyH8AC7X++oZa1xs3WwmUKCXoi/vOx3PYhwBf
+    IvJ2/NNOW7gvchXc8auDukNm/qt4HSRr3nm8nhTadeue06ijs/LXRjv2V0lg
+X-ME-Proxy: <xmx:fkrzaptafr1k-ttkUfSZfdPyaOiaZedseH4Fsw_yaWhMOKfJ6nB_Aw>
+    <xmx:fkrzaiKYkq4rF1M6zZGaKgunK68v99Y7MmwL0sb83OreBKCbL3I6LQ>
+    <xmx:fkrzaobY6SahZpw-5ZcYy2Gbi23YYksJJfBQX9tyC2HvvaIIk48dbQ>
+    <xmx:fkrzasDY73Dx662ItJnIQSGQWfI225mG1nkMbmz-Rl7R6FA2vg6fmQ>
+    <xmx:f0rzajqjqalkaPZ2joKwfD3yLwggGSfhG9Kmm-P6zac4WGwchRwdZpcz>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Nov 2026 11:46:53 -0500 (EST)
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 10 Nov 2026 17:46:46 +0100
+Subject: [PATCH] ASoC: apple: mca: Fix clock selection for clock consumer
+ FEs
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -66,41 +118,99 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xGHggE/6XmtG49YC"
-Content-Disposition: inline
-In-Reply-To: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
-X-Cookie: You can't take damsel here now.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-snd-soc-apple-mca-capture-multiple-be-v1-1-d9569a8374c5@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2NywqDMBBFf0Vm7UAeVUp/pbiIyaQdsDFkVATx3
+ xvdnXMW9x4gVJgEXs0BhTYWnlMV3Tbgvy59CDlUB6NMr7VWKCmgzB5dzhPhzzv0Li9rqbxOC19
+ xJHzah+272JkwWqhbuVDk/f55D+f5B2OA4sp3AAAA
+X-Change-ID: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2914; i=j@jannau.net;
+ s=yk2025; h=from:subject:message-id;
+ bh=v3V8WC4+9yuA4pSF/x5r5AC0oByH8YOkSpvtvw3FZX8=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhqzPXtVVskYvPxRayhjX1e/4sI+v/old4Nk7Eqd3/1l1f
+ ZtO+NLFHaUsDGJcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTACbyN4Xhr+jcrDDptcu3xIjU
+ LQvacIKJS6x6LfPpzSknHEy8PF9s/cjwP27KznUVbyWmGH/yKsmOX5X/RV408ZvMn18t9kKV10/
+ ZMgMA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
+In commit 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock
+consumers") the syncgen clock selection was misunderstood resulting in
+selecting a random clock. In the capture on multiple BEs for IV sense
+data use case the configuration worked partially by sheer luck. On
+Macbook Pro's with 6 speakers it could result in desync IV sense data
+triggered likely by sample rate changes.
+When the FE is a clock consumer select the clock of first used BE as
+SYNCGEN_MCLK.
+Add function like macros to determine the clock index based on the FE or
+BE number.
+This is functionally equivalent to the state sent in v2 of "ASoC: apple:
+mca: support simultaneous I2S capture on the frontend" in [1].
 
---xGHggE/6XmtG49YC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Link: https://lore.kernel.org/all/20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com/ [1]
+Fixes: 00309bfb1f54 ("ASoC: apple: mca: Support FEs being clock consumers")
+Fixes: 108a14b20f95 ("ASoC: apple: mca: Support capture on multiples BEs")
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ sound/soc/apple/mca.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-On Tue, Nov 10, 2026 at 11:34:50PM +0800, shao.mingyin@zte.com.cn wrote:
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index 26022a42a95e..5e644b596854 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -53,6 +53,8 @@
+ #define SYNCGEN_STATUS_EN	BIT(0)
+ #define REG_SYNCGEN_MCLK_SEL	0x104
+ #define SYNCGEN_MCLK_SEL	GENMASK(3, 0)
++#define SYNCGEN_MCLK_FE_CLK(n)	((n) + 1)
++#define SYNCGEN_MCLK_BE_CLK(n)	((n) + 7)
+ #define REG_SYNCGEN_HI_PERIOD	0x108
+ #define REG_SYNCGEN_LO_PERIOD	0x10c
+ 
+@@ -313,7 +315,8 @@ static int mca_fe_enable_clocks(struct mca_cluster *cl)
+ 		return -EINVAL;
+ 	}
+ 
+-	writel_relaxed(cl->no + 1, cl->base + REG_SYNCGEN_MCLK_SEL);
++	writel_relaxed(SYNCGEN_MCLK_FE_CLK(cl->no),
++		       cl->base + REG_SYNCGEN_MCLK_SEL);
+ 	mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
+ 		   SYNCGEN_STATUS_EN);
+ 	mca_modify(cl, REG_STATUS, STATUS_MCLK_EN, STATUS_MCLK_EN);
+@@ -390,7 +393,7 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
+ 
+ 	/* Turn on the cluster power domain if not already in use */
+ 	if (!cl->syncgen_in_use) {
+-		int port = ffs(mca_fe_get_portmask(substream));
++		int port = ffs(mca_fe_get_portmask(substream)) - 1;
+ 
+ 		cl->pd_link = device_link_add(mca->dev, cl->pd_dev,
+ 					      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+@@ -401,7 +404,8 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
+ 			return -EINVAL;
+ 		}
+ 
+-		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL, BIT(port));
++		mca_modify(cl, REG_SYNCGEN_MCLK_SEL, SYNCGEN_MCLK_SEL,
++			   SYNCGEN_MCLK_BE_CLK(port));
+ 		mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN,
+ 			   SYNCGEN_STATUS_EN);
+ 	}
 
->   1/5 spi: sifive: clamp the clock divider to the register range
->   2/5 spi: bcm63xx-hsspi: fix division by zero for devices without a max speed
->   3/5 spi: bcmbca-hsspi: fix division by zero for devices without a max speed
->   4/5 spi: apple: fix division by zero in clock divisor calculation
->   5/5 spi: atmel: use the maximum divider for an unspecified speed
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261110-snd-soc-apple-mca-capture-multiple-be-834365f52db3
 
-Oh, I see you also sent those v2 patches as part of the series as
-normal.
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
---xGHggE/6XmtG49YC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrzQtwACgkQJNaLcl1U
-h9DXEwf+Lv/vVmV6mzd36B8u7tH7Xnl2z3sklZVzt/pyPr3Z0ZfatrEJTwsQ7C2P
-t+VNfEkdZCLOKALR84LZ0k+GmDZp99DRg4mrpiml1GgGZnpPL9czK5e8o7gacKOW
-CTr4UVWZWB6P+C+LmAqpSRXYBzkFpJ1lMLJhTR4SLS6/xVybvmpjgoIJgrW2uSpp
-5WRciPMlEsQx0QeFcwgjifHCLt+6S0NC4WZUYxZDTA4xDU5kP3LFGse2J9smh0eo
-7tRfwP4T85kQcB48kihqz4Ujpawh0a5tX7tkESJyokEItNuEHoZ08eiMR8RiFx+5
-lsljqDlb64q8lH7sAy6dJdBh1e5OIw==
-=xMYN
------END PGP SIGNATURE-----
-
---xGHggE/6XmtG49YC--
