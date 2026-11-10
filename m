@@ -1,47 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794310240;
-	b=dhVMH96dpQsriUbjh5wRpB2+onzPkVmYc+W+Bxlu9s2ueGbe6+dyokkKSZ/utD0DVko0
-	 oGxQM4IGn2O41YFpEylfbI6F85yLkvWeBX3SphzZH3OVoqV3ioRd6ma4ktUVy7YEQqo70
-	 U/ClHbwZgnrpnJp6tT2qYhOGTlPOX5T9eWJD4WsWCg0G79f5/sV2V4L00mM0pds9hAas/
-	 z82zN+FcF1P4P+c1fC22kAhScAmlHA0tSgttwEbOMTEmnOcZh869orGuWqT2zTRAc8I4/
-	 Vmp/Ww7B1uREW+CjpIXiV3D48Kunc47egGKcNs/QlB2T3RpDSCbKhhLWUnN7UB0y4Vw==
+	t=1794316549;
+	b=4auW1w/v96BoHuadjAaR5B2gDKqYiIEUhe4yOBT4Z5W70GcrM/KDjj8Kx9h8SuxwcyiZ
+	 P4CvXghPMdsyLriD0jnCz0/FPc1OH5cmmLe7DmYHNjV7O+9RGpx43HiCexl+NQAaLYA1p
+	 eytNUqGUGGgICYxuR6DeligDDViwEgtHz3rx0MFDQ0j2mP8oRW4L9/dMy2Ce1SoKRAoSa
+	 D+GN47QyoGF7mPekvVCLx2X44aH8o6DvkEMptK60De0abdBH/A95ottmMzGdY1ERj5oLE
+	 CDfxJUlBTuShWukPuzCYfTNRhEMP4wLRVvvaET8MBLhju+u3WU/mvpiNC7RhwQHD6VQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794310240;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=MOigD0yAt2156qG3a+jhbB1buv2afPkFgZKdK1zleIY=;
-	b=OmuJBXUM783naDxhLt4sBdcKHhl0hcCnFz0k6Agr+CijACPELNjWicGSXxVA4IfSeGlf
-	 Xmlyjs7Q9aj5uhEO8x1OIheOnmKtKAmB1Rmk3Vqxo9CtoVGcYhG86mGJCHPpTw5GPgcmj
-	 wvmhb/fKuH1repBzrQZNub6GPM6ZJdozWxG7Z7IA2W2LwM60eC4EtMMRhYuBywgkSYFZ3
-	 ivBt7oWYpNnsm7flIb4wP49POzcum21R+JGXGq7IDVFg6GvUa61NullZcE0jqxjvc0N6e
-	 yF8XELDzRGpxeP/GElC6bwn0mheNFjsz3e5+EzMg9RWb0HHDtTfP69ITgUZ3GVMSk1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794316549;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=tmWyDYjfuijNjJiMSishS4j7xOVi0f/pb9IeEqewhlw=;
+	b=JB5O7uAYQcVlRm1e//gg7Qja5tHNhPciczhC3szkRrBL5aKAVtsEQ51B6VPR/DMZF741
+	 NhHjNejZ3cDLv8lescXRxCg1k1rd7fjHBPWZh4Ar2Ie1x6lWKMMxjr70D+ST7W5PL8cGw
+	 b8GaY5LdjoxHLEBm4pLjhiV9ooYUMnFL68X31EAxEpoa6vjTz7lB6Cv05DCLah5B9Ma4s
+	 7At90M0FO4csVYYQl2gA6kTCIkNarNzt6dWpbeEgp4nKC7w+qV62pfdbPQsog4oeATNuw
+	 V/Hqs2/ucNa0i+JA+p5JnM5Bt0ygEeJTBQZtd5j4D2wB+UKuLdeBRs4mQUD01Pf8m+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VXejoFaW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Dl1GA1GI;
+	arc=none smtp.remote-ip=209.85.215.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A826E606A32A;
-	Tue, 10 Nov 2026 11:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E81A606E47D
+	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 13:15:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E81A606E47D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VXejoFaW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 653121F0089F;
-	Tue, 10 Nov 2026 11:30:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794310240;
-	bh=MOigD0yAt2156qG3a+jhbB1buv2afPkFgZKdK1zleIY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VXejoFaWXlyfveiZhknS6zvyo9c+N47lAhIrgiWfzT47ocATlmBufBVZrFqxtgpn6
-	 AjlxoEdw+9zqj/SzH36uRd+UWEA1w47Nt0zsUrzjehPBiuTmZVejSRZqlsHxn5OBsD
-	 dILCnBMFb+rTXPpv0waO0P0Ybki/VhJLscK/Iuv9EzRN69RLt1EDjuQjlRn2Vj6WdP
-	 97qvHL2EnkQE+Xptdb2lWP2TBwOsnrRV9Uxq1sis3P/mnjgQo2+2UOHh6Hxp1Ycr05
-	 lMGmmAWRsyofd86z2mgt8AbLan3kg44h5Jm9TpDPNNgpAnLZ97fxwJKliyUXm40XQp
-	 c5qdWPvXFGciQ==
-Message-ID: <3b5ac166-17aa-4418-bdb8-c7b9de22b991@kernel.org>
-Date: Tue, 10 Nov 2026 12:30:33 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Dl1GA1GI
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cdab9e9761cso988717a12.2
+        for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 05:15:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794316548; x=1794921348; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tmWyDYjfuijNjJiMSishS4j7xOVi0f/pb9IeEqewhlw=;
+        b=Dl1GA1GIfVLen0kmtxvGg4vbdJWVsXr3lLqqTS8ZENHP88RGtYm3gF47xkJlhunwoS
+         3qvc5WAjkTcJ/Gyh5q737AvNRwg/k+9y+FreQfIF+u6+t3gco+UvjiV/7Qbt1lYrOX6B
+         QAheno3AeKDtbtSiTpha4q1nD7K0onNelghikW2SojugCmn6edH1ruLy45uCvBRxkmHZ
+         bggjBVJjLahNHdPtM/Xd0H2zRBSqW71GXCoJLB93u6KwFpLXICAJyC3G3hSSFWDmzUsX
+         HQHu3CKEd12O34kHOO6aCTlxSW4hYf6qVZ3GQ84WVTmlxZBGNuYxJiIBTmJbmKG96xGC
+         wweg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794316548; x=1794921348;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tmWyDYjfuijNjJiMSishS4j7xOVi0f/pb9IeEqewhlw=;
+        b=G2z3oUkA0qLcFiOnvPhiaL2w505JNwVhcp6o0GBurKzTZyAv4SD0oEfVy2V6wnOoop
+         zTH+EULWZrduWgtDe9QvH0h6fmra5kqCcX0KoYmUnKGyQfEimTeTanuaQM53NNRyigv1
+         XNZMd/K+8Zz1EXBdasKLmq+LkQVrlH8Dvt48PPTgSnTPWcDNiPo9/hbTNrG752cId4kL
+         nwMWVhKM7mwoUvhcABU6u8Akhx1hHeBM2vksTeDiKRMNd3ceqbqqCGCHIxhX/THqUOyM
+         B7StwH9WjGRdzNCFG0FS9jEpuiqJIZIaW5uKNQsHY082CQv6AtFlxFuaZqjQLvhmDtac
+         0X3Q==
+X-Forwarded-Encrypted: i=1; AL+hErGsK0X6XXEX9s5lXHD6g8HQDMD9KVV7kYUzTpp+tsWe9+R0dPbmGyqFBuD9UEpQFvKcUNk9Pg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Qr4wNQ3bsMHgUKb9H60p+dgFtYJU/dZdsG6CbKo7bCNGa+JvQ
+	21nKBAUyjc7AgSNG/3HUztbXRLF374DF3mfut+KktNe7OFMJJmPdO2IZ
+X-Gm-Gg: AYBFou0YaAtKE+uRRBKU962zv262z7tJs8lCpzLuzr2wHLNTb70qJXRW0HkTlp4xDSX
+	MjHUZnvVY+zX5aEhKVE5aDdPZtkxkWdeJXm1K8tcKp2RIBK83WrNsx/nkCbtB0XnSXn6Up5ox2n
+	LonEAwLRryZngJIAobbiuM/KLCVMODRzPrjoO8JK0BGztTPmFE1xAe8VIzCmiJDqR8wkX1deqtF
+	qvy9h6eVGM1YQHvJcczkEdKzeM1U5mm2JHwGEkSqKyYP/blSqPv62Oj8rAOOHSl3EHTGI5FFk+i
+	nqhum4Fjc1jYEAmAT1Td1itDoNl4nPT7drmUV6SdK/VQ0Wk0Ese841ewdy0Av2u4ETXseI4LCqz
+	077z0Dq9UXg2EIjMBsizzy17pnwqsCEFlRUYLurtYEnr2RofpLhFrtVPToLcV5OVU0TaRA6nqox
+	9h/QIlEy8HMIDoOBBFJ+e97SXDVbFUJjR6FpGIafgtIm7hC51Y1lV1laRruPq4AIxh+lGrbw6xw
+	zZn9QKIGkrjpoC6/+CB15ZiV7pN2sFE4hPjjJT1igxuTWu9BR+xQY7mhvTH7UvdIsPtC9wZHCar
+	xLSDGGNWdZHUSyiQtJL7gcXBzFso8lSZ
+X-Received: by 2002:a17:90a:d450:b0:3ab:36c4:b502 with SMTP id 98e67ed59e1d1-3b166cdd823mr2893205a91.30.1794316548329;
+        Tue, 10 Nov 2026 05:15:48 -0800 (PST)
+Received: from cryptic.lan ([2001:569:7077:be00:8191:2bfc:aa6d:704b])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16769b589sm3806975a91.5.2026.11.10.05.15.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 05:15:48 -0800 (PST)
+From: Allen Pais <allen.lkml@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Allen Pais <allen.lkml@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Frank Li <Frank.Li@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 03/33] dmaengine: apple-admac: use dmaengine BH callback
+Date: Tue, 10 Nov 2026 05:13:03 -0800
+Message-ID: <c1c55434e01772a1ecd12044feffe220f06cd72e.1794315350.git.allen.lkml@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1794315350.git.allen.lkml@gmail.com>
+References: <cover.1794315350.git.allen.lkml@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -51,94 +106,81 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/8] dt-bindings: input: apple: Add DockChannel HID
- transport
-To: Michael Reeves <michael.reeves077@gmail.com>
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-input@vger.kernel.org
-References: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
- <20261108-b4-apple-mtp-keyboard-v5-2-e2c97b82669a@gmail.com>
- <20261110-accurate-unselfish-cockle-3a39bd@quoll>
- <CANpmGNufv4_PM=1D1E-KRNQOuCPj8k+sGUJ1Y2HkkAtoSuL0Ow@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CANpmGNufv4_PM=1D1E-KRNQOuCPj8k+sGUJ1Y2HkkAtoSuL0Ow@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/11/2026 12:26, Michael Reeves wrote:
-> On Tue, Nov 10, 2026 at 8:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
->>> +
->>> +  hid-country-code:
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>> +    description:
->>> +      HID country code for the keyboard layout variant.
->>
->> What is the meaning of values? Do they map to any existing ABI? Like USB
->> HID? Otherwise, why country code is 32 bit integer instead of ISO3166
->> codes? As pointed last time, this should go probably to a common hid
->> schema.
-> 
-> It is USB HID country code. I will specify that in the description in
-> next version.
-> 
-> Would you like me to add it to
-> Documentation/devicetree/bindings/input/input.yaml,
-> or make a new hid.yaml in that same folder?
+Replace the per-channel tasklet with the shared dmaengine BH helper.
+The handler continues to run in softirq context while dmaengine owns
+the common scheduling and teardown mechanism.
 
-I would vote for input/hid.yaml
+Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+---
+ drivers/dma/apple-admac.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 4531a301c018..2eb863d1bb58 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -97,7 +97,6 @@ struct admac_chan {
+ 	unsigned int no;
+ 	struct admac_data *host;
+ 	struct dma_chan chan;
+-	struct tasklet_struct tasklet;
+ 
+ 	u32 carveout;
+ 
+@@ -530,10 +529,7 @@ static int admac_terminate_all(struct dma_chan *chan)
+ 		list_add_tail(&adchan->current_tx->node, &adchan->to_free);
+ 		adchan->current_tx = NULL;
+ 	}
+-	/*
+-	 * Descriptors can only be freed after the tasklet
+-	 * has been killed (in admac_synchronize).
+-	 */
++	/* Descriptors are released once the BH is flushed in admac_synchronize */
+ 	list_splice_tail_init(&adchan->submitted, &adchan->to_free);
+ 	list_splice_tail_init(&adchan->issued, &adchan->to_free);
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
+@@ -552,7 +548,7 @@ static void admac_synchronize(struct dma_chan *chan)
+ 	list_splice_tail_init(&adchan->to_free, &head);
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
+ 
+-	tasklet_kill(&adchan->tasklet);
++	dmaengine_kill_bh(&adchan->chan);
+ 
+ 	list_for_each_entry_safe(adtx, _adtx, &head, node) {
+ 		list_del(&adtx->node);
+@@ -671,7 +667,7 @@ static void admac_handle_status_desc_done(struct admac_data *ad, int channo)
+ 		tx->reclaimed_pos %= 2 * tx->buf_len;
+ 
+ 		admac_cyclic_write_desc(ad, channo, tx);
+-		tasklet_schedule(&adchan->tasklet);
++		dmaengine_schedule_bh(&adchan->chan);
+ 	}
+ 	spin_unlock_irqrestore(&adchan->lock, flags);
+ }
+@@ -721,9 +717,9 @@ static irqreturn_t admac_interrupt(int irq, void *devid)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void admac_chan_tasklet(struct tasklet_struct *t)
++static void admac_chan_bh(struct dma_chan *chan)
+ {
+-	struct admac_chan *adchan = from_tasklet(adchan, t, tasklet);
++	struct admac_chan *adchan = to_admac_chan(chan);
+ 	struct admac_tx *adtx;
+ 	struct dmaengine_desc_callback cb;
+ 	struct dmaengine_result tx_result;
+@@ -909,7 +905,7 @@ static int admac_probe(struct platform_device *pdev)
+ 		INIT_LIST_HEAD(&adchan->issued);
+ 		INIT_LIST_HEAD(&adchan->to_free);
+ 		list_add_tail(&adchan->chan.device_node, &dma->channels);
+-		tasklet_setup(&adchan->tasklet, admac_chan_tasklet);
++		dmaengine_init_bh(&adchan->chan, admac_chan_bh);
+ 	}
+ 
+ 	err = reset_control_reset(ad->rstc);
+-- 
+2.43.0
 
-Best regards,
-Krzysztof
