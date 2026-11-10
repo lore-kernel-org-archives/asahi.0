@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794324906;
-	b=EHiNZx3GmA0psDxUvBTQ71uTfKY1Ofkm9ciH+b+wHvwTP4bvOUEq3Tah58z+oIhdEjis
-	 j1+K9/IW51JP7lpFlFefhbqhX8hLMDhe7eFDws//hieAJWkT5yO2fFK0d9Iy+3p9EGmIA
-	 RXvXeY1U+mW9uM1YtCXf0uYHeIszu2dOGcqYp5phJKnngsix9btZaqBqXjAKFHAIrjvAD
-	 /OkwRxv2nrIeVOqicCkIM3yWbrvJq0RTL0rPNLDrLM+ylBySvpFZqF0dvx86HZYcb5VR2
-	 ymqPwIyeTZNfImFIF+BEZKZlRaQfuEu1iXuMuNHjoRkhw45H3+N6tv/KC97iPJ7j6tw==
+	b=LGMsFBOpB1v1Zn1k1L9r7djTDNoSGCmllhAB61ev99p0zP5unAS3Ua9Pvy/g0tRxpScj
+	 mo8zbKeXtR1Z9daM+6Bjn2B/f7kYcKlGvvq6IOnuxGqENDlCCPL5bk0PKZAdfaFsqyDN/
+	 d2JNS68yBSpHWpylX7LT278Ybl+5GWTox733K0nPBdpBjl03wxMFqvZ5Agsm2fUMfHvKI
+	 RV6ZvNafNrnwEFfuFeX0EexKw8NpPan55NCUW9E3n4yvfhHtAiR2SqH0QGOMFZLFndjFH
+	 lStWHe1LbKK79iIh7AYXzsgkSzEMeSJWtJ7V2gN+/RuuRs0+550plOMYBrRbRdWq3Sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794324906;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
@@ -13,57 +13,57 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:X-TLS:
 	 X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:X-Fangmail-Anti-Spam-Filtered:
 	 X-Fangmail-MID-QID;
-	bh=ESvnSPlhI6d1r8qvxOASwdMGMJowBVvpPLgNpoFimY4=;
-	b=x1pOMQLRJwYkSRqp/BLE3TGQCkvVQiF/NvnC9MTcldScbY5beusARq9Q7GmOPMqkP1BD
-	 Rm8XiI90D05N6zIBsBIOeg5d4ULrJNBg72BeSL40sbhRDYDxQK2LJzyUtoBUC030gfsqm
-	 IZr8hAxXBfCuh3QChTHD5QnznQ0PAxAqAIH1l/nbx+5GGNX2yuGIDHSgO3D+jH7HcKJAS
-	 vkQ2bkKGqvJQmQnPloE8jrntpQWxnSvYapT3rGst7ykjin3qKqBjfZ+ofVMHjPWhrJ9Zo
-	 zK4NmCY8nUVQ7baKBBZMkUbuMfNndV+oo9POAgz0iPwvBYKsHmb6BOLd3qSnUxHqkmQ==
+	bh=BAgeKz0Vili1SlZs1hB8WmyCeJ9ALq7iJrhVHBw1A0Q=;
+	b=BctzxBSh7gtKNutMjGJ+3UA2BybOI/f7qfUjHYWweCNq/R4gqq84YUNGxXABrjdTyZ3P
+	 AO8kz4gO9/uQdP0t34Z4fyGhRnxFK/WnqM2fdWNNPdBWxoRDI9IcnGoyuD2NdogJEiAxy
+	 lrzRdXri761Vay5fTu9RlLdPfC5UndC3FbtZ5WvGuEnkLfHyFaN3+MCTsTm8WvRH7v9mA
+	 bVNGgOBlciUb3CHC3wr+ocvVRAlZuHNX016V8Q62qAofWzBmztOyalEWTkQnchl7k8r9V
+	 K8HJMWEqBUW16Vv/KcIErhY/uO6R+RTG3uFheAaxYKDJdqkpvPfGi8Mb6o69gh2jX1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=zte.com.cn;
 	spf=pass smtp.mailfrom=zte.com.cn;
-	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=QR2V0ZTJ;
-	arc=none smtp.remote-ip=160.30.148.35
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=L1p7jFG9;
+	arc=none smtp.remote-ip=160.30.148.34
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D280606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C148606A326
 	for <asahi@lists.linux.dev>; Tue, 10 Nov 2026 15:35:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D280606A33C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C148606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=QR2V0ZTJ
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	dkim=pass (2048-bit key) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=L1p7jFG9
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jP9h75NFyz7QqdV;
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jP9h74gySz5BNS0;
 	Tue, 10 Nov 2026 23:35:03 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
 	s=z202610; t=1794324903;
-	bh=wAWlJ6Jio6cctgZYE+NOyPskWIzd0WbXKJemczhN/q0=;
+	bh=EYTwQOsdl0aB3bqysjwOQaySDUmO5ccFK2+VSZRfMtQ=;
 	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=QR2V0ZTJratldbLAMuhSAfXIRnUWHWxpd4/7Y+V2oIKZ7GqfOWGGUDHECBxFtm/44
-	 3FHJ10p8hmM1kRmmnUe/k0abb0KdjvhlyvT/No1DCVL5hov+4w0kEGj+8G44U/k6wN
-	 bMmhW5Wic91+SqNDSvAtDHD+bmvlMs5SlfQpLOUtfKPnzyXKRHU62vabLTVA/uJnWX
-	 xaadSm4XUlcDiWMHaXn09rWoJroAN3nxEOxjOiBUbl/eSeEYIjbSoTePu6EgskMZ7R
-	 d8YwLuyW9qH2bh3DpIWsh5WGYElUw9augfTvqMjwgcy/taUatSwrqA7LByNTbnnZrh
-	 0o1QQtWnHPfYA==
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 6AAFYq0c026304;
-	Tue, 10 Nov 2026 23:34:52 +0800 (+08)
+	b=L1p7jFG9E6b2ppRx/rf/YBAcxSdrhnmOgfG4c1e1RzG+YlNVvvRe0NjqT8BTJXhyU
+	 4daIuN50hSk1q16zZFuzMsDVWpDGMZZyCxzrP4tzcLKX1QNRbTtlzqpaDe8BvMeBN4
+	 CHsr7RDQP6v+dBFF7LSl86O8hpen8Ac/Q97d2pN/Uz19r9bnAwxI4ILFc70pSuBsmR
+	 ZDjDrvwR8DTMVWZ+k4n+0FxxoYCfWTR/x5faIfOB4GnjwMdgQjGAv7RgsEsj7XhlDj
+	 C/x/9cx5T6ebMqTdgURFMgLk/esRazonp+ixEjxc1NEcPFTsSIdELOYaZRjUjrJfif
+	 vt+bcRAmxZbOA==
+Received: from xaxapp04.zte.com.cn ([10.99.98.157])
+	by mse-fl2.zte.com.cn with SMTP id 6AAFYsNh047661;
+	Tue, 10 Nov 2026 23:34:54 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp01[null])
+Received: from mapi (xaxapp05[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Tue, 10 Nov 2026 23:34:56 +0800 (CST)
-X-Zmail-TransId: 2af96af339a0e5e-22482
+	Tue, 10 Nov 2026 23:34:57 +0800 (CST)
+X-Zmail-TransId: 2afc6af339a1a57-2207b
 X-Mailer: Zmail v1.0
-Message-ID: <20261110233456078X64bfhY1W1EUthj960Svy@zte.com.cn>
+Message-ID: <2026111023345770952YKePAJQKAcd2Kxe5M3N@zte.com.cn>
 In-Reply-To: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
 References: 20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn
-Date: Tue, 10 Nov 2026 23:34:56 +0800 (CST)
+Date: Tue, 10 Nov 2026 23:34:57 +0800 (CST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -85,69 +85,47 @@ Cc: <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
         <asahi@lists.linux.dev>, <ryan.wanner@microchip.com>,
         <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
         <claudiu.beznea@tuxon.dev>
-Subject: =?UTF-8?B?W1BBVENIIHYyIDEvNV0gc3BpOiBzaWZpdmU6IGNsYW1wIHRoZSBjbG9jayBkaXZpZGVyIHRvIHRoZSByZWdpc3RlciByYW5nZQ==?=
+Subject: =?UTF-8?B?W1BBVENIIHYyIDIvNV0gc3BpOiBiY202M3h4LWhzc3BpOiBmaXggZGl2aXNpb24gYnkgemVybyBmb3IgZGV2aWNlcyB3aXRob3V0IGEgbWF4IHNwZWVk?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 6AAFYq0c026304
+X-MAIL:mse-fl2.zte.com.cn 6AAFYsNh047661
 X-TLS: YES
 X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Tue, 10 Nov 2026 23:35:03 +0800
+X-SOURCE-IP: 10.5.228.133 unknown Tue, 10 Nov 2026 23:35:03 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF339A7.001/4jP9h75NFyz7QqdV
+X-Fangmail-MID-QID: 6AF339A7.000/4jP9h74gySz5BNS0
 
 From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-sifive_spi_prep_transfer() divides by t->speed_hz, which can remain
-zero when neither the device nor the controller provides a maximum
-speed. For a nonzero but very low speed, masking the divider to 12 bits
-can also wrap it to a small value and program a much faster clock.
+A SPI device whose max_speed_hz is zero (no spi-max-frequency property,
+or created through the spidev sysfs new_device interface without a
+speed) leaves the transfer speed at zero.  spi_setup() would only clamp
+it if host->max_speed_hz was set, which this driver does not do, so
+bcm63xx_hsspi_set_clk() divides by zero in DIV_ROUND_UP().
 
-Use the maximum divider when no speed is supplied, and saturate an
-out-of-range divider to the same value. Keep the calculation in an
-unsigned long until it has been clamped, so it is not truncated to u32
-before the range check.
+The division does not trap on MIPS or arm64.  The quotient is undefined
+or zero, so the clock control register is programmed with a meaningless
+value.
 
-Fixes: 484a9a68d669 ("spi: sifive: Add driver for the SiFive SPI controller")
-Suggested-by: Mark Brown <broonie@kernel.org>
+Clamp the requested rate to 1 Hz before computing the divider.
+
+Fixes: 142168eba9dc ("spi: bcm63xx-hsspi: add bcm63xx HSSPI driver")
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+
 ---
-v2:
-  - use the maximum SCKDIV directly for a zero speed, and saturate an
-    excessive divider instead of masking away high bits (Mark Brown)
-  - keep the divider wide until after the range check
-v1: https://lore.kernel.org/all/20261106234756882V9wUQNCEZAYUGTAbexMSL@zte.com.cn/
 
-Validation on x86-64 with GCC 13 and UBSAN: the verbatim preparation
-function ran with clock/register stubs over all representable SCKDIV
-values and the first overflow. A zero speed bypassed division and
-programmed 0xfff. A 1 Hz request needing divider 4096 programmed 0xfff
-instead of wrapping to zero; a divider exceeding u32 also saturated.
-In-range requests retained their original register values.
-
- drivers/spi/spi-sifive.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/spi/spi-sifive.c b/drivers/spi/spi-sifive.c
-index cee4d92e46f437319fa40f6377e5511e692d12c7..ca7b04520a682c3fffb070169ab0e3c485e323de 100644
---- a/drivers/spi/spi-sifive.c
-+++ b/drivers/spi/spi-sifive.c
-@@ -167,12 +167,15 @@ static int
- sifive_spi_prep_transfer(struct sifive_spi *spi, struct spi_device *device,
- 			 struct spi_transfer *t)
- {
-+	unsigned long div = SIFIVE_SPI_SCKDIV_DIV_MASK;
- 	u32 cr;
- 	unsigned int mode;
+diff --git a/drivers/spi/spi-bcm63xx-hsspi.c b/drivers/spi/spi-bcm63xx-hsspi.c
+index abfbf97faf7b..319951fba387 100644
+--- a/drivers/spi/spi-bcm63xx-hsspi.c
++++ b/drivers/spi/spi-bcm63xx-hsspi.c
+@@ -469,6 +469,9 @@ static void bcm63xx_hsspi_set_clk(struct bcm63xx_hsspi *bs,
+ 	unsigned int profile = spi_get_chipselect(spi, 0);
+ 	u32 reg;
  
--	/* Calculate and program the clock rate */
--	cr = DIV_ROUND_UP(clk_get_rate(spi->clk) >> 1, t->speed_hz) - 1;
--	cr &= SIFIVE_SPI_SCKDIV_DIV_MASK;
-+	/* Use the slowest clock if no speed is specified. */
-+	if (t->speed_hz)
-+		div = DIV_ROUND_UP(clk_get_rate(spi->clk) >> 1,
-+				   t->speed_hz) - 1;
-+	cr = min_t(unsigned long, div, SIFIVE_SPI_SCKDIV_DIV_MASK);
- 	sifive_spi_write(spi, SIFIVE_SPI_REG_SCKDIV, cr);
- 
- 	mode = max_t(unsigned int, t->rx_nbits, t->tx_nbits);
++	/* A device with max_speed_hz == 0 must not divide by zero */
++	hz = max_t(int, hz, 1);
++
+ 	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+ 	__raw_writel(CLK_CTRL_ACCUM_RST_ON_LOOP | reg,
+ 		     bs->regs + HSSPI_PROFILE_CLK_CTRL_REG(profile));
