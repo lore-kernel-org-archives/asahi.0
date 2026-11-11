@@ -1,66 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398893;
-	b=0pQy3LzlWVHqQXxwYqXHgnaX+9lPkpQhj841S9mK0P7VNOZbWPlIfiaMP+ijwKimp9tA
-	 9W/nIYg9fmUvP6/tkEIRF1Hjko6TITJyB4Mn6k4nvVKnR+nWvxrIwaARZY9DBPY5Y+l7j
-	 lmxF9/ggO8rdtiHboceaU7r0ryyx+Aub0ad4MqXf5umb9M55j3w6qcxE4IVcgYjzsv5US
-	 hsS2Jn1MjXS8fGEkusRCGNujVrAyzWZ06Qsvk0BaW3fiYJ6YUytPO698YQk47jWKBe4uu
-	 Twn3fqljGETdh9cI3fx97tKxROpXnJMmPefGaD1TwgcezMAkp7JQNQ9fp89Sgvao3Hw==
+	t=1794401162;
+	b=GFEt3MCRU2lYRbxFM+Ehw4jVPaEcanPT3japW9lBULZdCM264wGfpQmXKiQ1xw16/1Qs
+	 He6YXAIMMhW6ZEhaDg/mUO9e5yfjSNhrHxkyR//FOC7c5u6iEEoTRATE9ry6PYF1yAOLl
+	 AXSbshNDmbRtN6zNrQDZdMpDAsQTjjrsUbc2eebcsWtXih+u6uJ8CISTuOpoZ7mvj5C6M
+	 isOFaPSHETzXjM48Z2GV9Nhxhw2ABougCHUM4u6DPzQyaxtrtZK+LFLXsR+aXAg1RWLI5
+	 9EaKIUjRT7wAV535KnsuJngzBwpB5jj+loP5i/DW9eqvCnnka9wU0j2icDw+zjFi7bA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398893;
-	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=AHbxe2DhPQ2i7wcCJR/v50yrTRnwgy9/KvreO8LCz0k=;
-	b=MRrwz1SV71uxDM6VgYpAEopVmmQ4sM8wsVj+BiWvgg76Xpg0BS4fR34TwFVPKTrvGROF
-	 PlVw6CTvf5g6jHNsyx9sQ9cvwI0MZmGDGnHkXif+bHypamvm1wgG3rsSbeKOknxifGSxm
-	 elxqswgzAa9wlHU2ImQujoxZlAYKfUImzHI39MZrC9jwEt+XjO4Ioycz3XqLCyGDIWZ13
-	 W5TSkdg+bU19nmTTEbpSKjH9RGZbuxl8bxp87O/dQCTWk0Onh+9idhbE0B+29xfauWJ7A
-	 X5OmdZfnswytk7f+Hw6XPGQua5uBQ1qjX4Oo3QIBKKeE1oK+kFsONBp8FQPFn+WjatQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794401162;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=z5BCYv76c8kIBtjGRC+c0LPz+SKFyrga3AVP3L1K+5o=;
+	b=JazErJ+VbrJYtQFbbHuImOH0lubAhqEuOfM9CvCZXDvudhToHlsECKm1ZjEMrn3sx+BJ
+	 AppUhgjGCdc0y/kK1XCaG4n6JjgvKgJyDMv6eDjIMJY7LgzZkh99imXBto7GmJIRzZRuy
+	 JHiURs1QW7aVAyb4q+LDGJwva61ZmPHxAnZzBUELpA0w54XRepvzmHitB3ofbcevirwlG
+	 RyTFyyHdjAAg9hB1F0NbY3Yj6e+3JP/DyAEhu7+xeKGl3Oh+Vx9W9lXKh62oYJzI5kziy
+	 9xQFEUhgpguQFwt3/oYvb54Ob8s+z3qh961nDcSdGnUzACX8vcBZBvS2Gaad5cLkL4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=deq.rocks;
-	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=o7y2aYSb;
-	arc=none smtp.remote-ip=91.216.248.212
-Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RHLZYOZC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87732606A887;
-	Wed, 11 Nov 2026 12:08:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87732606A887
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666FE606A332;
+	Wed, 11 Nov 2026 12:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=o7y2aYSb
-From: Andre Eikmeyer <dev@deq.rocks>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1794398884;
-	bh=NGUC8X4ZYDCfRyQqsDmZblXNdvPHLID0SUiX2+QDHUY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=o7y2aYSbhPMnK7cUHiBBKz8JwKRyIjheJ6T8DKB+6LTrwWS2qUcmWeFtv7jiE2j8g
-	 kfV8xMzjy1E+BAJ9kZRRE2yNUutkPofTmxa7Zui4OqG2zcY2+WVaffjIPLAwE1pTEP
-	 fyFjsv1Bc4FdStwWbHKwY+SfUYECCs+G3vWYqmm5r30OagyGO0ZbL2Zb0RBuHFCK3u
-	 bUuzEHkkl/TJYz2QBNdMEA9P8SycYXZDUdWrVC/60ER2EZDU+Fy/qKSBAV7C+n5Dqg
-	 MosR4DNlMasEiMhZlgBQfOEFq2bjuUsG+Rk/TcKTDJ+k/qiCHUQQF1REoVBYkfoWKr
-	 ZaSKXfpN1DqnA==
-To: arend.vanspriel@broadcom.com
-Cc: linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	michael.reeves077@gmail.com,
-	marcan@marcan.st,
-	j@jannau.net,
-	asahi@lists.linux.dev,
-	sebastian.reichel@collabora.com,
-	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 5/5] wifi: brcmfmac: pcie: support inband device wake and deep sleep
-Date: Wed, 11 Nov 2026 13:07:48 +0100
-Message-ID: <20261111120748.23795-6-dev@deq.rocks>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261111120748.23795-1-dev@deq.rocks>
-References: <20261111120748.23795-1-dev@deq.rocks>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RHLZYOZC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE521F00A05;
+	Wed, 11 Nov 2026 12:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794401162;
+	bh=z5BCYv76c8kIBtjGRC+c0LPz+SKFyrga3AVP3L1K+5o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RHLZYOZCrsgqoLaM7Y61icKNl+4pudcP/UHwpqHxpl6eBDxMW5Z3KjlzSVieqHbMc
+	 qM1joFeefCCSgxz4fs4AqbRQleX21he5aEs71YFiCjUtoET9xeIV+LBQc/+7IRCoGF
+	 sE7ySPku8hfMULWVe/vR+T1A4zg8k4qUEwTptfoVg+B6KiZt0iKN78t6yE5jKdx/b5
+	 z4btscL8zQeYTUi6iUIs+mu25VrsmgHj682w3o7lYerU4nLtWmEOswHVlPpqKorjHE
+	 LafsJYk8UyKdk2Mu5fEUZ4zDc9UZOxqOrQzOORlGh/NHz0dxdCDNNgpccZH7+c7tKm
+	 3A2NH7JrLtjkg==
+Date: Wed, 11 Nov 2026 13:45:58 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [PATCH 01/15] dt-bindings: nvme: apple: Add
+ apple,t8140-nvme-ans2 compatible
+Message-ID: <20261111-brawny-lavender-ferret-83a692@quoll>
+References: <20261106-apple-dts-m4-m5-nvme-v1-0-22f4827b4ece@cyberchaos.dev>
+ <20261106-apple-dts-m4-m5-nvme-v1-1-22f4827b4ece@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -70,427 +63,24 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261106-apple-dts-m4-m5-nvme-v1-1-22f4827b4ece@cyberchaos.dev>
 
-The BCM4364 and BCM4377 firmware report inband deep sleep in the PCIe
-shared flags. The driver only advertises that it has no out-of-band
-device wake, which leaves deep sleep disabled. The firmware then stays
-awake and keeps its latency tolerance short enough to hold the package
-out of PC10.
+On Fri, Nov 06, 2026 at 10:04:10PM +0100, Yureka Lilian wrote:
+> "apple,t8140-nvme-ans2" on the Apple A18 Pro SoC is compatible
+> with "apple,t8132-nvme-ans2" so add its per-SoC compatible.
+> ---
+>  Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Advertise inband device wake when the firmware supports it and follow
-the handshake of the firmware. The device asks for deep sleep while
-device wake is deasserted, the host acknowledges it once it has nothing
-to send, asserts device wake before it uses the rings again and waits
-for the exit note, and deasserts device wake after 200 ms without ring
-writes. Hooks around the ring lock cover every host to device ring
-writer. A system suspend asserts device wake before D3_INFORM and
-acknowledges no deep sleep request until the resume.
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
-Tested on a MacBookPro15,1 (BCM4364) and a MacBookAir9,1 (BCM4377). The
-firmware enters and leaves deep sleep about 40 times a minute at idle
-with Wi-Fi associated, traffic and downloads work, and the package
-reaches PC10 without ignoring the latency tolerance of the Wi-Fi port.
+Best regards,
+Krzysztof
 
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
- .../broadcom/brcm80211/brcmfmac/commonring.c  |  14 ++
- .../broadcom/brcm80211/brcmfmac/commonring.h  |   5 +
- .../broadcom/brcm80211/brcmfmac/pcie.c        | 233 +++++++++++++++++-
- 3 files changed, 249 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.c
-index e44236cb210..881505b992c 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.c
-@@ -28,6 +28,16 @@ void brcmf_commonring_register_cb(struct brcmf_commonring *commonring,
- }
- 
- 
-+/* Both run outside the ring lock and may sleep */
-+void brcmf_commonring_register_pm_cb(struct brcmf_commonring *commonring,
-+				     void (*cr_wake)(void *ctx),
-+				     void (*cr_idle)(void *ctx))
-+{
-+	commonring->cr_wake = cr_wake;
-+	commonring->cr_idle = cr_idle;
-+}
-+
-+
- void brcmf_commonring_config(struct brcmf_commonring *commonring, u16 depth,
- 			     u16 item_len, void *buf_addr)
- {
-@@ -53,6 +63,8 @@ void brcmf_commonring_lock(struct brcmf_commonring *commonring)
- {
- 	unsigned long flags;
- 
-+	if (commonring->cr_wake)
-+		commonring->cr_wake(commonring->cr_ctx);
- 	spin_lock_irqsave(&commonring->lock, flags);
- 	commonring->flags = flags;
- }
-@@ -62,6 +74,8 @@ void brcmf_commonring_unlock(struct brcmf_commonring *commonring)
- 		__releases(&commonring->lock)
- {
- 	spin_unlock_irqrestore(&commonring->lock, commonring->flags);
-+	if (commonring->cr_idle)
-+		commonring->cr_idle(commonring->cr_ctx);
- }
- 
- 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.h
-index 7fb11f4823e..a27be6d7b17 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/commonring.h
-@@ -20,6 +20,8 @@ struct brcmf_commonring {
- 	int (*cr_update_wptr)(void *ctx);
- 	int (*cr_write_rptr)(void *ctx);
- 	int (*cr_write_wptr)(void *ctx);
-+	void (*cr_wake)(void *ctx);
-+	void (*cr_idle)(void *ctx);
- 
- 	void *cr_ctx;
- 
-@@ -38,6 +40,9 @@ void brcmf_commonring_register_cb(struct brcmf_commonring *commonring,
- 				  int (*cr_update_wptr)(void *ctx),
- 				  int (*cr_write_rptr)(void *ctx),
- 				  int (*cr_write_wptr)(void *ctx), void *ctx);
-+void brcmf_commonring_register_pm_cb(struct brcmf_commonring *commonring,
-+				     void (*cr_wake)(void *ctx),
-+				     void (*cr_idle)(void *ctx));
- void brcmf_commonring_config(struct brcmf_commonring *commonring, u16 depth,
- 			     u16 item_len, void *buf_addr);
- void brcmf_commonring_lock(struct brcmf_commonring *commonring);
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index faa1e16ed4f..f4a5ba9f9fe 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -222,10 +222,12 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
- #define BRCMF_PCIE_SHARED_DMA_2B_IDX		0x100000
- #define BRCMF_PCIE_SHARED_USE_MAILBOX		0x2000000
- #define BRCMF_PCIE_SHARED_HOSTRDY_DB1		0x10000000
-+#define BRCMF_PCIE_SHARED_INBAND_DS		0x40000000
- #define BRCMF_PCIE_SHARED_DAR			0x80000000
- 
- #define BRCMF_HOSTCAP_H2D_ENABLE_HOSTRDY	0x400
- #define BRCMF_HOSTCAP_DS_NO_OOB_DW		0x1000
-+#define BRCMF_HOSTCAP_DS_INBAND_DW		0x2000
- #define BRCMF_HOSTCAP_H2D_DAR			0x10000
- 
- #define BRCMF_PCIE_FLAGS_HTOD_SPLIT		0x4000
-@@ -274,6 +276,11 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
- #define BRCMF_H2D_HOST_DS_ACK			0x00000002
- #define BRCMF_H2D_HOST_D0_INFORM_IN_USE		0x00000008
- #define BRCMF_H2D_HOST_D0_INFORM		0x00000010
-+#define BRCMF_H2D_HOST_DW_DEASSERT		0x00000020
-+#define BRCMF_H2D_HOST_DW_ASSERT		0x00000040
-+
-+#define BRCMF_PCIE_DS_IDLE_MS			200
-+#define BRCMF_PCIE_DS_EXIT_TIMEOUT		msecs_to_jiffies(500)
- 
- #define BRCMF_PCIE_MBDATA_TIMEOUT		msecs_to_jiffies(2000)
- 
-@@ -338,6 +345,15 @@ struct brcmf_otp_params {
- 	bool valid;
- };
- 
-+enum brcmf_pcie_ds_state {
-+	BRCMF_PCIE_DS_NONE,
-+	BRCMF_PCIE_DS_ALLOWED,
-+	BRCMF_PCIE_DS_SLEEP_PEND,
-+	BRCMF_PCIE_DS_SLEEP,
-+	BRCMF_PCIE_DS_EXIT_WAIT,
-+	BRCMF_PCIE_DS_AWAKE,
-+};
-+
- struct brcmf_pciedev_info {
- 	enum brcmf_pcie_state state;
- 	bool in_irq;
-@@ -371,6 +387,16 @@ struct brcmf_pciedev_info {
- 	struct brcmf_mp_device *settings;
- 	struct brcmf_otp_params otp;
- 	bool fwseed;
-+	/* protects ds_state, ds_active and ds_suspend */
-+	spinlock_t ds_lock;
-+	enum brcmf_pcie_ds_state ds_state;
-+	int ds_active;
-+	bool ds_suspend;
-+	/* serializes the deep sleep mailbox messages */
-+	struct mutex ds_mutex;
-+	struct task_struct *ds_sender;
-+	wait_queue_head_t ds_wait;
-+	struct delayed_work ds_deassert_work;
- #ifdef DEBUG
- 	u32 console_interval;
- 	bool console_active;
-@@ -892,17 +918,184 @@ brcmf_pcie_send_mb_data(struct brcmf_pciedev_info *devinfo, u32 htod_mb_data)
- }
- 
- 
-+static void brcmf_pcie_ds_send(struct brcmf_pciedev_info *devinfo, u32 data)
-+{
-+	mutex_lock(&devinfo->ds_mutex);
-+	WRITE_ONCE(devinfo->ds_sender, current);
-+	brcmf_pcie_send_mb_data(devinfo, data);
-+	WRITE_ONCE(devinfo->ds_sender, NULL);
-+	mutex_unlock(&devinfo->ds_mutex);
-+}
-+
-+/* The handshake messages themselves go through the hooked rings */
-+static bool brcmf_pcie_ds_skip(struct brcmf_pciedev_info *devinfo)
-+{
-+	return READ_ONCE(devinfo->ds_state) == BRCMF_PCIE_DS_NONE ||
-+	       READ_ONCE(devinfo->ds_sender) == current;
-+}
-+
-+static bool brcmf_pcie_ds_idle_locked(struct brcmf_pciedev_info *devinfo)
-+{
-+	lockdep_assert_held(&devinfo->ds_lock);
-+
-+	if (devinfo->ds_active || devinfo->ds_suspend)
-+		return false;
-+
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_SLEEP_PEND) {
-+		devinfo->ds_state = BRCMF_PCIE_DS_SLEEP;
-+		return true;
-+	}
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_AWAKE)
-+		mod_delayed_work(system_dfl_wq, &devinfo->ds_deassert_work,
-+				 msecs_to_jiffies(BRCMF_PCIE_DS_IDLE_MS));
-+	return false;
-+}
-+
-+static void brcmf_pcie_ds_wake(struct brcmf_pciedev_info *devinfo)
-+{
-+	bool assert = false, wait;
-+
-+	if (brcmf_pcie_ds_skip(devinfo))
-+		return;
-+
-+	spin_lock(&devinfo->ds_lock);
-+	devinfo->ds_active++;
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_SLEEP) {
-+		devinfo->ds_state = BRCMF_PCIE_DS_EXIT_WAIT;
-+		assert = true;
-+	}
-+	wait = devinfo->ds_state == BRCMF_PCIE_DS_EXIT_WAIT;
-+	spin_unlock(&devinfo->ds_lock);
-+
-+	if (assert) {
-+		brcmf_dbg(PCIE, "deep sleep: assert device wake\n");
-+		brcmf_pcie_ds_send(devinfo, BRCMF_H2D_HOST_DW_ASSERT);
-+	}
-+	if (!wait)
-+		return;
-+
-+	/* The exit note arrives through the interrupt thread itself */
-+	if (devinfo->in_irq) {
-+		usleep_range(1000, 1100);
-+		return;
-+	}
-+	if (wait_event_timeout(devinfo->ds_wait,
-+			       READ_ONCE(devinfo->ds_state) !=
-+			       BRCMF_PCIE_DS_EXIT_WAIT,
-+			       BRCMF_PCIE_DS_EXIT_TIMEOUT))
-+		return;
-+
-+	brcmf_err(dev_get_drvdata(&devinfo->pdev->dev),
-+		  "no deep sleep exit after device wake\n");
-+	spin_lock(&devinfo->ds_lock);
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_EXIT_WAIT)
-+		devinfo->ds_state = BRCMF_PCIE_DS_AWAKE;
-+	spin_unlock(&devinfo->ds_lock);
-+}
-+
-+static void brcmf_pcie_ds_idle(struct brcmf_pciedev_info *devinfo)
-+{
-+	bool ack;
-+
-+	if (brcmf_pcie_ds_skip(devinfo))
-+		return;
-+
-+	spin_lock(&devinfo->ds_lock);
-+	devinfo->ds_active--;
-+	ack = brcmf_pcie_ds_idle_locked(devinfo);
-+	spin_unlock(&devinfo->ds_lock);
-+
-+	if (ack) {
-+		brcmf_dbg(PCIE, "deep sleep: ack pending request\n");
-+		brcmf_pcie_ds_send(devinfo, BRCMF_H2D_HOST_DS_ACK);
-+	}
-+}
-+
-+static void brcmf_pcie_ds_deassert_worker(struct work_struct *work)
-+{
-+	struct brcmf_pciedev_info *devinfo =
-+		container_of(work, struct brcmf_pciedev_info,
-+			     ds_deassert_work.work);
-+	bool deassert = false;
-+
-+	spin_lock(&devinfo->ds_lock);
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_AWAKE && !devinfo->ds_active &&
-+	    !devinfo->ds_suspend) {
-+		devinfo->ds_state = BRCMF_PCIE_DS_ALLOWED;
-+		deassert = true;
-+	}
-+	spin_unlock(&devinfo->ds_lock);
-+
-+	if (deassert) {
-+		brcmf_dbg(PCIE, "deep sleep: deassert device wake\n");
-+		brcmf_pcie_ds_send(devinfo, BRCMF_H2D_HOST_DW_DEASSERT);
-+	}
-+}
-+
-+static void brcmf_pcie_ds_enter_req(struct brcmf_pciedev_info *devinfo)
-+{
-+	bool ack = false;
-+
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_NONE) {
-+		brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_DS_ACK);
-+		return;
-+	}
-+
-+	spin_lock(&devinfo->ds_lock);
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_ALLOWED) {
-+		devinfo->ds_state = BRCMF_PCIE_DS_SLEEP_PEND;
-+		ack = brcmf_pcie_ds_idle_locked(devinfo);
-+	} else {
-+		brcmf_dbg(PCIE, "deep sleep request in state %d\n",
-+			  devinfo->ds_state);
-+	}
-+	spin_unlock(&devinfo->ds_lock);
-+
-+	if (ack)
-+		brcmf_pcie_ds_send(devinfo, BRCMF_H2D_HOST_DS_ACK);
-+}
-+
-+static void brcmf_pcie_ds_exit_note(struct brcmf_pciedev_info *devinfo)
-+{
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_NONE)
-+		return;
-+
-+	spin_lock(&devinfo->ds_lock);
-+	if (devinfo->ds_state == BRCMF_PCIE_DS_EXIT_WAIT ||
-+	    devinfo->ds_state == BRCMF_PCIE_DS_SLEEP) {
-+		devinfo->ds_state = BRCMF_PCIE_DS_AWAKE;
-+		brcmf_pcie_ds_idle_locked(devinfo);
-+	}
-+	spin_unlock(&devinfo->ds_lock);
-+	wake_up(&devinfo->ds_wait);
-+}
-+
-+static void brcmf_pcie_ring_ds_wake(void *ctx)
-+{
-+	struct brcmf_pcie_ringbuf *ring = ctx;
-+
-+	brcmf_pcie_ds_wake(ring->devinfo);
-+}
-+
-+static void brcmf_pcie_ring_ds_idle(void *ctx)
-+{
-+	struct brcmf_pcie_ringbuf *ring = ctx;
-+
-+	brcmf_pcie_ds_idle(ring->devinfo);
-+}
-+
- static void brcmf_pcie_handle_mb_data(struct brcmf_pciedev_info *devinfo,
- 				      u32 dtoh_mb_data)
- {
- 	brcmf_dbg(PCIE, "D2H_MB_DATA: 0x%04x\n", dtoh_mb_data);
- 	if (dtoh_mb_data & BRCMF_D2H_DEV_DS_ENTER_REQ)  {
- 		brcmf_dbg(PCIE, "D2H_MB_DATA: DEEP SLEEP REQ\n");
--		brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_DS_ACK);
--		brcmf_dbg(PCIE, "D2H_MB_DATA: sent DEEP SLEEP ACK\n");
-+		brcmf_pcie_ds_enter_req(devinfo);
- 	}
--	if (dtoh_mb_data & BRCMF_D2H_DEV_DS_EXIT_NOTE)
-+	if (dtoh_mb_data & BRCMF_D2H_DEV_DS_EXIT_NOTE) {
- 		brcmf_dbg(PCIE, "D2H_MB_DATA: DEEP SLEEP EXIT\n");
-+		brcmf_pcie_ds_exit_note(devinfo);
-+	}
- 	if (dtoh_mb_data & BRCMF_D2H_DEV_D3_ACK) {
- 		brcmf_dbg(PCIE, "D2H_MB_DATA: D3 ACK\n");
- 		devinfo->mbdata_completed = true;
-@@ -1308,6 +1501,10 @@ brcmf_pcie_alloc_dma_and_ring(struct brcmf_pciedev_info *devinfo, u32 ring_id,
- 				     brcmf_pcie_ring_mb_update_wptr,
- 				     brcmf_pcie_ring_mb_write_rptr,
- 				     brcmf_pcie_ring_mb_write_wptr, ring);
-+	if (ring_id < BRCMF_NROF_H2D_COMMON_MSGRINGS)
-+		brcmf_commonring_register_pm_cb(&ring->commonring,
-+						brcmf_pcie_ring_ds_wake,
-+						brcmf_pcie_ring_ds_idle);
- 
- 	return (ring);
- }
-@@ -1501,6 +1698,9 @@ static int brcmf_pcie_init_ringbuffers(struct brcmf_pciedev_info *devinfo)
- 					     brcmf_pcie_ring_mb_write_rptr,
- 					     brcmf_pcie_ring_mb_write_wptr,
- 					     ring);
-+		brcmf_commonring_register_pm_cb(&ring->commonring,
-+						brcmf_pcie_ring_ds_wake,
-+						brcmf_pcie_ring_ds_idle);
- 		ring->w_idx_addr = h2d_w_idx_ptr;
- 		ring->r_idx_addr = h2d_r_idx_ptr;
- 		h2d_w_idx_ptr += idx_offset;
-@@ -1821,6 +2021,10 @@ brcmf_pcie_init_share_ram_info(struct brcmf_pciedev_info *devinfo,
- 		if (shared->flags & BRCMF_PCIE_SHARED_DAR)
- 			host_cap |= BRCMF_HOSTCAP_H2D_DAR;
- 		host_cap |= BRCMF_HOSTCAP_DS_NO_OOB_DW;
-+		if (shared->flags & BRCMF_PCIE_SHARED_INBAND_DS) {
-+			host_cap |= BRCMF_HOSTCAP_DS_INBAND_DW;
-+			devinfo->ds_state = BRCMF_PCIE_DS_ALLOWED;
-+		}
- 
- 		brcmf_pcie_write_tcm32(devinfo, sharedram_addr +
- 				       BRCMF_SHARED_HOST_CAP_OFFSET,
-@@ -2630,6 +2834,11 @@ brcmf_pcie_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return ret;
- 
- 	devinfo->pdev = pdev;
-+	spin_lock_init(&devinfo->ds_lock);
-+	mutex_init(&devinfo->ds_mutex);
-+	init_waitqueue_head(&devinfo->ds_wait);
-+	INIT_DELAYED_WORK(&devinfo->ds_deassert_work,
-+			  brcmf_pcie_ds_deassert_worker);
- 	pcie_bus_dev = NULL;
- 	devinfo->ci = brcmf_chip_attach(devinfo, pdev->device,
- 					&brcmf_pcie_buscore_ops);
-@@ -2757,6 +2966,8 @@ brcmf_pcie_remove(struct pci_dev *pdev)
- 		return;
- 
- 	devinfo = bus->bus_priv.pcie->devinfo;
-+	WRITE_ONCE(devinfo->ds_state, BRCMF_PCIE_DS_NONE);
-+	cancel_delayed_work_sync(&devinfo->ds_deassert_work);
- 	brcmf_pcie_bus_console_read(devinfo, false);
- 	brcmf_pcie_fwcon_timer(devinfo, false);
- 
-@@ -2811,6 +3022,15 @@ static int brcmf_pcie_pm_enter_D3(struct device *dev)
- 	brcmf_pcie_fwcon_timer(devinfo, false);
- 	brcmf_bus_change_state(bus, BRCMF_BUS_DOWN);
- 
-+	if (devinfo->ds_state != BRCMF_PCIE_DS_NONE) {
-+		spin_lock(&devinfo->ds_lock);
-+		devinfo->ds_suspend = true;
-+		spin_unlock(&devinfo->ds_lock);
-+		cancel_delayed_work_sync(&devinfo->ds_deassert_work);
-+		brcmf_pcie_ds_wake(devinfo);
-+		brcmf_pcie_ds_idle(devinfo);
-+	}
-+
- 	devinfo->mbdata_completed = false;
- 	brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_D3_INFORM);
- 
-@@ -2861,6 +3081,13 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
- 		if (brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_D0_INFORM))
- 			goto cleanup;
- 		brcmf_dbg(PCIE, "Hot resume, continue....\n");
-+		if (devinfo->ds_state != BRCMF_PCIE_DS_NONE) {
-+			spin_lock(&devinfo->ds_lock);
-+			devinfo->ds_suspend = false;
-+			devinfo->ds_state = BRCMF_PCIE_DS_AWAKE;
-+			brcmf_pcie_ds_idle_locked(devinfo);
-+			spin_unlock(&devinfo->ds_lock);
-+		}
- 		brcmf_pcie_select_core(devinfo, BCMA_CORE_PCIE2);
- 		brcmf_bus_change_state(bus, BRCMF_BUS_UP);
- 		brcmf_pcie_intr_enable(devinfo);
