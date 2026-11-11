@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794413996;
-	b=A9eXsQw9jlt+g6/2zKg2dOFekQAV2++eFJSz2yuXe0mxR36n3Ju2T8Pgimiz93c6aiL1
-	 dwlEAqi/96RSlwyY1mMgJqEvwSTmZIBNXZXTfABkINZsin+jGsF/hbNkZz+4+vI2a8jBd
-	 06QhYgq6iN6H/007pzEIYPvmhDFJ/NrlbM01RMxcC+wDaZJs1XtpDWurJA8r5b8BRaoaq
-	 JaqWlh42+blNLrWuJclq0vNsK/uaM/UXfWaoGh23nQ8tZimIZzASGBNR6nO4rgzOZDfRU
-	 mZC0d6NomN9QZ4cSrALvYmwXRjarhEYi/H9vvRcxGVfDzOXuWZ05elZax5T9nGS/adQ==
+	t=1794414545;
+	b=kDh0Ai4tZEynBsDWdzuuITe1bXMTgiffYcIONJ3ebR6941s+lgadhAtMiDu467qzNZ5F
+	 Xqe5jGy3aN9vUY245zkjtFTC5czSYA7b0v2QZc7SZsSF5KPZ9Xn48LbKpD1sk+qFo21hc
+	 oBzgxTJu84RxawB8RaIEbevpfyToR+OgW7f+gPBG7b6R6Z9tQevCqpDbhB3b/HA+MhUQD
+	 HyJquwTYn9S4Iqnitu4zRm+ivxama8ihSxVDyh8D1U1bYOuiqQ6uliugKnTkeFCmyVmRY
+	 tUVkPCXLZa5GCcwPmZ3QmvDgmvvzUG9rSIbqvZ1LVACMq+FQyvvJhMhL0zc15SuZw6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794413996;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794414545;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=44DfV0bL6HPYkPp0Ecl6fd5OA178t8+1rLF7XPfImuM=;
-	b=iqHFfnppYEr8UmR86oWuyGpxRmMkg7hWyhlLE3nj/559CC72cheXk2UFEh3q+/kYCBqn
-	 noQtyAXvfvOIWO1QTpXsFIAg49dq02PMm3ixiA7JmJDxn5+T7Foz1L1pD8OdQKcwDovdL
-	 o3/Id4Cdgb9f40CFLid+6Xlkz7weQb3Tv03GnCoNoi5j7RxYkNIcTS4QApCKEO4WNSBi2
-	 yRC6tqIB1zutpz6quhQbUA0VXFfMWRb8uqsy5UoBHWZpaoRKbrR9QhiL1HmCNIKSORo5x
-	 EhliGhNepCntpvFZIFVsc+Iai9Y+bLXAT/VIIlRAWog/zVIF+3lKV1VDAgs0bfRumOQ==
+	bh=GZm9YwB3NBsRU5kio5p9Zt6AIG4QFJ8V49dmNPDMGHk=;
+	b=kc/lbByeIDPQyru+HgD444gTVotXH3qg0jCpuSz+px6mMfDVcJwL7YnOuhuAl+AUMfN5
+	 yKIH3W5R9ml5bzeYfUpWcLb0rXwmj5tctcYzvSaDNCRjx7YflzvBl7R5Cd4SOKsMaHyk8
+	 KPBDVpCcjrmzuFBsftMSvwXCGCliPvbu3K7BbauT5+rmkuwL2+sKxxg33m3tyxNB0Npzy
+	 bXgjUSXYbtm2906Q4wGhvyAvBGANsL8BVtXehIY7nvzMoD0+kdNsYaDofW2d+875kwCCE
+	 S6Yl2lsprPe6HFE5q7zESkOBHrln7nJIpQt9X4GxeEZC+aVAkIM6aEokzaBU6cZiQog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mfdm5A7h;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMK62Tbd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C9760A2631;
-	Wed, 11 Nov 2026 16:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88842606A324;
+	Wed, 11 Nov 2026 16:29:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mfdm5A7h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E44471F00A06;
-	Wed, 11 Nov 2026 16:19:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMK62Tbd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECE91F00A07;
+	Wed, 11 Nov 2026 16:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794413996;
-	bh=44DfV0bL6HPYkPp0Ecl6fd5OA178t8+1rLF7XPfImuM=;
+	s=k20260515; t=1794414545;
+	bh=GZm9YwB3NBsRU5kio5p9Zt6AIG4QFJ8V49dmNPDMGHk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mfdm5A7hJTz/OLhPk7a/A6xxBAGkInGaTECbYA1+4nh07RbKH900tnmi/4RGbIRze
-	 iOqonH/hUJCLKzPRxGnckwjZQi9VpFEIn1+jSeUhDjcV8MClHAlsn0kY9E+KAfGAzb
-	 N3mPrnbA3YMG97uzBLieJxwqLGOXD0lOgtbsWBBs+5yuwJiG9Abvc3XKEx22ZFiz7r
-	 AIbq7i8/af2+L+3TxRiRhKDDhRhWqmNkTegI13JN4WyQfR3yifYZVfMF3nq1pSkK9J
-	 WioB1LY0L1Yeih4BdPe5FErB6zDv5M58dlQZqOxH9otBIt0RHP6ZJcxgPxwuztRr35
-	 eYQ/g+U6y+pEA==
-Message-ID: <c724e3c3-7acc-4c3e-8410-426c7ca6cf19@kernel.org>
-Date: Wed, 11 Nov 2026 17:19:50 +0100
+	b=BMK62Tbd8iKyabZkiF4n7dnDawnlpOiocExyQO9nZhX3dI5nGtA9vBmJitaFUrbzS
+	 Mj8YKGaF0LHpBzGZzGVCKlru2XxCGjxG12XmdGgUSgkMYc/xgH9udeHbMZnvnFen6U
+	 3UkHw1cWV/wL06KsPt0mol1gZ73yUHvoiex55DxZCQG3apzPjaROJG5ugf+WHekG6V
+	 ajuIS4bIsi0uwLLybLhhY4w9xoNjW+sFzQt1+ri5u7R/iIDILPMcGOMYcCHEzU3m3f
+	 f06zwbP5Hj9pEh9ylzLhIAsWvs4DznMoufc7/PW+cimnq1P0JKmsUXzIeQbBFjbmbU
+	 hl+M3PQewgezw==
+Message-ID: <517d9d36-ab3f-4eb5-8908-f50aea59a3b0@kernel.org>
+Date: Wed, 11 Nov 2026 17:29:01 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -52,73 +52,38 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/15] dt-bindings: nvme: apple: Add apple,t8142-nvme-ans2
- compatible
-To: Yureka <yureka@cyberchaos.dev>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, iommu@lists.linux.dev
-References: <20261106-apple-dts-m4-m5-nvme-v1-0-22f4827b4ece@cyberchaos.dev>
- <20261106-apple-dts-m4-m5-nvme-v1-3-22f4827b4ece@cyberchaos.dev>
- <20261111-comical-quaint-turaco-e8c1c2@quoll>
- <fb7b4ede-a325-4c5e-a37d-fe3cc7a92f87@cyberchaos.dev>
+Subject: Re: [PATCH v2 1/3] Bluetooth: hci_bcm4377: treat only negative
+ hci_register_dev() returns as errors
+To: Andre Eikmeyer <dev@deq.rocks>
+Cc: j@jannau.net, neal@gompa.dev, marcel@holtmann.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org, luiz.dentz@gmail.com
+References: <20261111120248.21062-1-dev@deq.rocks>
+ <20261111120248.21062-2-dev@deq.rocks>
 Content-Language: en-US
 From: Sven Peter <sven@kernel.org>
-In-Reply-To: <fb7b4ede-a325-4c5e-a37d-fe3cc7a92f87@cyberchaos.dev>
+In-Reply-To: <20261111120248.21062-2-dev@deq.rocks>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 11/11/26 15:32, Yureka wrote:
-> On 11/11/26 13:46, Krzysztof Kozlowski wrote:
->> On Fri, Nov 06, 2026 at 10:04:12PM +0100, Yureka Lilian wrote:
->>> "apple,t8142-nvme-ans2" on the Apple M5 SoC is compatible with
->>> "apple,t8132-nvme-ans2" so add its per-SoC compatible.
->>>
->>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
->>> ---
->>>   Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->> Squash all nvmem patches. Don't add compatibles one by one.
->>
->> Best regards,
->> Krzysztof
+On 11/11/26 13:02, Andre Eikmeyer wrote:
+> If another controller already holds hci0, a USB Bluetooth dongle for
+> example, the BCM4377 is registered as hci1 and probe returns 1. The PCI
+> core takes that as success, but the devm action that unregisters the
+> controller is never added, so it stays registered after unbind while
+> its driver data is freed.
 >
+> hci_register_dev() returns the index of the new controller on success.
+> Check for a negative return, as the other drivers do.
 >
-> Hello Krzysztof,
->
->
-> (replying to all three of your emails here)
->
-> thanks for your feedback! I did run `b4 prep --check` and `make 
-> dtbs_check` before sending and it passed without warnings on all 15 
-> patches of this series. I will now also run `checkpatch.pl --strict` 
-> as you suggested.
->
-> For v2, I will make one commit per type of dt-binding, so 
-> "dt-bindings: nvme: apple: Add t6040,t8140,t8142", and then "mailbox: 
-> apple,mailbox: Add t8132,t6040,t8140,t8142", etc., ok or do you have 
-> another suggested grouping?
->
-> > Please stop inflating this. You are only making it difficult to 
-> review your work.
->
-> It would be appreciated if you can tell me clearly what is expected, 
-> as this statement is not actually telling me what is inflated / wrong.
-I think you already understood it: Just one commit for SART, one for 
-NVMe, and one for the mailbox bindings that each add all new compatibles 
-at once because the hardware (likely) didn't change and there's no need 
-to explain what's different from the previous generation.
+> Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
+> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+> ---
 
-
-Thanks,
+Please make sure to pick up tags from previous revisions or mention why 
+you dropped them. I added Reviewed-by for v1.
 
 Sven
 
