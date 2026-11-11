@@ -1,65 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398587;
-	b=ztIYG+id82z24C+736A1layJkp8PMjSm7CAj7KJO1H0OARTxVByP+yBzlizkl1PubGQj
-	 FAARXUKvcnE90exTQd+2/xfyz7pIUAlHUYPNiWbDgr4HXocp283BM4+lcQwlv0q1mgaUZ
-	 Nb1IS4AIhhwedk5N7nwhatE64tz/J2U5ucxKc7lrR2tf1+i15CGJyKLgz8okELtIXrev+
-	 zsNWxxNDictF/+zweGOUCS228cQrA4qETHckd3v9IrxlJoaSXHoSvDv9bWCVdHmDsH3XZ
-	 XgTSMsw1o8BJVkAuEya2jMzCepnFPqoCyvsIUS0hNPe3rUjoc3lFox8OSQ7aT4HWGOQ==
+	t=1794398878;
+	b=2KFEcFER5xAl4sf3SMfHo3jyhDYSqbZzAPn2bbWzQSVydRNA4sLjic7UdOq7M6bcVZ7S
+	 xkruTjY+uaOwwnDW28Hq/aKCRmozrHqTfEkOnm5wqRbDfeSlGl8OwoEyyxVIv7zzkZgOs
+	 KACYi3Y6gu8w2inn60Amt9dP2UZYbt4zAz+veqw0U9ADDrLKzvxgXRtZcHn0lHBRP6Qz6
+	 wc/bwrWy+EfcIwuwDyNex+WJcOzNcfJmKoT45XC8Pi29M+W4ACkCDNP549kDpPSMRbRdR
+	 ntQoDMfETDl1JeEJszCLJU5shlPKTOnE2KJeKaKibE7EJnUf1qrB2ZOWWPXW6E27UAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398587;
-	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=T7WXBDAH2fUx4nJrxNoYAO2bnzUVegPGfcbrAyJ9e80=;
-	b=XB8nqrhIfpAyR2QsO19L8mOaiwaCzDA7sT+zgg8wrC0llOnHnzwbqLzAaA/t/itYr8vk
-	 uEx23DWlUs4s8DqT46ry8DIo2jLWtOZcyz8IYqpvW+RkjOVgTSAIkMmDe/1+XQhndxUYg
-	 uCL/DTZlz92lWLloGNQ8QFq0ygJLCH05+ilMEZgeCZzoIt+DrsEA12sZbJEJOZeXxKMJB
-	 q0/wGbQEkAkUPguVpaySodYDugKB5mRAwxW9oz5wiS22GcxZfhdBnmFcXB0FRHL6HEjNX
-	 17EB6oAfPOvbWvnffVGXdHlFjuQfUwaPw5h73o9SB65zThLVIZMEfXOCL8XzmZfYKOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398878;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=g5R0K3IZIHy246hgxZLfTU19+W5nQFmiPBUSilhIijw=;
+	b=Wy4tNsY+1YyxeE87aP/mhOlCHR9tMxbMLz2uW1Am5WuETyd9OF1UtswQvmSrNMnBtVFU
+	 tIlcxFcom1DbeZUdKhukT3nIjJ3QVY1RdBdJvqMxaLCgTt5sRU8Ns6eztm05MQk+yM6Ks
+	 8/cLKtycwK7USRQfVuLXGd1f3tQi+mv4cFzSDcEjvhI5/9WQ71lOCKnvcBszpkQdybeMo
+	 KY9XFqPOO+V523bSFGWcvzx4bMzrYDqn0iH8UIkAbdxJvF0g3KLhI2t74kX4pt2Dw+TDt
+	 ReDH4jfZSHbsMOYXzC/IwKuoRvKLPOGNU5eU9f24sqGhgumLcYLMiy3cPxeoRzm6uUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=JP0bobUK;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=GD0U2mHZ;
 	arc=none smtp.remote-ip=91.216.248.207
 Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34253606B635
-	for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 12:03:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34253606B635
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07ED8606A321;
+	Wed, 11 Nov 2026 12:07:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07ED8606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=JP0bobUK
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=GD0U2mHZ
 From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: 50e911bf-d1cf-4422-8090-7fd7250b7ee3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1794398577;
-	bh=TvVgj1zdQCrisXNDq2ObvYC27hGriB3NRJwIIF7WrdQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JP0bobUKG5WfYIHovH70OWguue48x9bN9+1MXbELdgGehV85wlJv1dQ5sAGskbzmN
-	 ix0rOKmZW25T0pdtHuER7Te/9UhMvE8LDo1INqVK70v/UXHB3pLB4IZB7FDhp+Z6rC
-	 RDFtph2QN+dD3CG9lapculM1GEchyI6+6CEBJyjV/TQxFaRybYYZQ6a4DqGrmIKwLt
-	 adePO1dPmmIUOnbbxy2GUgxLHKy0OVpF/buVJI6ySYYWhbM6ywOkLslUnQi4fjhUMm
-	 5CQdGTmgGDRY65nboalVt03YYV6scV04VbHXcg5q2pkJYmYbCdlIPpkW0k4W7MDhCE
-	 1owmnGln/Sy+A==
-To: sven@kernel.org,
-	marcel@holtmann.org,
-	luiz.dentz@gmail.com
-Cc: j@jannau.net,
-	neal@gompa.dev,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
+	s=securedbylima-20251205; t=1794398872;
+	bh=ZYz2qOc4yLXdFNBoEswBsNyVivW/h9vhEpo8PjeKUZg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GD0U2mHZStjHSujWcUPXwiBXhULtm7p8ZXccbDcdP1SXx4hTrqUkM3By6UhLam1dI
+	 4cZdFOCR3zxawE2RoUjk1lK4gvyorAxpeD9Lcu1VFjp+0uYRVid24ARgqpM02rFNyV
+	 aRiwYh9L8ALFqXOOaAPSRuZcFRodKOhp0yHQffvtGfGYLajG265XcgOFiXnoyCSZ9r
+	 07nP5jdJP7i7fpNUAvh8ICj7QxcQsASfaREQZCzM1vAYzgvrYadnxmYCQvwgfzmd9Y
+	 sKAHAh4+AFP6GCNyoeHJZ/Ufu06w4J1c6B1NNZtHfLFsprawnCVKzHlyfeylbRbxZU
+	 PgdGnH1m0w5ng==
+To: arend.vanspriel@broadcom.com
+Cc: linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
 	linux-kernel@vger.kernel.org,
+	michael.reeves077@gmail.com,
+	marcan@marcan.st,
+	j@jannau.net,
+	asahi@lists.linux.dev,
+	sebastian.reichel@collabora.com,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 2/3] Bluetooth: hci_bcm4377: probe again after a resume through firmware
-Date: Wed, 11 Nov 2026 13:02:47 +0100
-Message-ID: <20261111120248.21062-3-dev@deq.rocks>
+Subject: [PATCH v2 0/5] wifi: brcmfmac: pcie: S3 and deep sleep on the T2 Mac chips
+Date: Wed, 11 Nov 2026 13:07:43 +0100
+Message-ID: <20261111120748.23795-1-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261111120248.21062-1-dev@deq.rocks>
-References: <20261111120248.21062-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -71,118 +70,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The BCM4377 is powered off during ACPI S3 and loses its firmware. On
-resume the driver only unquiesces it, so every command times out.
+This goes on top of Michael Reeves' BCM4388 series [1], which also
+changes how brcmfmac talks to the BCM4364 and BCM4377 of the T2 Macs.
+These patches are follow-ups to it.
 
-When the platform firmware handled the resume, probe the controller
-again from a work item and skip the ring teardown messages to the lost
-firmware. Suspend to idle keeps the quiesce path.
+Michael's Patch 5 moves the mailbox to the control ring when the
+firmware does not set BRCMF_PCIE_SHARED_USE_MAILBOX. On the BCM4377
+of the T2 Macs that makes D3 work at all, since this firmware doesn't
+read the TCM mailbox the driver used before. But that caused some
+other issues as an aftermath.
 
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
- drivers/bluetooth/hci_bcm4377.c | 59 +++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+Patches 1 and 2 fix two things in that path. D0_INFORM on resume fails
+while the PCIe state is still DOWN, which I reported on patch 5 [2].
+And with host ready as a capability, the host ready doorbell at init
+halts the BCM4364 firmware.
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index da0a48c2be3..4e3630774c0 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -16,6 +16,9 @@
- #include <linux/of.h>
- #include <linux/pci.h>
- #include <linux/printk.h>
-+#include <linux/slab.h>
-+#include <linux/suspend.h>
-+#include <linux/workqueue.h>
- 
- #include <linux/unaligned.h>
- 
-@@ -566,6 +569,9 @@ struct bcm4377_data {
- 	struct pci_dev *pdev;
- 	struct hci_dev *hdev;
- 
-+	/* set when the controller lost its firmware during system sleep */
-+	bool fw_lost;
-+
- 	void __iomem *bar0;
- 	void __iomem *bar2;
- 
-@@ -1017,6 +1023,11 @@ static int bcm4377_destroy_completion_ring(struct bcm4377_data *bcm4377,
- 	struct bcm4377_destroy_completion_ring_msg msg;
- 	int ret;
- 
-+	if (bcm4377->fw_lost) {
-+		ring->enabled = false;
-+		return 0;
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_type = BCM4377_CONTROL_MSG_DESTROY_COMPLETION_RING;
- 	msg.ring_id = cpu_to_le16(ring->ring_id);
-@@ -1107,6 +1118,11 @@ static int bcm4377_destroy_transfer_ring(struct bcm4377_data *bcm4377,
- 	struct bcm4377_destroy_transfer_ring_msg msg;
- 	int ret;
- 
-+	if (bcm4377->fw_lost) {
-+		ring->enabled = false;
-+		return 0;
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_type = BCM4377_CONTROL_MSG_DESTROY_XFER_RING;
- 	msg.ring_id = cpu_to_le16(ring->ring_id);
-@@ -2432,11 +2448,54 @@ static int bcm4377_suspend(struct device *dev)
- 	return 0;
- }
- 
-+struct bcm4377_reprobe {
-+	struct work_struct work;
-+	struct pci_dev *pdev;
-+};
-+
-+static void bcm4377_reprobe_work(struct work_struct *work)
-+{
-+	struct bcm4377_reprobe *reprobe =
-+		container_of(work, struct bcm4377_reprobe, work);
-+	int ret;
-+
-+	/*
-+	 * Probing stays blocked until the system resume completes, the driver
-+	 * core then retries the deferred probe.
-+	 */
-+	ret = device_reprobe(&reprobe->pdev->dev);
-+	if (ret && ret != -EPROBE_DEFER)
-+		dev_err(&reprobe->pdev->dev, "re-probe after resume failed (%d)\n",
-+			ret);
-+
-+	pci_dev_put(reprobe->pdev);
-+	kfree(reprobe);
-+}
-+
- static int bcm4377_resume(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
- 
-+	/*
-+	 * The controller is powered off when the platform firmware handles
-+	 * the system sleep, as with ACPI S3 on x86 Macs, and comes back
-+	 * without its firmware. Probe it again.
-+	 */
-+	if (pm_resume_via_firmware()) {
-+		struct bcm4377_reprobe *reprobe;
-+
-+		reprobe = kzalloc_obj(*reprobe);
-+		if (!reprobe)
-+			return -ENOMEM;
-+
-+		bcm4377->fw_lost = true;
-+		reprobe->pdev = pci_dev_get(pdev);
-+		INIT_WORK(&reprobe->work, bcm4377_reprobe_work);
-+		schedule_work(&reprobe->work);
-+		return 0;
-+	}
-+
- 	iowrite32(BCM4377_BAR0_SLEEP_CONTROL_UNQUIESCE,
- 		  bcm4377->bar0 + BCM4377_BAR0_SLEEP_CONTROL);
- 
+Patch 3 probes again after a resume through the platform firmware,
+since the chip loses its firmware in S3. Patch 4 stands on its own and
+drops a tx status wait on flowring delete that the BCM4377 firmware
+doesn't satisfy.
+
+Patch 5 is new in v2. The BCM4364 and BCM4377 firmware support inband
+deep sleep, but the driver only advertises that it has no out-of-band
+device wake, which leaves deep sleep disabled. The firmware then stays
+awake and its latency tolerance holds the package out of PC10. With
+patch 5 the firmware enters deep sleep at idle and the package reaches
+PC10 on both machines. It also relies on the mailbox over the control
+ring from Michael's patch 5.
+
+The Bluetooth function of the BCM4377 gets the same resume handling in
+"Bluetooth: hci_bcm4377: resume after ACPI S3" on linux-bluetooth.
+
+Successfully tested on the BCM4377 (MacBookAir9,1), BCM4364B2
+(MacBookPro15,1), and on the BCM4364B3 (MacBookPro16,1).
+
+v1 [3] has not received any feedback yet. Without these patches the
+T2 Mac chips do not survive S3 on top of Michael's series.
+
+Changes in v2:
+- Add patch 5, inband device wake and deep sleep
+- Patches 1 to 4 are unchanged
+
+[1] https://lore.kernel.org/all/20260925-brcm4388-submit-v1-0-b5cbc2cde2fb@gmail.com/
+[2] https://lore.kernel.org/all/20261106153612.2aadef2a@kait2en-mbp15-1/
+[3] https://lore.kernel.org/all/20261107154810.89780-1-dev@deq.rocks/
+
+
+Andre Eikmeyer (5):
+  wifi: brcmfmac: pcie: set the state before D0_INFORM on resume
+  wifi: brcmfmac: pcie: skip the host ready doorbell at init once it is
+    a capability
+  wifi: brcmfmac: pcie: probe again after a resume through firmware
+  wifi: brcmfmac: msgbuf: send the flowring delete without waiting for
+    tx status
+  wifi: brcmfmac: pcie: support inband device wake and deep sleep
+
+ .../broadcom/brcm80211/brcmfmac/commonring.c  |  14 +
+ .../broadcom/brcm80211/brcmfmac/commonring.h  |   5 +
+ .../broadcom/brcm80211/brcmfmac/msgbuf.c      |  23 +-
+ .../broadcom/brcm80211/brcmfmac/pcie.c        | 259 +++++++++++++++++-
+ 4 files changed, 282 insertions(+), 19 deletions(-)
+
+
+base-commit: 991a73f4909f1348ffb4b38765cdb522a775e4c2
+prerequisite-patch-id: e3427132df0f9740b79d9b3f84bc14c25f787514
+prerequisite-patch-id: 1a0aae8b057854813ca6d1f20d3bf153a7b761ec
+prerequisite-patch-id: 3453364de54d0d786a6126fca792567f13aa3679
+prerequisite-patch-id: d40a127ef83ad7d898ca7c3d643b45b829051477
+prerequisite-patch-id: 5bd50905bb42d138eb6fda7d5ad795615348ecdd
