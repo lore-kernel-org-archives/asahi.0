@@ -1,90 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=161.97.139.27
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395990;
-	b=LuDxAexaYCrPEhhH5L/3hfGL7h50V0AKUsKKOgpyd4vUTDhP+RNlIW6VhvSh4Vo2K96B
-	 f03hEBhiuzKoz4Aw2ujPToyAxQBQWndwWqLe7IltWL45GtlkswCxStTWSSwjZMBhSTfRE
-	 rIL9wZvvLHeLN0cdw4xzHGlvyVVev97wxXGOLgZnWU21INUHMJyGoj8tg6VyHlu3q4s2h
-	 Zyti+53jLowArcyOVrjiZJK3+qgEGLN4fIbmOANoS6fHhFu+NaLabWJAaFtqflq8ffoCq
-	 ADuGXrrhO9GKz62fHnjnrRqTp9X6HvnVfz0SdiyWfpeiDye1KmHyMG59ZnDk/PPoHhQ==
+	t=1794398583;
+	b=DtnUlklv3vtu7jofCnQsPS1XVcHXnUfjeEIxloRXhpz4YRanDV5gYgb1TthGGu1z96i2
+	 vISKXySxf5FhboLQT/OI58oNB2Z2fmdiPA7EJWAtIPNYeL5T5Htf401NoABw4iYHUJQwn
+	 tn9U5VpDj0RBNJZdd1EexiJK+JFooTghng8m2BlWAyBnmKEIh468wyNbrkLgVyCFbciXu
+	 KYzYxBUyjIdl95wRO7yk++aw3V5VGOrwf5dy+AxLvggjW0c5CDnsd0ewgmbGexOSpVHao
+	 oqa7cZD5M4An1qk552pQH30URghuyumzyFpYyyDm+xy9foo7qUIckaaMNRprx52iWFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395990;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398583;
+	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=UGGOSnoQOa8uQR6vbajtQptujNdknjBUZcDCmSIDNdo=;
-	b=mR+beo2GdpT+2eMxUqM34/2MmBxGRrk4J44oURbXthCFokGgxFK2PJknk0IAyq6KXRE+
-	 yy4sr4PACI0FRu31HeHsIydKnAulEZHctRDZHnzLCDH2eRY0niQno8ruYamEWhjqvWLsI
-	 flU+z3MaHQccCi4YHoD5or4YPEYbOVNuU3QngIF6swavnYLW0O5OUZ9TRDD8ka/0DHrwe
-	 0onUXl8UV0b2pLwlk/dBFDtgF1GJ35HeecYfdY5bJQj5hFT5EOVSSE0p0ubjU+pkbQU1V
-	 XMk+1Vi6iZ6VsbAhMMHX42FZ6DHmCAVy6eMwlZQs4o00i0n/Yu/pCnEi+fQbXQrnnQQ==
+	bh=an9CjgF3i7R41tdwZTyFePnX12f5lARONWktj1nVWlA=;
+	b=LI6eLDwxDzoTQIJxYo6MkkB5XcxBUdKXz7V+4YcXnD4EN7dXWbCfXnNbT2yPwbeJFrPT
+	 EMzSmRbcSqH3PcTP3OnASvGcPSnUMq7FPnDY8NHA/OcRGPvIu0qCE6NVr33Y0j8/hDZfP
+	 ISmeGCGSd1l9riB/K5zzQORdAf49tG3/mlpNYHDG4UIC1XXsAwLvar6JBRaGc9/xnHrtH
+	 4/Y5IXiFTNw2Wn6XURyhA9ZiZNQLamyj96Yr8p+MHd3MHdKXpH+Sn7Wg2kXsttvjqTpCh
+	 Lw9ejJl996n0HmJsnxpVvzNJ/P2ezkpvM7GV1UeQp4jsOOk43KASCw+XWr6DPR3vr0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kemnade.info;
-	spf=pass smtp.mailfrom=kemnade.info;
-	dkim=pass header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=bquDp06d;
-	arc=none smtp.remote-ip=161.97.139.27
-Received: from mail2.andi.de1.cc (vmd64148.contaboserver.net [161.97.139.27])
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=B2CExKMR;
+	arc=none smtp.remote-ip=91.216.248.207
+Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8FA606A33A;
-	Wed, 11 Nov 2026 11:19:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD8FA606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DC0606B606
+	for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 12:03:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16DC0606B606
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=bquDp06d
-Received: from mail.andi.de1.cc ([2a02:c205:3004:2154::1])
-	by mail2.andi.de1.cc with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <andreas@kemnade.info>)
-	id 1xR6Mf-00000002vn5-2w6M;
-	Wed, 11 Nov 2026 12:19:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=UGGOSnoQOa8uQR6vbajtQptujNdknjBUZcDCmSIDNdo=; t=1794395981; x=1795605581; 
-	b=bquDp06dHW1ZMSIK2ffoFMQ1OgFcV/zUCzmPwJmuPs+2SVrWWx3pyC8hBomQmbGHts3rYqdsFEb
-	bxjtlbN6J9gQH4tivWURgkvPxLTIpocOkwBx77Yr9I9biE3SqDkkxdDtYYyaWVcWR/vmwzrgzo/EF
-	FCwu8wh0c2RhtyJtVy4P4k26cAXzRmqPfGsyJk2pxeXFwl/CG6yelBQCQaGqLlay74yWDjd9ZYHP5
-	iMBGEwdSgowQWQJ1jVicT/nwBVmw6e/lpDe4Y1FtL5heS7ka/RD3k2UtXLbXjEmLCU6pg5iT/V7t/
-	+9CXzdIGa26ZEKCFyU6XTdtH3yu8p+RqYIDQ==;
-Date: Wed, 11 Nov 2026 12:19:24 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- tomi.valkeinen@ideasonboard.com
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jessica Zhang
- <jesszhan0024@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Paul Cercueil
- <paul@crapouillou.net>, Paul Kocialkowski <paulk@sys-base.io>, Linus
- Walleij <linusw@kernel.org>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Albert
- Esteve <aesteve@redhat.com>, Anusha Srivatsa <asrivats@redhat.com>, Dmitry
- Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 17/19] drm/omap: dss: don't create a panel_bridge
-Message-ID: <20261111121924.0e54e7e8@kemnade.info>
-In-Reply-To: <20260916-drm-bridge-every-panel-v3-17-83afb4f1a707@bootlin.com>
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-	<20260916-drm-bridge-every-panel-v3-17-83afb4f1a707@bootlin.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=B2CExKMR
+From: Andre Eikmeyer <dev@deq.rocks>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1794398579;
+	bh=ZWZcKQnR07HF50YgzRPWJA+uhegvXnEEGjk8F3xSpu0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=B2CExKMRncpTl3ifbkQVmUZkHdLLipQDeBCVYV2ApQE75IuFKP1uIPi0I00B6Stwb
+	 LrDmb6OOWkvkseC+qJx3Wjf3TC0R/QOi3GzHBIReV4tbV30P/53MaTbWV3vZ46k3mT
+	 dO8omGlmOFccUYpctzvXpG5PPtVKxXEsF3MQ1jNu538G8u1unDjQ0Wqx270NVV3ofH
+	 tspUnzxdE1TBqAgTCi+Ofu+Dp63U7WOe9Wa3F+NqEcw1BR0dmzQb/nK85FW1EGYe2u
+	 IKNi36e35DtTcAaqGb+aVoVKKTDQ89Myy5bMTusN2/O6BfWeGQQlGUvEgo1w3Ty1Nz
+	 RMeSiR9tmxNbQ==
+To: sven@kernel.org,
+	marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: j@jannau.net,
+	neal@gompa.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andre Eikmeyer <dev@deq.rocks>
+Subject: [PATCH v2 3/3] Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
+Date: Wed, 11 Nov 2026 13:02:48 +0100
+Message-ID: <20261111120248.21062-4-dev@deq.rocks>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261111120248.21062-1-dev@deq.rocks>
+References: <20261111120248.21062-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -94,132 +69,96 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 16 Sep 2026 15:45:41 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+The BCM4377 needs ASPM disabled because of a hardware erratum, and the
+driver disables it on the whole link for as long as the device is bound.
+On the MacBookAir9,1 this keeps the link to the Wi-Fi and Bluetooth chip
+in L0, and the package does not go deeper than PC3.
 
-> Now a panel_bridge is automatically created for every drm_panel and the
-> panel-bridge API is just a deprecated wrapper to access it.
-> 
-> Update and simplify the code by just getting a reference to the
-> already-existing bridge using of_drm_get_bridge_by_endpoint().
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Disable ASPM only in this function's Link Control register before the
+function level reset and the firmware boot, and restore the saved value
+once the firmware runs. A non-ARI Multi-Function Device enables only the
+ASPM states enabled in all of its functions, so the link stays in L0
+until then.
 
-This breaks the display on GTA04/OMAPDRM.
+Tested on a MacBookAir9,1: with ASPM L1 enabled by the PCI core the link
+returns to L1 after probe and after the re-probe that follows ACPI S3,
+Bluetooth and Wi-Fi keep working, and the package reaches PC8 instead of
+PC3 at idle.
 
-Panel is panel-tpo-td028ttec1 attached via DPI, controlled
-via spi_gpio.
+Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+---
+ drivers/bluetooth/hci_bcm4377.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
-I get
-[   12.050201] omapdrm omapdrm.0: [drm] No compatible format found
-[   12.050231] omapdrm omapdrm.0: [drm] Cannot find any crtc or sizes
-
-Workaround:
-rmmod omapdrm
-modprobe omapdrm
-
-Regards,
-Andreas
-
-> ---
->  drivers/gpu/drm/omapdrm/dss/omapdss.h |  1 -
->  drivers/gpu/drm/omapdrm/dss/output.c  | 42 ++++-------------------------------
->  2 files changed, 4 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 4c22c09c93d5..e3e685c931f1 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -204,7 +204,6 @@ struct omap_dss_device {
->  	struct dss_device *dss;
->  	struct drm_bridge *bridge;
->  	struct drm_bridge *next_bridge;
-> -	struct drm_panel *panel;
->  
->  	struct list_head list;
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-> index 6e9bc605ee22..36d37deac802 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/output.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/output.c
-> @@ -12,7 +12,6 @@
->  #include <linux/of_graph.h>
->  
->  #include <drm/drm_bridge.h>
-> -#include <drm/drm_panel.h>
->  
->  #include "dss.h"
->  #include "omapdss.h"
-> @@ -20,40 +19,16 @@
->  int omapdss_device_init_output(struct omap_dss_device *out,
->  			       struct drm_bridge *local_bridge)
->  {
-> -	struct device_node *remote_node;
-> +	struct drm_bridge *bridge;
->  	int ret;
->  
-> -	remote_node = of_graph_get_remote_node(out->dev->of_node,
-> -					       out->of_port, 0);
-> -	if (!remote_node) {
-> +	bridge = of_drm_get_bridge_by_endpoint(out->dev->of_node, out->of_port, 0);
-> +	if (IS_ERR(bridge)) {
->  		dev_dbg(out->dev, "failed to find video sink\n");
->  		return 0;
->  	}
->  
-> -	out->panel = of_drm_find_panel(remote_node);
-> -	if (IS_ERR(out->panel))
-> -		out->panel = NULL;
-> -
-> -	if (!out->panel)
-> -		out->bridge = of_drm_find_and_get_bridge(remote_node);
-> -
-> -	of_node_put(remote_node);
-> -
-> -	if (out->panel) {
-> -		struct drm_bridge *bridge;
-> -
-> -		bridge = drm_panel_bridge_add(out->panel);
-> -		drm_panel_put(out->panel);
-> -		if (IS_ERR(bridge)) {
-> -			dev_err(out->dev,
-> -				"unable to create panel bridge (%ld)\n",
-> -				PTR_ERR(bridge));
-> -			ret = PTR_ERR(bridge);
-> -			goto error;
-> -		}
-> -
-> -		out->bridge = drm_bridge_get(bridge);
-> -	}
-> +	out->bridge = bridge;
->  
->  	if (local_bridge) {
->  		if (!out->bridge) {
-> @@ -65,11 +40,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  		out->bridge = drm_bridge_get(local_bridge);
->  	}
->  
-> -	if (!out->bridge) {
-> -		ret = -EPROBE_DEFER;
-> -		goto error;
-> -	}
-> -
->  	return 0;
->  
->  error:
-> @@ -79,10 +49,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  
->  void omapdss_device_cleanup_output(struct omap_dss_device *out)
->  {
-> -	if (out->bridge && out->panel)
-> -		drm_panel_bridge_remove(out->next_bridge ?
-> -					out->next_bridge : out->bridge);
-> -
->  	drm_bridge_put(out->next_bridge);
->  	drm_bridge_put(out->bridge);
->  }
-> 
-
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 4e3630774c0..0d2103cfd9b 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -497,7 +497,8 @@ struct bcm4377_data;
+  * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
+  *                                     vendor-specific subsystem control
+  *                                     register has to be cleared
+- * disable_aspm: Set to true if ASPM must be disabled due to hardware errata
++ * disable_aspm: Set to true if ASPM must be disabled while the firmware is
++ *               loaded and booted due to hardware errata
+  * broken_ext_scan: Set to true if the chip erroneously claims to support
+  *                  extended scanning
+  * broken_mws_transport_config: Set to true if the chip erroneously claims to
+@@ -572,6 +573,9 @@ struct bcm4377_data {
+ 	/* set when the controller lost its firmware during system sleep */
+ 	bool fw_lost;
+ 
++	/* Link Control value saved while ASPM is disabled for the boot */
++	u16 link_ctl;
++
+ 	void __iomem *bar0;
+ 	void __iomem *bar2;
+ 
+@@ -2260,20 +2264,27 @@ static int bcm4377_probe_of(struct bcm4377_data *bcm4377)
+ 	return 0;
+ }
+ 
++/*
++ * ASPM is disabled in this function's Link Control register only. A
++ * non-ARI Multi-Function Device enables only the ASPM states enabled in
++ * all of its functions, so the link stays in L0 until it is restored.
++ */
+ static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
+ {
+-	pci_disable_link_state(bcm4377->pdev,
+-			       PCIE_LINK_STATE_L0S | PCIE_LINK_STATE_L1);
+-
+-	/*
+-	 * pci_disable_link_state can fail if either CONFIG_PCIEASPM is disabled
+-	 * or if the BIOS hasn't handed over control to us. We must *always*
+-	 * disable ASPM for this device due to hardware errata though.
+-	 */
++	pcie_capability_read_word(bcm4377->pdev, PCI_EXP_LNKCTL,
++				  &bcm4377->link_ctl);
+ 	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
+ 				   PCI_EXP_LNKCTL_ASPMC);
+ }
+ 
++static void bcm4377_restore_aspm(struct bcm4377_data *bcm4377)
++{
++	pcie_capability_clear_and_set_word(bcm4377->pdev, PCI_EXP_LNKCTL,
++					   PCI_EXP_LNKCTL_ASPMC,
++					   bcm4377->link_ctl &
++					   PCI_EXP_LNKCTL_ASPMC);
++}
++
+ static void bcm4377_pci_free_irq_vectors(void *data)
+ {
+ 	pci_free_irq_vectors(data);
+@@ -2425,6 +2436,9 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	if (bcm4377->hw->disable_aspm)
++		bcm4377_restore_aspm(bcm4377);
++
+ 	ret = hci_register_dev(hdev);
+ 	if (ret < 0)
+ 		return ret;
