@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398880;
-	b=4TMaJAVt0y3vewzYm6YwhLesxK12cNwBTtrPnDLQrPjrPfgQIA9HjyQ+j6JDKcO6i4kJ
-	 BpmSonrYRxlePUHIq9hWeHDF1XrFwK3UXa1SEfA86tN48t7WPPQlR8MB9vr6BneLUF9r9
-	 TviyApwv3xu7h4Fj07dcMUfT3tgakyojhMrvCzN/UN4Si/WCVEvA13p2WF4ZAdbo8yfup
-	 ZxkYEeccgakXcPJZ5UKha8FlqanPh/pJq0rRu32vWI14JvbG+cuX+VUxIKzZChYSbvbny
-	 6nbxWmfxjhNW3nHfuEDZAIA/NizMd3Lwm8xM/xQp1pxMuorZEA40Kd5Y5/zC9NiemyA==
+	t=1794398882;
+	b=uwNLBVw6Tz+T+T1I5sQ8wkngGzrxvRbXN59EqrrpyNfStvIf5RrZf/RAElBffFKEdL02
+	 d0cyXar4U72qrvgcDtcZ/3nViiZvz6bMfXADTY1yMwrVgv1y1BtnPWIRf49h92SlajUQh
+	 oSy6kh4/cL7fTmDfJ+4NVO7k9JCbp79Tmts7mIcZIUdLGztw3ryshJNiYnwvwMunyxeqU
+	 dddMrMQOtHGtXQIViAY44NiTS+y7Bqd4bLPJAkugd403Fi2TPCytkxItkU9TLcEMCnLdK
+	 Q5l68wDsw/lx1/HSmLtCw+ifF11G7SjE2wNWeAoUK0GMoY4BPUXl+6iStLqnYNU0+sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398880;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398882;
 	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=pFashoEnDZZuvWll98ek06OLO0B0ikHasWYuJ9bJ260=;
-	b=DYZwglylGA2sxjP0odhjQvEdkXCD/uhai84AfNB7blophCActylbgw2hAjIxEJ+6FGIY
-	 VbuG0YqbvwzYKp/+Kp/wl6jsmRe89UGsYIFwesSlYhvam7zxtkMmFjBOP7PSpUBpeab+A
-	 Xp8q2wx7fmVVcSsM4qe2ZtAMgJZeTqwLNBNHW4A0dzE8xJ+EDL5X8STnudSHcjFN/y7Nm
-	 sBJLpVkH68rlIXb43SRR9c5rw8oPyoFGSPD7OQnbUOoYhf0i59aKVfSyM/yEWLzujhdWI
-	 jitNBYEtq7r9AXD+2tNp3MWSMar3zH9KTTOfbjyScagw4wxupSxE1wXurQNu7fKLtOw==
+	bh=hYhOZkL/otgRvGfJdBZAujUUz33qad7UICBu6uXEBGY=;
+	b=sia/PZirjZQ4oyT6h0Ob/XnvCHaKn5+VDhes1/GMiFsmTvwvXan9fixipWyA8cKBtXJm
+	 laQNK8IFMtv3Na0QMA+1p3/NXv6grh06I1oTjBTAsRXnjYe928C9PyInNLskYmHH4Gk5y
+	 1OuCPtIOrENBK6f7sBzsmcd3IIERu/lKJmgFPEJiz1WXGoRRfvdcGn1VldrxFr+Co+0yl
+	 TcXN1/LfTi7WyOxqyC2rrOF+tc5mcwFhvcTBYF1oIWtE3leMrJ72ejqwTgSjNAQutvuSq
+	 FrbubKeqy/eyWH1t9WHBsm9CxUISMM7K0GjieWVi1QAZmJ/G1KEI5oEAsiJ0DQbJRWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EmtMasYo;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b="LeEDn/mA";
 	arc=none smtp.remote-ip=91.216.248.207
 Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0922606A88C;
-	Wed, 11 Nov 2026 12:07:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0922606A88C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D9F606A8A6;
+	Wed, 11 Nov 2026 12:08:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08D9F606A8A6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EmtMasYo
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=LeEDn/mA
 From: Andre Eikmeyer <dev@deq.rocks>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1794398878;
-	bh=Ms21SKXT3u4FNhh3d8KIC89/cHPf4RgidjPrBUptLKA=;
+	s=securedbylima-20251205; t=1794398880;
+	bh=4qCAPE7zQoMkKqxefQhrfehtD49kPtqZhPrvXyAgXKM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EmtMasYojmt+mJ5UjbVAyBub+433TgP8Q8rIudiqFTvCRwuBII4YDkW1qb/+HxsO4
-	 8QWonKM+szpQuhTvNHknN3HCcbx5CJrA7NKSvgWnGFEYxPABcITfbnGV+cEcqjqUZz
-	 7pVFXY451v2EH5Y7+pUKf1U+2PB103Q/eO9QNeslcjuoe9K7qzRCPgQfkLIK5jvZhL
-	 Y1aqR6kFYl0KAJsnpxPmSaRzOFV7jJ4WXOr6LoWfhFipUJq4q3ZfC/eH5OUkJ8fReF
-	 CzcvUDzqrLBisOGmmDaMwK1T5gXlpQS/voASPj9Y2JPiAVBKdzZb+IN07ARLcoHaD6
-	 ersDbPVwFDpDw==
+	b=LeEDn/mAlJNX8bB2+79D/R7xeJkgVoorRs6le2z0G2S/VpI6H0grgWlitxN3YejQ3
+	 MVDUnBa228VRBlPMK5ABXSRG4EvlyHvCDrammXRkMakaidNeJX++AO/vdXy3Icnv3Y
+	 yGicdrXrF/hKrFrO9DRCiXdc25xw8e6XJQ0Xwjg9chxdFOD/PQ7m6upCkpUQP/4NaX
+	 xntxp/4RJX6Yipy3dQdgfQTk7CW3ygUGQcBNH02ajGMYm0AZZIzDU8FfiBvSBlWI8d
+	 RvxxJFSqjkzRA0u56D85PzxvN8/ogGWiS8l7WwMA429F+zOfPGbiwzYWOL/pc3gARd
+	 p+Yjhjp/QlZOQ==
 To: arend.vanspriel@broadcom.com
 Cc: linux-wireless@vger.kernel.org,
 	brcm80211@lists.linux.dev,
@@ -55,9 +55,9 @@ Cc: linux-wireless@vger.kernel.org,
 	asahi@lists.linux.dev,
 	sebastian.reichel@collabora.com,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 2/5] wifi: brcmfmac: pcie: skip the host ready doorbell at init once it is a capability
-Date: Wed, 11 Nov 2026 13:07:45 +0100
-Message-ID: <20261111120748.23795-3-dev@deq.rocks>
+Subject: [PATCH v2 3/5] wifi: brcmfmac: pcie: probe again after a resume through firmware
+Date: Wed, 11 Nov 2026 13:07:46 +0100
+Message-ID: <20261111120748.23795-4-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261111120748.23795-1-dev@deq.rocks>
 References: <20261111120748.23795-1-dev@deq.rocks>
@@ -72,60 +72,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With host ready in the host capabilities, the BCM4364 firmware halts on
-the doorbell that brcmf_pcie_preinit() rings, before it answers the
-first ioctl. The B3 of the MacBookPro16,1 does so on every load, the B2
-of the MacBookPro15,1 on some:
+After ACPI S3 the chip comes back without its firmware, but the
+interrupt mask can read back nonzero, so brcmf_pcie_pm_leave_D3()
+takes the hot resume path and every command times out afterwards.
+Seen on the BCM4377 and BCM4364 of the T2 Macs.
 
-  brcmf_pcie_handle_mb_data D2H_MB_DATA: FW HALT
-  brcmf_attach: dongle is not responding: err=-5
-
-The BCM4377 stays silent without the capability, so it stays. Once host
-ready is a capability the firmware takes the doorbell as the exit from
-D3, where Broadcom's DHD driver rings it, after D0_INFORM. Ring it at
-init only when host ready is not a capability.
+When the platform firmware handled the resume and WoWL is off, go
+straight to the existing remove and re-probe path.
 
 Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
 ---
- .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index 231a2fb89f0..fc0f23477eb 100644
+index fc0f23477eb..faa1e16ed4f 100644
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -325,6 +325,7 @@ struct brcmf_pcie_shared_info {
- 	dma_addr_t ringupd_dmahandle;
- 	u8 version;
- 	bool mb_via_ctl;
-+	bool hostrdy;
- };
+@@ -7,6 +7,7 @@
+ #include <linux/module.h>
+ #include <linux/firmware.h>
+ #include <linux/pci.h>
++#include <linux/suspend.h>
+ #include <linux/vmalloc.h>
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+@@ -2844,6 +2845,15 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
+ 	devinfo = bus->bus_priv.pcie->devinfo;
+ 	brcmf_dbg(PCIE, "Enter, dev=%p, bus=%p\n", dev, bus);
  
- #define BRCMF_OTP_MAX_PARAM_LEN 16
-@@ -1599,7 +1600,13 @@ static int brcmf_pcie_preinit(struct device *dev)
- 	brcmf_dbg(PCIE, "Enter\n");
- 
- 	brcmf_pcie_intr_enable(buspub->devinfo);
--	brcmf_pcie_hostready(buspub->devinfo);
 +	/*
-+	 * Once the host capabilities enable host ready, the firmware takes the
-+	 * doorbell as the exit from D3 only. The BCM4364 firmware halts on it
-+	 * here.
++	 * Without WoWL the device is powered off when the platform firmware
++	 * handles the system sleep, as with ACPI S3, and comes back without
++	 * its firmware. Its registers can still read back nonzero, so probe
++	 * it again.
 +	 */
-+	if (!buspub->devinfo->shared.hostrdy)
-+		brcmf_pcie_hostready(buspub->devinfo);
- 
- 	return 0;
- }
-@@ -1806,8 +1813,10 @@ brcmf_pcie_init_share_ram_info(struct brcmf_pciedev_info *devinfo,
- 			!(shared->flags & BRCMF_PCIE_SHARED_USE_MAILBOX);
- 
- 		host_cap = shared->version;
--		if (shared->flags & BRCMF_PCIE_SHARED_HOSTRDY_DB1)
-+		if (shared->flags & BRCMF_PCIE_SHARED_HOSTRDY_DB1) {
- 			host_cap |= BRCMF_HOSTCAP_H2D_ENABLE_HOSTRDY;
-+			shared->hostrdy = true;
-+		}
- 		if (shared->flags & BRCMF_PCIE_SHARED_DAR)
- 			host_cap |= BRCMF_HOSTCAP_H2D_DAR;
- 		host_cap |= BRCMF_HOSTCAP_DS_NO_OOB_DW;
++	if (pm_resume_via_firmware() && !devinfo->wowl_enabled)
++		goto cleanup;
++
+ 	/* Check if device is still up and running, if so we are ready */
+ 	if (brcmf_pcie_read_pcie32(devinfo, devinfo->reginfo->intmask) != 0) {
+ 		brcmf_dbg(PCIE, "Try to wakeup device....\n");
