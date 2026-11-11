@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794398583;
-	b=DtnUlklv3vtu7jofCnQsPS1XVcHXnUfjeEIxloRXhpz4YRanDV5gYgb1TthGGu1z96i2
-	 vISKXySxf5FhboLQT/OI58oNB2Z2fmdiPA7EJWAtIPNYeL5T5Htf401NoABw4iYHUJQwn
-	 tn9U5VpDj0RBNJZdd1EexiJK+JFooTghng8m2BlWAyBnmKEIh468wyNbrkLgVyCFbciXu
-	 KYzYxBUyjIdl95wRO7yk++aw3V5VGOrwf5dy+AxLvggjW0c5CDnsd0ewgmbGexOSpVHao
-	 oqa7cZD5M4An1qk552pQH30URghuyumzyFpYyyDm+xy9foo7qUIckaaMNRprx52iWFQ==
+	b=G086TqZwf7HEz9jbEkbZdPSatBqrZV2QFGb7vIAx3HE4z39xQUHc8H2wkaf2Wu4M4PPs
+	 992J0LCtzLwz6irnWgFLI7yLB+eeXzo0FRWz1x8WQDyBMGOiRAoAm5kXlw+PIyU3Vj5NP
+	 GSKGU8Q52kRrSJHsBCBlb4vttGp4fwEwKT9wG2ij1rKGL4Ao253CMPefXYDy7rrCHOmpc
+	 HqfpzhX3oQoKwZm3mqG0grZCSTjXLJZYCpMnHYwOoy3JDgGMZ5IA5oZADIp7u34vgbai4
+	 Oq2fySWqUnDaSpTsAA0wjyvtjjyYkEdD7Y04xosFsyaTPbN74cQsH0ebn3F1ZeDamQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794398583;
-	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=an9CjgF3i7R41tdwZTyFePnX12f5lARONWktj1nVWlA=;
-	b=LI6eLDwxDzoTQIJxYo6MkkB5XcxBUdKXz7V+4YcXnD4EN7dXWbCfXnNbT2yPwbeJFrPT
-	 EMzSmRbcSqH3PcTP3OnASvGcPSnUMq7FPnDY8NHA/OcRGPvIu0qCE6NVr33Y0j8/hDZfP
-	 ISmeGCGSd1l9riB/K5zzQORdAf49tG3/mlpNYHDG4UIC1XXsAwLvar6JBRaGc9/xnHrtH
-	 4/Y5IXiFTNw2Wn6XURyhA9ZiZNQLamyj96Yr8p+MHd3MHdKXpH+Sn7Wg2kXsttvjqTpCh
-	 Lw9ejJl996n0HmJsnxpVvzNJ/P2ezkpvM7GV1UeQp4jsOOk43KASCw+XWr6DPR3vr0g==
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=uCuXL4k6bXz1OMpQSYuglr4LnZB1D5NcI6zeX6m9YVw=;
+	b=n2Xm8d+Tg52EIHnmBjPND7RVoDbEECienAF/sjbcpAo+DKkzhACSfVVNx86cQaKmTwEV
+	 aH2GTSa73OXXQmRhT/1ZA+f11UNF8gIAx3N/KwquFukPE1KhM5oSlq7S3JdzBGB8wQCpk
+	 jeZ/OXiXgOLFsxDRxNUCnFylcZUR563yi/W5KoLhQ5UyaG161NLYKRoUhYcZ0HnI/R8VV
+	 4/yfiQfpqLdsYFiSbHIqe1S9ido7sJXhRoSITsRGH5ZT5te17mL1T2ODN4Pne6vLxdnk2
+	 Xc+fD/fk198rikEwnfUM3xCcyeFT3zAfkWht9Tdn+ZC+0FXawfgBUO2I+AzgJQYvR5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=B2CExKMR;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=fENlUVZ+;
 	arc=none smtp.remote-ip=91.216.248.207
 Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DC0606B606
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A83606B605
 	for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 12:03:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16DC0606B606
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15A83606B605
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=B2CExKMR
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=fENlUVZ+
 From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: c5a54213-9cbf-48a4-8e1a-0957c13c7efb
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1794398579;
-	bh=ZWZcKQnR07HF50YgzRPWJA+uhegvXnEEGjk8F3xSpu0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B2CExKMRncpTl3ifbkQVmUZkHdLLipQDeBCVYV2ApQE75IuFKP1uIPi0I00B6Stwb
-	 LrDmb6OOWkvkseC+qJx3Wjf3TC0R/QOi3GzHBIReV4tbV30P/53MaTbWV3vZ46k3mT
-	 dO8omGlmOFccUYpctzvXpG5PPtVKxXEsF3MQ1jNu538G8u1unDjQ0Wqx270NVV3ofH
-	 tspUnzxdE1TBqAgTCi+Ofu+Dp63U7WOe9Wa3F+NqEcw1BR0dmzQb/nK85FW1EGYe2u
-	 IKNi36e35DtTcAaqGb+aVoVKKTDQ89Myy5bMTusN2/O6BfWeGQQlGUvEgo1w3Ty1Nz
-	 RMeSiR9tmxNbQ==
+	s=securedbylima-20251205; t=1794398572;
+	bh=/2sigmfXWkPzluBSXA1irkkQUfzfLvNPv0N9im65hXY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fENlUVZ+IzGo74oxqoF6Zyc0XwlvqAKBDIvQNc47T0rPKrx1aQbXLYBEO51842aK7
+	 qiphnBOWcTHVKhxfylp6NEoa+MI4pnMZIgfxpKDco/QxYoOnrAN1YCGLWbJI90XTse
+	 ajyNclf9gB+Fnl+zRn0ZtZokpqwr6Dg3mVn+oVi1fJK0wC8amH2z+HQN41hNNx0TfZ
+	 +VGK/UHF3UeAQlKiwafAAL8oHA0OOpWUckTjoLEU/D1f93hCrzGXn4d81mtI90ZI6S
+	 uGi7tXpHgYAKe5rk/GCM6O+EOZrzK2i9uSN2tXAI4JlHX/wk0ubnbcR35X+Ml5QeoD
+	 a/oNcM+6585jw==
 To: sven@kernel.org,
 	marcel@holtmann.org,
 	luiz.dentz@gmail.com
@@ -54,12 +54,10 @@ Cc: j@jannau.net,
 	linux-bluetooth@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 3/3] Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
-Date: Wed, 11 Nov 2026 13:02:48 +0100
-Message-ID: <20261111120248.21062-4-dev@deq.rocks>
+Subject: [PATCH v2 0/3] Bluetooth: hci_bcm4377: resume after ACPI S3 and ASPM
+Date: Wed, 11 Nov 2026 13:02:45 +0100
+Message-ID: <20261111120248.21062-1-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261111120248.21062-1-dev@deq.rocks>
-References: <20261111120248.21062-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -71,94 +69,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The BCM4377 needs ASPM disabled because of a hardware erratum, and the
-driver disables it on the whole link for as long as the device is bound.
-On the MacBookAir9,1 this keeps the link to the Wi-Fi and Bluetooth chip
-in L0, and the package does not go deeper than PC3.
+After ACPI S3 the Bluetooth function of the BCM4377 comes back without
+its firmware. Patch 2 probes it again after such a resume.
 
-Disable ASPM only in this function's Link Control register before the
-function level reset and the firmware boot, and restore the saved value
-once the firmware runs. A non-ARI Multi-Function Device enables only the
-ASPM states enabled in all of its functions, so the link stays in L0
-until then.
+When the previous controller is still being released, the re-probe
+registers the new one under another index, which runs into the probe
+return check fixed in patch 1. Patch 1 is a fix on its own and goes
+first.
 
-Tested on a MacBookAir9,1: with ASPM L1 enabled by the PCI core the link
-returns to L1 after probe and after the re-probe that follows ACPI S3,
-Bluetooth and Wi-Fi keep working, and the package reaches PC8 instead of
-PC3 at idle.
+Patch 3 is new in v2. Because of a hardware erratum the driver keeps
+ASPM disabled on the whole link to the Wi-Fi and Bluetooth chip for as
+long as it is bound, which holds the CPU package at PC3.
+Patch 3 disables ASPM only while the firmware boots and restores it
+once the firmware runs, also after the re-probe from patch 2.
 
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
- drivers/bluetooth/hci_bcm4377.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
+The Wi-Fi function of the same chip needs the same after S3 and goes to
+linux-wireless in "wifi: brcmfmac: pcie: S3 suspend and resume on the
+T2 Mac chips".
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 4e3630774c0..0d2103cfd9b 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -497,7 +497,8 @@ struct bcm4377_data;
-  * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
-  *                                     vendor-specific subsystem control
-  *                                     register has to be cleared
-- * disable_aspm: Set to true if ASPM must be disabled due to hardware errata
-+ * disable_aspm: Set to true if ASPM must be disabled while the firmware is
-+ *               loaded and booted due to hardware errata
-  * broken_ext_scan: Set to true if the chip erroneously claims to support
-  *                  extended scanning
-  * broken_mws_transport_config: Set to true if the chip erroneously claims to
-@@ -572,6 +573,9 @@ struct bcm4377_data {
- 	/* set when the controller lost its firmware during system sleep */
- 	bool fw_lost;
- 
-+	/* Link Control value saved while ASPM is disabled for the boot */
-+	u16 link_ctl;
-+
- 	void __iomem *bar0;
- 	void __iomem *bar2;
- 
-@@ -2260,20 +2264,27 @@ static int bcm4377_probe_of(struct bcm4377_data *bcm4377)
- 	return 0;
- }
- 
-+/*
-+ * ASPM is disabled in this function's Link Control register only. A
-+ * non-ARI Multi-Function Device enables only the ASPM states enabled in
-+ * all of its functions, so the link stays in L0 until it is restored.
-+ */
- static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
- {
--	pci_disable_link_state(bcm4377->pdev,
--			       PCIE_LINK_STATE_L0S | PCIE_LINK_STATE_L1);
--
--	/*
--	 * pci_disable_link_state can fail if either CONFIG_PCIEASPM is disabled
--	 * or if the BIOS hasn't handed over control to us. We must *always*
--	 * disable ASPM for this device due to hardware errata though.
--	 */
-+	pcie_capability_read_word(bcm4377->pdev, PCI_EXP_LNKCTL,
-+				  &bcm4377->link_ctl);
- 	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
- 				   PCI_EXP_LNKCTL_ASPMC);
- }
- 
-+static void bcm4377_restore_aspm(struct bcm4377_data *bcm4377)
-+{
-+	pcie_capability_clear_and_set_word(bcm4377->pdev, PCI_EXP_LNKCTL,
-+					   PCI_EXP_LNKCTL_ASPMC,
-+					   bcm4377->link_ctl &
-+					   PCI_EXP_LNKCTL_ASPMC);
-+}
-+
- static void bcm4377_pci_free_irq_vectors(void *data)
- {
- 	pci_free_irq_vectors(data);
-@@ -2425,6 +2436,9 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (ret)
- 		return ret;
- 
-+	if (bcm4377->hw->disable_aspm)
-+		bcm4377_restore_aspm(bcm4377);
-+
- 	ret = hci_register_dev(hdev);
- 	if (ret < 0)
- 		return ret;
+Successfully ested on MacBookAir9,1 and MacBookPro15,4.
+
+v1 [1] has not received any feedback yet.
+
+Changes in v2:
+- Add patch 3, keep ASPM off only while the firmware boots
+- Patches 1 and 2 are unchanged
+
+[1] https://lore.kernel.org/all/20261107154839.89941-1-dev@deq.rocks/
+
+Andre Eikmeyer (3):
+  Bluetooth: hci_bcm4377: treat only negative hci_register_dev() returns
+    as errors
+  Bluetooth: hci_bcm4377: probe again after a resume through firmware
+  Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
+
+ drivers/bluetooth/hci_bcm4377.c | 93 +++++++++++++++++++++++++++++----
+ 1 file changed, 83 insertions(+), 10 deletions(-)
+
+
+base-commit: 3f425f95ba3923d605f6a8b382e8fcdc59d479db
