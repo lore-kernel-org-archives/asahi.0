@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398879;
-	b=uZZzbB8NwOmn1znl2gxSWNnXEVhb99Egv8PquYp/btCdoxXtvKCWj+xbbM6VgTK5bW9i
-	 ngBR5R4rL3oFLX6qT4mzl7vtb7FNND2r79g2rwfhytCS3+wSbWWY/JwWLoncxzXRlBX1L
-	 BvDc0uLM6K/IveEpvNiAI6lqqnVoroWa328LJzeRGZd0t8sgiIQL+WWoQp5OOLdYMWrNQ
-	 WIVzoWKa3LpOr6ej6M/36VAzFB3iMg+cMUCzZtR7A4WFwS9k7WFDfcehLOIyDL9Lkr5Px
-	 01H7+1BMZOusqe7zl8RoonIfZE+/Tj4b2RD/h7Plhz5ASpNMxYz8dGPAiH+yq/uC44A==
+	t=1794398880;
+	b=4TMaJAVt0y3vewzYm6YwhLesxK12cNwBTtrPnDLQrPjrPfgQIA9HjyQ+j6JDKcO6i4kJ
+	 BpmSonrYRxlePUHIq9hWeHDF1XrFwK3UXa1SEfA86tN48t7WPPQlR8MB9vr6BneLUF9r9
+	 TviyApwv3xu7h4Fj07dcMUfT3tgakyojhMrvCzN/UN4Si/WCVEvA13p2WF4ZAdbo8yfup
+	 ZxkYEeccgakXcPJZ5UKha8FlqanPh/pJq0rRu32vWI14JvbG+cuX+VUxIKzZChYSbvbny
+	 6nbxWmfxjhNW3nHfuEDZAIA/NizMd3Lwm8xM/xQp1pxMuorZEA40Kd5Y5/zC9NiemyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398879;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398880;
 	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=mKcm1dAoYoORZVjG1XVEegV5B3AmCIUI2s6piPJ7UtQ=;
-	b=dTll6xDktNZaUh8pp494VJr17186RuIZLSCNq+dez2CkmfS+MfEt/1qHnNE3aT1jcykP
-	 JjzQIvRHdJMzqSnGwOFxAJkbHT2PfcY3Dd9py2nCMHTTmTT6gzMflgTufPe38aRXcH2nk
-	 PVItogIkcE3OA/i26A7A03jrsCHU59DJNVXUTejhq694stfSkJKiK8+1l5OiyvzEKuGgW
-	 gdHmSGlUX56t00Pl7Fto4wyeWXRNapyUR4wh106ChF/G0IrZir/JgHde9KAsitHvE0qLT
-	 YSKCkMTcHAtGJuC46J0/ep7yCQOuFjkQun5ILsKN1PuEkDTN/QBgn8xdnSSt8ofHkWg==
+	bh=pFashoEnDZZuvWll98ek06OLO0B0ikHasWYuJ9bJ260=;
+	b=DYZwglylGA2sxjP0odhjQvEdkXCD/uhai84AfNB7blophCActylbgw2hAjIxEJ+6FGIY
+	 VbuG0YqbvwzYKp/+Kp/wl6jsmRe89UGsYIFwesSlYhvam7zxtkMmFjBOP7PSpUBpeab+A
+	 Xp8q2wx7fmVVcSsM4qe2ZtAMgJZeTqwLNBNHW4A0dzE8xJ+EDL5X8STnudSHcjFN/y7Nm
+	 sBJLpVkH68rlIXb43SRR9c5rw8oPyoFGSPD7OQnbUOoYhf0i59aKVfSyM/yEWLzujhdWI
+	 jitNBYEtq7r9AXD+2tNp3MWSMar3zH9KTTOfbjyScagw4wxupSxE1wXurQNu7fKLtOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=MnmTvoyC;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EmtMasYo;
 	arc=none smtp.remote-ip=91.216.248.207
 Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B621606A337;
-	Wed, 11 Nov 2026 12:07:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B621606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0922606A88C;
+	Wed, 11 Nov 2026 12:07:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0922606A88C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=MnmTvoyC
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EmtMasYo
 From: Andre Eikmeyer <dev@deq.rocks>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1794398875;
-	bh=PsYaUokuUjE2AS3GVmh9VLEWFesqZswSzdg7BzKWSRI=;
+	s=securedbylima-20251205; t=1794398878;
+	bh=Ms21SKXT3u4FNhh3d8KIC89/cHPf4RgidjPrBUptLKA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MnmTvoyCQcS5QT0eDt/KkUK5JtNpW/aJs2co7BWsvbU8oMdL9QW1q0Sf3L2n06Amy
-	 9yEWadMkd9CaMYQYutGB9pr/5JBoRRTI5M3HV4Iqks1wnPVXrtB5sibLe+o8c1MzjC
-	 Juw+9VlHN+Gotzsp+k9k81ikjYA9D+BGdVRMrSWWUNqt9eVbpsadFla6/O9KE18Izr
-	 O3VmgXoxYF06iv/ooCvDHrxvsJnqNd3OgB1E7rBxT2DB4qF/kYFYWFD1ovJNznu30n
-	 O4xmpH287iScUcc3iLtJ3W7jOIlFDdJghIBzgh4JlQKWxDBCRUhS876nxkFJDcZygX
-	 RAkcC2QJxKceA==
+	b=EmtMasYojmt+mJ5UjbVAyBub+433TgP8Q8rIudiqFTvCRwuBII4YDkW1qb/+HxsO4
+	 8QWonKM+szpQuhTvNHknN3HCcbx5CJrA7NKSvgWnGFEYxPABcITfbnGV+cEcqjqUZz
+	 7pVFXY451v2EH5Y7+pUKf1U+2PB103Q/eO9QNeslcjuoe9K7qzRCPgQfkLIK5jvZhL
+	 Y1aqR6kFYl0KAJsnpxPmSaRzOFV7jJ4WXOr6LoWfhFipUJq4q3ZfC/eH5OUkJ8fReF
+	 CzcvUDzqrLBisOGmmDaMwK1T5gXlpQS/voASPj9Y2JPiAVBKdzZb+IN07ARLcoHaD6
+	 ersDbPVwFDpDw==
 To: arend.vanspriel@broadcom.com
 Cc: linux-wireless@vger.kernel.org,
 	brcm80211@lists.linux.dev,
@@ -55,9 +55,9 @@ Cc: linux-wireless@vger.kernel.org,
 	asahi@lists.linux.dev,
 	sebastian.reichel@collabora.com,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 1/5] wifi: brcmfmac: pcie: set the state before D0_INFORM on resume
-Date: Wed, 11 Nov 2026 13:07:44 +0100
-Message-ID: <20261111120748.23795-2-dev@deq.rocks>
+Subject: [PATCH v2 2/5] wifi: brcmfmac: pcie: skip the host ready doorbell at init once it is a capability
+Date: Wed, 11 Nov 2026 13:07:45 +0100
+Message-ID: <20261111120748.23795-3-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261111120748.23795-1-dev@deq.rocks>
 References: <20261111120748.23795-1-dev@deq.rocks>
@@ -72,42 +72,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With the mailbox on the control ring, D0_INFORM goes through the ring
-write path, which refuses to write while devinfo->state is DOWN.
-brcmf_pcie_pm_leave_D3() sets the state only after D0_INFORM, so every
-hot resume fails and falls back to remove and re-probe:
+With host ready in the host capabilities, the BCM4364 firmware halts on
+the doorbell that brcmf_pcie_preinit() rings, before it answers the
+first ioctl. The B3 of the MacBookPro16,1 does so on every load, the B2
+of the MacBookPro15,1 on some:
 
-  brcmf_pcie_send_mb_data: Failed to send H2D mailbox data (-5)
+  brcmf_pcie_handle_mb_data D2H_MB_DATA: FW HALT
+  brcmf_attach: dongle is not responding: err=-5
 
-Set the state before D0_INFORM and back to DOWN when the hot resume
-fails.
+The BCM4377 stays silent without the capability, so it stays. Once host
+ready is a capability the firmware takes the doorbell as the exit from
+D3, where Broadcom's DHD driver rings it, after D0_INFORM. Ring it at
+init only when host ready is not a capability.
 
 Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
 ---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index 4de157d18ff..231a2fb89f0 100644
+index 231a2fb89f0..fc0f23477eb 100644
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -2838,10 +2838,10 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
- 	/* Check if device is still up and running, if so we are ready */
- 	if (brcmf_pcie_read_pcie32(devinfo, devinfo->reginfo->intmask) != 0) {
- 		brcmf_dbg(PCIE, "Try to wakeup device....\n");
-+		devinfo->state = BRCMFMAC_PCIE_STATE_UP;
- 		if (brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_D0_INFORM))
- 			goto cleanup;
- 		brcmf_dbg(PCIE, "Hot resume, continue....\n");
--		devinfo->state = BRCMFMAC_PCIE_STATE_UP;
- 		brcmf_pcie_select_core(devinfo, BCMA_CORE_PCIE2);
- 		brcmf_bus_change_state(bus, BRCMF_BUS_UP);
- 		brcmf_pcie_intr_enable(devinfo);
-@@ -2851,6 +2851,7 @@ static int brcmf_pcie_pm_leave_D3(struct device *dev)
- 	}
+@@ -325,6 +325,7 @@ struct brcmf_pcie_shared_info {
+ 	dma_addr_t ringupd_dmahandle;
+ 	u8 version;
+ 	bool mb_via_ctl;
++	bool hostrdy;
+ };
  
- cleanup:
-+	devinfo->state = BRCMFMAC_PCIE_STATE_DOWN;
- 	brcmf_chip_detach(devinfo->ci);
- 	devinfo->ci = NULL;
- 	pdev = devinfo->pdev;
+ #define BRCMF_OTP_MAX_PARAM_LEN 16
+@@ -1599,7 +1600,13 @@ static int brcmf_pcie_preinit(struct device *dev)
+ 	brcmf_dbg(PCIE, "Enter\n");
+ 
+ 	brcmf_pcie_intr_enable(buspub->devinfo);
+-	brcmf_pcie_hostready(buspub->devinfo);
++	/*
++	 * Once the host capabilities enable host ready, the firmware takes the
++	 * doorbell as the exit from D3 only. The BCM4364 firmware halts on it
++	 * here.
++	 */
++	if (!buspub->devinfo->shared.hostrdy)
++		brcmf_pcie_hostready(buspub->devinfo);
+ 
+ 	return 0;
+ }
+@@ -1806,8 +1813,10 @@ brcmf_pcie_init_share_ram_info(struct brcmf_pciedev_info *devinfo,
+ 			!(shared->flags & BRCMF_PCIE_SHARED_USE_MAILBOX);
+ 
+ 		host_cap = shared->version;
+-		if (shared->flags & BRCMF_PCIE_SHARED_HOSTRDY_DB1)
++		if (shared->flags & BRCMF_PCIE_SHARED_HOSTRDY_DB1) {
+ 			host_cap |= BRCMF_HOSTCAP_H2D_ENABLE_HOSTRDY;
++			shared->hostrdy = true;
++		}
+ 		if (shared->flags & BRCMF_PCIE_SHARED_DAR)
+ 			host_cap |= BRCMF_HOSTCAP_H2D_DAR;
+ 		host_cap |= BRCMF_HOSTCAP_DS_NO_OOB_DW;
