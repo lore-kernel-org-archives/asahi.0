@@ -1,81 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.39.247.168
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794407251;
-	b=M6ES8AEUR4glyovvCbpHf7xaF3kLeHenJSUqi/04U/mi75KxDuy+2S1i6fyeTMv/NLle
-	 QHLs9no3UThqebm7ji/lePKr60DbHEg34OZ/LpM1TUwk4tAE9IlmX9eEQ9ZopxIQl3FLq
-	 nTQuwa6BwVTEQvy2FYBHdTfW3bHOTmo3bNOX5EyoSodT1DpzPkZjaOrypFh89d+4hEhT/
-	 oay5YHJQfELjC9z89BYYHXB6Q7AQtm9KbiO/MOi4ewoerQApPphC96h02qGuxhJXk7cT7
-	 mynjS47PbTphib7Nr9lxqa+JF5nlgCuE74QaK26izchJmhkU//bwLfAQcgy9Dqo5UmQ==
+	t=1794407585;
+	b=Cu/LbCDfKcVQzZ4w8tNQl1JijBtZL84AX2mElzBVWVvH5l2PPipaWn+0a1gr0kcVNt1/
+	 rZcckBWgfMvA5wVGpW5yz0CLBGusoCD+dOmqPFOx/5DTdcsBKS+zu1d3nAjbZa5skT4GP
+	 9OvZBLuofXLftBYkXmRESFzXpehcFilDc5io/hQcmpObTDQCB6t/iBkEYYBjiMVlx3OOS
+	 +RAXsgKwReGvnm3HZpRZLHn8ZRQ0SwdQw49suwukjmx/qiLRsh7WTggYg8TK5Hgtp70/b
+	 LJjX6y5S8eyr/fGT+rsO66KM+w6uEGOPDcYi4mtBdCispRDr/Tvm1WVlfM8HC0MSJBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794407251;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=h+J1M25u6QeSQPD1ItsoXcibdhcAMh1COkyItBeTwFQ=;
-	b=f/4EBYpvNY8IrX/4ajzhu/KolGasfambTySUqGbUu2hr+zYXPkyucp/md7Y658HlPGGN
-	 j9w0+pnAO1rh6ZdhLVQ9MfSVvmy7qsehHSbXneBDbtkXE2nM/MJJqWjEG1Re+w1TOmD5L
-	 JkIHLtExnjBluOSeQFv5xRlGoc7JdQpvgZss3+6LwyPoF3bUMkdkZTl0MCoQTvvS0xHrP
-	 ymtN6yGCEUiBZRQwKpBF274OjAJzkrAWVEj3UIfrFqQrVO5l9xPUPPZT3JvtIxlP1nZXc
-	 e9GLw2hD0A8xhOCx7wQiBy7cc4Qpo0as/NX+KpQOpoBneILhguaaNgmsrfLZ+vyqOrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794407585;
+	h=DMARC-Filter:Message-ID:DKIM-Signature:Date:MIME-Version:Subject:To:
+	 Cc:References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Q7nTbtg3NOHUNDWE397ThEwNuYuuiTDqnX6yT9Vqs8E=;
+	b=rMMFty+vmhxUzNiYFAQaq9l1a1/z/XRcODLI17ROmlEyY75A1Yq7TfU9a9whM/0rPVKq
+	 soPd5lS7Ny2/Uemf1cwyZtINWpHkk29W8E6HCsWDoi0nQ9awtnOce7zCkEMWX4Qyif/Dz
+	 tCbhU/xm3x/MomfWgHi/OvoVSThJRpWgPbZUY6ksclU9edbdL8DiL1W6tPymhRlCRH/FU
+	 0J8HQ12C4/NbUQ4R8rGs9LLfIPI+j+YBcwyaGH7ZboLyr7rQu/SJbvjdVocOq/9zYcx7v
+	 5yt13CKURnCfwpgf/D1JQtBww3hWmY47lvQ73gbwAkUjfnlkxnZZJzTZ7Z90sX2sYlw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="G/KaiEp4";
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=cyberchaos.dev;
+	spf=pass smtp.mailfrom=cyberchaos.dev;
+	dkim=pass header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=fQ7Jo0y6;
+	arc=none smtp.remote-ip=195.39.247.168
+Received: from mail.cyberchaos.dev (mail.cyberchaos.dev [195.39.247.168])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE984606A334
-	for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 14:27:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE984606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10E260A260F;
+	Wed, 11 Nov 2026 14:33:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C10E260A260F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cyberchaos.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyberchaos.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G/KaiEp4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794407251; x=1825943251;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u/qCeSjdsyng+gNlk62u9VkDUlVM/0xSeuz8x0YhLRM=;
-  b=G/KaiEp4YOZ1X2aPF0uxgt8SMUrirGcOvYWA8IK16dChS0rhyangSgRC
-   UAGPiJp0YgPpFPhi3clrKtJzEPSroH460/T3Awo2PThI1uDg7PZfey/9W
-   ryc14Xqll2pPF8loxiqGkxZ1ZJMHK8xk64a/bdekcbcg5GdXeVcY/IEBn
-   QVrgl1CFTbaqXPLcjN7zkgV87xcHsyajQvMBVdRDDqcNPWrg49DjQ8Woo
-   akI6aWG5vR4uvpolof3yOWRchKxRvrKxYN8/t4yeP8C97wbJglcVaErD2
-   4ZK0WCbCItdq3YbDJUmGItN/yVY+aBFgVvgSFQvQeaXUKTNSEUiAiUWcg
-   Q==;
-X-CSE-ConnectionGUID: dsVcu6AMQxmLu+uBRNq0dQ==
-X-CSE-MsgGUID: +MPyezmeTAS2hZdOlc7fNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3060385"
-X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3060385"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 06:27:30 -0800
-X-CSE-ConnectionGUID: oZKtpEQXROibnuVXpFC2zQ==
-X-CSE-MsgGUID: P+bIKwihSLCEXzhTd9B19Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8525105"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2026 06:27:28 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id E8ABA99; Wed, 11 Nov 2026 15:27:26 +0100 (CET)
-Date: Wed, 11 Nov 2026 15:27:26 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: michael.reeves077@gmail.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Neal Gompa <neal@gompa.dev>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicole Mazzuca <nicole@streganil.no>, stable@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH] usb: typec: tipd: assign partner identity to persistent
- memory
-Message-ID: <avR7TnYTytU7TQKG@black.igk.intel.com>
-References: <20261107-tipd-stack-uaf-fix-v1-1-efcb517924ec@gmail.com>
+	dkim=pass (1024-bit key) header.d=cyberchaos.dev header.i=@cyberchaos.dev header.a=rsa-sha256 header.s=mail header.b=fQ7Jo0y6
+Message-ID: <fb7b4ede-a325-4c5e-a37d-fe3cc7a92f87@cyberchaos.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cyberchaos.dev;
+	s=mail; t=1794407575;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q7nTbtg3NOHUNDWE397ThEwNuYuuiTDqnX6yT9Vqs8E=;
+	b=fQ7Jo0y6y1TRDYwtYJgO1STJDXTDFtL/3trxMkZ0Ta6gVXwNHfIfQ/Ezhct73kXpoVFQWr
+	4m7n74TvisUz6uatQ6SYNsbV4EeQw0ifL4ObQhnQ/uKYDaJehRR+ahM1hiEeja9VNgFDeS
+	MpCJ+MZO13xY97WzfIP+bYOcF/+1tLQ=
+Date: Wed, 11 Nov 2026 15:32:51 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -85,75 +54,63 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107-tipd-stack-uaf-fix-v1-1-efcb517924ec@gmail.com>
+Subject: Re: [PATCH 03/15] dt-bindings: nvme: apple: Add apple,t8142-nvme-ans2
+ compatible
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev
+References: <20261106-apple-dts-m4-m5-nvme-v1-0-22f4827b4ece@cyberchaos.dev>
+ <20261106-apple-dts-m4-m5-nvme-v1-3-22f4827b4ece@cyberchaos.dev>
+ <20261111-comical-quaint-turaco-e8c1c2@quoll>
+Content-Language: en-US
+From: Yureka <yureka@cyberchaos.dev>
+In-Reply-To: <20261111-comical-quaint-turaco-e8c1c2@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 07, 2026 at 10:06:17AM +0000, Michael Reeves via B4 Relay wrote:
-> From: Michael Reeves <michael.reeves077@gmail.com>
-> 
-> cd321x_update_work() passes a pointer to a local stack variable
-> (&st.partner_identity) to typec_register_partner(). The Type-C core
-> caches this pointer, leading to a stack-use-after-free and a kernel
-> Oops when accessed later (e.g., via get_pd_product_type()).
-> 
-> Fix this by copying the identity to the heap-allocated cd321x struct
-> and passing a pointer to that persistent memory instead. Move up
-> the assignment to cd321x->cur_partner_identity, so this works.
-> 
-> Reported-by: Nicole Mazzuca <nicole@streganil.no>
-> Closes: https://github.com/AsahiLinux/linux/issues/668
-> Fixes: 82432bbfb9e8 ("usb: typec: tipd: Handle mode transitions for CD321x")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
-> Cc: Nicole Mazzuca <nicole@streganil.no>
-> Cc: asahi@lists.linux.dev
-> ---
->  drivers/usb/typec/tipd/core.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 02539378ffed..dce0aa8be5e0 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -855,8 +855,10 @@ static void cd321x_update_work(struct work_struct *work)
->  		desc.usb_pd = is_pd;
->  		desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
->  
-> -		if (desc.usb_pd)
-> -			desc.identity = &st.partner_identity;
-> +		if (desc.usb_pd) {
-> +			cd321x->cur_partner_identity = st.partner_identity;
-> +			desc.identity = &cd321x->cur_partner_identity;
-> +		}
->  
->  		tps->partner = typec_register_partner(tps->port, &desc);
->  		if (IS_ERR(tps->partner)) {
-> @@ -864,10 +866,8 @@ static void cd321x_update_work(struct work_struct *work)
->  			return;
->  		}
->  
-> -		if (desc.identity) {
-> +		if (desc.identity)
->  			typec_partner_set_identity(tps->partner);
-> -			cd321x->cur_partner_identity = st.partner_identity;
-> -		}
->  	}
->  
->  	/* Update the TypeC MUX/PHY state */
-> 
-> ---
-> base-commit: d48723711bae9b8cdc56719c448ba42fef28cbee
-> change-id: 20261107-tipd-stack-uaf-fix-d3148059c017
-> 
+On 11/11/26 13:46, Krzysztof Kozlowski wrote:
+> On Fri, Nov 06, 2026 at 10:04:12PM +0100, Yureka Lilian wrote:
+>> "apple,t8142-nvme-ans2" on the Apple M5 SoC is compatible with
+>> "apple,t8132-nvme-ans2" so add its per-SoC compatible.
+>>
+>> Signed-off-by: Yureka Lilian <yureka@cyberchaos.dev>
+>> ---
+>>   Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+> Squash all nvmem patches. Don't add compatibles one by one.
+>
 > Best regards,
-> -- 
-> Michael Reeves <michael.reeves077@gmail.com>
-> 
+> Krzysztof
 
--- 
-heikki
+
+Hello Krzysztof,
+
+
+(replying to all three of your emails here)
+
+thanks for your feedback! I did run `b4 prep --check` and `make 
+dtbs_check` before sending and it passed without warnings on all 15 
+patches of this series. I will now also run `checkpatch.pl --strict` as 
+you suggested.
+
+For v2, I will make one commit per type of dt-binding, so "dt-bindings: 
+nvme: apple: Add t6040,t8140,t8142", and then "mailbox: apple,mailbox: 
+Add t8132,t6040,t8140,t8142", etc., ok or do you have another suggested 
+grouping?
+
+ > Please stop inflating this. You are only making it difficult to 
+review your work.
+
+It would be appreciated if you can tell me clearly what is expected, as 
+this statement is not actually telling me what is inflated / wrong.
+
+Thank you!
+
