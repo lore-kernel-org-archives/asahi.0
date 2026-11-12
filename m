@@ -1,103 +1,148 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794426973;
-	b=rXWxAbtk8DsCB7L5jL7zje0rR/BmbcYnNQywzERvCSHv1ZabqsZUfah2I9TPDxaiY4mg
-	 o/HBYpWKFXZWhSwxXgMD53FriGLf5kvXdQ1blhSorEP5JH10+sDYOXw76E0LJ8qFxRsyK
-	 ApMPCwMsIv9WRLuX9X6BR784gNcHGzB6MzCVxf9wbaq0ONLQj7FEFynlWEJvYSBvKya7Z
-	 XkQdiUEI8p3Lzb1yMaIPGD4pM0YruzzXS5U+u7fXkFz8IWOKaHFFTF3aM5gtiIr8r8+zx
-	 UhjAweSEmnz+Ukp+ToFDdpiip2cg92+73BpLJgI1qrpTPkvD7I0vOqmE3Oxm4iuT9rA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794426973;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=KW38EDguzPKmx8VkeacRZuMXAWaeadLZ5kGyBS7By/A=;
-	b=1Q/Tq32WmIue9kL6s30CMUEOIRwpNKBmm2y7jXoNVAu6qtZ5j3ye6fZZZuxHZ8a4R+5j
-	 EJ1Q1embKGQiD+HA7CqOQOqYocjyKXWGF3Z0oFSppogrfXwn30z4CVRBbpc1vxjbapUsT
-	 RJXJv/aGJ9iyoY977i3wbiijAH1us9GQbLooWIdO4XdOLzcYKCIjIhsGGj/fgax4NECsd
-	 ktaXunsnUautvvv8EasBiZg/x/qKn9rZG94A1UQOoXb2WcXg2UzJYEVxfSz8+LPWNUrpG
-	 AM5ejjgytLN9vBZbfRZeBZtmi9PQsXRKUqpMFnEE/9nTrTMu+v4VE9YksVo6z2CKvUw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DdU4hGgX;
-	arc=none smtp.remote-ip=209.85.218.48
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.66.8
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794451291;
+	b=sFM0det3UvYKUdrYPszxBeKTMS/qaiw1xnOQtFUVzXke0TlkT8//sQ3/eTqjWR7Brvpj
+	 aOsK547i+2Iiawv1JiFfIlA7BICPoYhGU4mvv9gNSbA7/Dn54K34JQCme4m5SNVaYx/We
+	 70tcfBSB2BsZYKPpWqnnt8q8qzfnSWYAholXnetNV4A5d58/f3Jm6zv5hj7HZv0a6c3BL
+	 5jU23k8CiHKoqeSBNKkmUFL3Lz0lxMjoM5YjjFUjB9uw1QCEdSr3veUdni9b2/GqIR/On
+	 MSjxbr2oPk69cFt1WIX7Omqn6Pvcv+07cTfvI3Zs/U+BieaXy5bg43U5qpLYYd/pftA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794451291;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:
+	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
+	b=vG0dl98Q2TQLATR6Ipauuwo2rBJ4XtO/AbXWKAonUqeYroGXRelDHmeE3AaOnQCu+Yik
+	 mdx19c2AFkXIU1dBr7E8iZnfRiN2qtaIANL+RZR0fs2tnYAWfemU75jDf5hMDLJVMrm7c
+	 fujjr+kMZBmRv3QIuQsMe15Mo9dnihSd7US6z61Ux3hSt9LIK1+KMvMS4SiweBU2+X5SO
+	 2vVcCIwpfAuGvmxtZ+V3n7vPigttG7yYmgVB0/BE/FePj0Tm08bf+qVWZVNwOKxT3V+4v
+	 9PX4/aBTcf94uFh0NyaaLeWMQmf5CSEZKwNxhKSKecV+q9+5lghJf5z6Y7dGdJrOKTQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.jp;
+	spf=pass smtp.mailfrom=outlook.jp;
+	dkim=pass header.d=OUTLOOK.JP header.i=@OUTLOOK.JP header.a=rsa-sha256 header.s=selector1 header.b="YzWQb/n5";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.66.8
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazolkn19011008.outbound.protection.outlook.com [52.103.66.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2301606A336
-	for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 19:56:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2301606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1434F606A323
+	for <asahi@lists.linux.dev>; Thu, 12 Nov 2026 02:41:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1434F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DdU4hGgX
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50604721c8so268877466b.3
-        for <asahi@lists.linux.dev>; Wed, 11 Nov 2026 11:56:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794426971; x=1795031771; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KW38EDguzPKmx8VkeacRZuMXAWaeadLZ5kGyBS7By/A=;
-        b=DdU4hGgX1I50tpkpkOffqAr2rh1ivcD4paXaZqOD+D2pBUP/jTVHnfShFxM27eg4XV
-         /qD8v5CWSP7H3QLIPdTj6eCk1FIM41xVqeCM57sBLLIQQUE82uyCJeXHv8eEJI+q2N8p
-         EgY4aZ81e52ZOPMJGdfSDRmCwA/d8Brs1KHzqFY97Kv3Mha9J4zXkC9cRDlUzbXFFHHD
-         f6kmC2E7cAFpNiLRdYnXOibdPd/Yi47bg+L7+O7QwvM/xj8p2ECZ44KiaEoLiGW98k4p
-         2uf8P8pdsxOp+wFDvu5GwJbDvweMZjR7k4jd7wnOn8c8+rTxAddnuM++TDs9MDHC3aTn
-         ErNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794426971; x=1795031771;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KW38EDguzPKmx8VkeacRZuMXAWaeadLZ5kGyBS7By/A=;
-        b=vkH1aK6ye4PgM+teiHb7CxRLK7txhQ+BVKiDTE9qs7lsXr+wLMq680sTEVYRDIDZPT
-         tDoKOEFSlB4eRVgUzKfZ/0jW7iqsjzGlzFuT4jrrx2VwB+u7PjVpzCTYy5xf5Dl239LJ
-         FQNx4nXv4WErUKyd66zvp2zAb9cEsI+cXfBkR7S14Pt02fE5VOAmqDGBVqrWkZrVtXiY
-         4H25Osj4ehc/gKB9Hu2pFP/3sFyqfI0ryvZQ6VtT/pBKcWByVf4TXHA1WPfnG0o1YHDx
-         8BZcbhJazqJ2y+HaGpAoBR6j4g9xJzbw021U6+NT6oVIHo77QkkbsLj87LgamwRbLr7B
-         yDHw==
-X-Forwarded-Encrypted: i=1; AL+hErHU6/Qx4+4gBJrg9kAJxRj7mr5qERlVfS/7ZKDoPEWr5KLeCt+x8enxEjtdEGlimTuddzlH4A==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9dQ8Y+N3xG/K+GZb4FTalJeCD+pJDHGmjpiEQaiMaYegHhp5gt
-	7wiWPbp0EqouwR4GBQ/c7s6qrjskXREuElAvSLNushuZWQceqMzPUqQa
-X-Gm-Gg: AYBFou1JkpDU2sqBIWtz7irCO47twA9RiZ2m9tFNLZZKlnT/mVNFAAydp2iowT/DXgR
-	7zzau5I7AuvA32+LMPf8n5aPqibzYTN4HwtRRh2Yj7dad/67Oi1dYBVGKW8MV/FrqcRZgb0HArR
-	bhBhEXihWxB+IHEPkkoa2oqqfC57x2+VYT5mcfNAHkYYXXvv9hi0zKwhUtRzoQuxULiMLV4A0ey
-	9RTKFC6blmTZBLW+m+mmJcRqEVScWHkw2ZYbLpJZz0PNELW3BEkDreww6K18HDDYeqOTCdW3Yi5
-	c+J54e3EYlcF4I3Mql0veinYMX6OejORyWedDWnNI90ZtyqfCjp7gjLtK8crcE9ngquI8JaxFZZ
-	m3LOP0cMDoCkxAJzELlbia4wJGhgt3gW7oRnH0OUGLfsajTNyRwq+tFYrbYTSN3VGtQFtIj7x46
-	maZgNqx7G0elbhnozsTix0ASU0296t0J3CdnEuBln91D+185bc5z1kUeUFwsz29Ngmcogzmce1Q
-	y5r2WyfsIalwcGdXUEMOEGWsqeAUv1BqnarmeXzk+JNWxwj4N0ewfxqAqTsZn10ZDKD7L4PlfuI
-	X8b9eDeIolSQ6DuAdmWRUdwwLPelesi6Zr+AhmurqNJYsBKJ4K4SkrGPiy6VG3xHRaejyjqRzq1
-	l
-X-Received: by 2002:a17:907:8dc9:b0:c29:f5d8:9c82 with SMTP id a640c23a62f3a-c5066cf9644mr299944166b.49.1794426971015;
-        Wed, 11 Nov 2026 11:56:11 -0800 (PST)
-Received: from localhost.localdomain ([2a13:e746:396c:c600::31a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a57085fsm264408166b.22.2026.11.11.11.56.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 11:56:10 -0800 (PST)
-From: "Kordian Chmielewski (mlody1212)" <kudzo51@gmail.com>
-To: dev@deq.rocks
-Cc: arend.vanspriel@broadcom.com,
-	asahi@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	brcm80211@lists.linux.dev,
-	j@jannau.net,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	marcan@marcan.st,
-	michael.reeves077@gmail.com,
-	sebastian.reichel@collabora.com,
-	"Kordian Chmielewski (mlody1212)" <kudzo51@gmail.com>
-Subject: [PATCH wireless-next] wifi: brcmfmac: msgbuf: count tx status only for the current flowring
-Date: Wed, 11 Nov 2026 20:55:59 +0100
-Message-ID: <20261111195559.160650-1-kudzo51@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261111200714.7897345f@kait2en-mbp15-1>
-References: <20261111200714.7897345f@kait2en-mbp15-1>
+	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.JP header.i=@OUTLOOK.JP header.a=rsa-sha256 header.s=selector1 header.b=YzWQb/n5
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ImDXVcB0ugebTbHBG/EeK5WbAeiOJ1aJxFIyIjY3neqOY6Of7NBfphITpeWVuQV+6mdTF9bGVecvgp46GmYmJvJ0bmLBAAikpiOLgipa8Wvfzq4C2ts4PSjaA1gINbRl0ZJvyutAXRrFgxYHvtaFT3ENkXwQl9OWjS+RU5GazSY+Tq4mti2xeCPRbCRLk+y3pyb2s91jyPkjH5gL1TlJGJrkYo8CvCe0e5IlKaHXtbkX/gy2LywLnn8eNxNjFVh3N7Trc9J4crhgxg8+gsQZobNjdJfJbgGsPeoDBX136R0YfnBMfAxlpeju21tmCg9h/TowcXqxFTOKQNFtXFgdkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
+ b=ZUazewHPp+rLwpbn4bi7V94kHwPuX0Fjozi7naaDFvrZ8xfGEE7GUQaM6DVihpnjHoYpVnloI9UOEPMURB9krSOhxN+hZ6eh521WGl2z5S5msZBEs5m92UuTLrq88Fb6YiHhPyvBhoIlW2MTuluRorP7vDnLXJPR7D4o87z5td5gVigbeBqZ5kJNsbxnBtGH+j/1m8TLrg07k44mu27dttOLPNcmh+nVKaS1awEIa8I3yOwflNyRHOTjSeYFp+7HYyLAHu6AZ0dtd6TCNo4ymPSN4zbvk3vCSRSaoKCMQfiNEIxanY+KekCXd0rFoeV+Tzv9C8rsFHJwdppw8z7YTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.JP;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
+ b=YzWQb/n5M+dTbkHkh0OEIO2ZmC9UrfqQLB6eomQyQlKomb8dOsI3h9VNPCDwYrm9CpyAghtAiq+NuAIEOwt+Gh0YdtYPwPbEwabG0zWqAwy0uSgF2zscd5w8DwcHEc9wvs++E6Co/AxQKRs2ku4c2thWFaxaOkPoSM8VAWbHxXoS9C2Sdqf1OaG44+Ep5jGBtq2WDF0Au9tFvU2wlR6cJVMBDdJVpi+iWZeoPu7B+hy4X4j3inKw7jYYh99uVQU/suH3vGcW/zgTE0tSOtvSnF4aE3H4ySFREmEGHyL2jY07UJ6N+NgO4/RptBIl0LONSr6IwCBsf8ewTSAOOT5gEA==
+Received: from OS7PR01MB14363.jpnprd01.prod.outlook.com
+ (2603:1096:604:388::11) by OS9PR01MB17912.jpnprd01.prod.outlook.com
+ (2603:1096:604:447::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
+ 2026 02:41:25 +0000
+Received: from OS7PR01MB14363.jpnprd01.prod.outlook.com
+ ([fe80::eeff:dfdb:bd3b:591b]) by OS7PR01MB14363.jpnprd01.prod.outlook.com
+ ([fe80::eeff:dfdb:bd3b:591b%6]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
+ 02:41:25 +0000
+From: Keisuke Tsukuda <tkdkei@outlook.jp>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sven Peter
+	<sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "asahi@lists.linux.dev"
+	<asahi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: roles: wait for role callbacks on unregister
+Thread-Topic: [PATCH] usb: roles: wait for role callbacks on unregister
+Thread-Index: AQHdck9PU/KUKHcnBUmIhlWYOi7Giw==
+Date: Thu, 12 Nov 2026 02:41:24 +0000
+Message-ID: <20261112024101.83321-1-tkdkei@outlook.jp>
+Accept-Language: en-US, ja-JP
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS7PR01MB14363:EE_|OS9PR01MB17912:EE_
+x-ms-office365-filtering-correlation-id: ac355f8e-7a53-4716-4029-08df406671d2
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|31061999003|15080799012|25031999004|22121099003|24021099003|39105399006|41001999006|19110799012|8062599012|8060799015|38102599003|4140399003|25010399006|12121999013|26104999009|440099028|3412199025|102099032|40105399003|53005399003|12091999003;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?beI0xg4H32hdWjsXnU1zMTM/8dLsTxtNPQUHtEzgmmhEAlWEKxR9wLAF4V?=
+ =?iso-8859-1?Q?hSpcot/o2lX3Bu4oA+k7cGZmiPA99HioyWLQ9WCbj6EUOFiz8lqnSyzvzV?=
+ =?iso-8859-1?Q?+qYDdYks1sK5fAJxuvawD5KKszxyf1TMiNCq2OVuNZBhywDv+0a7JuqFKE?=
+ =?iso-8859-1?Q?fVJ3d3m1GEAkiqdlsGhFrznAFp6GAxSAygH6BsJL9DIK186XBsiH8+KAtB?=
+ =?iso-8859-1?Q?lUFTaHrFTO9E493WnTVF1Nil3NavbIVfHKb7ALkKMRywCn3cibtKdupdM4?=
+ =?iso-8859-1?Q?TffHXrV7zg0OMo0TMyCOi0VjU+crC+6TvE8KmlQetLvAW5sRJjFojQIzsy?=
+ =?iso-8859-1?Q?g0eX94l7EAXNzrXFys1zQTyUb6duo0fJaNqdx7OBLD9jRjA2sXusC6xcyk?=
+ =?iso-8859-1?Q?IMZ5ExBKSGjWIa01iVnek4uPVI0t96U+a0XTIBk+8rMlYtbNdAbDBCqyXM?=
+ =?iso-8859-1?Q?c7G/WVhvftuPpW9JzvCvzpy5T0yHEb08adYJzHFU6CUBR35MZt9pFEXOii?=
+ =?iso-8859-1?Q?BCDXc1QCW50WPUfCUW8PBKW9zcACtDmX0RLpgFsDyhEnA2FXiQtI7inKQM?=
+ =?iso-8859-1?Q?RCruGSoQdOt27J4V0H7oWG+QaANttSSjbkHXOFmBFQsDGaafEo2IooEPuS?=
+ =?iso-8859-1?Q?Geaw4C7fK1ID5qOFCIOaQCQ+AuIqi0unZhrGjO6lBceyPMNQLiMkEpZnUj?=
+ =?iso-8859-1?Q?z7XU1uvEyVHh9Z++MelpAffQtRzH63OA4XsUN0OByVfPUHV82ljjeg/0Ln?=
+ =?iso-8859-1?Q?lFa85NA8MtdvVTm+2dfJv7nFMlbGHCWt2QMASzTgXSJNb97zwQZm5voUP7?=
+ =?iso-8859-1?Q?Nq94c7edal9ez7dlFWr+SdjELmDTJ32FKsZbu5aQ73r37pVGOXAHUjgc2G?=
+ =?iso-8859-1?Q?yr5zEVM6tXFRi7LMfY4bFXRu/a/A4ewX6mYaxJsh8Q+fYejqIF10OBpEqp?=
+ =?iso-8859-1?Q?iJUoj3wS8An1Sq4lPM3tBwHN6/1A6/DX2dKTGCjuYVWz0Iok/z/eMwc1Xt?=
+ =?iso-8859-1?Q?HJGeTOLmA57bK5j4wXQsJvFnolguJtpa+uNZv3LDdoUWJJoDMrJyFNVd4V?=
+ =?iso-8859-1?Q?4CTqoDl9Rd1Qh7DNd0uZXaj6rAX5BU0tsyWednTcsW+lVZ+ljkxrGHLqx7?=
+ =?iso-8859-1?Q?4rlcsKjzH/vSaEM0fU3ji60af5HgEPwpCxq7d+5w6fnsaNNRUjgwm7pf9z?=
+ =?iso-8859-1?Q?uZhqQQ89c4aa5nInVWppAW4J6vrHNbcm7Hc=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?UUANG0gReFAEGXfvFd2KHGEUy6Jy64U+L/C1W5z9EjDJ6vZJeNbqS1FV5G?=
+ =?iso-8859-1?Q?+2bvq0yYQg/uTaE/bC4+DwOUWm24IqgJMMuGJMEkxCHhHI3kF+aSivUlge?=
+ =?iso-8859-1?Q?xtiKYunuKgw6v8QcAQokfd6VzW7onpHD0cOriv5iPVLZcuaYc3v8SnvtZ3?=
+ =?iso-8859-1?Q?o+nPdg6BCLx+XlklDP4tP1rzbMitxIBLqeBaVNRKApbb5j5cCaY8pubgBq?=
+ =?iso-8859-1?Q?hub5QC0ET42ek5nuRwXukNRY6akPPm3cm0JaU+hURC1uSOmQ4d6pUJaBzK?=
+ =?iso-8859-1?Q?5pcJv+lKBqvJ6hpmuvHew4VKnnKIw1VVOArQvfK2/hIFd/XiJd6VVppZk3?=
+ =?iso-8859-1?Q?w/jZ4s/hxFxXk6asMxj+vdX/ebXBw/PQeUsioHkmNHbyKjpLvf9CaezTAf?=
+ =?iso-8859-1?Q?xUlN8T1+2xmRerG5iJNLzz9d/Ea6hsNYMjAqoI12hcKdsabvorAkxs0LQw?=
+ =?iso-8859-1?Q?/GRp9UzVkTf4BoOe3r2u/5Le0c/8JfTlWK4MVPl5QW7XuuQnRNfTguj0RF?=
+ =?iso-8859-1?Q?zxil6obO2glJT5hBOERiDjifAsSRj0whM+0KbHwSNyT31Pc76hAENwlgjl?=
+ =?iso-8859-1?Q?3HxxgTM45TQnCa7IViyEkNqxLbuQsvZkrJJqos07d5xaS42t+b6QDiwSDe?=
+ =?iso-8859-1?Q?pfGuLHW0FaP9osMe5zs/be7f3vLQS1McL0Qele0na/dxUIhE4aKkyJbo12?=
+ =?iso-8859-1?Q?Il44xhIYIzix8fCYlPIKKpH8ZrthpLo4j79El9BYnh0xpxcqdNxDlU3NIi?=
+ =?iso-8859-1?Q?ghGnD25zBBUAAsnhK97S0rBsASXjXsnYUcFhJD5D7JncwRnVh4F2sjuEAy?=
+ =?iso-8859-1?Q?G3XAVPRKgyLAeAXJJPrCndCyGDDOPqbK9SZiqTr5q5qnt1PT4l/wx2gy1E?=
+ =?iso-8859-1?Q?WzgCO8yhh6jnrMnu/YSnr6+xMxCcGEw2xUANxMwaiSzdbScCr4ApkTWKxe?=
+ =?iso-8859-1?Q?TvsZEHK++mpyc5h7Pxe3Zy90j/NhkPEcRUuSHn0AjiEy+6ZFwBwnaKKgyx?=
+ =?iso-8859-1?Q?9AQEpfThY+YdwvLisinwcO74hI0IdmYqLPR7GumpBvGt6tHXwNbLmIOfy9?=
+ =?iso-8859-1?Q?HuXerGrzn7IsvmVKOjnQC/5CHQ8njGmpqoE3BsdNawpBOs+uSWAd2NwpbB?=
+ =?iso-8859-1?Q?goFB3VA9DIP3VV44oG14kpBtcPS4YUTD3peke49pNUJY0h4i7nX+hkCc8J?=
+ =?iso-8859-1?Q?rkDyIcgrFJQKbS9XmFkAtUcZsLzrjmP2sEAJvAxJ3mdAPrCczXH5X+MtWg?=
+ =?iso-8859-1?Q?n4iWHld+LIMCVV+DhzR4q+tPMWRKH7LTQwXqyCnSJ3HjF1UfEl3XIu0JQK?=
+ =?iso-8859-1?Q?/fazbzGDkXjqmbAeyX7LcZuI9LJBtseP82cJmlwyr/SDcNN0x0HA6EBxIQ?=
+ =?iso-8859-1?Q?u+WkIJMEEIui1aeaPiYhKtalYIaIwC4+ttJPxJlr0c9x1ZpmFJxts=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -107,161 +152,128 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-b83fc.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB14363.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac355f8e-7a53-4716-4029-08df406671d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2026 02:41:24.9800
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB17912
 
-brcmf_proto_msgbuf_rx_trigger() reads the tx complete ring before the
-control complete ring. When the firmware writes the tx status of a packet
-shortly before the delete response of its flowring, the host can see the
-response in one pass and the status only in the next one, after
-brcmf_msgbuf_remove_flowring() has released the flowid. If a new flowring
-got the flowid in the meantime, the status decrements its outstanding_tx,
-which brcmf_msgbuf_schedule_txdata() and the trickle check in
-brcmf_proto_msgbuf_rx_trigger() rely on. This happens whatever order the
-firmware sends the two messages in.
-
-Give each flowid a generation that goes up when the flowid is released,
-and keep it in the tx pktid of every packet posted to the flowring. A tx
-status of an older generation still releases its packet, but no longer
-touches the counter.
-
-Signed-off-by: Kordian Chmielewski (mlody1212) <kudzo51@gmail.com>
----
-
-Notes:
-    Hi Andre,
-    
-    thanks for checking the trace. Here is the patch, on top of your
-    [PATCH 4/4] wifi: brcmfmac: msgbuf: send the flowring delete without waiting for tx status
-    https://lore.kernel.org/all/20261107154810.89780-5-dev@deq.rocks/
-    
-    The generation goes up when the flowid is released, not when the delete
-    is sent, so the debug message in your patch still counts the tx status
-    that comes before the response. My tree for a BCM43684 access point
-    bumps it when the delete is sent; this version is compile-tested only.
-    Feel free to take it into the next version of your series.
-
- .../broadcom/brcm80211/brcmfmac/msgbuf.c      | 34 ++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-index 8fd970571..9d8360d3e 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-@@ -247,6 +247,7 @@ struct brcmf_msgbuf {
- 	struct brcmf_commonring **commonrings;
- 	struct brcmf_commonring **flowrings;
- 	dma_addr_t *flowring_dma_handle;
-+	u16 *flowring_gen;
- 
- 	u16 max_flowrings;
- 	u16 max_submissionrings;
-@@ -293,6 +294,7 @@ struct brcmf_msgbuf {
- struct brcmf_msgbuf_pktid {
- 	atomic_t  allocated;
- 	u16 data_offset;
-+	u16 gen;	/* tx: flowring_gen of its flowid when posted */
- 	struct sk_buff *skb;
- 	dma_addr_t physaddr;
- };
-@@ -559,6 +561,21 @@ static void brcmf_msgbuf_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb)
- {
- }
- 
-+/*
-+ * Called when a flowid is released. A tx status can still come for a packet
-+ * of the old flowring after that: brcmf_proto_msgbuf_rx_trigger() reads the
-+ * tx complete ring before the control complete ring, so it can see a delete
-+ * response before a tx status the firmware wrote first. The flowid may have
-+ * gone to a new flowring by then, and the status must not decrement the
-+ * outstanding_tx of the new one.
-+ */
-+static void brcmf_msgbuf_flowring_next_gen(struct brcmf_msgbuf *msgbuf,
-+					   u16 flowid)
-+{
-+	WRITE_ONCE(msgbuf->flowring_gen[flowid],
-+		   msgbuf->flowring_gen[flowid] + 1);
-+}
-+
- static void
- brcmf_msgbuf_remove_flowring(struct brcmf_msgbuf *msgbuf, u16 flowid)
- {
-@@ -566,6 +583,7 @@ brcmf_msgbuf_remove_flowring(struct brcmf_msgbuf *msgbuf, u16 flowid)
- 	void *dma_buf;
- 
- 	brcmf_dbg(MSGBUF, "Removing flowring %d\n", flowid);
-+	brcmf_msgbuf_flowring_next_gen(msgbuf, flowid);
- 
- 	dma_sz = BRCMF_H2D_TXFLOWRING_MAX_ITEM * BRCMF_H2D_TXFLOWRING_ITEMSIZE;
- 	dma_buf = msgbuf->flowrings[flowid]->buf_addr;
-@@ -768,6 +786,8 @@ static void brcmf_msgbuf_txflow(struct brcmf_msgbuf *msgbuf, u16 flowid)
- 			bphy_err(drvr, "No PKTID available !!\n");
- 			break;
- 		}
-+		msgbuf->tx_pktids->array[pktid].gen =
-+			READ_ONCE(msgbuf->flowring_gen[flowid]);
- 		ret_ptr = brcmf_commonring_reserve_for_write(commonring);
- 		if (!ret_ptr) {
- 			brcmf_msgbuf_get_pktid(msgbuf->drvr->bus_if->dev,
-@@ -920,10 +940,13 @@ brcmf_msgbuf_process_txstatus(struct brcmf_msgbuf *msgbuf, void *buf)
- 	struct sk_buff *skb;
- 	u16 flow_ring_id;
- 	u16 flowid;
-+	u16 gen = 0;
- 
- 	tx_status = (struct msgbuf_tx_status *)buf;
- 	idx = le32_to_cpu(tx_status->msg.request_id) - 1;
- 	flow_ring_id = le16_to_cpu(tx_status->compl_hdr.flow_ring_id);
-+	if (idx < msgbuf->tx_pktids->array_size)
-+		gen = msgbuf->tx_pktids->array[idx].gen;
- 	skb = brcmf_msgbuf_get_pktid(msgbuf->drvr->bus_if->dev,
- 				     msgbuf->tx_pktids, idx);
- 	if (!skb)
-@@ -937,7 +960,9 @@ brcmf_msgbuf_process_txstatus(struct brcmf_msgbuf *msgbuf, void *buf)
- 
- 	set_bit(flowid, msgbuf->txstatus_done_map);
- 	commonring = msgbuf->flowrings[flowid];
--	atomic_dec(&commonring->outstanding_tx);
-+	/* not for a packet of a flowring that had the flowid before */
-+	if (gen == READ_ONCE(msgbuf->flowring_gen[flowid]))
-+		atomic_dec(&commonring->outstanding_tx);
- 
- 	brcmf_txfinalize(brcmf_get_ifp(msgbuf->drvr, tx_status->msg.ifidx),
- 			 skb, true);
-@@ -1325,6 +1350,7 @@ brcmf_msgbuf_process_flow_ring_delete_response(struct brcmf_msgbuf *msgbuf,
- 
- 	if (status) {
- 		bphy_err(drvr, "Flowring deletion failed, code %d\n", status);
-+		brcmf_msgbuf_flowring_next_gen(msgbuf, flowid);
- 		brcmf_flowring_delete(msgbuf->flow, flowid);
- 		return;
- 	}
-@@ -1681,6 +1707,10 @@ int brcmf_proto_msgbuf_attach(struct brcmf_pub *drvr)
- 			     msgbuf->max_flowrings);
- 	if (!msgbuf->flowring_dma_handle)
- 		goto fail;
-+	msgbuf->flowring_gen = kzalloc_objs(*msgbuf->flowring_gen,
-+					    msgbuf->max_flowrings);
-+	if (!msgbuf->flowring_gen)
-+		goto fail;
- 
- 	msgbuf->rx_dataoffset = if_msgbuf->rx_dataoffset;
- 	msgbuf->max_rxbufpost = if_msgbuf->max_rxbufpost;
-@@ -1732,6 +1762,7 @@ int brcmf_proto_msgbuf_attach(struct brcmf_pub *drvr)
- 		kfree(msgbuf->txstatus_done_map);
- 		brcmf_msgbuf_release_pktids(msgbuf);
- 		kfree(msgbuf->flowring_dma_handle);
-+		kfree(msgbuf->flowring_gen);
- 		if (msgbuf->ioctbuf)
- 			dma_free_coherent(drvr->bus_if->dev,
- 					  BRCMF_TX_IOCTL_MAX_MSG_SIZE,
-@@ -1772,6 +1803,7 @@ void brcmf_proto_msgbuf_detach(struct brcmf_pub *drvr)
- 				  msgbuf->ioctbuf, msgbuf->ioctbuf_handle);
- 		brcmf_msgbuf_release_pktids(msgbuf);
- 		kfree(msgbuf->flowring_dma_handle);
-+		kfree(msgbuf->flowring_gen);
- 		kfree(msgbuf);
- 		drvr->proto->pd = NULL;
- 	}
--- 
-2.56.0
-
+usb_role_switch_set_role() and usb_role_switch_get_role() check the=0A=
+registered flag before taking the switch lock. If a provider is=0A=
+unregistered during a role request, unregister can return while its=0A=
+callback is still running. The provider may then free memory used by=0A=
+the callback, causing a use-after-free. A caller that passed the check=0A=
+can also enter a callback after unregister returns.=0A=
+=0A=
+Move the registered checks under the switch lock and clear the flag while=
+=0A=
+holding the same lock on unregister. This waits for active callbacks and=0A=
+rejects callers that acquire the lock after the flag is cleared.=0A=
+=0A=
+The Apple DWC3 remove path currently holds its private mutex around=0A=
+unregister. Its role callbacks take that mutex under the switch lock, so=0A=
+waiting on the switch lock in unregister would reverse the lock order.=0A=
+Unregister before taking the Apple mutex.=0A=
+=0A=
+Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")=0A=
+Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>=0A=
+---=0A=
+Tested on ARM64 QEMU with Linux 7.3.4 and mainline 7.4-rc2=0A=
+(067c5c24cef2), with KASAN and lockdep enabled. Synthetic providers=0A=
+trigger KASAN use-after-free reports in both set and get callbacks before=
+=0A=
+this change. With the change, unregister waits for the callbacks and=0A=
+neither test reports KASAN.=0A=
+=0A=
+A lockdep test modeling the Apple callback/remove lock order warns for the=
+=0A=
+original order and not for the new one. Apple DWC3 hardware was not tested.=
+=0A=
+=0A=
+ drivers/usb/roles/class.c     |   18 ++++++++++++++----=0A=
+ drivers/usb/dwc3/dwc3-apple.c |    4 ++--=0A=
+ 2 files changed, 16 insertions(+), 6 deletions(-)=0A=
+=0A=
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c=0A=
+--- a/drivers/usb/roles/class.c=0A=
++++ b/drivers/usb/roles/class.c=0A=
+@@ -79,10 +79,11 @@=0A=
+ 	if (IS_ERR_OR_NULL(sw))=0A=
+ 		return 0;=0A=
+ =0A=
+-	if (!sw->registered)=0A=
+-		return -EOPNOTSUPP;=0A=
+-=0A=
+ 	mutex_lock(&sw->lock);=0A=
++	if (!sw->registered) {=0A=
++		ret =3D -EOPNOTSUPP;=0A=
++		goto unlock;=0A=
++	}=0A=
+ =0A=
+ 	ret =3D sw->set(sw, role);=0A=
+ 	if (!ret) {=0A=
+@@ -90,6 +91,7 @@=0A=
+ 		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);=0A=
+ 	}=0A=
+ =0A=
++unlock:=0A=
+ 	mutex_unlock(&sw->lock);=0A=
+ =0A=
+ 	return ret;=0A=
+@@ -107,16 +109,21 @@=0A=
+ {=0A=
+ 	enum usb_role role;=0A=
+ =0A=
+-	if (IS_ERR_OR_NULL(sw) || !sw->registered)=0A=
++	if (IS_ERR_OR_NULL(sw))=0A=
+ 		return USB_ROLE_NONE;=0A=
+ =0A=
+ 	mutex_lock(&sw->lock);=0A=
++	if (!sw->registered) {=0A=
++		role =3D USB_ROLE_NONE;=0A=
++		goto unlock;=0A=
++	}=0A=
+ =0A=
+ 	if (sw->get)=0A=
+ 		role =3D sw->get(sw);=0A=
+ 	else=0A=
+ 		role =3D sw->role;=0A=
+ =0A=
++unlock:=0A=
+ 	mutex_unlock(&sw->lock);=0A=
+ =0A=
+ 	return role;=0A=
+@@ -423,7 +430,10 @@=0A=
+ {=0A=
+ 	if (IS_ERR_OR_NULL(sw))=0A=
+ 		return;=0A=
++	/* Wait for in-flight set/get callbacks before unregistering. */=0A=
++	mutex_lock(&sw->lock);=0A=
+ 	sw->registered =3D false;=0A=
++	mutex_unlock(&sw->lock);=0A=
+ 	if (dev_fwnode(&sw->dev))=0A=
+ 		component_del(&sw->dev, &connector_ops);=0A=
+ 	device_unregister(&sw->dev);=0A=
+diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c=
+=0A=
+--- a/drivers/usb/dwc3/dwc3-apple.c=0A=
++++ b/drivers/usb/dwc3/dwc3-apple.c=0A=
+@@ -487,9 +487,9 @@=0A=
+ 	struct dwc3 *dwc =3D platform_get_drvdata(pdev);=0A=
+ 	struct dwc3_apple *appledwc =3D to_dwc3_apple(dwc);=0A=
+ =0A=
++	usb_role_switch_unregister(appledwc->role_sw);=0A=
++=0A=
+ 	guard(mutex)(&appledwc->lock);=0A=
+-=0A=
+-	usb_role_switch_unregister(appledwc->role_sw);=0A=
+ =0A=
+ 	/*=0A=
+ 	 * If we're still in DWC3_APPLE_PROBE_PENDING we never got any cable conn=
+ected event and=0A=
