@@ -1,148 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.66.8
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794451291;
-	b=sFM0det3UvYKUdrYPszxBeKTMS/qaiw1xnOQtFUVzXke0TlkT8//sQ3/eTqjWR7Brvpj
-	 aOsK547i+2Iiawv1JiFfIlA7BICPoYhGU4mvv9gNSbA7/Dn54K34JQCme4m5SNVaYx/We
-	 70tcfBSB2BsZYKPpWqnnt8q8qzfnSWYAholXnetNV4A5d58/f3Jm6zv5hj7HZv0a6c3BL
-	 5jU23k8CiHKoqeSBNKkmUFL3Lz0lxMjoM5YjjFUjB9uw1QCEdSr3veUdni9b2/GqIR/On
-	 MSjxbr2oPk69cFt1WIX7Omqn6Pvcv+07cTfvI3Zs/U+BieaXy5bg43U5qpLYYd/pftA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794451291;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:
-	 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
-	b=vG0dl98Q2TQLATR6Ipauuwo2rBJ4XtO/AbXWKAonUqeYroGXRelDHmeE3AaOnQCu+Yik
-	 mdx19c2AFkXIU1dBr7E8iZnfRiN2qtaIANL+RZR0fs2tnYAWfemU75jDf5hMDLJVMrm7c
-	 fujjr+kMZBmRv3QIuQsMe15Mo9dnihSd7US6z61Ux3hSt9LIK1+KMvMS4SiweBU2+X5SO
-	 2vVcCIwpfAuGvmxtZ+V3n7vPigttG7yYmgVB0/BE/FePj0Tm08bf+qVWZVNwOKxT3V+4v
-	 9PX4/aBTcf94uFh0NyaaLeWMQmf5CSEZKwNxhKSKecV+q9+5lghJf5z6Y7dGdJrOKTQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.jp;
-	spf=pass smtp.mailfrom=outlook.jp;
-	dkim=pass header.d=OUTLOOK.JP header.i=@OUTLOOK.JP header.a=rsa-sha256 header.s=selector1 header.b="YzWQb/n5";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.66.8
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazolkn19011008.outbound.protection.outlook.com [52.103.66.8])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794475435;
+	b=16yZg1uFWpjC48/K37cBzMGToMPKSGjZ4En+3tVNxYfwJ5rCP2UMl8It2receFD5ZQ1j
+	 WTV8W06Um/5mJWTU48rqFXRHFqAE4Zn3ChRq7mg5wHSEG5T5Im12ROyG/b4+1nJzgtvlN
+	 pWOTvRZ0t7LxxrAS1J9eSD5k/aCMDCaAgz5692REp7qmdBF/ecFIpNnPB9D0N+Jetl7tQ
+	 fYo50Oo/zRcFzcJZn2qGsYv4f/7hbq8YUBn+FEdzW/v9fSDvv9n3y+uR7YAN6hbQpaOwS
+	 ew+ohB5sZNcTVGfXWyQ7HK9NWoJFdpPhkHttAebO6c8v0ovxuVgmTakbdZuEWEKfr9Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794475435;
+	h=DMARC-Filter:Date:X-Lima-ML-UUID:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:In-Reply-To:References:Organization:X-Mailer:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=XrKTCTtL8bq9hcA3cLjorZe3ms1NOePAubxkA7gxev4=;
+	b=gen8RappYr2x5BB8JgCW9Fkm9jHSDClRZJHctvG1RAGX6J3nJF36Kc67gjWng0jUAdHo
+	 saSrkWNFtcd7cZubhOnmuZGmCP5vOKuqOL0pWD+e3B8rQPPBaxjLEzYD+fY8vgI3XsXVj
+	 vwkd0H3fTSIAPRVkbluH60JvkIlIE0Ea1hG2PcKi1tY5vWB6L+xq9KYNXletJCSaIFnyR
+	 GeOsN8xI8EOi0Omm3qc8qKB3qkjVZyueDR74IFnG2wcXDQ5PFDmqXV8DNo7IFpS6ZaMSE
+	 l7FJ9qlu1mRwu4FwLhPlpejgrQ0T0BrIsgQZNzZhy3xIy2BL8oH4OiwEO6QJj8Hn9EA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=rKO6UlgH;
+	arc=none smtp.remote-ip=91.216.248.212
+Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1434F606A323
-	for <asahi@lists.linux.dev>; Thu, 12 Nov 2026 02:41:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1434F606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24104606A88E
+	for <asahi@lists.linux.dev>; Thu, 12 Nov 2026 09:23:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24104606A88E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.JP header.i=@OUTLOOK.JP header.a=rsa-sha256 header.s=selector1 header.b=YzWQb/n5
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ImDXVcB0ugebTbHBG/EeK5WbAeiOJ1aJxFIyIjY3neqOY6Of7NBfphITpeWVuQV+6mdTF9bGVecvgp46GmYmJvJ0bmLBAAikpiOLgipa8Wvfzq4C2ts4PSjaA1gINbRl0ZJvyutAXRrFgxYHvtaFT3ENkXwQl9OWjS+RU5GazSY+Tq4mti2xeCPRbCRLk+y3pyb2s91jyPkjH5gL1TlJGJrkYo8CvCe0e5IlKaHXtbkX/gy2LywLnn8eNxNjFVh3N7Trc9J4crhgxg8+gsQZobNjdJfJbgGsPeoDBX136R0YfnBMfAxlpeju21tmCg9h/TowcXqxFTOKQNFtXFgdkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
- b=ZUazewHPp+rLwpbn4bi7V94kHwPuX0Fjozi7naaDFvrZ8xfGEE7GUQaM6DVihpnjHoYpVnloI9UOEPMURB9krSOhxN+hZ6eh521WGl2z5S5msZBEs5m92UuTLrq88Fb6YiHhPyvBhoIlW2MTuluRorP7vDnLXJPR7D4o87z5td5gVigbeBqZ5kJNsbxnBtGH+j/1m8TLrg07k44mu27dttOLPNcmh+nVKaS1awEIa8I3yOwflNyRHOTjSeYFp+7HYyLAHu6AZ0dtd6TCNo4ymPSN4zbvk3vCSRSaoKCMQfiNEIxanY+KekCXd0rFoeV+Tzv9C8rsFHJwdppw8z7YTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.JP;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PeN0ZKbeuu4kaH7lfK3ligvhaB2XWVA3N5srhCDi5ZI=;
- b=YzWQb/n5M+dTbkHkh0OEIO2ZmC9UrfqQLB6eomQyQlKomb8dOsI3h9VNPCDwYrm9CpyAghtAiq+NuAIEOwt+Gh0YdtYPwPbEwabG0zWqAwy0uSgF2zscd5w8DwcHEc9wvs++E6Co/AxQKRs2ku4c2thWFaxaOkPoSM8VAWbHxXoS9C2Sdqf1OaG44+Ep5jGBtq2WDF0Au9tFvU2wlR6cJVMBDdJVpi+iWZeoPu7B+hy4X4j3inKw7jYYh99uVQU/suH3vGcW/zgTE0tSOtvSnF4aE3H4ySFREmEGHyL2jY07UJ6N+NgO4/RptBIl0LONSr6IwCBsf8ewTSAOOT5gEA==
-Received: from OS7PR01MB14363.jpnprd01.prod.outlook.com
- (2603:1096:604:388::11) by OS9PR01MB17912.jpnprd01.prod.outlook.com
- (2603:1096:604:447::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
- 2026 02:41:25 +0000
-Received: from OS7PR01MB14363.jpnprd01.prod.outlook.com
- ([fe80::eeff:dfdb:bd3b:591b]) by OS7PR01MB14363.jpnprd01.prod.outlook.com
- ([fe80::eeff:dfdb:bd3b:591b%6]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
- 02:41:25 +0000
-From: Keisuke Tsukuda <tkdkei@outlook.jp>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sven Peter
-	<sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "asahi@lists.linux.dev"
-	<asahi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] usb: roles: wait for role callbacks on unregister
-Thread-Topic: [PATCH] usb: roles: wait for role callbacks on unregister
-Thread-Index: AQHdck9PU/KUKHcnBUmIhlWYOi7Giw==
-Date: Thu, 12 Nov 2026 02:41:24 +0000
-Message-ID: <20261112024101.83321-1-tkdkei@outlook.jp>
-Accept-Language: en-US, ja-JP
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS7PR01MB14363:EE_|OS9PR01MB17912:EE_
-x-ms-office365-filtering-correlation-id: ac355f8e-7a53-4716-4029-08df406671d2
-x-microsoft-antispam:
- BCL:0;ARA:14566002|31061999003|15080799012|25031999004|22121099003|24021099003|39105399006|41001999006|19110799012|8062599012|8060799015|38102599003|4140399003|25010399006|12121999013|26104999009|440099028|3412199025|102099032|40105399003|53005399003|12091999003;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?beI0xg4H32hdWjsXnU1zMTM/8dLsTxtNPQUHtEzgmmhEAlWEKxR9wLAF4V?=
- =?iso-8859-1?Q?hSpcot/o2lX3Bu4oA+k7cGZmiPA99HioyWLQ9WCbj6EUOFiz8lqnSyzvzV?=
- =?iso-8859-1?Q?+qYDdYks1sK5fAJxuvawD5KKszxyf1TMiNCq2OVuNZBhywDv+0a7JuqFKE?=
- =?iso-8859-1?Q?fVJ3d3m1GEAkiqdlsGhFrznAFp6GAxSAygH6BsJL9DIK186XBsiH8+KAtB?=
- =?iso-8859-1?Q?lUFTaHrFTO9E493WnTVF1Nil3NavbIVfHKb7ALkKMRywCn3cibtKdupdM4?=
- =?iso-8859-1?Q?TffHXrV7zg0OMo0TMyCOi0VjU+crC+6TvE8KmlQetLvAW5sRJjFojQIzsy?=
- =?iso-8859-1?Q?g0eX94l7EAXNzrXFys1zQTyUb6duo0fJaNqdx7OBLD9jRjA2sXusC6xcyk?=
- =?iso-8859-1?Q?IMZ5ExBKSGjWIa01iVnek4uPVI0t96U+a0XTIBk+8rMlYtbNdAbDBCqyXM?=
- =?iso-8859-1?Q?c7G/WVhvftuPpW9JzvCvzpy5T0yHEb08adYJzHFU6CUBR35MZt9pFEXOii?=
- =?iso-8859-1?Q?BCDXc1QCW50WPUfCUW8PBKW9zcACtDmX0RLpgFsDyhEnA2FXiQtI7inKQM?=
- =?iso-8859-1?Q?RCruGSoQdOt27J4V0H7oWG+QaANttSSjbkHXOFmBFQsDGaafEo2IooEPuS?=
- =?iso-8859-1?Q?Geaw4C7fK1ID5qOFCIOaQCQ+AuIqi0unZhrGjO6lBceyPMNQLiMkEpZnUj?=
- =?iso-8859-1?Q?z7XU1uvEyVHh9Z++MelpAffQtRzH63OA4XsUN0OByVfPUHV82ljjeg/0Ln?=
- =?iso-8859-1?Q?lFa85NA8MtdvVTm+2dfJv7nFMlbGHCWt2QMASzTgXSJNb97zwQZm5voUP7?=
- =?iso-8859-1?Q?Nq94c7edal9ez7dlFWr+SdjELmDTJ32FKsZbu5aQ73r37pVGOXAHUjgc2G?=
- =?iso-8859-1?Q?yr5zEVM6tXFRi7LMfY4bFXRu/a/A4ewX6mYaxJsh8Q+fYejqIF10OBpEqp?=
- =?iso-8859-1?Q?iJUoj3wS8An1Sq4lPM3tBwHN6/1A6/DX2dKTGCjuYVWz0Iok/z/eMwc1Xt?=
- =?iso-8859-1?Q?HJGeTOLmA57bK5j4wXQsJvFnolguJtpa+uNZv3LDdoUWJJoDMrJyFNVd4V?=
- =?iso-8859-1?Q?4CTqoDl9Rd1Qh7DNd0uZXaj6rAX5BU0tsyWednTcsW+lVZ+ljkxrGHLqx7?=
- =?iso-8859-1?Q?4rlcsKjzH/vSaEM0fU3ji60af5HgEPwpCxq7d+5w6fnsaNNRUjgwm7pf9z?=
- =?iso-8859-1?Q?uZhqQQ89c4aa5nInVWppAW4J6vrHNbcm7Hc=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?UUANG0gReFAEGXfvFd2KHGEUy6Jy64U+L/C1W5z9EjDJ6vZJeNbqS1FV5G?=
- =?iso-8859-1?Q?+2bvq0yYQg/uTaE/bC4+DwOUWm24IqgJMMuGJMEkxCHhHI3kF+aSivUlge?=
- =?iso-8859-1?Q?xtiKYunuKgw6v8QcAQokfd6VzW7onpHD0cOriv5iPVLZcuaYc3v8SnvtZ3?=
- =?iso-8859-1?Q?o+nPdg6BCLx+XlklDP4tP1rzbMitxIBLqeBaVNRKApbb5j5cCaY8pubgBq?=
- =?iso-8859-1?Q?hub5QC0ET42ek5nuRwXukNRY6akPPm3cm0JaU+hURC1uSOmQ4d6pUJaBzK?=
- =?iso-8859-1?Q?5pcJv+lKBqvJ6hpmuvHew4VKnnKIw1VVOArQvfK2/hIFd/XiJd6VVppZk3?=
- =?iso-8859-1?Q?w/jZ4s/hxFxXk6asMxj+vdX/ebXBw/PQeUsioHkmNHbyKjpLvf9CaezTAf?=
- =?iso-8859-1?Q?xUlN8T1+2xmRerG5iJNLzz9d/Ea6hsNYMjAqoI12hcKdsabvorAkxs0LQw?=
- =?iso-8859-1?Q?/GRp9UzVkTf4BoOe3r2u/5Le0c/8JfTlWK4MVPl5QW7XuuQnRNfTguj0RF?=
- =?iso-8859-1?Q?zxil6obO2glJT5hBOERiDjifAsSRj0whM+0KbHwSNyT31Pc76hAENwlgjl?=
- =?iso-8859-1?Q?3HxxgTM45TQnCa7IViyEkNqxLbuQsvZkrJJqos07d5xaS42t+b6QDiwSDe?=
- =?iso-8859-1?Q?pfGuLHW0FaP9osMe5zs/be7f3vLQS1McL0Qele0na/dxUIhE4aKkyJbo12?=
- =?iso-8859-1?Q?Il44xhIYIzix8fCYlPIKKpH8ZrthpLo4j79El9BYnh0xpxcqdNxDlU3NIi?=
- =?iso-8859-1?Q?ghGnD25zBBUAAsnhK97S0rBsASXjXsnYUcFhJD5D7JncwRnVh4F2sjuEAy?=
- =?iso-8859-1?Q?G3XAVPRKgyLAeAXJJPrCndCyGDDOPqbK9SZiqTr5q5qnt1PT4l/wx2gy1E?=
- =?iso-8859-1?Q?WzgCO8yhh6jnrMnu/YSnr6+xMxCcGEw2xUANxMwaiSzdbScCr4ApkTWKxe?=
- =?iso-8859-1?Q?TvsZEHK++mpyc5h7Pxe3Zy90j/NhkPEcRUuSHn0AjiEy+6ZFwBwnaKKgyx?=
- =?iso-8859-1?Q?9AQEpfThY+YdwvLisinwcO74hI0IdmYqLPR7GumpBvGt6tHXwNbLmIOfy9?=
- =?iso-8859-1?Q?HuXerGrzn7IsvmVKOjnQC/5CHQ8njGmpqoE3BsdNawpBOs+uSWAd2NwpbB?=
- =?iso-8859-1?Q?goFB3VA9DIP3VV44oG14kpBtcPS4YUTD3peke49pNUJY0h4i7nX+hkCc8J?=
- =?iso-8859-1?Q?rkDyIcgrFJQKbS9XmFkAtUcZsLzrjmP2sEAJvAxJ3mdAPrCczXH5X+MtWg?=
- =?iso-8859-1?Q?n4iWHld+LIMCVV+DhzR4q+tPMWRKH7LTQwXqyCnSJ3HjF1UfEl3XIu0JQK?=
- =?iso-8859-1?Q?/fazbzGDkXjqmbAeyX7LcZuI9LJBtseP82cJmlwyr/SDcNN0x0HA6EBxIQ?=
- =?iso-8859-1?Q?u+WkIJMEEIui1aeaPiYhKtalYIaIwC4+ttJPxJlr0c9x1ZpmFJxts=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=rKO6UlgH
+Date: Thu, 12 Nov 2026 10:23:47 +0100
+X-Lima-ML-UUID: 4d878238-c034-4480-8c6f-18f3801a77d1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1794475431;
+	bh=BJYPieYsm7wUZfSPxCoK9/u1+dJEmmjdYYatgOil7Uk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rKO6UlgHTeEb/toXHmvy2QbTBq1wVmOxoEXGP3+1BMuVeelvgS6jdhStcSMY7jeby
+	 ZDeSjg5eVFGMsHeCSUDTsXFfgKrSnXofhlrucgBZdYsV78UDUL5KFYjmvkNBM0rzSb
+	 u9j8TntSRhJe8TLw0wklEJOpinv+V0lwZGVbSK/FD9YMMEkcNpxj1l/bMXCKlnmhL1
+	 t3n6TTEydlQPYPV6bJl7LkKEak2e/4wqiNw/GUd86A/LdvGKXLR5mgLJWZmdItbZeG
+	 EzIG99XyPS7eztr0E7QwUvGdalp7M/mcdEzWWDSmPgjuVNfewMbJJzmOeO8tvXHhjV
+	 A8o9Hn+lV9LEQ==
+From: =?UTF-8?B?QW5kcsOp?= Eikmeyer <dev@deq.rocks>
+To: Sven Peter <sven@kernel.org>
+Cc: j@jannau.net, neal@gompa.dev, marcel@holtmann.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+ luiz.dentz@gmail.com
+Subject: Re: [PATCH v2 1/3] Bluetooth: hci_bcm4377: treat only negative
+ hci_register_dev() returns as errors
+Message-ID: <20261112102347.3a22966a@kait2en-mbp15-1>
+In-Reply-To: <517d9d36-ab3f-4eb5-8908-f50aea59a3b0@kernel.org>
+References: <20261111120248.21062-1-dev@deq.rocks>
+	<20261111120248.21062-2-dev@deq.rocks>
+	<517d9d36-ab3f-4eb5-8908-f50aea59a3b0@kernel.org>
+Organization: KaiT2en
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -152,128 +69,22 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-b83fc.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS7PR01MB14363.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac355f8e-7a53-4716-4029-08df406671d2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2026 02:41:24.9800
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB17912
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-usb_role_switch_set_role() and usb_role_switch_get_role() check the=0A=
-registered flag before taking the switch lock. If a provider is=0A=
-unregistered during a role request, unregister can return while its=0A=
-callback is still running. The provider may then free memory used by=0A=
-the callback, causing a use-after-free. A caller that passed the check=0A=
-can also enter a callback after unregister returns.=0A=
-=0A=
-Move the registered checks under the switch lock and clear the flag while=
-=0A=
-holding the same lock on unregister. This waits for active callbacks and=0A=
-rejects callers that acquire the lock after the flag is cleared.=0A=
-=0A=
-The Apple DWC3 remove path currently holds its private mutex around=0A=
-unregister. Its role callbacks take that mutex under the switch lock, so=0A=
-waiting on the switch lock in unregister would reverse the lock order.=0A=
-Unregister before taking the Apple mutex.=0A=
-=0A=
-Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")=0A=
-Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>=0A=
----=0A=
-Tested on ARM64 QEMU with Linux 7.3.4 and mainline 7.4-rc2=0A=
-(067c5c24cef2), with KASAN and lockdep enabled. Synthetic providers=0A=
-trigger KASAN use-after-free reports in both set and get callbacks before=
-=0A=
-this change. With the change, unregister waits for the callbacks and=0A=
-neither test reports KASAN.=0A=
-=0A=
-A lockdep test modeling the Apple callback/remove lock order warns for the=
-=0A=
-original order and not for the new one. Apple DWC3 hardware was not tested.=
-=0A=
-=0A=
- drivers/usb/roles/class.c     |   18 ++++++++++++++----=0A=
- drivers/usb/dwc3/dwc3-apple.c |    4 ++--=0A=
- 2 files changed, 16 insertions(+), 6 deletions(-)=0A=
-=0A=
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c=0A=
---- a/drivers/usb/roles/class.c=0A=
-+++ b/drivers/usb/roles/class.c=0A=
-@@ -79,10 +79,11 @@=0A=
- 	if (IS_ERR_OR_NULL(sw))=0A=
- 		return 0;=0A=
- =0A=
--	if (!sw->registered)=0A=
--		return -EOPNOTSUPP;=0A=
--=0A=
- 	mutex_lock(&sw->lock);=0A=
-+	if (!sw->registered) {=0A=
-+		ret =3D -EOPNOTSUPP;=0A=
-+		goto unlock;=0A=
-+	}=0A=
- =0A=
- 	ret =3D sw->set(sw, role);=0A=
- 	if (!ret) {=0A=
-@@ -90,6 +91,7 @@=0A=
- 		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);=0A=
- 	}=0A=
- =0A=
-+unlock:=0A=
- 	mutex_unlock(&sw->lock);=0A=
- =0A=
- 	return ret;=0A=
-@@ -107,16 +109,21 @@=0A=
- {=0A=
- 	enum usb_role role;=0A=
- =0A=
--	if (IS_ERR_OR_NULL(sw) || !sw->registered)=0A=
-+	if (IS_ERR_OR_NULL(sw))=0A=
- 		return USB_ROLE_NONE;=0A=
- =0A=
- 	mutex_lock(&sw->lock);=0A=
-+	if (!sw->registered) {=0A=
-+		role =3D USB_ROLE_NONE;=0A=
-+		goto unlock;=0A=
-+	}=0A=
- =0A=
- 	if (sw->get)=0A=
- 		role =3D sw->get(sw);=0A=
- 	else=0A=
- 		role =3D sw->role;=0A=
- =0A=
-+unlock:=0A=
- 	mutex_unlock(&sw->lock);=0A=
- =0A=
- 	return role;=0A=
-@@ -423,7 +430,10 @@=0A=
- {=0A=
- 	if (IS_ERR_OR_NULL(sw))=0A=
- 		return;=0A=
-+	/* Wait for in-flight set/get callbacks before unregistering. */=0A=
-+	mutex_lock(&sw->lock);=0A=
- 	sw->registered =3D false;=0A=
-+	mutex_unlock(&sw->lock);=0A=
- 	if (dev_fwnode(&sw->dev))=0A=
- 		component_del(&sw->dev, &connector_ops);=0A=
- 	device_unregister(&sw->dev);=0A=
-diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c=
-=0A=
---- a/drivers/usb/dwc3/dwc3-apple.c=0A=
-+++ b/drivers/usb/dwc3/dwc3-apple.c=0A=
-@@ -487,9 +487,9 @@=0A=
- 	struct dwc3 *dwc =3D platform_get_drvdata(pdev);=0A=
- 	struct dwc3_apple *appledwc =3D to_dwc3_apple(dwc);=0A=
- =0A=
-+	usb_role_switch_unregister(appledwc->role_sw);=0A=
-+=0A=
- 	guard(mutex)(&appledwc->lock);=0A=
--=0A=
--	usb_role_switch_unregister(appledwc->role_sw);=0A=
- =0A=
- 	/*=0A=
- 	 * If we're still in DWC3_APPLE_PROBE_PENDING we never got any cable conn=
-ected event and=0A=
+On Wed, 11 Nov 2026 17:29:01 +0100
+Sven Peter <sven@kernel.org> wrote:
+
+> Please make sure to pick up tags from previous revisions or mention
+> why you dropped them. I added Reviewed-by for v1.
+> 
+> Sven
+
+Sorry, I missed it when preparing v2. For the record, from v1:
+
+Reviewed-by: Sven Peter <sven@kernel.org>
+
+Luiz, please take it along when applying, or I carry it in a v3 if one
+is needed.
+
+Andre
