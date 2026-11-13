@@ -1,79 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794602867;
-	b=pDeZOPrRwWlGaDQTpCLgBbfHagzQybE2rQU1NTu36QzSaL4V6nEUYJzCCn6C701g6TY3
-	 9NBvPQ2UJxN4hVyAL5zsVTV9ShxHjgOBDZaq8tXDx3MIaqEaEUMT4VjafKSM8g9TlpYSY
-	 548sxJyVrvEdvT51yPoj+0PeNd5miH4KcfH9CqftXWq6BLW3idczHp8ECE0H2k3sn5kBq
-	 96FEs5dDohwguU+lkexrZTEoogRYjytZIs4YePssrGa6AoBnSpUduYNb/UscVdrPi7b7a
-	 TWShHC1jJRv8uh7MQwgWOMQXJnUQFiQpFovQO03EASxhhL6sE2oHWUMcZSGDacV9o/w==
+	t=1794616055;
+	b=JRg+I6RVAKi00RaYvso8mONFkvM9+MNLtgFE/QvBlCIVIwPdASGe73H1ru4O0LaPFVdo
+	 +O10XqCab/NO7xitbNEIxJx54+qbaABolEnqYaSqsDhfRNsh2/0KXsNwGHo0kuYA5GRLJ
+	 BLc4SLjAp+GMniT+o9ocgKsw9ITwfbCtzG8aQQJBDjwzXTA3svmFQs4GOFZZxeGJZDInv
+	 mnka/OuSq7y/+vpc3oCN9DOrR5BjPi+PBQLpgIHjh5X/RraJ9ck2HRc0wwFOWbAb4QRkY
+	 YNJ2B8mTSOKDdSWR3okCUFYX9Y8f2X7cEJNgAKdsrKMhTPAUpGQHcD3zCnHD0UlOMKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794602867;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=YqOyLeJF1LZn52GyfM0b3GDfTRLm5jSkYKCfEBCotc0=;
-	b=cwBoja+xjld9WRmihbQAOsASLsDJzzCh4eCwSAihQRDDGmUyxS/uFOyDUb81kTSlYwyx
-	 dYDsaGOEwzbHXSGxJGqE3hgYoc+Q6BoZ6KarwPe4jhqbvCJf4s8YVTE/nfGmJOtMHQOVn
-	 3Z8MLv7zqe6sfzNF6Ai+Up89YYwsNBfFJmWLTWMM5QjVMFYRtiXV7jKOjdvyJj96Vc00Q
-	 E62ww1pc3hIz12m2RBBHd01y4a6/uVAhvyCumGyJwDkJZrur1+FUfogufpXX/S17hZXSs
-	 kMAShgLTEWDv+12ipUKsgMM0qv+JOJrufb2Bc1rkYIWeItOyC+cjVvfhe9e3temjDUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794616055;
+	h=Received:DKIM-Signature:Received:From:To:Cc:In-Reply-To:References:
+	 Subject:Message-Id:Date:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=ki/ePS7jWs9uNuv0DOOM5RNpbzB+sOQfsfxY6BGgUp4=;
+	b=R+qaYF16/oqaTQIl7m75uH3lR99pA/5JZ56FTmvzpKuBK0qARP8pRrNezGpSgBMrdB1X
+	 8S+l6E+04vJF3wPFTAy5wWu0keIYH/xz7dFTSjB8d0NE7zsKqUqJm8wiQX5cTA2Qdnmk/
+	 4uEJFnAPZHhbJW4FwR3lw8mc1Zt617sj53qEiAYHWHfB9OktpsqREZ5MwBTSz2FS4sgSm
+	 VbR8jmyx8T7pKqw3OzhmIb5jTlWIPpw8YqOowQ2FQxIsCHp6/T3K9rJgUKOxN5PTC9OFK
+	 tbddUef4OGG3MZAc4Kxhmck9ReTGlO6EmVpFu7AG5vWBTKtrtX3F6k8ZwtPrpv5/Ivw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gompa.dev;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.160.178
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IjJgmRfT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA92C606A337
-	for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 20:47:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA92C606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-53639b8903bso30064911cf.0
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 12:47:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794602865; x=1795207665;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YqOyLeJF1LZn52GyfM0b3GDfTRLm5jSkYKCfEBCotc0=;
-        b=bE9htwjVZ9adchdirIFAa+ibMatGEBIBGAoveLur6A7cuGDFFgR8i41MDUaGAOq4EL
-         s2vkwAAO3snJtfdzpiRgh6O6vfGw6B1zBN2rrwjB45KYTgJE9xjSPRtJILhAyd2nP1oM
-         ZVYcGlJlADOyIKIJVwLXdQiJAf9Jygo5D/XYuCD9l/1iFNzwT+tKKvwVM7ujZHdNrVLf
-         ANJDbhLwnJjiYleEz6E5t5pxM38d9KD16Lb9F+PFix+dZvAYrqnCtvBKlD6LIH4dvpQo
-         eZ7SvvPy4bAeQduEcTIMKF9DPl7sdF7vVO3NeM1guob7f6A/OQ7YYXnoClIdq6s+Lvu0
-         PDSA==
-X-Forwarded-Encrypted: i=1; AL+hErEUB2f4SjVXqV6tinQLYGYmCdbbIP8ArD3GJnDiNUW6bA7Yv4Jb3LnPVMNGAcQM8o/W8VPExA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+oR8hBoleMss9N7QyWtGbWO7gPpdYFxuqKf9WrU3e1oA9//dZa
-	0+9leRpdOrYNELskSt2+w1fn8OEfyuJSzryPLCRi9sEhmv283zIwl/l5JrgQ+qiJ
-X-Gm-Gg: AYBFou0QA0VSu3j+96B0QAPgy6iuLLneg2a5DNM/9TiJ+gjbnm5LVWiETKE/tLK+lEM
-	KnqUZwWvDoiiTGzjGRVrhO49gytLmjpA91uqqqeRKK+dqtD8BJF9lzG5Y1y6b+pIA8Ml6LtqKo8
-	kzcLV86DZ6Hn4eGct25IHdpnOSTEnOiRxXSPd/GVWREoZyW/D/yl5S/aKQaE8mQFG4Syl0oICfa
-	UVDTN2ewEvcEcz6wb3cnSNGE0VFrjGLJBga5gR3ztiLO9woxDam0Vzqk3re/X04r6xDwTlvt/+x
-	TdVZWB/hWp/sjdUG/EnegEd7sSj9Op6zT7zLPEDpkQR3hyU4kFcPOin8PmrXd3jxeQ13AoQT2Sg
-	96fw5wHihhxwneZ3hRwV23ld/CeghyTT3Kqps15cx62NiruuWG8Brse0F6uwX1LlfdiiaHu9NLE
-	R18pij9rGY5JfMK9x4aVSRqoHtoSNjfsjXBbv35AR2rAkU08TG1waOA41ZA6vWzkEas4t2n4pMs
-	UBFGSKKsPhs+xDtAJIeBf4Su1Az3ltf29dphFLe/zENft0YFJOqc9q62GfcLwoDpJOWeRc2a91z
-	oRE0oIx8mja73euVCKrGwnhFm65kWBOkOmPGxjQnqZZdCYby2/bg1d0OUQBP2k0o1AAw4vUylkX
-	Yt/yexveihwDMoW7AUhPgGv5abArxHwveNQNA0scWiMDyr8fD/rnKIYGcrHw08rGQoDI55RFOx5
-	bNJb/So3qQnaMGMervt65mbA==
-X-Received: by 2002:ac8:5d8f:0:b0:535:b545:e926 with SMTP id d75a77b69052e-55956e5d8a7mr114869731cf.27.1794602865289;
-        Fri, 13 Nov 2026 12:47:45 -0800 (PST)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d4577csm28962666d6.13.2026.11.13.12.47.45
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2026 12:47:45 -0800 (PST)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-91ea5600c9cso32858386d6.1
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 12:47:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGEr1qOsBJ2oF4TKq2D0ZwmUOze4YLnQe9tvDzHMfR4xysE3NCJ1Q4Vcc4uEbwy8RAONdC+UQ==@lists.linux.dev
-X-Received: by 2002:a05:6830:1cc2:b0:7f9:555:1df0 with SMTP id
- 46e09a7af769-86289878845mr2035460a34.12.1794602431926; Fri, 13 Nov 2026
- 12:40:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9F4606A329;
+	Sat, 14 Nov 2026 00:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IjJgmRfT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C6E1F000C4;
+	Sat, 14 Nov 2026 00:27:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794616055;
+	bh=ki/ePS7jWs9uNuv0DOOM5RNpbzB+sOQfsfxY6BGgUp4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IjJgmRfTMn0LDXFga6bVNSny1CE35GU8FBWb1A/nhj+KCs9P2O8qjs5GjDMbPKPqd
+	 E/PUv80wtNAHJAVM0RtVz5I1c8MJj6wGZJEWLLHGsbVs2AjKNjWa1Nt0OU//hgiPxZ
+	 V0xbkVIh1I1ZYq211qbIU67Dw+l2r7dahoDDKF5OgrzHu93CVDZOsy5lJ9/lIpumJ0
+	 babkNoNnfauJTkBURAc3vUfPxzEGwjB7OiBWEzwt00she+ujAkoI3kL3nO/xb9Ue8j
+	 e8hU+wOFal6FYl38dONN5BQZVzLdbezqXDNDIhYdqrMX62ASANqLaRdClZsqjIGEZe
+	 J5cBJi7CMPQww==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 82FAF329EA01;
+	Sat, 14 Nov 2026 00:27:32 +0000 (GMT)
+From: Mark Brown <broonie@kernel.org>
+To: linux-spi@vger.kernel.org, shao.mingyin@zte.com.cn
+Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ pjw@kernel.org, samuel.holland@sifive.com, william.zhang@broadcom.com, 
+ kursad.oney@broadcom.com, jonas.gorski@gmail.com, 
+ bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com, 
+ florian.fainelli@broadcom.com, rafal@milecki.pl, 
+ linux-arm-kernel@lists.infradead.org, sven@kernel.org, j@jannau.net, 
+ neal@gompa.dev, asahi@lists.linux.dev, ryan.wanner@microchip.com, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ claudiu.beznea@tuxon.dev
+In-Reply-To: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
+References: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
+Subject: Re: [PATCH v2 0/5] spi: fix division by zero with a zero transfer
+ speed
+Message-Id: <179460764342.448985.18219249061160291658.b4-ty@b4>
+Date: Fri, 13 Nov 2026 22:07:23 +0000
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -83,173 +70,64 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
-In-Reply-To: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 13 Nov 2026 15:39:55 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je9ffh8v9PKn-pRc7DLjD0h9oP64ZB_FR5B0K=YfctJx2w@mail.gmail.com>
-X-Gm-Features: AclHuK99xhj_lrjZso--3IknqiDF9swsBuRbZJPQdiHng0qFnjGS4Y8OcMsuew0
-Message-ID: <CAEg-Je9ffh8v9PKn-pRc7DLjD0h9oP64ZB_FR5B0K=YfctJx2w@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] Add support for Apple Silicon DockChannel internal keyboards
-To: michael.reeves077@gmail.com
-Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Jassi Brar <jassisinghbrar@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org, 
-	Yureka Lilian <yureka@cyberchaos.dev>, Hector Martin <marcan@marcan.st>, 
-	Sasha Finkelstein <k@chaosmail.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2160; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Me9l+RLPg/bosA9FhUgKDZ9QSUrdM0aawNht8FMS9I4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+r3rfUD5D64OkT3ut1F3Pz307/66Nyl0pO2dGUduKv
+ MObtK2OdJSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiSkoM/8sc1JMDjoSe9+tg
+ WL1+JlPeS5ngTcz2z2+7qO00mFfJJ8PwT81ntu+ddRtNN8hXmmm+e37oV/jxUzYzeJULKuedT7V
+ /wAgA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, Nov 8, 2026 at 2:25=E2=80=AFAM Michael Reeves via B4 Relay
-<devnull+michael.reeves077.gmail.com@kernel.org> wrote:
->
-> This series introduces support for the internal keyboards on Apple
-> Silicon M2 and M3 MacBook models.
->
-> On these platforms, built-in input devices are managed by a dedicated
-> coprocessor running an RTKit-based operating system. Communication
-> between this coprocessor and the main processor is carried out over a
-> low-latency hardware byte FIFO interface called DockChannel.
->
-> To support this input path, the series introduces a few new components:
-> - An apple-dockchannel mailbox driver to handle the low-level
->   byte-stream FIFO.
-> - A DockChannel HID transport driver (apple-hid) that boots the
->   coprocessor using the RTKit framework and encapsulates the HID
->   protocol over the mailbox.
-> - Minor additions to the apple-rtkit and hid-apple drivers to support
->   the TraceKit endpoint and integrate the keyboards into the existing
->   input-quirks framework.
-> - Devicetree bindings and DTS updates to describe the nodes on M2 and
->   M3 laptops.
->
-> The transport driver is based on an original out-of-tree implementation
-> by Hector Martin, but it has been significantly rewritten for upstream
-> inclusion to use the standard Linux mailbox framework and align better
-> with upstream HID design patterns and reduce reliance on hacks.
->
-> While the coprocessor manages both the keyboard and the trackpad, this
-> series only enables keyboard support. The keyboard can be initialised
-> without loading external firmware, whereas the trackpad requires
-> firmware. Trackpad support will be submitted in a subsequent series
-> once these base transport layers are established.
->
-> Tested on: MacBook Air M3 (J613).
->
-> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
->
-> Changes in v5:
-> - Link to v4: https://lore.kernel.org/all/20260925-apple-mtp-keyboard-fin=
-al-v4-0-304c267518f4@gmail.com/
-> - Drop ASC mailbox and DART binding patches which were picked up and are =
-in apple-soc/dt-7.5
-> - Simplify HID transport reg-names from coproc-asc/sram to asc/sram (sugg=
-ested by Rob Herring).
-> - Replace the empty STM child node with the 'apple,has-stm' boolean prope=
-rty (suggested by Rob Herring).
-> - Drop the keyboard child node and move 'hid-country-code' to the parent =
-node (suggested by Rob Herring).
-> - Simplify the transport driver to filter supported interfaces in C and d=
-rop fwnode handling.
-> - Collect Reviewed-by from Rob Herring on the DockChannel mailbox binding=
-.
-> - Rebase on v7.4-rc1
->
-> Changes in v4:
-> - Link to v3: https://lore.kernel.org/all/20260918-apple-mtp-keyboard-fin=
-al-v3-0-e356464e454b@gmail.com/
-> - Describe the DockChannel interrupt pair in DT (suggested by Yureka Lili=
-an).
-> - Serialize command transactions and finish STM setup before signalling r=
-eady.
-> - Keep IRQ flag reads and acknowledgements under the controller lock.
-> - Clarify teardown synchronization and use the explicit-bounds HID API.
-> - Preserve interface-start errors and allow waiting again for delayed rea=
-diness.
-> - Simplify FIFO writes, IRQ startup and compatible matching.
-> - The command and IRQ changes address Sashiko feedback.
->
-> Changes in v3:
-> - Link to v2: https://lore.kernel.org/all/20260918-apple-mtp-keyboard-fin=
-al-v2-0-a5c685e50b60@gmail.com/
-> - Fix failed-probe cleanup and interface publication ordering.
-> - Fix report lengths/types and reject replacement descriptors.
-> - Terminate serial replies and encode checksums as little endian.
-> - Honor HID_QUIRK_IGNORE_SPECIAL_DRIVER.
-> - Clarify the DockChannel TX byte register layout.
-> - All changes above address Sashiko feedback.
->
-> Changes in v2:
-> - Link to v1: https://lore.kernel.org/asahi/20260630-apple-mtp-keyboard-f=
-inal-v1-0-506d936a1707@gmail.com/
-> - Rebase onto latest upstream and add M3 Pro/Max device-tree support.
-> - Use an optional STM node to decide whether to wait for device IDs
->   (suggested by Yureka Lilian).
-> - Rename bindings to match the t8112 fallback (suggested by Conor Dooley)=
-.
-> - Fix FIFO MMIO write width (suggested by Yureka Lilian) and run mailbox
->   interrupt handling in the IRQ thread.
-> - Remove the duplicate report fixup (suggested by Sasha Finkelstein)
->   and redundant HID dependency (suggested by Julian Braha).
-> - Fix teardown and the missing HID stop callback; simplify interface look=
-up.
->
-> ---
-> Michael Reeves (7):
->       dt-bindings: mailbox: apple: Add DockChannel mailbox
->       dt-bindings: input: apple: Add DockChannel HID transport
->       mailbox: apple: Add DockChannel FIFO controller
->       HID: apple: Add support for DockChannel HID keyboards
->       HID: apple: Add DockChannel HID transport driver
->       arm64: dts: apple: Add MTP DockChannel HID nodes
->       arm64: dts: apple: Enable DockChannel HID on M2 and M3 laptops
->
-> Sasha Finkelstein (1):
->       soc: apple: rtkit: Add tracekit endpoint
->
->  .../input/apple,t8112-dockchannel-hid.yaml         |   92 ++
->  .../bindings/mailbox/apple,t8112-dockchannel.yaml  |   88 ++
->  MAINTAINERS                                        |    5 +
->  arch/arm64/boot/dts/apple/t602x-die0.dtsi          |   47 +
->  arch/arm64/boot/dts/apple/t602x-j414-j416.dtsi     |   24 +
->  arch/arm64/boot/dts/apple/t6030.dtsi               |   47 +
->  arch/arm64/boot/dts/apple/t6031-die0.dtsi          |   47 +
->  arch/arm64/boot/dts/apple/t603x-j514-j516.dtsi     |   19 +
->  arch/arm64/boot/dts/apple/t8112-j413.dts           |   19 +
->  arch/arm64/boot/dts/apple/t8112-j415.dts           |   19 +
->  arch/arm64/boot/dts/apple/t8112-j493.dts           |   21 +-
->  arch/arm64/boot/dts/apple/t8112.dtsi               |   47 +
->  arch/arm64/boot/dts/apple/t8122-j504.dts           |   22 +
->  arch/arm64/boot/dts/apple/t8122-j613.dts           |   22 +
->  arch/arm64/boot/dts/apple/t8122-j615.dts           |   22 +
->  arch/arm64/boot/dts/apple/t8122.dtsi               |   48 +
->  drivers/hid/Kconfig                                |    2 +
->  drivers/hid/Makefile                               |    2 +
->  drivers/hid/dockchannel/Kconfig                    |   14 +
->  drivers/hid/dockchannel/Makefile                   |    3 +
->  drivers/hid/dockchannel/apple-hid.c                | 1167 ++++++++++++++=
-++++++
->  drivers/hid/hid-apple.c                            |  118 +-
->  drivers/mailbox/Kconfig                            |   12 +
->  drivers/mailbox/Makefile                           |    2 +
->  drivers/mailbox/apple-dockchannel.c                |  357 ++++++
->  drivers/soc/apple/rtkit.c                          |    2 +
->  include/linux/hid.h                                |    1 +
->  include/linux/mailbox/apple-dockchannel.h          |   29 +
->  28 files changed, 2251 insertions(+), 47 deletions(-)
-> ---
-> base-commit: 1d368e025d7c4fe63c8bf68ccb4bc3c9772ab75c
-> change-id: 20261108-b4-apple-mtp-keyboard-94f1cf08ef11
->
+On Tue, 10 Nov 2026 23:34:50 +0800, shao.mingyin@zte.com.cn wrote:
+> spi: fix division by zero with a zero transfer speed
+> 
+> Five SPI controller drivers compute a clock divider from the transfer
+> speed without checking that it is non-zero.  A SPI device whose
+> max_speed_hz is zero (a DT node without spi-max-frequency, or a device
+> created through the spidev sysfs new_device interface without a speed)
+> therefore reaches the division with speed_hz == 0.  The SPI core clamps
+> such a device to the controller limit only when host->max_speed_hz is
+> set, and none of these five drivers sets it.
+> 
+> [...]
 
-Series LGTM.
+Applied to
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.5
 
+Thanks!
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+[1/5] spi: sifive: clamp the clock divider to the register range
+      https://git.kernel.org/broonie/spi/c/49071cdbecd3
+[2/5] spi: bcm63xx-hsspi: fix division by zero for devices without a max speed
+      https://git.kernel.org/broonie/spi/c/82ff536b6049
+[3/5] spi: bcmbca-hsspi: fix division by zero for devices without a max speed
+      https://git.kernel.org/broonie/spi/c/167fe08d3ba5
+[4/5] spi: apple: fix division by zero in clock divisor calculation
+      https://git.kernel.org/broonie/spi/c/ee22df21fdf4
+[5/5] spi: atmel: use the maximum divider for an unspecified speed
+      https://git.kernel.org/broonie/spi/c/51953948d6a8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
