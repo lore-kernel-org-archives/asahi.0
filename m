@@ -1,71 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794589997;
-	b=Ka1FMNTYAGfJ3YZFNbhp5RvyLK1p7fY8dXgkFMsZUECxRZclyCJlyMW7Gl2fUbIZ4njM
-	 2qDrPuUygOSShFqs6sd4/W1sZGUrUnO6kYww0i2kRi2cdjwjtMFi5T9Ldes9kvVRLbPPG
-	 PH+3YOTdn5xBJ+MBcynkM4kKxZSR3AOuZcvgTn/dc0HU8z71XBiFubtUBNWzRLqARwV/G
-	 Fps9Eo55UQpNj7rmAW3xuWvYaQEBIfBF9C6gclANuzSv2NEBmStXBx27Jj6u9Bv39+ePL
-	 t2JSGyBxdk5SFno/wwLHSEfGo4MhGWT098cN98VXAgE8Sj2EFuosRWQMnVHQ+sr3cpw==
+	t=1794594306;
+	b=NSTRQ8Fww9Hgenf8dUDyHpt9s3Kc3fUCJMy5V0cT7UWNJ0iwvW0ciNh2rsKJrOCx9vnk
+	 RrDDJeNQdN9P/wQmf+mDRaPAY6HQmulY/TLj18iy90gSX97hRfxDIoLN5hd8n4KMuhVKA
+	 sNbwDtUKggA7V9p19ep1QjUm3FE5pw/4vG8h1pq1HBCCizsWkZ9+4ccvAMMRQA+h4aLMh
+	 b3F3q4Qf+gCC7OzsSZcFLt6T488HBB+6uBbla0BXdgEtDYr3n1pMzGanAA5fVrF8SvqbN
+	 V4QRbGa45nvj67cjMsNxhP23zVKHIzQFx4aY6vt9f7M2882xBdnjODFowY7ik9PrpGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794589997;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=bonakH17m6oL3I6u6f22hNg5N1ig4SK5E1SkaoENsVo=;
-	b=1NFabWF3NkNyOzrSquiD1RhJ7B3uajcu1JejhOgBL1hKPL9B4YmjIwAMnM3TlSk8ipWK
-	 +bH3Q471ZQoKjy51NXaIRGeXKpDRPHHWHNqIuQefbLgQsK2+6mXVd+mheb8BF4hm4eEtr
-	 OYRFvO+IIETUQOe0j5A8Rkjsn7shFKueVouNFlYNgcfpIEZtpQhfla77NjZWojfStHCAe
-	 lTqa5J4tTyCNgxAQbfxAne87OhJVaMb5/7Pkgrm3oDeG8vgeulMVeUCG6HkGj6t+5NnM9
-	 RQGRkDLIq2uQcJoILkXSS3OCJpRWkKayNoarTbcHYHVaSVCrhvaOe4GEL7ztV7GJgMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594306;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=+4+M6Qf8kgsKLvqCkp78aI5bxXP1So+oEpWQ/VILqxM=;
+	b=po7ACQsc/b2fP1EGL8mwDYM1OyWow0fkwvbbrguR+FiHkS0TahzyA7pfNvIOQbIZjVNi
+	 JrY20NHU746C9b7nk509aEW+NZXtJE8RuRffJa6/YZa4iq2m+oAEwt4okASr2gUqYDF05
+	 jxpIjvauxi821XURPBmyOGlcgLXcBgUAF9VTce3BVXH9X7CkAPtLnbRx+c5x6Fz6wNTwM
+	 cq4BfLOKC6h0OgReOKLs4vXMkET+FckkQL1snjkabIStTqpnvP0Uk24w1KVrrS/7SNFGY
+	 pJdMqxkBHw4R2SH7CEdntKTNa/kkkoqAo8dmhvF1aXadkxJh0bHSZsY+uI+RZczUKzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DiOGWW5A;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gompa.dev;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.210.41
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD4F606A334;
-	Fri, 13 Nov 2026 17:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DiOGWW5A
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD94B1F000D0;
-	Fri, 13 Nov 2026 17:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794589997;
-	bh=bonakH17m6oL3I6u6f22hNg5N1ig4SK5E1SkaoENsVo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DiOGWW5AblLFcTIFUrgE/alIXAiZXbzEhZbiIXhFXE8H/zK//AjmvQiVdRU2ZBZgw
-	 YuJtKCusYKUus+2whWriFHNVHslI4dDXzhW1FoNrjObxZxHsLlCS8N1f5Urk/+nfts
-	 I/1RB4QSNgC15X5zSln0RFNaKLZZPGo61aGvqrJIcDn2grBij96TZGAaEHDDVV5EcL
-	 59io1+xQ/4z75IqkElQ5J3bpoB5fdF0/+oKbAZ5ezCRVzInwE5hqaK8IddqaTjdh90
-	 3/Mz44iAuaK2JQreGJJI+Z9XcEA1a77Y7iTR+7v2NixTB1vJ/Lo7rt8nM7TeD0hY96
-	 Wn0fc2K8hSecA==
-From: Sven Peter <sven@kernel.org>
-To: Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Michael Reeves <michael.reeves077@gmail.com>
-Cc: Sven Peter <sven@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	Yureka Lilian <yureka@cyberchaos.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Sasha Finkelstein <k@chaosmail.tech>
-Subject: Re: (subset) [PATCH v5 0/8] Add support for Apple Silicon DockChannel internal keyboards
-Date: Fri, 13 Nov 2026 18:13:00 +0100
-Message-ID: <179458995719.5774.15567568274381558619.b4-ty@b4>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
-References: <20261108-b4-apple-mtp-keyboard-v5-0-e2c97b82669a@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF07606A323
+	for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 18:25:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CF07606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-8628b63dd60so393794a34.2
+        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 10:25:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794594304; x=1795199104;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+4+M6Qf8kgsKLvqCkp78aI5bxXP1So+oEpWQ/VILqxM=;
+        b=NG6nP1Eg8YmQIxhmtVO9PQGameASpIuEdiuruVnEzqEtmfwVVodX9GKlsMNV1z/9JX
+         RJCYonq4A4denq81Def8/JH7c5B9LqY2U4666k6OQceDr3WeMrG+9g9q+y6HIXbAaV7m
+         /JBhiAn3qRe/R460yzJgb5RYjD0iC20dm6rN/xTBFAYigfNjreHTiitCuAfnBzG1/vmv
+         0isOmrsM8xzsY+3rE68v5CjfUHbntHY/vBbQP2ALJnv1IIcvcoqr1vdJyeom/rJ7sjgc
+         bpN73wZngJxvU9MogDRbo1uyhA88y9anwXbUBDJX4QZFPuMft9EqmUWV7nV6oG8qI9IJ
+         +e/A==
+X-Forwarded-Encrypted: i=1; AL+hErEJh6P9G/1TiS50a9Qjb8saaYWfbjH9/MaEdLQv9DAZaZ935aXyCoYLlRDQ+nkH+U0KpeKduA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/FvpNwD5Caa40WLm1HAnCWBpczpFm/fccwAaFUcuR58Sms9x26
+	GBFCqGAyOTTjtUIipUvm4klQ8oCg8VrHgKipMpxUBX0GDkocjfWaNWRpz97X2A==
+X-Gm-Gg: AYBFou3QVzdnRLhHfKTghjImHL3Ay2NB3/F2KsugA+Rtd8wxHVbJEJ0Ax6G0pu/GgKM
+	wARDy518MjmwvJwR7+gKy6GYItV/XjKzOhlTXsMvFAgzV3AXVPoppLcBfC6rwQGzhNhoknc7rTW
+	qAHKgrNB/CZt8pYwxVg9QP7+8WTRLn+SpHl0rE5PtETcJ8s/wRK60CqPbvrUD6Ja3whERGMVKWx
+	r4+oDxBjTOMviQ1Z3vH1Bo6odkEZzrElRH+Ymw1AJyO4/Y5hWlE3HwHukpg7ipNP2F3JQF28bVi
+	xs3eNU0yBpFlngAA29pjcEo3FcuG5YZt1lG1PrT1cxdOf26Fifs8gfYBzyT+YxxppgfoE2R1UoA
+	rcDFILdrAs3XWvdMPc84MPl0d5uy8Ke04U36c5uyamkb4OXIfGg52o8Lj2tRomAG7cn9YDEX/1o
+	pvt3eyslMSu8Fn9E+g7BFqpCHjWmYNEGXZO77eRLIyaEvseNi80fEELAo0Mqb5cf/huzifgHsfl
+	vAWEufyNNgB2PbEkn/zZLCz3OTgTgkq+oEXDxy6yvnOFaMp7t64kQtKHKnoiriQP18WbFq30jYC
+	TqYpv2qzQFCkG7awCFG6BWMIOgiE4y1tz6pdkh3bPLyN/Tnx8kizsBuQHSI0cjlmJgWlovIOl4z
+	awASmLV4UwRW0NPEB9mnUY2J3Uobh3qz6S5D9wynZb93gTydllhjkg+nnxH/C2KEWVwlJHKpP2K
+	KK
+X-Received: by 2002:a05:6808:1486:b0:4d3:6be7:c64a with SMTP id 5614622812f47-56e5cff0630mr2927166b6e.0.1794594304552;
+        Fri, 13 Nov 2026 10:25:04 -0800 (PST)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-56e6b195b80sm2763868b6e.0.2026.11.13.10.25.03
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2026 10:25:03 -0800 (PST)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-8470d7d430fso528902a34.3
+        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 10:25:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErF8gLyBJytnxtZMiW1ziEUjZNifkO9CjaROJEOXYVjZOu+Ztf1TxPKaevZFXGokL/WeVY2Kog==@lists.linux.dev
+X-Received: by 2002:a05:6830:2695:b0:83f:f24d:fe19 with SMTP id
+ 46e09a7af769-8628979e65cmr3203276a34.3.1794594303480; Fri, 13 Nov 2026
+ 10:25:03 -0800 (PST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -75,26 +83,75 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20261113-6ghz-v1-0-0b9a67e413a9@gmail.com>
+In-Reply-To: <20261113-6ghz-v1-0-0b9a67e413a9@gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Fri, 13 Nov 2026 13:24:26 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je9XODS=vU-tjZev90Rng6D_B+9vxek96mV8yUpXwoQ7GA@mail.gmail.com>
+X-Gm-Features: AclHuK9fW5jJ3rn5jJzhWh_iZufJsywX71GMdWHbE-bhsHtoOzuaNfj98eY9hCo
+Message-ID: <CAEg-Je9XODS=vU-tjZev90Rng6D_B+9vxek96mV8yUpXwoQ7GA@mail.gmail.com>
+Subject: Re: [PATCH wireless-next 0/4] wifi: brcmfmac: Add support for 6 GHz operation
+To: michael.reeves077@gmail.com
+Cc: Arend van Spriel <arend.vanspriel@broadcom.com>, asahi@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
+	brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org, 
+	Daniel Berlin <dberlin@dberlin.org>, Yureka Lilian <yureka@cyberchaos.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 08 Nov 2026 07:25:05 +0000, Michael Reeves wrote:
-> This series introduces support for the internal keyboards on Apple
-> Silicon M2 and M3 MacBook models.
-> 
-> On these platforms, built-in input devices are managed by a dedicated
-> coprocessor running an RTKit-based operating system. Communication
-> between this coprocessor and the main processor is carried out over a
-> low-latency hardware byte FIFO interface called DockChannel.
-> 
-> [...]
+On Fri, Nov 13, 2026 at 4:20=E2=80=AFAM Michael Reeves via B4 Relay
+<devnull+michael.reeves077.gmail.com@kernel.org> wrote:
+>
+> Hi Arend, all,
+>
+> This series adds support for 6 GHz (Wi-Fi 6E) operation to brcmfmac.
+>
+> It includes HE capability advertisement, 6 GHz chanspec and band
+> handling and PNO version 3 support. The PNO support is required to avoid
+> channel-number collisions with 2.4/5 GHz during scheduled scans.
+>
+> It is adapted from our downstream work in the Asahi kernel by Daniel
+> Berlin, but reworked to make the code cleaner and more maintainable.
+>
+> As I don't have a 6 GHz AP to test with, Yureka Lilian tested this
+> series on my behalf, on her Apple Silicon M3 Mac (BCM4388). Connection
+> and use of a 6 GHz network was successful, without regressions on 2.4
+> GHz or 5 GHz operation.
+>
+> Thank you for your time,
+> Michael
+>
+> Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
+> ---
+> Daniel Berlin (2):
+>       wifi: brcmfmac: Add support for 6 GHz chanspecs
+>       wifi: brcmfmac: Add support for the 6 GHz band
+>
+> Michael Reeves (2):
+>       wifi: brcmfmac: Advertise HE capabilities
+>       wifi: brcmfmac: Add support for PNO version 3
+>
+>  .../broadcom/brcm80211/brcmfmac/cfg80211.c         | 477 +++++++++++++++=
+------
+>  .../broadcom/brcm80211/brcmfmac/cfg80211.h         |   2 +
+>  .../broadcom/brcm80211/brcmfmac/fwil_types.h       |  68 +++
+>  .../net/wireless/broadcom/brcm80211/brcmfmac/p2p.c |   6 +-
+>  .../net/wireless/broadcom/brcm80211/brcmfmac/pno.c | 147 ++++++-
+>  .../net/wireless/broadcom/brcm80211/brcmfmac/pno.h |  41 +-
+>  .../net/wireless/broadcom/brcm80211/brcmutil/d11.c |   7 +-
+>  .../broadcom/brcm80211/include/brcmu_d11.h         |   3 +-
+>  .../broadcom/brcm80211/include/brcmu_wifi.h        |   1 +
+>  9 files changed, 585 insertions(+), 167 deletions(-)
+> ---
+> base-commit: 3c311bf321442d4c4f452a1a08bc9efce242a1f9
+> change-id: 20261113-6ghz-a8d587ab3cce
+>
 
-Applied to git@github.com:AsahiLinux/linux.git (apple-soc/drivers-7.5), thanks!
+LGTM.
 
-[4/8] soc: apple: rtkit: Add tracekit endpoint
-      https://github.com/AsahiLinux/linux/commit/6a2cf965b53f
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-Best regards,
--- 
-Sven Peter <sven@kernel.org>
 
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
