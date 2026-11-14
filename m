@@ -1,93 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.97
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.98
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794618682;
-	b=4nDNTl1AaIHhX1Wr4TwVZVKLLvlLYKcfkgk2IBU5sr4rzR0oesWnQ2F+O2emjalZoUp9
-	 Z08SyL0w8eYY4ViJX5P21usfaQkiSx93TtMBmzb2WcTrfQFflfEQVezF7RVp8dkSxzfsF
-	 cn3Uz9sxHiL23Un/lLG+qzWnHGNZqdkOu8veBOfLib3M1fT89wCFGQZGw1xljljofhvYh
-	 sZt+Pvo2LyuzsEV1Fpgl6KelAHJasKkel3MS6BWiokWRjG9VO/xpIuCo+6zVkr7wjV6yd
-	 B5DNPOsKXaypInmtUPEw8TAYgE1rAxSombW+XsdZF/rArkUuBJTx2tJPd8z6K4YKu8A==
+	t=1794618853;
+	b=JjtGiMqv8V3C96mtNAhN8vIBj0ZLcpeg9vD+h2Fc74Rw5u08jQ1A/tyS+oFFCP/HBuSM
+	 RWhRUaU7/xGwYHpBVjL+u/8MW3AGdSI7fl6bTJtUH7Xqp4CAz9dnyo623xmEfhcTssTLM
+	 +Cwfu0j2KlDBiP1Jd2jXuNmBIZ+q8luZM3rvbcElpCOzzgjhJwb9NaLpArMmjwCzNkRb9
+	 y6iwR0mFg7RZ0qBqIBFWlGzTv8uTCjvO9OIBWpToCrEsfxKWJSO+vDMgxtTEqQvGAszPs
+	 fvtaIxtm2LGQcycoHsN75gB1/kE78LU/0e1C/NGvFgFcPhdI430R05aXUadirxoxBng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794618682;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794618853;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
 	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
 	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
 	 Content-Type;
-	bh=ENTFWA3nbeqNkDpFGZ/jfbKCTQIvqpc1C9bFpgR47UY=;
-	b=JJaGudz5WYnFdEN9+60VhJCu2aVO9rWzF1edOgRHf5XEBRyuEvQCjXu8zbcppTknoO1Z
-	 y7vTFYe2QflzUK+qFRq5fTcVPdYSfBbUSrvfcWOVqz6YW3Cs/2DKQPufks+jFb4l2WXoZ
-	 hswZeERXS1sKquaMOyc5cffdCWyu2WLJq960t6XIP2zaVwqc0E7VWtAzTczqIfMNJmgFh
-	 kDFlrJAVJyUh2CyQz4fLPmWYp853/Oux/7KwUGuBFimLw/AvW8WeFAmQhbN3bAj7hbMZU
-	 BgWYlUi7hZ24VoIAgp/9UL4VFQrnLA8jMvoyvCzc26dM6xt4l5hpDGwgNDES4D7J7XA==
+	bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
+	b=kABBvH5R9kuWC4c9d9YEg1gHNxnqfg2Nqefn4GcFtvQ95jOYnz3iM5kqAyhXyE6edfbN
+	 GJGGSie8XxiuxC7IcYv2qSauL1NMsA+D7WLhDw4NgjHDLSpHgl5NI+FmxJAwQrXjVupaL
+	 /KPShicbQzJ6L+dd9NQhuprKdP7MGIj3aQ7wU/RkDoXdV8RNs0cll+CD10XmS46WmfKiU
+	 nucErwhf+BOAzWLf4xiVQ9ZdVw8we186CYg3Txqbx9p+NLtBv5LOELRp1n5FdCkrInM+j
+	 1RNfNmy3eTt8YC+0C1lvCTrSWH1FlWxIOKTV1Cnyk5mWYiw/C5KRkzSsgu/0wAo6iAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CjGxSBDL;
-	arc=none smtp.remote-ip=209.85.216.97
-Received: from mail-pj1-f97.google.com (mail-pj1-f97.google.com [209.85.216.97])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Z3J7rmXY;
+	arc=none smtp.remote-ip=209.85.216.98
+Received: from mail-pj1-f98.google.com (mail-pj1-f98.google.com [209.85.216.98])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C7B606A32D
-	for <asahi@lists.linux.dev>; Sat, 14 Nov 2026 01:11:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1C7B606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A7606A32D
+	for <asahi@lists.linux.dev>; Sat, 14 Nov 2026 01:14:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B4A7606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=CjGxSBDL
-Received: by mail-pj1-f97.google.com with SMTP id 98e67ed59e1d1-3b197cd42b0so1323336a91.2
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:11:21 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Z3J7rmXY
+Received: by mail-pj1-f98.google.com with SMTP id 98e67ed59e1d1-3b0b3438540so1659264a91.0
+        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:14:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794618681; x=1795223481;
+        d=1e100.net; s=20260707; t=1794618853; x=1795223653;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ENTFWA3nbeqNkDpFGZ/jfbKCTQIvqpc1C9bFpgR47UY=;
-        b=oVRJhExhgj5+/lQ6DRlC4s/imJX8R2A7hxuQG89ZS4sXDCEyovHHkUsm6LOthd+auf
-         6Q4Q+/JynCy4wD6l2oi6pPASvVIAevLZy9s1eB1xaYqT+2/GlCYFBXtOh399e5YUvIk/
-         0Q3UXHddlFTCUamo4aglwxK7j+3/UU2ZUJn8MwRQ6idht19EaQUEm2g0I3BXxTzRSbnP
-         XmYoVnhQBR6rRlGIoOgQAnW3IEj0V0F3f53XlbdhRaXmRO3EVwseRdA8xM7DDTM+/YOq
-         2hBE5gD4lLvufrQI7/FTdOCfMVuhMIptz2IB3I+3zp6TYa6n3UGZbbnVCe2Cx0BjJj7s
-         0Fzw==
-X-Forwarded-Encrypted: i=1; AL+hErEbmQ9wxdMJ/PQk1l39lD6lcFjIqL1VpT0tk4UjhvGPWLk6Xyi2t7PFHSS/fuBrhLxUSp/FEA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z97pkbeLx9+VvD/pyKfBqb42dlUm686IW2PaNyGtRUECWNw6jEe
-	DPYyc7wMb3CEYmvhQLrRSOhMUdc0R1F7Y0wMACAb4D5yqtvzEKKA9DWodZi72GSjvK/Luhwo3nw
-	h6JZ0TB2dfdKVJjf6RtKdFXP5jWgI/wYG+gWG9YI8MyfxqcUYOKYz/Wok5ePYnGbXppgRAZmxJM
-	vksEEg4zuKwUhdkh9kNU/jIPYwyp6gOQVlHQCvjleCFRLjVpgy2H3OAfIUXrdJ+FBGmoFOF5FCh
-	upVT5TOVaA=
-X-Gm-Gg: AYBFou27+OlqL8qDQr5rx1/VvAl0LPnUR0fQxMoQRrd/P6vSK5V5ZcF6u75WOWqGgsy
-	YL2DF/JVZPSGAy9YbdsJM3GfdQby51nOSz193Vt9Bj67AbfY5HE2ZflImAz0YC3k5AnWfdAUfxP
-	ttpuiG4YrtKsVM8/2KM4S65FUS959lOOBYC6+9ES6M3teXQBBS0jYJujIAMo52a0iDxIVbTj1BG
-	v/6WWTvuNsNfIQr3Nae+pBGfXz4s/GZXEVpc0YM7AtAwCF3NCpDMWGOBYji3R/+L3SpDYiRafEI
-	FT8otgrEvj64Wp+q6Shis21Rno0WvjaqVKAXKUTP9sC7mdbRrvSUK/3K2tmAEP43+fNGcxn8CSx
-	1hP9uTUaKzJHc2i9TkZndx7/nQV2lpRc3Yl60268cUmZIfe42tNohS8JHsSi3
-X-Received: by 2002:a17:90a:e710:b0:3a4:967c:6947 with SMTP id 98e67ed59e1d1-3b1b0a0db93mr3816924a91.21.1794618680919;
-        Fri, 13 Nov 2026 17:11:20 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com ([144.49.247.127])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1b3abbe1asm3075012a91.5.2026.11.13.17.11.20
+        bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
+        b=qSdPpe6tcqsYy0ji3C9916215C1LxaxPNOqvy69QR7Fq+zsDPkFTqLJcezEtNVfb4/
+         DYau8E+KZIeJ4vv4/OUitLBM+D5vmb2Ok5FITd8g22sZc5MS3ueCjjcqykCWYnVRqbt7
+         OtYh1uvsLjxJi6xcFJrxOwnTyOfUY8z7ekgACHkEKCwkAmBR6oRDIFbp/hzOIgAdyPoi
+         GIjRpO2X+DoCXcZYoR8dxy30XXGOunOMgISCy+4xaswKSU+ecfsXKMr6RM+KGeRNMSNw
+         l0ylydRRo3cfE87WL/C9Kdx8rOop/YHal4Ni3CO3O0ed50IfKWpjfojKNlu7XpC4jilT
+         +BKg==
+X-Forwarded-Encrypted: i=1; AL+hErGvpIbEmhrmuedh9sT6+nDxRvOxVh5HVs44qPA02Tgza5qZG3256WUZ7QtSlGApihhctGRQ9g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+3sklIZhL5xWvkVfFXKwFNC3xhOjeDihuclpy5++q/V2oxlLOa
+	AAbx2BgWRvBWkRlApbb8k6K7gB+WlJiJXRZ8knVIkZxFrGYvX52gwZT6ssUEM8csbldzancGmfK
+	PYX/kiZmWkf0wQf2FQyae88BN8oi7YYA/iRsGaVc5b0sqOERiUGX9sVmAglSHdkZorlK00sRw2x
+	TOHM4/90in3IqJK0vccuC0+HaRdoOMLHSyeXzvLv6rEe8gmW9U9ccMgRWMaywZUvBLn447psEkV
+	fZshCTfSUg=
+X-Gm-Gg: AYBFou3Sw1L8982cuJ6btwG7nwyhBDdpZ9cbNtozwtrngX14zkvjm8aEC/zgJ0HvAkH
+	z0KtanjBFpor5JaXOVV1J5R86FHFvdQlxIloGaZdT9K1FqcwNNeBUsI+1vLq0/TIA0DvMfv10ai
+	sl8npmq43geuzsZr+fC0+jp5RQqAZ4K1kb37bYzkS9IVDrQYsEYsoqPtYIjqNrng53ovEvXl/vJ
+	TQJHJxLGVv2uQ0x60U6Ws6T/GicIRrYQrKnDScNURpuuU9c1FKjUbzbpAHK/kg7+WwBkfkHw2pj
+	c6VQHcUNgK+jDPMouNAKu7qgsuWT7GHzOwkOtasvGUOs+IFsDYqlby1F8NuWhEd32A+qOQ+9iFb
+	SNdp+f4R2zSjUgVdr1q5etsVPCfuUqIob/pOY9X+rhVrUwU3EWavCq3gPlGvv1CQHEcYoCOPXZR
+	pl4czywF2OgtOk4RZEAvNQRwA6DgGFjiHcBjOJ
+X-Received: by 2002:a17:90b:5585:b0:3ad:d29c:5e64 with SMTP id 98e67ed59e1d1-3b1b0b86f26mr3983868a91.65.1794618852530;
+        Fri, 13 Nov 2026 17:14:12 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-17.dlp.protect.broadcom.com. [144.49.247.17])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1cdf3c04dsm353952a91.1.2026.11.13.17.14.11
         for <asahi@lists.linux.dev>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Nov 2026 17:11:20 -0800 (PST)
+        Fri, 13 Nov 2026 17:14:12 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-677c4ca22c5so2993381d50.3
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:11:19 -0800 (PST)
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-67935d0ddcdso2551367d50.3
+        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:14:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794618679; x=1795223479; darn=lists.linux.dev;
+        d=broadcom.com; s=google; t=1794618850; x=1795223650; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ENTFWA3nbeqNkDpFGZ/jfbKCTQIvqpc1C9bFpgR47UY=;
-        b=CjGxSBDLwU6a7IrHf7P3F8uOs/PVGgzAI1OSZnNkTQ7VYq+QlxbW4XUOyJB1mKPhC+
-         6GH7SNXdYEbak3KyVdsKAKhtOmpj3rMHgN/5nKWTPloGGhEX3rusNBen7kojynhtpE28
-         ftiZ8ipSTQzc8ufQanR0A5MBwkPeR8tUEctLQ=
-X-Forwarded-Encrypted: i=1; AL+hErE7qh/3ssxEYBNVfXJxkFBOpk07VBq4RxO+xVJjYS3ZhU2+QVVy5xi3eVnwOFnjQzSBRSy8Tg==@lists.linux.dev
-X-Received: by 2002:a05:690e:1a63:b0:67c:11a9:bbe1 with SMTP id 956f58d0204a3-67d897cc261mr2027051d50.105.1794618679237;
-        Fri, 13 Nov 2026 17:11:19 -0800 (PST)
-X-Received: by 2002:a05:690e:1a63:b0:67c:11a9:bbe1 with SMTP id
- 956f58d0204a3-67d897cc261mr2027019d50.105.1794618678694; Fri, 13 Nov 2026
- 17:11:18 -0800 (PST)
+        bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
+        b=Z3J7rmXYZNkj5KDIBkIEs45k5c8wx7byuywD5qIQY6hgkbN5lrTsKHLc7athE4397n
+         CJGqG+RUKe8hx1bsCYtXasuRrcqz/haUwVkDijc2M6GNlggcYPxgrOCThCyAY1FhdAxF
+         1BH5N3FOiAdc7ahEUoJ7Y0Py4w9i4wy4Y2+jc=
+X-Forwarded-Encrypted: i=1; AL+hErESxR5qR4uoqnbZYX3yMlVaExbAgbAeKqkQBpXHGDW0wcZLto6VBJPnawngKXzGGX0VZwphIg==@lists.linux.dev
+X-Received: by 2002:a53:bb46:0:b0:67c:cab:bd6a with SMTP id 956f58d0204a3-67d8979c38fmr1854242d50.99.1794618850710;
+        Fri, 13 Nov 2026 17:14:10 -0800 (PST)
+X-Received: by 2002:a53:bb46:0:b0:67c:cab:bd6a with SMTP id
+ 956f58d0204a3-67d8979c38fmr1854230d50.99.1794618850357; Fri, 13 Nov 2026
+ 17:14:10 -0800 (PST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -97,17 +98,17 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110233450305Smji446Uhvoxa7r8SHEgl@zte.com.cn>
- <179460764342.448985.18219249061160291658.b4-ty@b4> <CAHi4H7GnDJPcJ2_DD8GGuFjN8mZsGPVWRCYzfCwywQeh26-=Fw@mail.gmail.com>
- <7730027d-d89c-4b7b-b8d8-07bb19e95061@sirena.org.uk>
-In-Reply-To: <7730027d-d89c-4b7b-b8d8-07bb19e95061@sirena.org.uk>
+References: <CAHi4H7GHGO27Q=O8Upfds8jk-ujSHU5h91hCZw6qjftNX7a2Ng@mail.gmail.com>
+ <20261111173637687ugnRPRBKJkF0zihl662i2@zte.com.cn> <1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk>
+In-Reply-To: <1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk>
 From: William Zhang <william.zhang@broadcom.com>
-Date: Fri, 13 Nov 2026 17:11:07 -0800
-X-Gm-Features: AclHuK_EMiaoaPMcQuQramJRoDPRg3DeRM6BsQ72-NrHDXofnwmw9SQxZQjopP0
-Message-ID: <CAHi4H7GxWGABxc7q5dhamxchsGnMReR+KzXT4VxVRX9mVXc7QA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] spi: fix division by zero with a zero transfer speed
+Date: Fri, 13 Nov 2026 17:13:59 -0800
+X-Gm-Features: AclHuK_maj7EsvGk_I16ayPW9r7muNo5t_6sq3nWetHC11ZBwP1W1SHWmOy8E58
+Message-ID: <CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] spi: bcmbca-hsspi: fix division by zero for
+ devices without a max speed
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org, shao.mingyin@zte.com.cn, 
+Cc: shao.mingyin@zte.com.cn, linux-spi@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, pjw@kernel.org, 
 	samuel.holland@sifive.com, kursad.oney@broadcom.com, jonas.gorski@gmail.com, 
 	bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com, 
@@ -118,31 +119,32 @@ Cc: linux-spi@vger.kernel.org, shao.mingyin@zte.com.cn,
 	claudiu.beznea@tuxon.dev
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000e6eb0406603238ac"
+	boundary="0000000000001e9c0a066032439e"
 
---000000000000e6eb0406603238ac
+--0000000000001e9c0a066032439e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 13, 2026 at 4:57=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+On Fri, Nov 13, 2026 at 4:51=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
 te:
 >
-> On Fri, Nov 13, 2026 at 04:39:38PM -0800, William Zhang wrote:
+> On Wed, Nov 11, 2026 at 05:36:37PM +0800, shao.mingyin@zte.com.cn wrote:
 >
-> > There are still open disucssion in [PATCH v2 3/5].   If we want to add
-> > a clamp in the controller driver,  patch 2 and 3 require extra fix as
-> > discussed in that thread.
+> > > IMHO the upper layer should fail ... rather than having the controlle=
+r
+> > > driver to override with a risky 1Hz clock.
 >
-> Ah, I'd missed that subthread sorry.  It does seem like something that
-> can be dealt with incrementally, none of this should be triggering
-> unless the system is already pretty confused.  We could do something
-> like have the driver round the rate up to whatever it's minimum is?
-> We could also have a min_speed_hz in the core which would help, I
-> could've sworn we had something already but I'm not immediately finding
-> it.
-No worry.  Yeah we can set the minimum FCW to 1,  it just can not be zero.
+> > Agreed; the fix belongs upstream of the driver, not in ->set_clk().
+> > Mark, which do you prefer: reject max_speed_hz =3D=3D 0 in spi core, or
+> > have these two drivers clamp FCW >=3D 1?  I'll wait for your call and
+> > won't spin a v3 meanwhile.
+>
+> Ideally the core should do this but that's quite hard to do due to knock
+> on effects of handling 0 as a default everywhere, together with having a
+> bunch of existing drivers that don't provide any information.
+In that case,   Mingyin, please update the patch to ensure FCW >=3D1
 
---000000000000e6eb0406603238ac
+--0000000000001e9c0a066032439e
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -236,13 +238,13 @@ TVAZ9uyO9N20yU0p7igESOWKR1ccL1TPA1jrSHK18Y75ot5199FNWeE/UKoDKSML39iPZho9XPh/
 WkDCNNacYJWZtSp87i6jmw+l5xx7OkEJ9DGCAlcwggJTAgEBMGIwUjELMAkGA1UEBhMCQkUxGTAX
 BgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKDAmBgNVBAMTH0dsb2JhbFNpZ24gR0NDIFI2IFNNSU1F
 IENBIDIwMjMCDD2ooFIye/WiO3KgZTANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg
-hOA/jXxkK0m2EPoh6q7r2kzMSY//cAHV23zgexvnMmYwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
-ATAcBgkqhkiG9w0BCQUxDxcNMjYxMTE0MDExMTE5WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFl
+na7zN428dqvN3qv0jZyGX18mmRwX7OEo4hf86TDhbJIwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
+ATAcBgkqhkiG9w0BCQUxDxcNMjYxMTE0MDExNDEwWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFl
 AwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAZZPuEEXFOLLrAvxvZbbULIo6pzZ0MhREvdmj
-GwnrS5LHFbvIZtT1sq5ezZ5E66B5Xtca/YdEXKKh9/ycnX81Xoo3UKGsr4SFLDqAoHkQPbLLLBxf
-08An7KemobViZe6nPWaAimL6QNGPe93lYUjMys9zc3NMHv2mxffF/zlkEUMU/4XhKt4ItIjvo1kC
-4bTKSSjwv5v1h3Q6WX9xIzYoKvOmNKtuLB1FTGaskCxC93jbblM3RznKOxKPH8FJ407gTxtUj2Cv
-HoHtY/xmu+UNtbX5Zf/MKokC/t35zwpZjFeKYbwbVZLRVOLfS+beyhOVaeDdF2WPjpOBy+f+eJbh
-uw==
---000000000000e6eb0406603238ac--
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAa5dcILoTGJNkndX0Md8r8pS8i6kOAy1lmYC8
+46iPG27uHewcLmvWkKg5FQqnW/a0okWNA5Gc8eMcyklZK3FDwn5NrIDMzvNi1VTKIq5sy1EEYYqV
+MqN/yR9EtuU8rSs8F1m8PHYHDG/E7G5je6XkQ8kuviAu18wT3eyOan9KTxOfcRKCBtfNk1QeHQ++
+8oRZkAVRlUnS3Bm3a+tKJn6pMBHAvIZ6+zY8eKAypfeRpGYkGkKMQjQfi/rl3dHQ7eG5fCsypy+W
+DBavrbcSBRKukbNrjpeTVVvhFg6fm+C8v6Oy7pG65xIEcsQSXGFLVzQsaMySbZQF6QzSqNOajiog
+Bw==
+--0000000000001e9c0a066032439e--
