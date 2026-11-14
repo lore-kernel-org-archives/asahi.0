@@ -1,94 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.98
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794618853;
-	b=JjtGiMqv8V3C96mtNAhN8vIBj0ZLcpeg9vD+h2Fc74Rw5u08jQ1A/tyS+oFFCP/HBuSM
-	 RWhRUaU7/xGwYHpBVjL+u/8MW3AGdSI7fl6bTJtUH7Xqp4CAz9dnyo623xmEfhcTssTLM
-	 +Cwfu0j2KlDBiP1Jd2jXuNmBIZ+q8luZM3rvbcElpCOzzgjhJwb9NaLpArMmjwCzNkRb9
-	 y6iwR0mFg7RZ0qBqIBFWlGzTv8uTCjvO9OIBWpToCrEsfxKWJSO+vDMgxtTEqQvGAszPs
-	 fvtaIxtm2LGQcycoHsN75gB1/kE78LU/0e1C/NGvFgFcPhdI430R05aXUadirxoxBng==
+	t=1794636486;
+	b=Ey0Eb3l+QyDwlOijEi7nDpygWIl7pRvJKUf2MTsfTiViykBRlW2N9DUncpQkwsMxnj0z
+	 p61blCkWlweydPRPgRcXuO/DIQic2VmkqXEDpbqxkFDgpGML5gXC20gn89eJUT+x8I5il
+	 mp1mnhIu7sAyv8Xes4DXtEhZcYz0snsiLuiXiw8Vhf5fyHL1TP29GGwUxqThGnXWId9NZ
+	 bL6muLS/8dNrg/9OjiRU8X1CVYVesMS3QnAIAKsA4qt6knb6SgW+bz+HZwZV5BxSbKbW7
+	 KF0sZcFp2i9ju+t2kyBa6ZmK0SHbfldnEL7iB2SHCsxp8Js/jjcZvbyx/52N3XTmBPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794618853;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
-	 Content-Type;
-	bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
-	b=kABBvH5R9kuWC4c9d9YEg1gHNxnqfg2Nqefn4GcFtvQ95jOYnz3iM5kqAyhXyE6edfbN
-	 GJGGSie8XxiuxC7IcYv2qSauL1NMsA+D7WLhDw4NgjHDLSpHgl5NI+FmxJAwQrXjVupaL
-	 /KPShicbQzJ6L+dd9NQhuprKdP7MGIj3aQ7wU/RkDoXdV8RNs0cll+CD10XmS46WmfKiU
-	 nucErwhf+BOAzWLf4xiVQ9ZdVw8we186CYg3Txqbx9p+NLtBv5LOELRp1n5FdCkrInM+j
-	 1RNfNmy3eTt8YC+0C1lvCTrSWH1FlWxIOKTV1Cnyk5mWYiw/C5KRkzSsgu/0wAo6iAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794636486;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 X-Zmail-TransId:X-Mailer:Message-ID:In-Reply-To:References:Date:
+	 Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:X-TLS:
+	 X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:X-Fangmail-Anti-Spam-Filtered:
+	 X-Fangmail-MID-QID;
+	bh=TV7/rNuPIcAPimQoiERTrRHJ9hzdQoce/kobpTJs1XU=;
+	b=bMWG17+4V/bDIgo2gPChg92XlT403p8aNyMR1W1LgyNQT5PtwFe0zYNZd+iSsgH3ncMs
+	 pO7rEg+tv1xuvAdTi0Thmmf9KkgZR2LrcWvjLDUSrfNbP2kDqp/maoe4KHrpToBf7ep0t
+	 EcXb6g2nKD8tRy8HmSaDve0GTHLY43x6JElvB1LNy/eXHpIGwzfrb2b5IISztd5aRwgJZ
+	 e6kMSGNCVlvYbqsx+oLo0Y/6FTXsPv73qJcqpvT//DLFC18uIDZ/P52hI7foxTXzzEeo6
+	 b93dnSaZWb9Sq1k9rnt8nCpgQLktRS3GY/7SuFmeh1q54goQ3xwRO1pRtK1zu4AHiBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Z3J7rmXY;
-	arc=none smtp.remote-ip=209.85.216.98
-Received: from mail-pj1-f98.google.com (mail-pj1-f98.google.com [209.85.216.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=eHJLNOWZ;
+	arc=none smtp.remote-ip=160.30.148.34
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A7606A32D
-	for <asahi@lists.linux.dev>; Sat, 14 Nov 2026 01:14:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B4A7606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1FC606A323
+	for <asahi@lists.linux.dev>; Sat, 14 Nov 2026 06:08:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E1FC606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Z3J7rmXY
-Received: by mail-pj1-f98.google.com with SMTP id 98e67ed59e1d1-3b0b3438540so1659264a91.0
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:14:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794618853; x=1795223653;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
-        b=qSdPpe6tcqsYy0ji3C9916215C1LxaxPNOqvy69QR7Fq+zsDPkFTqLJcezEtNVfb4/
-         DYau8E+KZIeJ4vv4/OUitLBM+D5vmb2Ok5FITd8g22sZc5MS3ueCjjcqykCWYnVRqbt7
-         OtYh1uvsLjxJi6xcFJrxOwnTyOfUY8z7ekgACHkEKCwkAmBR6oRDIFbp/hzOIgAdyPoi
-         GIjRpO2X+DoCXcZYoR8dxy30XXGOunOMgISCy+4xaswKSU+ecfsXKMr6RM+KGeRNMSNw
-         l0ylydRRo3cfE87WL/C9Kdx8rOop/YHal4Ni3CO3O0ed50IfKWpjfojKNlu7XpC4jilT
-         +BKg==
-X-Forwarded-Encrypted: i=1; AL+hErGvpIbEmhrmuedh9sT6+nDxRvOxVh5HVs44qPA02Tgza5qZG3256WUZ7QtSlGApihhctGRQ9g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+3sklIZhL5xWvkVfFXKwFNC3xhOjeDihuclpy5++q/V2oxlLOa
-	AAbx2BgWRvBWkRlApbb8k6K7gB+WlJiJXRZ8knVIkZxFrGYvX52gwZT6ssUEM8csbldzancGmfK
-	PYX/kiZmWkf0wQf2FQyae88BN8oi7YYA/iRsGaVc5b0sqOERiUGX9sVmAglSHdkZorlK00sRw2x
-	TOHM4/90in3IqJK0vccuC0+HaRdoOMLHSyeXzvLv6rEe8gmW9U9ccMgRWMaywZUvBLn447psEkV
-	fZshCTfSUg=
-X-Gm-Gg: AYBFou3Sw1L8982cuJ6btwG7nwyhBDdpZ9cbNtozwtrngX14zkvjm8aEC/zgJ0HvAkH
-	z0KtanjBFpor5JaXOVV1J5R86FHFvdQlxIloGaZdT9K1FqcwNNeBUsI+1vLq0/TIA0DvMfv10ai
-	sl8npmq43geuzsZr+fC0+jp5RQqAZ4K1kb37bYzkS9IVDrQYsEYsoqPtYIjqNrng53ovEvXl/vJ
-	TQJHJxLGVv2uQ0x60U6Ws6T/GicIRrYQrKnDScNURpuuU9c1FKjUbzbpAHK/kg7+WwBkfkHw2pj
-	c6VQHcUNgK+jDPMouNAKu7qgsuWT7GHzOwkOtasvGUOs+IFsDYqlby1F8NuWhEd32A+qOQ+9iFb
-	SNdp+f4R2zSjUgVdr1q5etsVPCfuUqIob/pOY9X+rhVrUwU3EWavCq3gPlGvv1CQHEcYoCOPXZR
-	pl4czywF2OgtOk4RZEAvNQRwA6DgGFjiHcBjOJ
-X-Received: by 2002:a17:90b:5585:b0:3ad:d29c:5e64 with SMTP id 98e67ed59e1d1-3b1b0b86f26mr3983868a91.65.1794618852530;
-        Fri, 13 Nov 2026 17:14:12 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-17.dlp.protect.broadcom.com. [144.49.247.17])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1cdf3c04dsm353952a91.1.2026.11.13.17.14.11
-        for <asahi@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Nov 2026 17:14:12 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-67935d0ddcdso2551367d50.3
-        for <asahi@lists.linux.dev>; Fri, 13 Nov 2026 17:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794618850; x=1795223650; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cUm7wKQwQisBecJTDAUfgoTAPihBm1yNwFX23kjYEpk=;
-        b=Z3J7rmXYZNkj5KDIBkIEs45k5c8wx7byuywD5qIQY6hgkbN5lrTsKHLc7athE4397n
-         CJGqG+RUKe8hx1bsCYtXasuRrcqz/haUwVkDijc2M6GNlggcYPxgrOCThCyAY1FhdAxF
-         1BH5N3FOiAdc7ahEUoJ7Y0Py4w9i4wy4Y2+jc=
-X-Forwarded-Encrypted: i=1; AL+hErESxR5qR4uoqnbZYX3yMlVaExbAgbAeKqkQBpXHGDW0wcZLto6VBJPnawngKXzGGX0VZwphIg==@lists.linux.dev
-X-Received: by 2002:a53:bb46:0:b0:67c:cab:bd6a with SMTP id 956f58d0204a3-67d8979c38fmr1854242d50.99.1794618850710;
-        Fri, 13 Nov 2026 17:14:10 -0800 (PST)
-X-Received: by 2002:a53:bb46:0:b0:67c:cab:bd6a with SMTP id
- 956f58d0204a3-67d8979c38fmr1854230d50.99.1794618850357; Fri, 13 Nov 2026
- 17:14:10 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=eHJLNOWZ
+Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jRNw1329yz5B13X;
+	Sat, 14 Nov 2026 14:08:01 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
+	s=z202610; t=1794636481;
+	bh=5lzsOGRbljK3UBGsxRWnpa6SowpbvPCeY1W5tc58u7M=;
+	h=In-Reply-To:References:Date:From:To:Cc:Subject;
+	b=eHJLNOWZSaYUZo7rxalDo358pfeRaghstONJbcKc8oKd9rFsOGWCdd8uNhLZdpwSi
+	 iy3n+D0o7Oq3PDOAhqtc9T9xgYkKcamZYFAXT37IoW1isB9qW2Ab0+LDAb+ntAuJQP
+	 aennq31FDHtuaoWxD1zUp+eB2VF69uEJVqBM8DoLsOJrgz+2xBSN3ptGdGqESHsBH6
+	 GCbUqKkiAsbEdSvgMs7UWxVgNULg3vAuNLsILJAwWFiLyhbHafx/xPv1BjW2AREWLg
+	 IIK1tJzm3lDkJM+Y7lCa+H9RStE6NUYoUMMkieBlBnD5agjfQrgOV62aorJjvQe1AG
+	 OF+qCKJ5ZEHgg==
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl2.zte.com.cn with SMTP id 6AE67ttf060421;
+	Sat, 14 Nov 2026 14:07:55 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp05[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sat, 14 Nov 2026 14:07:57 +0800 (CST)
+X-Zmail-TransId: 2afc6af7fabd8be-0c510
+X-Mailer: Zmail v1.0
+Message-ID: <20261114140757347tqYOa2IkTGVulSwLrw2Mf@zte.com.cn>
+In-Reply-To: <CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com>
+References: CAHi4H7GHGO27Q=O8Upfds8jk-ujSHU5h91hCZw6qjftNX7a2Ng@mail.gmail.com,20261111173637687ugnRPRBKJkF0zihl662i2@zte.com.cn,1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk,CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com
+Date: Sat, 14 Nov 2026 14:07:57 +0800 (CST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -97,154 +72,63 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <CAHi4H7GHGO27Q=O8Upfds8jk-ujSHU5h91hCZw6qjftNX7a2Ng@mail.gmail.com>
- <20261111173637687ugnRPRBKJkF0zihl662i2@zte.com.cn> <1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk>
-In-Reply-To: <1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk>
-From: William Zhang <william.zhang@broadcom.com>
-Date: Fri, 13 Nov 2026 17:13:59 -0800
-X-Gm-Features: AclHuK_maj7EsvGk_I16ayPW9r7muNo5t_6sq3nWetHC11ZBwP1W1SHWmOy8E58
-Message-ID: <CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] spi: bcmbca-hsspi: fix division by zero for
- devices without a max speed
-To: Mark Brown <broonie@kernel.org>
-Cc: shao.mingyin@zte.com.cn, linux-spi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, pjw@kernel.org, 
-	samuel.holland@sifive.com, kursad.oney@broadcom.com, jonas.gorski@gmail.com, 
-	bcm-kernel-feedback-list@broadcom.com, anand.gore@broadcom.com, 
-	florian.fainelli@broadcom.com, rafal@milecki.pl, 
-	linux-arm-kernel@lists.infradead.org, sven@kernel.org, j@jannau.net, 
-	neal@gompa.dev, asahi@lists.linux.dev, ryan.wanner@microchip.com, 
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
-	claudiu.beznea@tuxon.dev
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000001e9c0a066032439e"
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <william.zhang@broadcom.com>
+Cc: <broonie@kernel.org>, <shao.mingyin@zte.com.cn>,
+        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <pjw@kernel.org>,
+        <samuel.holland@sifive.com>, <kursad.oney@broadcom.com>,
+        <jonas.gorski@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>,
+        <anand.gore@broadcom.com>, <florian.fainelli@broadcom.com>,
+        <rafal@milecki.pl>, <linux-arm-kernel@lists.infradead.org>,
+        <sven@kernel.org>, <j@jannau.net>, <neal@gompa.dev>,
+        <asahi@lists.linux.dev>, <ryan.wanner@microchip.com>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@tuxon.dev>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2MiAzLzVdIHNwaTogYmNtYmNhLWhzc3BpOiBmaXggZGl2aXNpb24gYnkgemVybyBmb3IgZGV2aWNlcyB3aXRob3V0IGEgbWF4IHNwZWVk?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl2.zte.com.cn 6AE67ttf060421
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.133 unknown Sat, 14 Nov 2026 14:08:01 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AF7FAC1.000/4jRNw1329yz5B13X
 
---0000000000001e9c0a066032439e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, Nov 14, 2026 at 09:13:59AM +0800, William Zhang wrote:
+> In that case,   Mingyin, please update the patch to ensure FCW >=1
 
-On Fri, Nov 13, 2026 at 4:51=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Wed, Nov 11, 2026 at 05:36:37PM +0800, shao.mingyin@zte.com.cn wrote:
->
-> > > IMHO the upper layer should fail ... rather than having the controlle=
-r
-> > > driver to override with a risky 1Hz clock.
->
-> > Agreed; the fix belongs upstream of the driver, not in ->set_clk().
-> > Mark, which do you prefer: reject max_speed_hz =3D=3D 0 in spi core, or
-> > have these two drivers clamp FCW >=3D 1?  I'll wait for your call and
-> > won't spin a v3 meanwhile.
->
-> Ideally the core should do this but that's quite hard to do due to knock
-> on effects of handling 0 as a default everywhere, together with having a
-> bunch of existing drivers that don't provide any information.
-In that case,   Mingyin, please update the patch to ensure FCW >=3D1
+I need to correct my previous reply: I incorrectly agreed that the clamp
+gives FCW = 0 with a 200 MHz base clock.  Sorry for the confusion.
 
---0000000000001e9c0a066032439e
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+The applied code in both drivers is
 
-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
-PRi27wH/XHTDMdyL0Org+kxniXue6MSNJvcQwaLO/UQrmgTygBlVGa+Qg9ZFfS00xvuqeYH7tImO
-48WiXeu9rgn5KTH0IWP1+R74KIgxJQ+65la+caZvxwC9V3ik5p/LOGA2qS4GEjGuaYF8QKhRTR4h
-/QBSktqZLbzVxpjJXrqFTA2BLlYRp9hPhqNxbn46WuLufpMWhFtjUoQi/8fRRWRsMAY0o1J0f+kB
-6EI8FoxPTOpvuLRonqHIWMHk5YRnDdqJ3G5Oc8zmV+UCAwEAAaOCAd4wggHaMA4GA1UdDwEB/wQE
-AwIFoDAMBgNVHRMBAf8EAjAAMIGTBggrBgEFBQcBAQSBhjCBgzBGBggrBgEFBQcwAoY6aHR0cDov
-L3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyNnNtaW1lY2EyMDIzLmNydDA5Bggr
-BgEFBQcwAYYtaHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyNnNtaW1lY2EyMDIzMGUG
-A1UdIAReMFwwCQYHZ4EMAQUDAzALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgoDAjA0MDIGCCsGAQUF
-BwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzBBBgNVHR8EOjA4MDag
-NKAyhjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAyMy5jcmwwJQYD
-VR0RBB4wHIEad2lsbGlhbS56aGFuZ0Bicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYBBQUHAwQw
-HwYDVR0jBBgwFoAUACk2nlx6ug+vLVAt26AjhRiwoJIwHQYDVR0OBBYEFHjI7pbQZurVKsSRE/a9
-7gUEyVCkMA0GCSqGSIb3DQEBCwUAA4ICAQCFA4fU1GnG8sY7kyUXp5tle+VeWveoWb272jPauU5R
-w+udkhVXmnR0Kg7RgkCD00PLTKHNRyegXXDMArs3N9NhO3s9eSp9KjDh+h3WuQWCJH3QBHLGW0qE
-fyV87wUtBIy/QsHwO4S8OlOZiXECR7V1EGIF6t3s0W+3UzgYeHL+Ttuhda+2wIVY0EbS0eNH9Vob
-4YG17VTBBe7hyobXFpd9d1JGENFzIWncPUshOE0Wv7KlkrRc6aBOpL4p5xO1pHi9h9w8utyHkMoV
-nefXixkn5YVHnuV/jbSF/IM4Mlqt0E+n/TRp2c0eR+1AauZKENV2syNBo4aMa0BkmikBjLSnDjt/
-TYQdwHNWdV495n71idvueWwTFUhUsnudYcnh42eZENopBOYjVu2WhsffyrNz0hsuR85LriqSuBbf
-drd9DMo3DgtfJ7hh4sEAhSw/x/Br86rfLBftZMU02htlnkOI9Tp1QuDsr9+MsqY6AjKeXAy67m7H
-TVAZ9uyO9N20yU0p7igESOWKR1ccL1TPA1jrSHK18Y75ot5199FNWeE/UKoDKSML39iPZho9XPh/
-/RlsfRFiVOPrI5Gwi4YfIfi0jjEWf310/CYEmA5jrp5gUQSdo/+FgfXLKDFiEHCf5b3B1l70r6bR
-WkDCNNacYJWZtSp87i6jmw+l5xx7OkEJ9DGCAlcwggJTAgEBMGIwUjELMAkGA1UEBhMCQkUxGTAX
-BgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKDAmBgNVBAMTH0dsb2JhbFNpZ24gR0NDIFI2IFNNSU1F
-IENBIDIwMjMCDD2ooFIye/WiO3KgZTANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQg
-na7zN428dqvN3qv0jZyGX18mmRwX7OEo4hf86TDhbJIwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEH
-ATAcBgkqhkiG9w0BCQUxDxcNMjYxMTE0MDExNDEwWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFl
-AwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAa5dcILoTGJNkndX0Md8r8pS8i6kOAy1lmYC8
-46iPG27uHewcLmvWkKg5FQqnW/a0okWNA5Gc8eMcyklZK3FDwn5NrIDMzvNi1VTKIq5sy1EEYYqV
-MqN/yR9EtuU8rSs8F1m8PHYHDG/E7G5je6XkQ8kuviAu18wT3eyOan9KTxOfcRKCBtfNk1QeHQ++
-8oRZkAVRlUnS3Bm3a+tKJn6pMBHAvIZ6+zY8eKAypfeRpGYkGkKMQjQfi/rl3dHQ7eG5fCsypy+W
-DBavrbcSBRKukbNrjpeTVVvhFg6fm+C8v6Oy7pG65xIEcsQSXGFLVzQsaMySbZQF6QzSqNOajiog
-Bw==
---0000000000001e9c0a066032439e--
+	hz = max_t(int, hz, 1);
+
+	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
+
+For a zero-speed request, the clamp sets hz to 1.  With the 200 MHz base
+clock, the calculation is
+
+	DIV_ROUND_UP(200000000, 1) = 200000000
+	FCW = DIV_ROUND_UP(2048, 200000000) = 1
+
+The outer division rounds up, which I missed in my previous reply.
+The same calculation gives FCW = 1 for 24 MHz and 400 MHz base clocks.
+
+With the 200 MHz base, FCW = 1 corresponds to about 97.7 kHz
+(base / 2048), the minimum rate.  The 1 Hz value is an input to the
+divider calculation; it does not mean the SPI bus runs at 1 Hz.
+For this case, the applied code already selects the minimum FCW.
+
+Mark, understood about the difficulty of handling zero speeds in the
+core.  For the 200 MHz case above, the applied driver code already
+selects the minimum FCW; any further adjustment would be incremental.
+
+If you would still like an explicit FCW lower bound in both drivers,
+I can prepare an incremental patch on top of the applied commits.
+
+Thanks,
+Shao
