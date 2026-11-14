@@ -1,69 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794636486;
-	b=Ey0Eb3l+QyDwlOijEi7nDpygWIl7pRvJKUf2MTsfTiViykBRlW2N9DUncpQkwsMxnj0z
-	 p61blCkWlweydPRPgRcXuO/DIQic2VmkqXEDpbqxkFDgpGML5gXC20gn89eJUT+x8I5il
-	 mp1mnhIu7sAyv8Xes4DXtEhZcYz0snsiLuiXiw8Vhf5fyHL1TP29GGwUxqThGnXWId9NZ
-	 bL6muLS/8dNrg/9OjiRU8X1CVYVesMS3QnAIAKsA4qt6knb6SgW+bz+HZwZV5BxSbKbW7
-	 KF0sZcFp2i9ju+t2kyBa6ZmK0SHbfldnEL7iB2SHCsxp8Js/jjcZvbyx/52N3XTmBPw==
+	t=1794660951;
+	b=dQ40LXTjCUpuTnq676wn9DHzt3Kh1uM0mqm4RS25dhRkV+plIBfc8mg5lBPMmcWtLuGx
+	 qhCCm9E9s5vLhsWP4rBhUm3ahKGg2u+D+Mu3aSSKo1LQaVEPmweotR6XR4hcze85R/LLf
+	 zVKG+uJ0TkHxh8gl84J0snJLeXHwIcRCjnZQSaBUTeOSY/dOwuxtTZmr7H9vAEoy3yeep
+	 gZSaVAxB+G3TOI6vYcVHxtC4x81Xplc776RCxbt+dI6iPceXXctLaMj2lQyXWnysU6Vq4
+	 KMTn8Pf8l5H7hMSVB1GaRz7EjLTSKp4CWLaaJaoeIGj03/49foJ+hGBegCHf74+q2Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794636486;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 X-Zmail-TransId:X-Mailer:Message-ID:In-Reply-To:References:Date:
-	 Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:X-TLS:
-	 X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:X-Fangmail-Anti-Spam-Filtered:
-	 X-Fangmail-MID-QID;
-	bh=TV7/rNuPIcAPimQoiERTrRHJ9hzdQoce/kobpTJs1XU=;
-	b=bMWG17+4V/bDIgo2gPChg92XlT403p8aNyMR1W1LgyNQT5PtwFe0zYNZd+iSsgH3ncMs
-	 pO7rEg+tv1xuvAdTi0Thmmf9KkgZR2LrcWvjLDUSrfNbP2kDqp/maoe4KHrpToBf7ep0t
-	 EcXb6g2nKD8tRy8HmSaDve0GTHLY43x6JElvB1LNy/eXHpIGwzfrb2b5IISztd5aRwgJZ
-	 e6kMSGNCVlvYbqsx+oLo0Y/6FTXsPv73qJcqpvT//DLFC18uIDZ/P52hI7foxTXzzEeo6
-	 b93dnSaZWb9Sq1k9rnt8nCpgQLktRS3GY/7SuFmeh1q54goQ3xwRO1pRtK1zu4AHiBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794660951;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=smsm9ORhlPLDL5Nh8b0iZrku9Rm60/Khp9VarBhUFVE=;
+	b=lmY/VMVa9Emx1zhNMWq79ZDHlH4id32l+2fHI2/qexJh/Tyi+mIPpl0A7tHKuCPLD94J
+	 wPrY1Uusr9rwn9hU+AVrxWmNS3h2WMNg3ocZXDXguPsi2KLtv9Gf5MBTo/+9eNSRP+Azd
+	 e5PJALN8oODSEn3nxb1l+ht+PJodnQjJEXeXUOhXMI+xkH0ZTTO3n7Yge2tEiEuEo0eTm
+	 FOHqCc49KFoVq/iLKZdNFvzVg5H2+wheOEUqvyED0Q9uugSplYhKuadYHvKbjD2C93GZ0
+	 35yOg/qk/YAyjrN6qnLiV/mhncQPJP22ZFAPf9ygZVrfwOvO1H/84K1bpE2ifX1HIhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zte.com.cn;
-	spf=pass smtp.mailfrom=zte.com.cn;
-	dkim=pass header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=eHJLNOWZ;
-	arc=none smtp.remote-ip=160.30.148.34
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.34])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HaRvVopr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1FC606A323
-	for <asahi@lists.linux.dev>; Sat, 14 Nov 2026 06:08:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E1FC606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC7F606A339;
+	Sat, 14 Nov 2026 12:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=zte.com.cn header.i=@zte.com.cn header.a=rsa-sha256 header.s=z202610 header.b=eHJLNOWZ
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jRNw1329yz5B13X;
-	Sat, 14 Nov 2026 14:08:01 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zte.com.cn;
-	s=z202610; t=1794636481;
-	bh=5lzsOGRbljK3UBGsxRWnpa6SowpbvPCeY1W5tc58u7M=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject;
-	b=eHJLNOWZSaYUZo7rxalDo358pfeRaghstONJbcKc8oKd9rFsOGWCdd8uNhLZdpwSi
-	 iy3n+D0o7Oq3PDOAhqtc9T9xgYkKcamZYFAXT37IoW1isB9qW2Ab0+LDAb+ntAuJQP
-	 aennq31FDHtuaoWxD1zUp+eB2VF69uEJVqBM8DoLsOJrgz+2xBSN3ptGdGqESHsBH6
-	 GCbUqKkiAsbEdSvgMs7UWxVgNULg3vAuNLsILJAwWFiLyhbHafx/xPv1BjW2AREWLg
-	 IIK1tJzm3lDkJM+Y7lCa+H9RStE6NUYoUMMkieBlBnD5agjfQrgOV62aorJjvQe1AG
-	 OF+qCKJ5ZEHgg==
-Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl2.zte.com.cn with SMTP id 6AE67ttf060421;
-	Sat, 14 Nov 2026 14:07:55 +0800 (+08)
-	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Sat, 14 Nov 2026 14:07:57 +0800 (CST)
-X-Zmail-TransId: 2afc6af7fabd8be-0c510
-X-Mailer: Zmail v1.0
-Message-ID: <20261114140757347tqYOa2IkTGVulSwLrw2Mf@zte.com.cn>
-In-Reply-To: <CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com>
-References: CAHi4H7GHGO27Q=O8Upfds8jk-ujSHU5h91hCZw6qjftNX7a2Ng@mail.gmail.com,20261111173637687ugnRPRBKJkF0zihl662i2@zte.com.cn,1d8b7784-f217-45ef-8f09-658044e441ea@sirena.org.uk,CAHi4H7FCOxcXnYkNfXNa_iO9KFZRSC96urJthPkgoem7C52ppg@mail.gmail.com
-Date: Sat, 14 Nov 2026 14:07:57 +0800 (CST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HaRvVopr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 999561F000C4;
+	Sat, 14 Nov 2026 12:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794660951;
+	bh=smsm9ORhlPLDL5Nh8b0iZrku9Rm60/Khp9VarBhUFVE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=HaRvVoprCDXokhEvfXZunmRZ57OmBK16G+vrZvsktNqZvW7E/xHKpv36TJTsWKYT5
+	 tTMPncTJThx6q/vu9xmS01xlENgIj7cvILxowW59ARBvtu/gjo2TewkJsYVMyTorW8
+	 qtJztDUvKjpG8nHDxthKgjsvNqtB/fIUpqhMfY1qN2ViK1Q7vW3fJ4bL8XNtK7wYAY
+	 4a/jl1QUtSOCKf2HYMCt80ciwPqM9Di8KqOO88qAvNfB4Vc7Pxj7BbQNU0ujjGe6DP
+	 Oxp9cLMtLX6vNE2iQbiEkdJgFHw8+j5znujzqq5L83FIvIRJnGzg+/CQKoomalIMqm
+	 X9cCjnXmhtlJw==
+From: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Radu Rendec <radu@rendec.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Linus Walleij <linusw@kernel.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Yureka Lilian <yureka@cyberchaos.dev>
+Cc: Sven Peter <sven@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/9] Initial Apple Silicon M5 device trees and dt-bindings
+Date: Sat, 14 Nov 2026 13:55:34 +0100
+Message-ID: <179466091298.20315.10220651986509721816.b4-ty@b4>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261106-apple-m5-initial-devicetrees-v3-0-cee55de54b2f@cyberchaos.dev>
+References: <20261106-apple-m5-initial-devicetrees-v3-0-cee55de54b2f@cyberchaos.dev>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -72,63 +79,42 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-From: <shao.mingyin@zte.com.cn>
-To: <william.zhang@broadcom.com>
-Cc: <broonie@kernel.org>, <shao.mingyin@zte.com.cn>,
-        <linux-spi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <pjw@kernel.org>,
-        <samuel.holland@sifive.com>, <kursad.oney@broadcom.com>,
-        <jonas.gorski@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>,
-        <anand.gore@broadcom.com>, <florian.fainelli@broadcom.com>,
-        <rafal@milecki.pl>, <linux-arm-kernel@lists.infradead.org>,
-        <sven@kernel.org>, <j@jannau.net>, <neal@gompa.dev>,
-        <asahi@lists.linux.dev>, <ryan.wanner@microchip.com>,
-        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
-        <claudiu.beznea@tuxon.dev>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSCB2MiAzLzVdIHNwaTogYmNtYmNhLWhzc3BpOiBmaXggZGl2aXNpb24gYnkgemVybyBmb3IgZGV2aWNlcyB3aXRob3V0IGEgbWF4IHNwZWVk?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 6AE67ttf060421
-X-TLS: YES
-X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.133 unknown Sat, 14 Nov 2026 14:08:01 +0800
-X-CLEAN: YES
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AF7FAC1.000/4jRNw1329yz5B13X
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 14, 2026 at 09:13:59AM +0800, William Zhang wrote:
-> In that case,   Mingyin, please update the patch to ensure FCW >=1
+On Fri, 06 Nov 2026 22:24:49 +0100, Yureka Lilian wrote:
+> This series adds initial device trees and dt-bindings for the Apple
+> Silicon devices using the M5 (t8142) SoCs.
+> 
+> This series covers only a minimal amount of hardware, which is useful
+> as a basis for future developments. The hardware added here has remained
+> largely unchanged from the earlier Apple Silicon generations.
+> 
+> [...]
 
-I need to correct my previous reply: I incorrectly agreed that the clamp
-gives FCW = 0 with a 200 MHz base clock.  Sorry for the confusion.
+Applied to git@github.com:AsahiLinux/linux.git (apple-soc/dt-7.5), thanks!
 
-The applied code in both drivers is
+[1/9] dt-bindings: interrupt-controller: apple,aic2: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/d2ece48ec448
+[2/9] dt-bindings: arm: cpus: Add Apple M5 CPU core compatibles
+      https://github.com/AsahiLinux/linux/commit/29d432305187
+[3/9] dt-bindings: arm: power: apple,pmgr-pwrstate: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/a61030626ec1
+[4/9] dt-bindings: arm: apple: apple,pmgr: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/ca25b9f84383
+[5/9] dt-bindings: pwm: apple,s5l-fpwm: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/d60bedaceff2
+[6/9] dt-bindings: pinctrl: apple,pinctrl: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/d39d10bf2b37
+[7/9] dt-bindings: i2c: apple,i2c: Add t8142 compatible
+      https://github.com/AsahiLinux/linux/commit/b2755abb177e
+[8/9] dt-bindings: arm: apple: Add M5 based devices
+      https://github.com/AsahiLinux/linux/commit/33cfb254ebb8
+[9/9] arm64: dts: apple: Add minimal t8142 (M5) device trees
+      https://github.com/AsahiLinux/linux/commit/b9a12ab2c2d5
 
-	hz = max_t(int, hz, 1);
+Best regards,
+-- 
+Sven Peter <sven@kernel.org>
 
-	reg = DIV_ROUND_UP(2048, DIV_ROUND_UP(bs->speed_hz, hz));
-
-For a zero-speed request, the clamp sets hz to 1.  With the 200 MHz base
-clock, the calculation is
-
-	DIV_ROUND_UP(200000000, 1) = 200000000
-	FCW = DIV_ROUND_UP(2048, 200000000) = 1
-
-The outer division rounds up, which I missed in my previous reply.
-The same calculation gives FCW = 1 for 24 MHz and 400 MHz base clocks.
-
-With the 200 MHz base, FCW = 1 corresponds to about 97.7 kHz
-(base / 2048), the minimum rate.  The 1 Hz value is an input to the
-divider calculation; it does not mean the SPI bus runs at 1 Hz.
-For this case, the applied code already selects the minimum FCW.
-
-Mark, understood about the difficulty of handling zero speeds in the
-core.  For the 200 MHz case above, the applied driver code already
-selects the minimum FCW; any further adjustment would be incremental.
-
-If you would still like an explicit FCW lower bound in both drivers,
-I can prepare an incremental patch on top of the applied commits.
-
-Thanks,
-Shao
