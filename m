@@ -1,47 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794759836;
-	b=DRJ+vtESf+OIQxkHtlJ+nGp5bqHj2GdJ4gXl+g3lYgiq1IoTAbU/2PXQyYgBC5o739B5
-	 zqCBcqjoa5Hg4UpzijZubdv1hAj7aCgA0qOFxeqJnzjwwRdpfSOofSyWMg4qTKW5S2QZo
-	 Zmrj83L8REx/XJLdA6tFaNS+WkUn+dubkVJB2oRRs1opHwvMeX4MGwDREsy1LRe1eO/CC
-	 Q/mJ2k+6NpzWI43xlXLTxkaVR2NvvytdjzogWWkVqNI+QzMXcGoDNFh9lQWKtEfY1SWe9
-	 IvjBtTEeX8D0Uy2k9Xmgoq63t3DmZBAYO30t7WnZ4gOQcRvqwQj9EyCpCf3aQezFHyA==
+	t=1794767236;
+	b=3CYA64HNbD9qfJRjvIMI8cELOBMW47crH7DapFV7GCxbPdKWGxg6okcx3MR0C8V0kZnw
+	 r7fWAootES0ta71+KQbarEJIQkCFPSBchSEdsBS+baDZunz+xPbaIEevTaocGW+upw1KC
+	 DfwaOUb8L06qxY5UpizDOUKc0gs4b1cLM15nJRHkpkZYU1PncqljIamyeBqwXoV6emAkQ
+	 gYrBBmS83klNLQMwP5WV8U4NttwnJZTqzSAY6NgchZZHwlkJvB2cj1sZf2VP3RIomw8nu
+	 oiUeiJq03rrlVHlvokolUG05gavHnBUx3PW7OjU+pdTEoV7FstHGZUIUUP1RMKpp5/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794759836;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=NCd7gUU6HGHaZLtUO73+KIOy/CnHOnCqa5r0SPBNmTU=;
-	b=RvNRLtlwPXSNKcvOZU1Bb1k6756ZdycfzMRZWPZTPQHSDzzXXC2oYt46lThV8LTKl5hN
-	 tJFIIegpD8osekJxhoGJNe1736yd9UrKSfID14oLv8FQtDzZicxjpyYY8pfqM0fNaJuaV
-	 fOpomIOrp3JAr25y3DGk6Gf/DioycUxpikKIZthTufQLkeZEgTR9e24hpxWtfRBS396JD
-	 uqhAA31BX0jdKDnxKSH67CPgZbwc6KWAiYG6543UqEB0f3YfZQae44rS33hFD+8ycw9NP
-	 ovCnv6u2I1V5gjcAIxAEebbKndvjxxhopJNrIHiTQd/1Yyo6K1EjTIV4n0uVzeZmf6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794767236;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
+	b=Vzi/5i8vOCxS2FKJB2hbGYKgRf1a7rmYgZi1RR6VIaShjeYpDDc8/Qgsdklnz2ivf77L
+	 jcsLqdTSTvxCpjdZhiT9/MxJA3ww8BtbxAshKPWI+wt2cqOGCRWaWDToSQNF+nKQ3zfLR
+	 k9urju0yBycEHKQxzZMnwWpIx03B/RQMV/GrjnsKZU/7lS/KDsQZtildZxu+CbfjJNugn
+	 KK5gLA7o5PXH6TIf5DXMcEfRMJT3nBsugPZ1PjeIm5GDeW171is8SJoPOwfozv9AhIYzv
+	 g/zuFhpcDAl/oC0yOKU7dWIrmyrwVcppi/ccArKzIlT7sKNuOF/wF4UbVYvN88hEGpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="UM/RNRGo";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90AA606A31A;
-	Sun, 15 Nov 2026 16:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B2B606A323;
+	Sun, 15 Nov 2026 18:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UM/RNRGo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD02E1F000C4;
-	Sun, 15 Nov 2026 16:23:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6721F000C4;
+	Sun, 15 Nov 2026 18:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794759836;
-	bh=NCd7gUU6HGHaZLtUO73+KIOy/CnHOnCqa5r0SPBNmTU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UM/RNRGo6lEAU1ZmUJhXH07ppVCefYyTsmrrSDGR94znDL/OTXxidPBXk3JosHgXR
-	 UAzJe+b04n9PNxERO7MokrRJvBp5dorTY4N8aLUtLN4P0JDGvq7jhcNKwgw9UCQaC7
-	 u9Sgrhmamo/flZ/AEttZN/nS6FNa06nde9sJ0oZCeVuXqlNZyjEw1441M8dqAYly8+
-	 bv3Z+3/vVmxno0ipvMFj1PPmeA7lbdw8uWhP7LgDqykpGINt0JeA5ZqE9PW5uV9l7r
-	 z7mzSkIDfmTSBtwyMu3A2g5v9zeVfNnJ7bZbSqqFH+UoyJ5dPOEkzxvvdmho0tNGxS
-	 BpnA5gGOXm7/Q==
-Message-ID: <68bacdb1-41e8-41b7-96b8-22169c6e78ee@kernel.org>
-Date: Sun, 15 Nov 2026 17:23:50 +0100
+	s=k20260515; t=1794767236;
+	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=Hs2wFkU62DxMVcVeVK/hAY2ufoadWt+Durtr+oAEZEZAHVRiIPzUn8lVsPDt5Gn6A
+	 LCjm667oyvLp/6VsY85AeLD12M/krbIKIgKoosrrjyCH8Bs+p2meRhASbg+kMC2cvM
+	 QzOEgYrkeLy0x/CLwV2gYxtqqx1ssQUFYhJbA8s+gu69qB0zN2CezYt1IxGO1LmOcQ
+	 ChvTkCD2Egs8VWSW4BrQHtHenMBDdDB7z4bhmmoqPKGANygD0zgisrIdYkxydir576
+	 UAuL+0VtHWziRhbhZ1qJB9384CqIX5ydm0HVaLZ2YWAeT6u2+v9nTXAYzi/wxW+YGW
+	 95lD+ddDCxnWw==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 4E20633D38DA;
+	Sun, 15 Nov 2026 18:27:01 +0000 (GMT)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -51,44 +52,50 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] dt-bindings: PCI: apple,pcie: Add M3 generation
- compatibles
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Neal Gompa <neal@gompa.dev>,
- Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
- Michael Reeves <michael.reeves077@gmail.com>,
- Joshua Peisach <jpeisach@ubuntu.com>, Mark Kettenis <kettenis@openbsd.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
-References: <20261108-apple-m3-pcie-v2-0-0e5ffec71da4@jannau.net>
- <20261108-apple-m3-pcie-v2-2-0e5ffec71da4@jannau.net>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <20261108-apple-m3-pcie-v2-2-0e5ffec71da4@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 00/22] Add speaker and headset jack support for
+ Apple Silicon Macs
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
+In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
+Date: Sun, 15 Nov 2026 18:27:00 +0000
+Message-Id: <179476722024.140154.15587190322612964079.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=317; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ytHYPz0XriWoB7CgG8WB4aH/P5ex9L4TMTkLssWLVm4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+/iz9N/mHi728XsdGBVdR5aNnVf4dbTT4IdmRdP2n0
+ KttyacyOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRD6wM/9S72z3mLK8tSzx9
+ 4NSkAKUV6/Z/7dTSuuv6b3nhkq3KnrMZ/uk++dB/R291D1tVuZfLHucp3HoXysLSk7c6Jx4XL/4
+ swAwA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 08.11.26 15:22, Janne Grunau wrote:
-> The PCIe controller on Apple M3, M3 Pro, Max and Ultra SoCs are
-> compatible with the one on M2 Pro and Max. Add their per SoC compatibles
-> "apple,t8122-pcie" (M3), "apple,t6030-pcie" (M3 Pro) and
-> "apple,t6031-pcie" (M3 Max/Ultra) to the bindings.
+> Hi folks,
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> 
-> ---
+> This series adds the machine driver and related bindings for the
+> primary audio subsystem on Apple Silicon Macs. The macaudio
+> machine driver is based on an RFC sent many years ago
+> by Martin Povišer[1]. 
 
-Do you guys want to take this patch through the pci tree or should I 
-just pick it up with the rest and route it through apple-soc since there 
-are no driver changes here?
+This needs a rebase against current code.
 
-
-Thanks,
-
-
-Sven
-
+-- 
+Mark Brown <broonie@kernel.org>
