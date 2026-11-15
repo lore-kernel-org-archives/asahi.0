@@ -1,48 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794767236;
-	b=3CYA64HNbD9qfJRjvIMI8cELOBMW47crH7DapFV7GCxbPdKWGxg6okcx3MR0C8V0kZnw
-	 r7fWAootES0ta71+KQbarEJIQkCFPSBchSEdsBS+baDZunz+xPbaIEevTaocGW+upw1KC
-	 DfwaOUb8L06qxY5UpizDOUKc0gs4b1cLM15nJRHkpkZYU1PncqljIamyeBqwXoV6emAkQ
-	 gYrBBmS83klNLQMwP5WV8U4NttwnJZTqzSAY6NgchZZHwlkJvB2cj1sZf2VP3RIomw8nu
-	 oiUeiJq03rrlVHlvokolUG05gavHnBUx3PW7OjU+pdTEoV7FstHGZUIUUP1RMKpp5/Q==
+	t=1794767923;
+	b=K8sM1ZZy2mO8du6wF+w0Xa7Bj2hEovs+zAp1zVI9XJdk+UeSZrwHU3diS0dxnh75jqhC
+	 rVkuqOUMWM3Xft8LaxH07x8jakx1kmZ5mV0FPHRLU+0u2DJVTO5H+wQQK+qewJnnnuD/H
+	 3YyYTzIkA6fIt5WT5AtSKfpVgvhtOSaRSJuACHJOUbsaRgFdaEVt/f7x/TeAqOnxf9TpK
+	 bWCUJ+A1qAy4SjwMP8hd7A86VyvyyxXECldaQdndp9T0YSihJ6mmNWMYrmjOAYIqHAleO
+	 c/8vKxgMM0fA0iM1KHS/v3mJ+FdyFKXXVtx7uU1oKH9fvP7grj93RLsR1CHBm5X8OwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794767236;
-	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
-	b=Vzi/5i8vOCxS2FKJB2hbGYKgRf1a7rmYgZi1RR6VIaShjeYpDDc8/Qgsdklnz2ivf77L
-	 jcsLqdTSTvxCpjdZhiT9/MxJA3ww8BtbxAshKPWI+wt2cqOGCRWaWDToSQNF+nKQ3zfLR
-	 k9urju0yBycEHKQxzZMnwWpIx03B/RQMV/GrjnsKZU/7lS/KDsQZtildZxu+CbfjJNugn
-	 KK5gLA7o5PXH6TIf5DXMcEfRMJT3nBsugPZ1PjeIm5GDeW171is8SJoPOwfozv9AhIYzv
-	 g/zuFhpcDAl/oC0yOKU7dWIrmyrwVcppi/ccArKzIlT7sKNuOF/wF4UbVYvN88hEGpA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794767923;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=arPSgjHS15vPHb0JCnqy9OouR7YuHrSqzN7k0IpSy4Y=;
+	b=CQmg2uW/uMFJVnZ7u+kARDe+6KIEVCyxEHQI9z6OLj+OMqwMobNJflAxjCAycVQHol21
+	 fcYlfRwSc42tfrFOINFaFG7d5vDVfnOrSPGDN223BOFyPzAT8m9iWHOkolpQjUPkApwls
+	 PxJUf228Ll3oGwM19jJzdHSlLJM/z9OPMtwcELmJiCmxcUHmnGt4gO2HArKKJ63gjlVub
+	 MMvNGPan/nJrR6tzsR1KBiNz5m6PgXaPCndun1UJzyRFfUm1HB1u4/cmp3Zul48ccoFD7
+	 qmG3yG4wXzv0KtOnlU3gc5YHCizAwotWj+uaSPsYAs+Qm0hxQjgVVsthDsREJBlmvNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I4RBcK4Z;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B2B606A323;
-	Sun, 15 Nov 2026 18:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117F9606A31A;
+	Sun, 15 Nov 2026 18:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Hs2wFkU6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6721F000C4;
-	Sun, 15 Nov 2026 18:27:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I4RBcK4Z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63B01F000C4;
+	Sun, 15 Nov 2026 18:38:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794767236;
-	bh=4v9kEdXT9EbKxbjfyQTCBXpQmQO0tv1S0oBUI2ZRadY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=Hs2wFkU62DxMVcVeVK/hAY2ufoadWt+Durtr+oAEZEZAHVRiIPzUn8lVsPDt5Gn6A
-	 LCjm667oyvLp/6VsY85AeLD12M/krbIKIgKoosrrjyCH8Bs+p2meRhASbg+kMC2cvM
-	 QzOEgYrkeLy0x/CLwV2gYxtqqx1ssQUFYhJbA8s+gu69qB0zN2CezYt1IxGO1LmOcQ
-	 ChvTkCD2Egs8VWSW4BrQHtHenMBDdDB7z4bhmmoqPKGANygD0zgisrIdYkxydir576
-	 UAuL+0VtHWziRhbhZ1qJB9384CqIX5ydm0HVaLZ2YWAeT6u2+v9nTXAYzi/wxW+YGW
-	 95lD+ddDCxnWw==
-Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
-	by traversing.sirena.org.uk (Postfix) with ESMTP id 4E20633D38DA;
-	Sun, 15 Nov 2026 18:27:01 +0000 (GMT)
+	s=k20260515; t=1794767922;
+	bh=arPSgjHS15vPHb0JCnqy9OouR7YuHrSqzN7k0IpSy4Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=I4RBcK4ZAnk1QwAXA56mz6tfAD7cwMoY/DmdBdyNp/MCDke1j0K/iqhm2TnulUyRT
+	 paudavJLRFoqY3/kXQ6WVI1qOvGarxQU9eZZWzNV5NBqBqZb4NjtiP3ZOCusbJ7AGK
+	 KLjVXP0f5GcuKSrk+B5xeMcu4WSIv3e+w2MX9FH06EMoNy5BreKICjuE5d5bobeV4B
+	 7wthe7OE1Dz0rYq6dImjBWzvPgBakFh6KJZk5eJczAreOd3RNl3fOWWFNN7XeL4cNl
+	 WkDBLVHUC6lMXJfuspSxAMTsJteDaLTe2gNw5o4N+PdsnPSEyB8lB1bCA1azrx4P0I
+	 o+K/AezXHHqyg==
+Message-ID: <cadadedb-1de1-46f0-9bfd-35eb8bdfa85b@kernel.org>
+Date: Sun, 15 Nov 2026 19:38:35 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -52,50 +51,121 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 00/22] Add speaker and headset jack support for
- Apple Silicon Macs
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Hector Martin <marcan@marcan.st>, Sasha Finkelstein <k@chaosmail.tech>
-In-Reply-To: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-References: <20261103-macaudio-v4-0-637484efe46d@gmail.com>
-Date: Sun, 15 Nov 2026 18:27:00 +0000
-Message-Id: <179476722024.140154.15587190322612964079.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=317; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ytHYPz0XriWoB7CgG8WB4aH/P5ex9L4TMTkLssWLVm4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+/iz9N/mHi728XsdGBVdR5aNnVf4dbTT4IdmRdP2n0
- KttyacyOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRD6wM/9S72z3mLK8tSzx9
- 4NSkAKUV6/Z/7dTSuuv6b3nhkq3KnrMZ/uk++dB/R291D1tVuZfLHucp3HoXysLSk7c6Jx4XL/4
- swAwA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel
+ sharing EL2 for Apple Silicon
+To: Ard Biesheuvel <ardb@kernel.org>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org, asahi@lists.linux.dev
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+ <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+ <apldL6Ml91GW-tE9@J2N7QTR9R3.cambridge.arm.com>
+ <aplk2hHRB7Yw9FWW@willie-the-truck>
+ <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Hi folks,
+
+
+On 03.09.26 15:25, Ard Biesheuvel wrote:
+> On Thu, 3 Sep 2026, at 14:15, Will Deacon wrote:
+>> On Thu, Sep 03, 2026 at 12:42:39PM +0100, Mark Rutland wrote:
+>>> On Thu, Sep 03, 2026 at 01:34:56PM +0200, Ard Biesheuvel wrote:
+>>>> On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
+>>>>> This series adds a custom EFI table that points to a PSCI entry point
+>>>>> (plus some other stuff that has to be available before EFI runtime
+>>>>> services are set up) and adds support for this new conduit to the psci
+>>>>> code. We can't directly use the normal EFI runtime path because that one
+>>>>> takes a sleeping lock and we need to be able to call into PSCI from
+>>>>> atomic context during e.g. cpu bringup or during idle.
+>>>>> It also adds support for specifying the specific MAIR attributes for EFI
+>>>>> runtime mappings as defined in the latest UEFI spec since Apple Silicon
+>>>>> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
+>>>
+>>>>>        dt-bindings: arm: psci: Add EFI conduit
+>>>>>        arm64/efi: Add and parse custom PSCI EFI configuration table
+>>>>>        efi: Add EFI_MEMORY_ISA_{MASK,VALID}
+>>>>>        arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
+>>>>>        firmware/psci: Add EFI runtime conduit
+>>>>>        arm64: dts: apple: t8103: Add PSCI and CPU idle states
+>>>>>
+>>>>
+>>>> I've picked up patches #3 and #4, which are useful in their own right.
+>>>>
+>>>> I'm not sure if the arm64 maintainers will want to consider this, but
+>>>> I think it's a reasonable compromise, as it puts the abstraction in
+>>>> the right place.
+>>>
+>>> Sorry for the late reply; I've been away almost all of August and I'm
+>>> slowly catching up on things.
+>>>
+>>> As with last time this was proposed (in abstract), I am not happy about
+>>> bodging an EFI conduit into PSCI, given that the manner in which state
+>>> is managed is completely different from SMCCC.
+>>>
+>>> If we need a mechanism for doing hotplug and/or idle without HVC/SMC,
+>>> that's one thing we can consider. I don't think we should pretend that
+>>> it is PSCI.
+>>
+>> What do you have in mind for an alternative mechanism? I understand your
+>> objection to this proposal, but at least it keeps the interface fairly
+>> high-level and avoids opening the flood gates for a bunch of SoC-specific
+>> idle routines. Are you thinking of extensions to the PSCI spec or
+>> something else?
+>>
 > 
-> This series adds the machine driver and related bindings for the
-> primary audio subsystem on Apple Silicon Macs. The macaudio
-> machine driver is based on an RFC sent many years ago
-> by Martin Povišer[1]. 
+> I can't speak for Mark, of course, but I could imagine EFI being used as a
+> conduit to provide a callable set of interfaces (with a rigorously defined
+> set of constraints such as the ones in this patch, i.e., reentrancy, no FP
+> or SIMD, not relying on ISA features that the OS needs to know about and
+> enable, etc).
+> 
+> There is prior art here in ACPI PRM, which does something similar, and this
+> also relies on EFI runtime services.
+> 
+> You'd still need to implement the CPU ops and a cpuidle driver afaict (no
+> expert here), but at least those would be coded against an interface that
+> the kernel itself specified, and can be made as generic as we choose to.
+> 
+> Not saying this is all great, but it might be a worthwhile compromise to
+> consider.
 
-This needs a rebase against current code.
+Finally getting back to this series...
 
--- 
-Mark Brown <broonie@kernel.org>
+
+I'd definitely like to keep mapping the resident firmware using EFI 
+runtime services because otherwise I'd have to duplicate a whole lot of 
+tricky code to do the same thing via some other means (e.g. a device 
+tree nodes that contains all mappings + callbacks) and I just don't see 
+much value in that.
+
+I'm happy to just drop the PSCI part though and replace that with a 
+simple and somewhat generic "efi-rt" (or similar) cpuidle driver and 
+make that one have similar requirements like I added for this RFC series 
+and expose bunch of generic callbacks (that will just happen to resemble 
+PSCI functions very much ;)) via a custom EFI table. That would keep 
+PSCI out of all of this but come at the cost of an additional cpuidle 
+driver.
+
+I don't think that would open any flood gates for SoC-specific drivers 
+since we could just point them to the generic one and tell them to use 
+that one if they can't do PSCI for some reason.
+
+
+Now before I go off and prototype this: Would this approach be fine in 
+general with you, Mark and Will?
+
+
+
+Sven
+
