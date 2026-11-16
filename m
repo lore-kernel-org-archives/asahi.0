@@ -1,116 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.227
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=121.127.44.66
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794826401;
-	b=U2HNcpFYrtUXSriPrp2HDC7D6V5rEbbsPBEmM9/Ln3EzHfjVrgxcTzIin4IN1ekKDXTE
-	 KJGgV3bsFhbnPFVeRrRaECR1Jfwq+bLsiLFHiqFqNWC7FAy7Jrw61QE3BQyRzT0p5sGKp
-	 H07OgEDfqa/tlMlL59UT1EzFtaZxBeBBamLn6ZxSv/sxlhBaO3NA32CkOan2KoNvoYG9P
-	 KYZpa25jp6B9tsUFgoBG209uT+ieGEDxWnvNww+lqdsksC/CR0/UVFf69c7Ypw4Wyd823
-	 9NUV0Ts6MMbbNpxKRDpJ8qtgg2IQrA90gSI2Il/zSzmEJSvfoJ0cdxWbTsF5nsNJP/g==
+	t=1794835609;
+	b=eNCBuKJGojF1GWbvxeiYYMHlpzvrJbhbQX3iG7MbIqagIuVare24o3ZDdYh3Qasq8bmW
+	 Ajg0ai7mxQ7TuPVfT80um4ougfHSab46gnhv3XZNye29bgwZHJsqbqCuGPRDp/NCNwNgc
+	 rUXfGw8Eud/6FdaHK0RPmqfQavFmbEaj3OrzbjetOnyKCHv3B1+2dk0ajGUZ11OPr6UWP
+	 iwkDDDEyqsZt5ZXXPQhJH/M/E4QyMxJRD6N9E7gPXVJ5lC7FFShDZHFKee3/Y6kxnpj0n
+	 rx9aeYK1bQ7hTezFqeqP4xjPSgCLm/gqrTDRCGCa9xTdgBBPhiJiu87kMs9aXuVCf+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794826401;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=HVQaD9JPLSlypPeoMjV3YW5/MfO3VO8SRm2wJMatWzY=;
-	b=RGmHb/jlxowe2Mkm/Tw6C0mXt9VIZKW73XjPyCQGr1bxB6sHtAGGHE11gvkYZh1C5vPN
-	 4/V4rlADr+O6Zh2P0N3GolO3gqtfMyt6JnjxSttLbTsSBTLrcVNA136tXLjbIiTbg94u4
-	 zAtC6dMQoBJVh8HCWnVsP1QoufCpSsyEb8td2oOeN6jGc6mF2CtYDGx4ohawPvH13xtY4
-	 a01AZeDFvuuzUNGO6c4QANn8/ZqfL+kg7o7EZCnpSlU5HHQXCnsuSlhPiR/8eWz+3ALhM
-	 HUurpAGe3iCMtTELdE9sG/p9snSPRYIwNzK7v8o/yFgKKULESJgPc5Uthprl1R3yyXg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794835609;
+	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
+	 X-Forward-Email-Sender:X-Forward-Email-Version:
+	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
+	 X-Report-Abuse-To:Mime-Version:Content-Transfer-Encoding:Content-Type:
+	 Date:Message-Id:Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=Qopof/KzEChronzbaNdRS8yRUwb7T04Bp6EAIGWAg3s=;
+	b=OAt5fBKNfmjMdFLbI5lO0aY3n41ZcjAn4udWcR7tUv1uKjstRYPOLhc58tCzJ2jIU4zq
+	 6DoQ/gRUWy6vzdZxzo265y/FaZFnahXFBWNKmXG5UfMB+TH4B7pl7HonHDJqOhScOtJ3x
+	 KMORZnwmk5ReZpcwkG/IFDKo0wpz7BBVe9KuLS1Vuxh3pElno53fHbQvrees/6sNH7tcO
+	 R4JgPIVZWBqEBWgIegE/OkkzB2KNkdZlxzLUCpmYWjrL8DF6bDY8s9Ld2Bsfa52fJwDvF
+	 VXoR8FBi4J80i09+bB3paCmZMSRInl/HnAdrXXtwT/bFsiyPkr1FDUIo6MNm12C/a1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=emtwnsho;
-	arc=none smtp.remote-ip=209.85.215.227
-Received: from mail-pg1-f227.google.com (mail-pg1-f227.google.com [209.85.215.227])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=ubuntu.com;
+	spf=pass smtp.mailfrom=fe-bounces.ubuntu.com;
+	dkim=pass header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=KJc2bQ3C;
+	arc=none smtp.remote-ip=121.127.44.66
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F80D606A8AB
-	for <asahi@lists.linux.dev>; Mon, 16 Nov 2026 10:53:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F80D606A8AB
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549F2606A33B
+	for <asahi@lists.linux.dev>; Mon, 16 Nov 2026 13:26:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 549F2606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=emtwnsho
-Received: by mail-pg1-f227.google.com with SMTP id 41be03b00d2f7-cdab9e9761cso2281326a12.2
-        for <asahi@lists.linux.dev>; Mon, 16 Nov 2026 02:53:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794826400; x=1795431200;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HVQaD9JPLSlypPeoMjV3YW5/MfO3VO8SRm2wJMatWzY=;
-        b=Phi0cO4YDVDLCqi0DJBlcgbGS+m0WPDdoA+QUSYh+RbVK3wndv+9HnjgzO3mm8q/JI
-         mhCFmWOFHqH/x2h6rvY1IG2OA/PgHbhxj6LXr0DKOZiuSa86XToKY5WWNKLOYW2eu7Fy
-         nDZLb9T4JfgsEDOZ2Sjg10Tm6X09TsTBbySkTOXKk/j4yAny5jK260mJweL3PyVQBpBa
-         r2yJkRY2TD7LD4SGdP7JKh1tXax7JtLFm9IShJXUGzxCXCchOizu4VA8cZTcIkFLuR8G
-         yQcTMZCsqaWoLbF6bTG3wxxc6nf2BiPPip/kbqJeee7ZyroQ67Vu3tAozb9mgW6AQtL0
-         6WaA==
-X-Forwarded-Encrypted: i=1; AL+hErFv22Z/nTrbMDBWLaxw5df2HR7CdwYtwdDAa2ryZeJ2t6vG5lF+9KodU1HTimyUkQvdL97qkw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z95Gh+95NMBm+f9voV02Tm5DyLgZqXFWqvfLtLA/g+M0udR7F6/
-	AxTjcKTqnXDRF6ODTUfS4f/08m95zpfAs5qmDXycPXCh++co8yN5TXhayP66gwe+uzulSBHoNrd
-	5Q1K8dMaB4EYey8vS5M3s5e+7RVTQYuvgZR+FGseQiTMKmFA8nZ3nHQn3Piok20yxDcupflFp51
-	nsb5Z83+kZRbJA5qgOoFO9btBwNwnYUXLW2m5vOKk5FqnUVa+iQQIkIR0fs2spJYy2ccvJSHZV+
-	4ngZKaCX/wFrA==
-X-Gm-Gg: AZFdTZcsNL9SEGSBViE3WE3Qgftm9FN3VxUGkwvghdjwRhvJXOXojZ/woU7f5zmDgDU
-	Pwg5brm73iAcMZt7tLqQ1AbmYt7WKVOPgVnkoONnmXDrPAdJodiCeHfXFzrBf+g4o3dWrjm1dQa
-	C5I9zE0nNZPqpwdwUXKwXGeQ7gHeviLwRUU4qjdmpFfiXARff1Bvy3R10JwJxqt2smGsyax5s/2
-	dWyvU2RUSoWW8FSGzYCkaFEceeS4iiSur48Z6Ea5x0FWo06PrBR17JNMktjNmitCVJM++64ndwO
-	MmzvJ7gBBcrfwguVR1oQYaAq82+jbHAV1KQwT+lGsk4zi2gUBmy2Tu4e/tgA95GjE9RYttid8yd
-	lNMiyQ8p4EkZkg/+7Ff0kV1qnWLdM9HclG7lYfBEPgIOORGzSNZ67ONDfynd9Spv+kuAURfFZQ0
-	tCII/SxNMFTzmA+xTCPdKmlnGXKM4TfK8p2FVecbA=
-X-Received: by 2002:a17:90b:4e8c:b0:3ac:9d14:fe9f with SMTP id 98e67ed59e1d1-3b1b0ba3320mr9931914a91.31.1794826399784;
-        Mon, 16 Nov 2026 02:53:19 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1b3c0a5a8sm5347582a91.2.2026.11.16.02.53.19
-        for <asahi@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Nov 2026 02:53:19 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-9495a1f5e47so177039885a.1
-        for <asahi@lists.linux.dev>; Mon, 16 Nov 2026 02:53:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794826398; x=1795431198; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HVQaD9JPLSlypPeoMjV3YW5/MfO3VO8SRm2wJMatWzY=;
-        b=emtwnshomaV0+2afLmAaDDufwbbmXoDrL5bswFU66mByjMC8O8JBYGCeL4cvXUZY5d
-         6Nv8wTFWVN2fmXrZWySxX+iZVl9fnTxEgmOstOd35ezfgQ7TBlws6djX1YrPJdgDJmbD
-         IzE8Y/chTywPe4+jooiHjYjSqOCkFAHh4bwmo=
-X-Forwarded-Encrypted: i=1; AL+hErFf8KG2C8ZWvQRntDvVPFBsIaNlVViTLYKINaPorB2H+BN7NfgrgFc3TMt2X+RVoOYhDoDR4Q==@lists.linux.dev
-X-Received: by 2002:a05:620a:4541:b0:945:afc1:a73e with SMTP id af79cd13be357-9494ba601efmr1588959585a.8.1794826398318;
-        Mon, 16 Nov 2026 02:53:18 -0800 (PST)
-X-Received: by 2002:a05:620a:4541:b0:945:afc1:a73e with SMTP id af79cd13be357-9494ba601efmr1588957785a.8.1794826397898;
-        Mon, 16 Nov 2026 02:53:17 -0800 (PST)
-Received: from bld-bun-02.bun.broadcom.net ([192.19.176.227])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949825e08b4sm125151785a.37.2026.11.16.02.53.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 02:53:17 -0800 (PST)
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-To: Kordian Chmielewski <kudzo51@gmail.com>
-Cc: dev@deq.rocks,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	asahi@lists.linux.dev,
-	j@jannau.net,
-	marcan@marcan.st,
-	sebastian.reichel@collabora.com,
-	linux-kernel@vger.kernel.org,
-	Arend van Spriel <arend.vanspriel@broadcom.com>
-Subject: Re: [PATCH wireless-next v2] wifi: brcmfmac: msgbuf: count tx status only for the current flowring
-Date: Mon, 16 Nov 2026 11:53:13 +0100
-Message-ID: <20261116105313.3479803-1-arend.vanspriel@broadcom.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261112175754.396469-1-kudzo51@gmail.com>
-References: <20261112175754.396469-1-kudzo51@gmail.com>
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=KJc2bQ3C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: To: From: Subject: Cc: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1794835603;
+ bh=Qopof/KzEChronzbaNdRS8yRUwb7T04Bp6EAIGWAg3s=;
+ b=KJc2bQ3CXrlbjNgV+d7q5odn1pt6I4/i2GPsj74FgWjAtF5ni3hlf9yRn+ix/HwXEiCpgTz+2
+ rLuy+P4/ZCP9ySyVFLGaunErAG7L31abAO+Eh8oFihk5hYMWOmtzZvrx9NRpYC6LM2KVkmCkBE4
+ 9xZHZyfkk7FnNaPMpmmxubnU7GZIbxtoUgkhBpbuBj/tRlpEilWp0rBTBpecP0ofXN/XYqt4s+9
+ E95CgM6yJRIbzSiG4gDr+yoU02ECvQjQK4FjkXPvAkDogTIVH5knseiDFdaZ/noVkL/zTcQSnwb
+ TIO7H8FSY88gbPzUuTVz0YmfuiMPuOaFRLOOn33abifg==
+X-Forward-Email-ID: 6afb048fb9d3ade89ee12d0f
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.19.26
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -119,29 +61,82 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Mon, 16 Nov 2026 08:26:37 -0500
+Message-Id: <DMWO4APJSZPS.16AA1EABR1AEJ@ubuntu.com>
+Cc: "Will Deacon" <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Sven Peter"
+ <sven@kernel.org>, "Janne Grunau" <j@jannau.net>, "Neal Gompa"
+ <neal@gompa.dev>, "Marc Zyngier" <maz@kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <asahi@lists.linux.dev>, "Yuvan Shen" <yuvanshen09@gmail.com>, "Nick Chan"
+ <towinchenmi@gmail.com>
+Subject: Re: [PATCH 00/13] drivers/perf: apple_m1: Add M3/M4/A18 Pro Support
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Myria Sarvay" <myrialsarvay@gmail.com>, "Joshua Peisach"
+ <jpeisach@ubuntu.com>
+X-Mailer: aerc 0.21.0
+References: <20261103-m3-plus-pmu-events-v1-0-a8eb6c1139fe@gmail.com>
+ <DMQ0CENBZQGW.L35BD1BXYE9Z@ubuntu.com>
+ <CAFTKyQziVo3COsPZSSZOaFs7R6HhXEWNHYfgTkjyACc7bkoBDw@mail.gmail.com>
+In-Reply-To: <CAFTKyQziVo3COsPZSSZOaFs7R6HhXEWNHYfgTkjyACc7bkoBDw@mail.gmail.com>
 
-On Thu, 12 Nov 2026 18:57:54 +0100, Kordian Chmielewski wrote:
-> brcmf_msgbuf_delete_flowring() waits for the outstanding_tx counter of a
-> flowring to reach zero before it sends the delete. When the wait times
-> out, it sets the counter to zero with packets still out. Their tx status
-> still comes and takes the counter below zero, and since the counter
-> lives in the commonring of the flowid and nothing resets it, the next
-> flowring that gets the flowid starts from there. With the counter below
-> zero, the next delete of that flowring waits until it times out as well.
+On Fri Nov 13, 2026 at 2:25 AM EST, Myria Sarvay wrote:
+> On Sun, Nov 08, 2026 at 12:32:46PM -0500, Joshua Peisach wrote:
+>> On Tue Nov 3, 2026 at 5:14 AM EST, Myria Sarvay via B4 Relay wrote:
+>> > This series adds support for the CPU PMU in the new M3, M4 and A18 SoC=
+s
+>> > presed in apple devices. These PMUs have new encodings for events, alo=
+ng
+>> > with larger codes for these events. All of these events are as Apple
+>> > describes them in the various kpep files found under /usr/share/kpep o=
+n
+>> > macOS 27. More events may exist, but we have no idea of their affinity=
+,
+>> > or what they actually count, so we don't include them here.
+>> >
+>> > These patches have been tested on my own M2 (t8133-j413) and M3
+>> > (t6031-j514c) devices, as well as by Yuvan on their M4 (t8132-j713)
+>> > device.
+>> >
+>> > If possible, the device tree changes should probably go through
+>> > apple-soc, as this is where the recently picked up M4 Pro/Max dts are.
+>> >
+>> > Tested-by: Yuvan Shen <yuvanshen09@gmail.com> # on t8132-j713
+>> > Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
+>> > ---
+>> > Myria Sarvay (12):
+>> >       dt-bindings: arm: pmu: Add Apple M3/M4/A18 Pro SoC CPU PMU
+> compatibles
+>> >       drivers/perf: apple_m1: Remove unused variables
+>> >       drivers/perf: apple_m1: Support per-implementation event size
+>> >       drivers/perf: apple_m1: Use macros for per-implementation init
+> functions
+>> >       drivers/perf: apple_m1: Add Apple M3 Series Support
+>> >       drivers/perf: apple_m1: Add Apple M4 Series Support
+>> >       drivers/perf: apple_m1: Add Apple A18 Support
+>> >       arm64: dts: apple: t603x: Add PMU Device Nodes
+>> >       arm64: dts: apple: t8122: Add PMU Device Nodes
+>> >       arm64: dts: apple: t604x: Add PMU Device Nodes
+>> >       arm64: dts: apple: t8132: Add PMU Device Nodes
+>> >       arm64: dts: apple: t8140: Add PMU Device Nodes
+>> >
+>> Maybe the folder should be renamed to 'apple_arm' or something like
+>> that?
+>>
+> What do you mean by this? What folder are you referring too? If you mean
+> the device tree's, they're already under the arm64 folder, so apple_arm
+> seems redundant. If you mean the CPU PMU name, I get that, but I'm not
+> sure how to change that, given it's already hard coded with the config
+> option `APPLE_M1_CPU_PMU`. I feel like changing its name at this point
+> would cause backwards compatibility issues around kernel
+> configs/blacklists if people use them.
 
-[...]
+Sorry, brain fart. I meant the file apple_m1, to consider splitting
+it up into multiple files. It's no big deal though :)
 
-> Reset the counter when a flowring is created. Give each flowid a
-> generation that goes up when the flowid is released, and keep it in the
-> tx pktid of every packet posted to the flowring. A tx status of an older
-> generation still releases its packet, but no longer touches the counter.
-
-Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
-
-> Signed-off-by: Kordian Chmielewski <kudzo51@gmail.com>
-> ---
->  .../wireless/broadcom/brcm80211/brcmfmac/msgbuf.c  | 36 +++++++++++++++++++++-
->  1 file changed, 35 insertions(+), 1 deletion(-)
+-Josh
