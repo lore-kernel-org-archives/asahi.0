@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919776;
-	b=1cCwLg8OfDlQ9khFetPUzBj/vhE5ZpT0GCRXpFMS3M2GBkXjptaKNDEV5AaH0yE90iRn
-	 6bUrgtWvE03+nT3jL8HoSY5k84v2LOhQ/UoGr5CnSBwdL2XlBoGXg1OOy3MGog4dtCxVd
-	 Kr3LX1fRWrtX8L3ETQPdyFaS7UiQgB8k80ks/qvRXPMBOodHCOfTvzSuCQFkC1wE7PMKt
-	 4D8pceeCUuLt3pQMUemJJbPZLBAaJtuwyPwdadDoj8AgptxFaZIRmtopAMpZiFApThaLS
-	 jxNc6gbgEJJaOHw5OIJFacTRwc0hqTgBjSU3AZBTB5zdqtvNBFI873Yd29qyYFZ+YVw==
+	t=1794919819;
+	b=FLc9iNVED8tjVbXORalO9WJwuwHHyn8d7/b4HYcrw44mZAnUQXQAKZe1m3vw6N1+Tlnc
+	 /DmOgEGNpSsKvstCrItZ/e8UfejUH2a3xASZOExEpDTrjhJVQIIzMXlYSybq/72PulgVF
+	 PI1nQuGcGrMOzhHxAfdVYE0i6KNIzcOQ3eDnJtrZMRaKPNeSrEh98S7udpm9vfz8HT1ID
+	 dQcN52n+BzW4/HWTruSwTuZf5Z3t7rZaQcLa2KmpZLyKl1Lujfey0wHW3rgxkhwDdR1Fd
+	 SiSeNf3+Evq1TPWVuoMu0ON5sW9d0EzRVY0iNmceFEiNv/NbTZt1U+r0xzkfjky3x3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919776;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919819;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=NDXZE5uN16UvOOflyM5pOpVzOkug8tVrjeti6ZNqlOk=;
-	b=fpND4qIDHh/DyFx0UeLNwCL1bmCLwE8FA9Y/I8zfSPFuX0TRDHDYBiO8+aUAa5EPN7Cq
-	 4VsLfgYUmlNAl7nda0+Y6Sto515Wmj9pXDLz1sLSPmIt6QDcBKYQfLPtm7Opqu3rnpRY5
-	 K3OAQkbWsHsQPgR0yBYsLq8jP+E5oFNmuN4F7PIfuAtG8ri9rQuwiGCQD774dTppK4Y5w
-	 7QmwKlIB+V7hL8xSc09GHn4kWMB5R9Qrn3nz3nSy3TAzQc7RPxIxXvm/xlvH6C+QiGEFJ
-	 itaVxivl41aQeTnCuR5uaANS6oqSVWNtMXzB/SabV9A5QWsvZbA5fiOzt6gEhKxUi8g==
+	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
+	b=ZyCg43sUrcpMQZHiQwZJ/ig5AjpcpwF00el5En7VzrqmpcYffmBolMxtkqjzgKWO5tVU
+	 aF/nlfvrvssezL+bqLqpc6vOeZmzDaMK6wTyeBvsjppShNrJ1hq6fIf07xmC6umS97CYF
+	 35VN3AXZDjXE6eGucvRoLWStLVFQ/eQcRpQ4m63G0iy7lFLn4IDcvoAlVlen6C/MI/hLM
+	 cjcRfVOZuZDCi2QE+B/3xe6OMQx36Byl+trsKUEibbOv6OG++ytpYOPbSaNr//Jz3nr5U
+	 ZrWnKhxhWuBiCHRtE4aEVIJVO/meOs0yKRJlo3fyAOzdJxx3i03k4zi1fMSQq0881qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nut6pCgX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4655D606A329;
-	Tue, 17 Nov 2026 12:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60D606A323;
+	Tue, 17 Nov 2026 12:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nut6pCgX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B239E1F000C5;
-	Tue, 17 Nov 2026 12:49:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78701F000C4;
+	Tue, 17 Nov 2026 12:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919775;
-	bh=NDXZE5uN16UvOOflyM5pOpVzOkug8tVrjeti6ZNqlOk=;
+	s=k20260515; t=1794919818;
+	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Nut6pCgXoh+kAmsX2ASzjgctAD9VtVsFeGVHA5qIw8RWIYMcizQCIKD8DVf6sGKeX
-	 0FQg1J2QRXe7Q5DBP6zsRTZIJS1pfmVFrcKujmdIvKTMxWwkLuiA4d9nVjCIe8g/aJ
-	 oUyBOXJUpYA9eTMoHkleUYnF17c5Jr37AxJHqI2xQSxwyyC8Avda1Sgkf3e6cRuHDJ
-	 2vgivel8MK3Jkes3aeymyZ4yMs4F4LlUI+4sJcpl4frcHiENRc96E3LDUv4MKo7j9O
-	 12PuNHxAqKFyrxResu9VmopxolYSr7JBq+qz74DcC7PfumHlmJ/+mfip049tuhHMfY
-	 jT9EA79B31bSQ==
-Message-ID: <7bebe58b-6a87-4458-bd23-a672eaef8760@kernel.org>
-Date: Tue, 17 Nov 2026 13:49:29 +0100
+	b=TuePYClOw5kmn94UgSiQtLSegFdzSD4toN8mGQyksDl12VeOGoK6a4BdmfUILCJkV
+	 1gw4znUTt5s2B/7tr7XG8n7OgvM5wPt5xbhSe2XibLlIKaF7uIUOVlrHWVhUeJNVdE
+	 wmhdLxZgTNXAZqhAK7SPI8XLUOGKTj2Rwn1M0EILWLQh5KkuR8hO4ArkkxBiT+6yaM
+	 nfPJs2pu2sQDbW0BM8mVwhm42gm7Tf/XncG6IWgGmJ3GSTKAjGXHktSiImfUVlkNV5
+	 1ser9OuarpHiiSOjV+qxWqEX5qd+cwEHq1gxW8b33hyrMshlfNKGoPJk1YD4lp/juB
+	 FTaPLL+UOiYAQ==
+Message-ID: <62ff09ad-b2db-484b-9b27-6e8a3307b27b@kernel.org>
+Date: Tue, 17 Nov 2026 13:50:13 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -52,7 +52,7 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 21/22] arm64: dts: apple: t8112: Add USB4 ACIO and NHI
+Subject: Re: [PATCH v2 22/22] arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
 To: Sven Peter <sven@kernel.org>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -65,7 +65,7 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-21-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,36 +111,47 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-21-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/09/2026 20:36, Sven Peter wrote:
-> Add the ACIO host router, NHI, DART and mailbox nodes for both Type-C
-> ports on t8112 and connect the host routers to the Type-C connectors.
+> Add the ACIO host router, NHI, DART and mailbox nodes for the four ATC
+> instances on each t600x and t602x die and connect the host routers to
+> the Type-C connectors on the MacBook Pro (j314/j316 and j414/j416), Mac
+> Studio (j375 and j475), Mac mini (j474) and Mac Pro (j180d) boards.
+> 
 > Also describe the USB3 path from each host router to its DWC3 controller
 > so the NHI driver can create the required device link.
 > 
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |  95 ++++++++++++++-
->  arch/arm64/boot/dts/apple/t8112.dtsi      | 186 ++++++++++++++++++++++++++++++
->  2 files changed, 279 insertions(+), 2 deletions(-)
+>  arch/arm64/boot/dts/apple/t6002-j375d.dts      | 101 ++++++-
+>  arch/arm64/boot/dts/apple/t600x-dieX.dtsi      | 376 +++++++++++++++++++++++++
+>  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 158 ++++++++++-
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 205 +++++++++++++-
+>  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 304 +++++++++++++++++++-
+>  arch/arm64/boot/dts/apple/t6022-j475d.dts      |  10 +
+>  arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi     |  91 +++++-
+>  arch/arm64/boot/dts/apple/t602x-dieX.dtsi      | 376 +++++++++++++++++++++++++
+>  8 files changed, 1604 insertions(+), 17 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-> index 562e7a25a1e8..d0dc7eaaca35 100644
-> --- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-> @@ -13,6 +13,10 @@ / {
+> diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
+> index e6eb6b6c386d..93f07df1c006 100644
+> --- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
+> +++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
+> @@ -18,6 +18,10 @@ / {
 >  	aliases {
->  		atcphy0 = &atcphy0;
->  		atcphy1 = &atcphy1;
-> +		usb4-0-acio = &usb4_0_acio;
-> +		usb4-0-nhi = &usb4_0_nhi;
-> +		usb4-1-acio = &usb4_1_acio;
-> +		usb4-1-nhi = &usb4_1_nhi;
+>  		atcphy4 = &atcphy0_die1;
+>  		atcphy5 = &atcphy1_die1;
+> +		usb4-4-acio = &usb4_0_acio_die1;
+> +		usb4-4-nhi = &usb4_0_nhi_die1;
+> +		usb4-5-acio = &usb4_1_acio_die1;
+> +		usb4-5-nhi = &usb4_1_nhi_die1;
+>  	};
 
-Sorry, that's a no go. I will be removing all of these which were committed.
+Sorry, that's a no-go. NAK.
+
 
 Best regards,
 Krzysztof
