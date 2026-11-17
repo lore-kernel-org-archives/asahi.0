@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919819;
-	b=FLc9iNVED8tjVbXORalO9WJwuwHHyn8d7/b4HYcrw44mZAnUQXQAKZe1m3vw6N1+Tlnc
-	 /DmOgEGNpSsKvstCrItZ/e8UfejUH2a3xASZOExEpDTrjhJVQIIzMXlYSybq/72PulgVF
-	 PI1nQuGcGrMOzhHxAfdVYE0i6KNIzcOQ3eDnJtrZMRaKPNeSrEh98S7udpm9vfz8HT1ID
-	 dQcN52n+BzW4/HWTruSwTuZf5Z3t7rZaQcLa2KmpZLyKl1Lujfey0wHW3rgxkhwDdR1Fd
-	 SiSeNf3+Evq1TPWVuoMu0ON5sW9d0EzRVY0iNmceFEiNv/NbTZt1U+r0xzkfjky3x3Q==
+	t=1794919881;
+	b=B/uboSA+TWHp/0m1CWEhN+z7a3UeGz/txMj99g9nfB9Sj07nNwKHVhAG5KVDtVHDrjYE
+	 5c0ysMvaBPNQxyJeof3ONeMKGu+cMf+ZH9N0pY9jugcVfu0bx12qJ4xKq0hgsin9+xrw9
+	 gXCOAzmdIIkhPfeEFDfh8chdBv3XRq+wfi+oqHaC6suqg4CEz2LcD5u4dJmzYC9m6dlUg
+	 g8Als/Hxg9lieIkiUDXP+MpthnZQh9IPDvyvWyXMiSdbn1qd1mqfA26dr4cmoME3r0uWP
+	 4hghm6SxSLc32lRKDSV/tPIMzf4QxjLNomi7ZMr2wJV5G32vEJcLjgbJIFPjMsj1OKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919819;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919881;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
-	b=ZyCg43sUrcpMQZHiQwZJ/ig5AjpcpwF00el5En7VzrqmpcYffmBolMxtkqjzgKWO5tVU
-	 aF/nlfvrvssezL+bqLqpc6vOeZmzDaMK6wTyeBvsjppShNrJ1hq6fIf07xmC6umS97CYF
-	 35VN3AXZDjXE6eGucvRoLWStLVFQ/eQcRpQ4m63G0iy7lFLn4IDcvoAlVlen6C/MI/hLM
-	 cjcRfVOZuZDCi2QE+B/3xe6OMQx36Byl+trsKUEibbOv6OG++ytpYOPbSaNr//Jz3nr5U
-	 ZrWnKhxhWuBiCHRtE4aEVIJVO/meOs0yKRJlo3fyAOzdJxx3i03k4zi1fMSQq0881qg==
+	bh=AunZlTmFqRUvkgpDIQ0BwDlzDcego4W6mpMBmkXYiRc=;
+	b=mP4aO0Gzg048hb820gbdh4sKokI34B25K+OY+Dip/7YwN6Z9RA44qT1G2XZ1o2V2lNhH
+	 OdMlNNB5CylUxPxwLXiITE939h6xCzotPAfoSv9mG6q6xPF6EPtW82kanRnzSVsGDzVPc
+	 gizb/KqHBPM65FdZgOOAByXXYXm581udj1KQsexgWbbDVzrMuhMgC1R0OauHDAK4+wNt0
+	 +qflIFrQLushSN2rH+hZJyJ63mQdRepOCa6he97qFwbTQu78no7F+oo3pjrk+1lfTS6ZK
+	 3UmnSnmfjh1IC78u/3k2KPIb9AXNzuz+GWTNWQNBF4/UCenHwAhffB3SHWmhykiG1Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l466RdzF;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B60D606A323;
-	Tue, 17 Nov 2026 12:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92366606A894;
+	Tue, 17 Nov 2026 12:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuePYClO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78701F000C4;
-	Tue, 17 Nov 2026 12:50:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l466RdzF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E5431F000C4;
+	Tue, 17 Nov 2026 12:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919818;
-	bh=YB4Rm6hbxOLC4r10E9y/WD3nBCBmdRshrgHd962ScF8=;
+	s=k20260515; t=1794919881;
+	bh=AunZlTmFqRUvkgpDIQ0BwDlzDcego4W6mpMBmkXYiRc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TuePYClOw5kmn94UgSiQtLSegFdzSD4toN8mGQyksDl12VeOGoK6a4BdmfUILCJkV
-	 1gw4znUTt5s2B/7tr7XG8n7OgvM5wPt5xbhSe2XibLlIKaF7uIUOVlrHWVhUeJNVdE
-	 wmhdLxZgTNXAZqhAK7SPI8XLUOGKTj2Rwn1M0EILWLQh5KkuR8hO4ArkkxBiT+6yaM
-	 nfPJs2pu2sQDbW0BM8mVwhm42gm7Tf/XncG6IWgGmJ3GSTKAjGXHktSiImfUVlkNV5
-	 1ser9OuarpHiiSOjV+qxWqEX5qd+cwEHq1gxW8b33hyrMshlfNKGoPJk1YD4lp/juB
-	 FTaPLL+UOiYAQ==
-Message-ID: <62ff09ad-b2db-484b-9b27-6e8a3307b27b@kernel.org>
-Date: Tue, 17 Nov 2026 13:50:13 +0100
+	b=l466RdzFCP56bJ2OgrWBqgegMLQqnBvWZsX076mDg4ckijYkpTDN8qXfLeBdhCcsA
+	 C420sOET1ohmffKb2ufw3OhOysGpl/RTT2aJFZ9OXGpB6KeOcWP/BsqjDeoypixiuD
+	 3H5Ntv61uvhO1xhOFciwJNbOHsxX+BxeLFO7hutYhO0yMrdzp9Vp/PgRHBxWW+iZqj
+	 1ejCBSZI9oTew1CoW3Wa3FM59+9NVAYpT0NilZoG1u8/3az5sQ/HGy9NkmOyLNuCw2
+	 fSupoxA6S5SMJ9O5+BssHUi7yLWpskY3fbUAQ3OuL686y0v8EqcWsfJtUGzzfMDMJN
+	 xyR6wWVNkFeUw==
+Message-ID: <324baf32-6cf7-40d6-adcf-d709ff2a1950@kernel.org>
+Date: Tue, 17 Nov 2026 13:51:14 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -52,20 +52,22 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 22/22] arm64: dts: apple: t60xx: Add USB4 ACIO and NHI
-To: Sven Peter <sven@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 05/22] dt-bindings: thunderbolt: Add Apple
+ USB4/Thunderbolt NHI
+To: "Rob Herring (Arm)" <robh@kernel.org>, Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Neal Gompa <neal@gompa.dev>, Konrad Dybcio <konradybcio@kernel.org>,
+ devicetree@vger.kernel.org, Joshua Peisach <jpeisach@ubuntu.com>,
+ asahi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+ Mika Westerberg <westeri@kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+ <178968425120.4102150.11013505530489451162.robh@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,47 +113,39 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-22-1f80085f93fb@kernel.org>
+In-Reply-To: <178968425120.4102150.11013505530489451162.robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 06/09/2026 20:36, Sven Peter wrote:
-> Add the ACIO host router, NHI, DART and mailbox nodes for the four ATC
-> instances on each t600x and t602x die and connect the host routers to
-> the Type-C connectors on the MacBook Pro (j314/j316 and j414/j416), Mac
-> Studio (j375 and j475), Mac mini (j474) and Mac Pro (j180d) boards.
+On 18/09/2026 00:30, Rob Herring (Arm) wrote:
 > 
-> Also describe the USB3 path from each host router to its DWC3 controller
-> so the NHI driver can create the required device link.
+> On Sun, 06 Sep 2026 20:36:28 +0200, Sven Peter wrote:
+>> The Native Host Interface (NHI) provides the TX and RX rings used by the
+>> software connection manager on Apple Silicon SoCs.
+>>
+>> The NHI is part of the ACIO host router and is exposed to the main SoC
+>> bus while the ACIO co-processor is running.
+>>
+>> T6000 and T6020 use one DART stream for the TX and RX control rings and
+>> one shared by all other rings, which are used for XDomain connections.
+>> This likely improves the isolation of those host-to-host connections.
+>>
+>> The M3 generation uses a slightly insane set of 24 IOMMU entries. These
+>> are probably one DART stream for each TX and RX ring.
+>>
+>> Signed-off-by: Sven Peter <sven@kernel.org>
+>> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+>> ---
+>>  .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml | 151 +++++++++++++++++++++
+>>  MAINTAINERS                                        |   2 +
+>>  2 files changed, 153 insertions(+)
+>>
 > 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> ---
->  arch/arm64/boot/dts/apple/t6002-j375d.dts      | 101 ++++++-
->  arch/arm64/boot/dts/apple/t600x-dieX.dtsi      | 376 +++++++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 158 ++++++++++-
->  arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 205 +++++++++++++-
->  arch/arm64/boot/dts/apple/t6022-j180d.dts      | 304 +++++++++++++++++++-
->  arch/arm64/boot/dts/apple/t6022-j475d.dts      |  10 +
->  arch/arm64/boot/dts/apple/t6022-jxxxd.dtsi     |  91 +++++-
->  arch/arm64/boot/dts/apple/t602x-dieX.dtsi      | 376 +++++++++++++++++++++++++
->  8 files changed, 1604 insertions(+), 17 deletions(-)
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > 
-> diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> index e6eb6b6c386d..93f07df1c006 100644
-> --- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> +++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-> @@ -18,6 +18,10 @@ / {
->  	aliases {
->  		atcphy4 = &atcphy0_die1;
->  		atcphy5 = &atcphy1_die1;
-> +		usb4-4-acio = &usb4_0_acio_die1;
-> +		usb4-4-nhi = &usb4_0_nhi_die1;
-> +		usb4-5-acio = &usb4_1_acio_die1;
-> +		usb4-5-nhi = &usb4_1_nhi_die1;
->  	};
 
-Sorry, that's a no-go. NAK.
-
+We might need to revoke the reviews. The implementation here adds
+undocumented and unapproved ABI - aliases.
 
 Best regards,
 Krzysztof
