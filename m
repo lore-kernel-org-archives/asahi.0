@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794919203;
-	b=MpyHwY0E1FNrk7HGHlxTSM4kVr+Xudu5V/8OYiwwGLSKnvDtOwuBDX6jU3B1eLx/xLrA
-	 LIiY6bAZkG0IOpPxH/C8v/BubVlgpAAy992vMOn31YK9w4ZJiY1mXSsBgh++XKl8b+NOU
-	 YZOVjN38vy0sRhOcIyhTRZLHnmoKPW61iMdvt841zIW3RNdeKrm3YT8FM/7ecqcoFC86J
-	 41x8y1uxLZD3jkR4Te24aM4WB6kgung6vYEaGr4N91D5T/Eg0e20uiDoHsostX9p+rHvc
-	 MEWQP5QiPW0GpHtazzitVCmsNimQAHwvZuy2Nk65R+585VvBoR2mWq/8XdlyAelQpaw==
+	t=1794919776;
+	b=1cCwLg8OfDlQ9khFetPUzBj/vhE5ZpT0GCRXpFMS3M2GBkXjptaKNDEV5AaH0yE90iRn
+	 6bUrgtWvE03+nT3jL8HoSY5k84v2LOhQ/UoGr5CnSBwdL2XlBoGXg1OOy3MGog4dtCxVd
+	 Kr3LX1fRWrtX8L3ETQPdyFaS7UiQgB8k80ks/qvRXPMBOodHCOfTvzSuCQFkC1wE7PMKt
+	 4D8pceeCUuLt3pQMUemJJbPZLBAaJtuwyPwdadDoj8AgptxFaZIRmtopAMpZiFApThaLS
+	 jxNc6gbgEJJaOHw5OIJFacTRwc0hqTgBjSU3AZBTB5zdqtvNBFI873Yd29qyYFZ+YVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794919203;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919776;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=iGrxTogpmY2qlz4NFTDy01opfwQQh22j9ywkzRRz+lU=;
-	b=2vJwbFxVozV5LomXB+ToXnTZZyTGnibzKiMCgdblvnUqpIQl7fKS0D1+1ruC0/BIGc2q
-	 ghCQ6fGIxJ55abjWI8i9mL9yL5BJyuO7OU4wtuckxCrG+TCWmXOtLWWasYeqbHg4R/sfQ
-	 VTR6whPj7KMijTeoEPjEmxBIPnGvDDoVORJmP7Rlf98b/LXgmXa9de8uf3ygR6vns4ojC
-	 zIj6UsXdI3HcKfCYnJA6yYmtSenIhlNsXIPsRFYsqQTb3BsY0nP7IYAoNkc6uhzg74hBF
-	 OB2sFo1jRPX9cUjrEixeh+oKO+fSbmnlMxwC4Jv37tjgyfY3ZrIshOqMYOzGYdRkSIw==
+	bh=NDXZE5uN16UvOOflyM5pOpVzOkug8tVrjeti6ZNqlOk=;
+	b=fpND4qIDHh/DyFx0UeLNwCL1bmCLwE8FA9Y/I8zfSPFuX0TRDHDYBiO8+aUAa5EPN7Cq
+	 4VsLfgYUmlNAl7nda0+Y6Sto515Wmj9pXDLz1sLSPmIt6QDcBKYQfLPtm7Opqu3rnpRY5
+	 K3OAQkbWsHsQPgR0yBYsLq8jP+E5oFNmuN4F7PIfuAtG8ri9rQuwiGCQD774dTppK4Y5w
+	 7QmwKlIB+V7hL8xSc09GHn4kWMB5R9Qrn3nz3nSy3TAzQc7RPxIxXvm/xlvH6C+QiGEFJ
+	 itaVxivl41aQeTnCuR5uaANS6oqSVWNtMXzB/SabV9A5QWsvZbA5fiOzt6gEhKxUi8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4srGreu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nut6pCgX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7D6606B447;
-	Tue, 17 Nov 2026 12:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4655D606A329;
+	Tue, 17 Nov 2026 12:49:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g4srGreu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB1E1F01834;
-	Tue, 17 Nov 2026 12:39:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nut6pCgX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B239E1F000C5;
+	Tue, 17 Nov 2026 12:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794919203;
-	bh=iGrxTogpmY2qlz4NFTDy01opfwQQh22j9ywkzRRz+lU=;
+	s=k20260515; t=1794919775;
+	bh=NDXZE5uN16UvOOflyM5pOpVzOkug8tVrjeti6ZNqlOk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=g4srGreuxToatVMIuAPDiO8eSqqmJs19koFwNky9XyMzCQow72SKEeWgUy+ulf3/l
-	 FQ8g9CYGyJO+trPjFlerdtrWuCgHi6pCBJpaytAudzfXWhTd9LZt+n1aPXJbVhdlH6
-	 OFtHy/2JltsmcdPHeCT1d3hQiigLKlqkOVJ20RMMc866fadpAJYx6R95sMHh/reTWa
-	 4BXYRguVwHEJPQvnPW6ZV75WOKkG7GJ1Ofcq8rDGmDFQc8fCX/394JH4lrWLIs7/kt
-	 puNyLPWlEHAi1Ey4bHWPp0MjouS9JH2SO6ncrklClyZdPtaVi5Hc8CWVyDO1S0+O3K
-	 YCW4qPX+1YfVg==
-Message-ID: <ef65915b-7a61-4f59-926c-375d654ce2d0@kernel.org>
-Date: Tue, 17 Nov 2026 13:39:56 +0100
+	b=Nut6pCgXoh+kAmsX2ASzjgctAD9VtVsFeGVHA5qIw8RWIYMcizQCIKD8DVf6sGKeX
+	 0FQg1J2QRXe7Q5DBP6zsRTZIJS1pfmVFrcKujmdIvKTMxWwkLuiA4d9nVjCIe8g/aJ
+	 oUyBOXJUpYA9eTMoHkleUYnF17c5Jr37AxJHqI2xQSxwyyC8Avda1Sgkf3e6cRuHDJ
+	 2vgivel8MK3Jkes3aeymyZ4yMs4F4LlUI+4sJcpl4frcHiENRc96E3LDUv4MKo7j9O
+	 12PuNHxAqKFyrxResu9VmopxolYSr7JBq+qz74DcC7PfumHlmJ/+mfip049tuhHMfY
+	 jT9EA79B31bSQ==
+Message-ID: <7bebe58b-6a87-4458-bd23-a672eaef8760@kernel.org>
+Date: Tue, 17 Nov 2026 13:49:29 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -52,7 +52,7 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/22] arm64: dts: apple: t8103: Add USB4 ACIO and NHI
+Subject: Re: [PATCH v2 21/22] arm64: dts: apple: t8112: Add USB4 ACIO and NHI
 To: Sven Peter <sven@kernel.org>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -65,7 +65,7 @@ Cc: Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-20-1f80085f93fb@kernel.org>
+ <20260906-b4-apple-soc-tbt-v2-21-1f80085f93fb@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,28 +111,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-20-1f80085f93fb@kernel.org>
+In-Reply-To: <20260906-b4-apple-soc-tbt-v2-21-1f80085f93fb@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/09/2026 20:36, Sven Peter wrote:
-> Add the ACIO host router, NHI, DART and M3 mailbox nodes for both Type-C
-> ports on t8103 and connect the host routers to the Type-C connectors.
+> Add the ACIO host router, NHI, DART and mailbox nodes for both Type-C
+> ports on t8112 and connect the host routers to the Type-C connectors.
 > Also describe the USB3 path from each host router to its DWC3 controller
 > so the NHI driver can create the required device link.
 > 
 > Signed-off-by: Sven Peter <sven@kernel.org>
 > ---
->  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi |  95 ++++++++++++++-
->  arch/arm64/boot/dts/apple/t8103.dtsi      | 184 ++++++++++++++++++++++++++++++
->  2 files changed, 277 insertions(+), 2 deletions(-)
+>  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |  95 ++++++++++++++-
+>  arch/arm64/boot/dts/apple/t8112.dtsi      | 186 ++++++++++++++++++++++++++++++
+>  2 files changed, 279 insertions(+), 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-> index 686fb1dd215d..01c942b0a75b 100644
-> --- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-> @@ -17,6 +17,10 @@ aliases {
->  		wifi0 = &wifi0;
+> diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+> index 562e7a25a1e8..d0dc7eaaca35 100644
+> --- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+> @@ -13,6 +13,10 @@ / {
+>  	aliases {
 >  		atcphy0 = &atcphy0;
 >  		atcphy1 = &atcphy1;
 > +		usb4-0-acio = &usb4_0_acio;
@@ -140,11 +140,7 @@ On 06/09/2026 20:36, Sven Peter wrote:
 > +		usb4-1-acio = &usb4_1_acio;
 > +		usb4-1-nhi = &usb4_1_nhi;
 
-Sorry, but what is this all atcphy and usb4-foo doing here? You do not
-get own undocumented aliases.
-
-How did this sneaked through... where do you have DT bindings maintainer
-acks on this ABI?
+Sorry, that's a no go. I will be removing all of these which were committed.
 
 Best regards,
 Krzysztof
