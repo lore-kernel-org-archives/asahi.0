@@ -1,116 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794920784;
-	b=mwKNfwLRIpi1LO5V89bww7FzcRr3e+hXV0OoNl54tVET+me00q2Q2KDEqpcZWB3dZLCm
-	 uYDMrSnfCqUPu76gMGCD9ZqxWajk2LbCRRdbyIh0fxC8TuaYvfYz0gVp9c3ZofOnA3TQ4
-	 L/g1+dKLdpFA07Ve+sR6K4AznNa6Fx7AgOzAbv2RJgpGeqazCtCYy62VKD/OG2DPQ6Fkl
-	 3Z3jGvRW/7IozbHMM+JTHjNDK1CFDzPMYTdFfUtqW8BY7//R8VMgokagK1sfShJv6q3g0
-	 41NzWgtCNwfFzrR2to32JQwj5cFeyGPEOrzqyWSZ1s7nwc8V9vGNDfJXAb+3xse35zA==
+	t=1794921782;
+	b=gPgq/ANQK64RD0hd8FUdwylqEI6Vh7IoGmifGznv6qHh0iY/LW4js+C23NfykBE/rkXM
+	 iJ2trfY+qIzsp8TpQy00lcCTw3YaB4QyflcIuuiWEEb+SP0OnT02NfEU9ohmgJQAmDeZT
+	 q4iDGBfaWzVFqG6AM4g8uHNSnqzIzWPB4GLP/lNxf4lnLaJOH2LlA0ZEcEh/x2apjSWBH
+	 9Omrc0H3oxDTD/PpYjAC+crS4yYJk37dJ0l5Gon5Wri3mTc/qFAwxFBLJ5ZTgP7oiwSEC
+	 qOF7DoRdGEOenthdx3IMGOHo/sKXOPd2CwoEOJ0YBSNy3XFvcEGlTHixuzOFBOYqHSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794920784;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
-	 X-Developer-Key:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=CQNCc886Hmd2ERLzq4jw1PUvCGY+4w5fk+7KZKnHLwk=;
-	b=G1XoltuPRpFkSK0uzo3strd+N2JAPzLfJJoENqwfja5oSW2/hzHEU/TWcyq9tiux4rAB
-	 v2LarVxR69JDHYQmSel0zkkPqundIuXlUmxPpqmSL5S8ja0ILKMX5jTUM+fbhZIp/6BFB
-	 N9Gc9B/9qnzGmDRlBL3Y+mQsCNXF4u4q2dpPefOg03Ypq6UsUpRTO5Tba64hCAR6oE5ZT
-	 sRoxpRTFWUK/z061ClZeaYN7pjo0JbNaSHvxv5iu7Zf4MtNaILdB+BQeysihFMm1G6OaE
-	 DisBHX7ynANc66nZtuJv0e/XqQeCNzv5MtXkKkNpG9MDLG4WFj8j1dbXuYszr+jJq/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921782;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=rcC5LgWPdWSZHMv7xIAt2KV/AX/DvKKoKQ8foLqzlw4=;
+	b=qRWzv/SDMi6fzAs3g4fLiwrwUwfpWoWycYzVm3yFa+I9Q1cgJWcxkVeLGg5TEG/mix+q
+	 VwOxWtCyFyMyMJq91IjMn2d+IgNNJZsGqjh121g7Z4+hr0spHaGANGCPxNiSQ/jK/2xsU
+	 pwrqKoQH4KH5rqojq4AkVVwsyFt9WztgLW8WOLxrmEucAejFoEx6wLlfk8gwcjGeJElG+
+	 eApE//Nqzg1NpUjfZ94owP3YCs+CmhBVkDSfZQ2oxX8YBIN6G+rcdCRBnRc6RaO0prqFo
+	 q8AXKINvp4hmjFauIhsTUXkmadjGF+tjDAsGm67jQDQhUVgJgdSD7h0N5Evugg/SIdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GubjcS3W;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GDzNnaAp;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lTDn19do;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="w/rpPAMl";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lTDn19do;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="w/rpPAMl";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D37C606A32A
-	for <asahi@lists.linux.dev>; Tue, 17 Nov 2026 13:06:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D37C606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711DE606A31C;
+	Tue, 17 Nov 2026 13:23:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 711DE606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GubjcS3W;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GDzNnaAp
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AHC1LI8466618
-	for <asahi@lists.linux.dev>; Tue, 17 Nov 2026 13:06:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=CQNCc886Hmd2ERLzq4jw1PUvCGY+4w5fk+7
-	KZKnHLwk=; b=GubjcS3WWE//GTAtNVooXD6Dfo7xWxMD0xQSB3+z4b/XkFtE2Vf
-	E5oEAbrcgvPs6Hg2rFUlGD60XPEVEPezlRL5Go1CnsIKU1IQu1oBqb9gbtRWB26y
-	/rmZOsQew60thQTNvoPXehcYgbmq2Ufxh7M1hs9LjHvrkRT21sVSdmBLv6YSLAIY
-	w4JgPgVwvDwSkZXL/g75UBPuJDh5mbUl2jKnxBpHXpRoUsPE3JuSVsVR0XL552vf
-	UEnIg2N7dWfx/FyMMkZauIDFsAjANGjP87iNJM4+M2RPvNmiREP5hvoKZv6G6fAl
-	C3l5emmzK/xAYe4hSaQelPUoxAceqpcUfYg==
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com [209.85.222.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j09htk7p1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <asahi@lists.linux.dev>; Tue, 17 Nov 2026 13:06:22 +0000 (GMT)
-Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-990c957f129so584582241.1
-        for <asahi@lists.linux.dev>; Tue, 17 Nov 2026 05:06:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794920782; x=1795525582; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CQNCc886Hmd2ERLzq4jw1PUvCGY+4w5fk+7KZKnHLwk=;
-        b=GDzNnaApSPBU+QcZfFwfOYdWyxQJQwV2bJIxrKS4Rc/YTZXbIkIcyIGbiOvibWmZFF
-         zmGlxIr+8xOU6cHR12bg4xQ/BPfAQgFwCs7Mg1eYrVz8XISymQe9/RpzwBzwiGq4BBPz
-         QEH/uoyv7ESWuCvOzUcKdXDCKke+Rejm0XMXwOfUsJNKVrxc3yH5oJY157aJOKG3dGc1
-         yT2Au4ssyHnUUWsFMC6wpvt/rc1sc/583xzsTk5CgX7qrK9r17bnV2BssBSKtTY9Qx4S
-         fsn5kTiGt3PeMarG9L8SMjNhPgy+NWrGL9ivFsLT/BPhqlRsktFuIGu7uT/EYY+q00yi
-         4U3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794920782; x=1795525582;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CQNCc886Hmd2ERLzq4jw1PUvCGY+4w5fk+7KZKnHLwk=;
-        b=iPyuN7vztwXB1GWqYr6wBPToDjii97vOcWoiZ/1x81QvL7LmGg+ECfORUtzqC1oial
-         hZOQ6r74muEGpPc5dVcOeV0z78MX2arfA46lKS1YFEjEfsG+x5WdOE9fDk5egt20fgZI
-         CveIMow6CXWg9q1df3RDDyLFUnIE2q9NibAvCrmEYAQZhDPrN9ARx4Z8S77eCge/6OIW
-         +ELcYDS9yQTOMFLxy7POcuaNwHPVsorCr3itF7Z2mQMhIVxljKxI1yuXMpktV9Idqc4y
-         YSJMwP7PeriDgqhqS1ul8MNCkG0c3UUcgnbUCgQvUT343VEyPT1jVCrdX+5NUWayWNxD
-         72qg==
-X-Forwarded-Encrypted: i=1; AL+hErET0bfwclOSc3RStuvhjRffLH0QiEpRoWkwhmjWw+vLFfZaB4a+ak1syueBD/0mB6TgQCDhjQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+i/kiEOcJtOUAJYRKncZIFj4Z8YWLXWgVzcwCeC3Ok03P5jgyM
-	TNA2DaLEYNF/uEqCIybW0mGoJdZiS/tb1111w8tdqFz4V6uhXikc4iR4EJiJstuffYRjOmesGGB
-	3Z1LXZCH5j8S8gOIF5pOHn5/yGv0vLmpeniRU9ZJKCizb9wvtQj4FQDHuGA==
-X-Gm-Gg: AYBFou35e03j0299XfUW2A4rTwGB4YkoaWLphGEchLa1RyTUw3rHiMFR/NeuDvQQMlm
-	KA9uJ9cGs5K/HRSZ38zCgibajeOhJ5GVOcRq9KF2deZJdRrGm1rXxKTqUJOtSA0HbLAOB2PIGBH
-	qzX1evK9Ea5u4/ABI9/qV+j/nq++kQnUNZ/6cXduXUNeyu9v4WStjMb7O4qiOb+g4q8xwDN6MTk
-	sd+hfQrO2eNNEyreR6Pwp17EqztasQSMqpfBJ136NHUGFBJ6oicz5H0tKcpuSZ5T2Mo3rQci1pn
-	o4MDrzb/VFscca1yV14CjsUeplJfKtOTGX+1MXgHD/2KzXgeJfUZMT5/tWRaQDYf1wquik640UF
-	vx6itkLlQbDL6oUiWY2liASj2YkMfV+YcAjPtg1Kf4Aknv50s2H1yvO7mDXkN4w==
-X-Received: by 2002:a05:6102:2920:b0:7d2:fdb9:b189 with SMTP id ada2fe7eead31-7d69f850c5emr659930137.34.1794920781840;
-        Tue, 17 Nov 2026 05:06:21 -0800 (PST)
-X-Received: by 2002:a05:6102:2920:b0:7d2:fdb9:b189 with SMTP id ada2fe7eead31-7d69f850c5emr659906137.34.1794920781161;
-        Tue, 17 Nov 2026 05:06:21 -0800 (PST)
-Received: from quoll ([195.50.164.66])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7c23611casm5835117a12.9.2026.11.17.05.06.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 05:06:20 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-        Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] arm64: dts: apple: Remove undocumented, unapproved aliases
-Date: Tue, 17 Nov 2026 14:06:17 +0100
-Message-ID: <20261117130616.234953-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lTDn19do;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=w/rpPAMl;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=lTDn19do;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=w/rpPAMl
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1107222317;
+	Tue, 17 Nov 2026 13:22:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794921779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rcC5LgWPdWSZHMv7xIAt2KV/AX/DvKKoKQ8foLqzlw4=;
+	b=lTDn19doBb9OLIgrH9s1ydM77pm0B1t2S37Nl82CLFgSaf3S4En1q9hthKer8wb9gkaT7Y
+	/Kro6o+bEdwOXoy7w3MkaOyuuUXbNMeIFCaiwwPj2Cj8JhK19MtJ4nrfUdPmxw+1z+3HJM
+	zQ+mW7XQ9Ufy2JUUHRhDf/9PG+BZ7BM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794921779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rcC5LgWPdWSZHMv7xIAt2KV/AX/DvKKoKQ8foLqzlw4=;
+	b=w/rpPAMlvECO03bBuWSR5aJcmVie5v1W1Q6fU4W8MSpK9ZAUZCLJjaH840/cVShHHDiHCI
+	2mHuazqbaSOhJ+Aw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794921779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rcC5LgWPdWSZHMv7xIAt2KV/AX/DvKKoKQ8foLqzlw4=;
+	b=lTDn19doBb9OLIgrH9s1ydM77pm0B1t2S37Nl82CLFgSaf3S4En1q9hthKer8wb9gkaT7Y
+	/Kro6o+bEdwOXoy7w3MkaOyuuUXbNMeIFCaiwwPj2Cj8JhK19MtJ4nrfUdPmxw+1z+3HJM
+	zQ+mW7XQ9Ufy2JUUHRhDf/9PG+BZ7BM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794921779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=rcC5LgWPdWSZHMv7xIAt2KV/AX/DvKKoKQ8foLqzlw4=;
+	b=w/rpPAMlvECO03bBuWSR5aJcmVie5v1W1Q6fU4W8MSpK9ZAUZCLJjaH840/cVShHHDiHCI
+	2mHuazqbaSOhJ+Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A1BF1334C;
+	Tue, 17 Nov 2026 13:22:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jinhLy9V/GobdgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 17 Nov 2026 13:22:55 +0000
+Message-ID: <47f0b548-2ce5-4a71-864c-7c98c267c666@suse.de>
+Date: Tue, 17 Nov 2026 14:22:55 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -120,204 +106,333 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5232; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=clfI8+19pJhAA+hV4S1Z6XrUeG5urAAHKTU1TXEfHlo=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq/FFJYgi+OqbMxgoQ89jlVKosb2EARn5KZIaER
- f9mvb0IWpyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCavxRSQAKCRDBN2bmhouD
- 15HhD/9oH1BS9LqVZQUmtukQ4pBKCTUnveLA8banunKm54eECmroM6X+THHC/UIfkgTIp9t3WUn
- FSAhCkt01Vr+dQbCnSu8lY0JPjnuMK2wOaKZZZPHzbmUchlIfqpOjq4pwoom4AkX4Es+RmEXl+j
- 3LJQNF3/DGw6d+YsEHxGCl0WNBqqCrIdTR5USi8kFXSbmIh8uFOo8iSvTcpZEXHhsw4o/m29O6g
- 5fyalqopdTAJslaGkcPPy9E3NeMmGWWz52a+CAvcw+p111gRGN1W+j9JWpsEiJ09ukzCofT+zQ+
- 5b4BmJXEOPUs2GkA1d5TTbF6w96/IsN0DNRdqHHOTj8EztnF+k2+Jvx4GFFruuDI9nCvIh0snBD
- x9PQTybp61IT07uCgumlUt4Hjfsl86eagESaE5Jo6xdDPPG38hvO4f60NY2r/sbayH6VETvYHD9
- Iz+2mdtArDeIRmNrl3G7LtqmzAj8T9IZ1yJq8r9zPsHiD5zemQ5gPtSBOK+k/7Z3qtjpmJiMJC3
- IGSdHVCHvrBRzXMFBS+bmH3TXODB+w588WrxwZ0Nr+3RMdUyb8lkWdsnwm6swZutHZsdrHl1+0A
- OtNrIpUmuNoRSr0v7+QrE+J+kaaXEV01l7HPe+6ltJVVgj/OfTs2Tfw1F3DcQNEtxEbl8i9dG/k 34eoEYM979TDAuw==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/64] drm: Switch drivers to
+ drm_mode_config_create_initial_state
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>,
+ Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ sashiko-bot@kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>,
+ Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Yongbang Shi <shiyongbang@huawei.com>, Dexuan Cui <decui@microsoft.com>,
+ Long Li <longli@microsoft.com>, Saurabh Sengar
+ <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org,
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, imx@lists.linux.dev,
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Paul Kocialkowski <paulk@sys-base.io>, Huacai Chen <chenhuacai@kernel.org>,
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>, Jianmin Lv <lvjianmin@loongson.cn>,
+ Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>,
+ Xi Ruoyao <xry111@xry111.site>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Dmitry Baryshkov
+ <lumag@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ nouveau@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, Geert Uytterhoeven
+ <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ David Lechner <david@lechnology.com>, Iker Pedrosa <ikerpedrosam@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org,
+ Jyri Sarha <jyri.sarha@iki.fi>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Alex Lanzano <lanzano.alex@gmail.com>, LiangCheng Wang <zaq14760@gmail.com>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin
+ <zack.rusin@broadcom.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Michal Simek <michal.simek@amd.com>
+References: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDA1MiBTYWx0ZWRfX0dnGEq5Qj1rx
- wT9F3Zj30i11T+Ks0oXgyYlemqRbIZU5wYe6AEp7xe1N2XgGKSG6/bbXf4S65e4jJWtA3wk99HM
- cor8IXboiwLu5WASrTaz0Rt3ds98d7o=
-X-Proofpoint-ORIG-GUID: Vk8EflOTkj86ooX3piYzIac8vH9GfTqj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDA1MiBTYWx0ZWRfX0S8xMu4HsOIq
- Gyc8zEuQ4jFtTXtbpSIMQ82FClE1BkpvcFsfQHlz7mnw8SawOjt/MH2HXfEpGEib7Qb99dJBtBm
- 7bMsJePQfpfpqvJHgLdjsiJ23AOPxD5Vtl3mHfeFC0kYXgJvoEHbny8YMByqOx6Ktdnu6rA2bKX
- zjcK/4vpuneBjlxZe8jtJZlny+H4b9SJ7rJCnlPmjTuowgOuNUYU6mVB8zVoISOcENXESbOVGOq
- FFWDVZahpXw/Epk/BALkTWTJn5cWDlDNQ/zClDg6WoOnkxBsrmIY0gZ8WYvyjlqOiz8CIqCf3gI
- s9IbZplTyn4IBlPmxB0HU/OLgIJ2ok+zqBWrPNROnK3RkmXTm70HUno7p2ZomzkkXZi3cOvpYvT
- Jjr2u2kn36HP4ODMogZjIzKB5Hedlb1tuePN8jNm5Dkbx1h/ubzPxJRWzvHubKCvNTGiIHuctXg
- AN1iVzMLfx1KkzaJtHw==
-X-Authority-Analysis: v=2.4 cv=K963jCWI c=1 sm=1 tr=0 ts=6afc514e cx=c_pps
- a=R6oCqFB+Yf/t2GF8e0/dFg==:117 a=Jk2/TV77q6/E6wQq2oQJxQ==:17
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=Zz3YpKYli0cBJYq3SAkA:9 a=TD8TdBvy0hsOASGTdmB-:22
-X-Proofpoint-GUID: Vk8EflOTkj86ooX3piYzIac8vH9GfTqj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-17_02,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611170052
+X-Spamd-Result: default: False [-11.79 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[suse.de:email,suse.com:url,imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,jannau.net,chaosmail.tech,lists.linux.dev,amd.com,kernel.org,arm.com,armlinux.org.uk,redhat.com,samsung.com,linaro.org,vger.kernel.org,nxp.com,agner.ch,hisilicon.com,huawei.com,microsoft.com,linux.microsoft.com,gmail.com,pengutronix.de,crapouillou.net,intel.com,sys-base.io,iscas.ac.cn,loongson.cn,aosc.io,xry111.site,collabora.com,linux.dev,somainline.org,oss.qualcomm.com,poorly.run,ideasonboard.com,glider.be,bp.renesas.com,lechnology.com,linux.alibaba.com,foss.st.com,sholland.org,nvidia.com,iki.fi,synopsys.com,chromium.org,broadcom.com,epam.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLy3j4wzmyjqg3bxpokuu7brne)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[104];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:email]
+X-Spam-Score: -11.79
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-The atcphy and touchbar aliases were never approved by Devicetree
-maintainers, because they were never documented as actual ABI.  Drop
-them, because no new custom aliases are allowed for years now.
+Hi Maxime
 
-This might break users of this undocumented ABI, so these should be
-updated to use only documented and approved ABI.
+Am 16.11.26 um 11:30 schrieb Maxime Ripard:
+> drm_mode_config_reset() has a dual role: it creates the initial KMS
+> state at probe time, and resets hardware and software state during
+> suspend/resume cycles. However, the two roles need different
+> behaviors, notably for objects like drm_private_obj that must persist
+> across suspend/resume and are excluded from drm_mode_config_reset()
+> by design.
+>
+> Previous series introduced drm_mode_config_create_initial_state() to
+> handle only the initial state creation at probe time, including
+> drm_private_obj. Unlike drm_mode_config_reset(), it returns an error
+> code, allowing drivers to properly handle allocation failures.
+>
+> This series switches all drivers calling drm_mode_config_reset() at
+> probe time to drm_mode_config_create_initial_state(). The conversion
+> was done using a Coccinelle semantic patch.
+>
+> This is part, and the final piece, of a larger transition to remove the
+> overloaded reset semantics from the KMS subsystem, following similar
+> series for planes, CRTCs, connectors, and bridges.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- arch/arm64/boot/dts/apple/t6002-j375d.dts      | 4 ----
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 4 ----
- arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 4 ----
- arch/arm64/boot/dts/apple/t6022-j180d.dts      | 8 --------
- arch/arm64/boot/dts/apple/t6022-j475d.dts      | 4 ----
- arch/arm64/boot/dts/apple/t8103-j293.dts       | 8 --------
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi      | 2 --
- arch/arm64/boot/dts/apple/t8112-j493.dts       | 1 -
- arch/arm64/boot/dts/apple/t8112-jxxx.dtsi      | 2 --
- 9 files changed, 37 deletions(-)
+For the entire series:
 
-diff --git a/arch/arm64/boot/dts/apple/t6002-j375d.dts b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-index e6eb6b6c386d..9f0476e1ae2f 100644
---- a/arch/arm64/boot/dts/apple/t6002-j375d.dts
-+++ b/arch/arm64/boot/dts/apple/t6002-j375d.dts
-@@ -15,10 +15,6 @@
- / {
- 	compatible = "apple,j375d", "apple,t6002", "apple,arm-platform";
- 	model = "Apple Mac Studio (M1 Ultra, 2022)";
--	aliases {
--		atcphy4 = &atcphy0_die1;
--		atcphy5 = &atcphy1_die1;
--	};
- };
- 
- /* USB Type C */
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index caded1636f3d..1a745c6593fa 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -15,10 +15,6 @@ / {
- 	chassis-type = "laptop";
- 
- 	aliases {
--		atcphy0 = &atcphy0;
--		atcphy1 = &atcphy1;
--		atcphy2 = &atcphy2;
--		atcphy3 = &atcphy3;
- 		bluetooth0 = &bluetooth0;
- 		serial0 = &serial0;
- 		wifi0 = &wifi0;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-index 8a1494949e4c..3540edc56b0d 100644
---- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
-@@ -13,10 +13,6 @@ / {
- 	chassis-type = "desktop";
- 
- 	aliases {
--		atcphy0 = &atcphy0;
--		atcphy1 = &atcphy1;
--		atcphy2 = &atcphy2;
--		atcphy3 = &atcphy3;
- 		bluetooth0 = &bluetooth0;
- 		ethernet0 = &ethernet0;
- 		serial0 = &serial0;
-diff --git a/arch/arm64/boot/dts/apple/t6022-j180d.dts b/arch/arm64/boot/dts/apple/t6022-j180d.dts
-index f76b887429dd..0b1f1bc46270 100644
---- a/arch/arm64/boot/dts/apple/t6022-j180d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j180d.dts
-@@ -18,14 +18,6 @@ / {
- 	chassis-type = "server";
- 
- 	aliases {
--		atcphy0 = &atcphy0;
--		atcphy1 = &atcphy1;
--		atcphy2 = &atcphy2;
--		atcphy3 = &atcphy3;
--		atcphy4 = &atcphy0_die1;
--		atcphy5 = &atcphy1_die1;
--		atcphy6 = &atcphy2_die1;
--		atcphy7 = &atcphy3_die1;
- 		nvram = &nvram;
- 		serial0 = &serial0;
- 	};
-diff --git a/arch/arm64/boot/dts/apple/t6022-j475d.dts b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-index 32938a3bf96a..4fc9a42160ea 100644
---- a/arch/arm64/boot/dts/apple/t6022-j475d.dts
-+++ b/arch/arm64/boot/dts/apple/t6022-j475d.dts
-@@ -17,10 +17,6 @@ / {
- 	compatible = "apple,j475d", "apple,t6022", "apple,arm-platform";
- 	model = "Apple Mac Studio (M2 Ultra, 2023)";
- 
--	aliases {
--		atcphy4 = &atcphy0_die1;
--		atcphy5 = &atcphy1_die1;
--	};
- };
- 
- &framebuffer0 {
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 1d074b9e6018..779da65a66e3 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -18,14 +18,6 @@ / {
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
- 	chassis-type = "laptop";
- 
--	/*
--	 * All of those are used by the bootloader to pass calibration
--	 * blobs and other device-specific properties
--	 */
--	aliases {
--		touchbar0 = &touchbar0;
--	};
--
- 	led-controller {
- 		compatible = "pwm-leds";
- 		led-0 {
-diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-index 686fb1dd215d..5304a5591984 100644
---- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-@@ -15,8 +15,6 @@ aliases {
- 		serial0 = &serial0;
- 		serial2 = &serial2;
- 		wifi0 = &wifi0;
--		atcphy0 = &atcphy0;
--		atcphy1 = &atcphy1;
- 	};
- 
- 	chosen {
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index 7cea5c594810..b0c93788c72a 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -24,7 +24,6 @@ / {
- 	 */
- 	aliases {
- 		bluetooth0 = &bluetooth0;
--		touchbar0 = &touchbar0;
- 		wifi0 = &wifi0;
- 	};
- 
-diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-index 562e7a25a1e8..31d8d2aaf30b 100644
---- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
-@@ -11,8 +11,6 @@
- 
- / {
- 	aliases {
--		atcphy0 = &atcphy0;
--		atcphy1 = &atcphy1;
- 		serial0 = &serial0;
- 		serial2 = &serial2;
- 	};
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+
+> ---
+> Changes in v2:
+> - Fix some sashiko issues
+> - Link to v1: https://lore.kernel.org/r/20261105-drm-no-more-config-reset-v1-0-763560c2cc3f@kernel.org
+>
+> ---
+> Maxime Ripard (64):
+>        drm/adp: Switch to drm_mode_config_create_initial_state
+>        drm/amdgpu: Switch to drm_mode_config_create_initial_state
+>        drm/hdlcd: Fix drm_atomic_helper_shutdown() on the probe error path
+>        drm/hdlcd: Switch to drm_mode_config_create_initial_state
+>        drm/armada: Switch to drm_mode_config_create_initial_state
+>        drm/ast: Switch to drm_mode_config_create_initial_state
+>        drm/exynos: Switch to drm_mode_config_create_initial_state
+>        drm/fsl-dcu: Switch to drm_mode_config_create_initial_state
+>        drm/hisilicon/hibmc: Remove hibmc_unload() from the load error path
+>        drm/hisilicon/hibmc: Switch to drm_mode_config_create_initial_state
+>        drm/hyperv: Switch to drm_mode_config_create_initial_state
+>        drm/imx/ipuv3: Switch to drm_mode_config_create_initial_state
+>        drm/ingenic: Move the private object creation before the reset
+>        drm/ingenic: Switch to drm_mode_config_create_initial_state
+>        drm/kmb: Switch to drm_mode_config_create_initial_state
+>        drm/logicvc: Switch to drm_mode_config_create_initial_state
+>        drm/loongson: Switch to drm_mode_config_create_initial_state
+>        drm/mediatek: Switch to drm_mode_config_create_initial_state
+>        drm/mgag200: Switch to drm_mode_config_create_initial_state
+>        drm/msm: Switch to drm_mode_config_create_initial_state
+>        drm/nouveau: Switch to drm_mode_config_create_initial_state
+>        drm/omap: Switch to drm_mode_config_create_initial_state
+>        drm/qxl: Destroy the monitors object on the modeset init error path
+>        drm/qxl: Switch to drm_mode_config_create_initial_state
+>        drm/rcar-du: Switch to drm_mode_config_create_initial_state
+>        drm/rz-du: Switch to drm_mode_config_create_initial_state
+>        drm/shmobile: Switch to drm_mode_config_create_initial_state
+>        drm/st7571: Switch to drm_mode_config_create_initial_state
+>        drm/st7586: Switch to drm_mode_config_create_initial_state
+>        drm/st7735r: Switch to drm_mode_config_create_initial_state
+>        drm/st7920: Switch to drm_mode_config_create_initial_state
+>        drm/sprd: Switch to drm_mode_config_create_initial_state
+>        drm/sti: Fix drm_atomic_helper_shutdown() on the bind error paths
+>        drm/sti: Move drm_mode_config_create_initial_state() before drm_dev_register()
+>        drm/stm: Switch to drm_mode_config_create_initial_state
+>        drm/sun4i: Switch to drm_mode_config_create_initial_state
+>        drm/tegra: Switch to drm_mode_config_create_initial_state
+>        drm/tests: drm_atomic_state_test: Switch to drm_mode_config_create_initial_state
+>        drm/tests: drm_atomic_test: Switch to drm_mode_config_create_initial_state
+>        drm/tests: drm_bridge_test: Switch to drm_mode_config_create_initial_state
+>        drm/tests: drm_hdmi_state_helper_test: Switch to drm_mode_config_create_initial_state
+>        drm/tidss: Switch to drm_mode_config_create_initial_state
+>        drm/tilcdc: Switch to drm_mode_config_create_initial_state
+>        drm/arcpgu: Switch to drm_mode_config_create_initial_state
+>        drm/bochs: Switch to drm_mode_config_create_initial_state
+>        drm/cirrus-qemu: Switch to drm_mode_config_create_initial_state
+>        drm/gm12u320: Switch to drm_mode_config_create_initial_state
+>        drm/hx8357d: Switch to drm_mode_config_create_initial_state
+>        drm/ili9163: Switch to drm_mode_config_create_initial_state
+>        drm/ili9225: Switch to drm_mode_config_create_initial_state
+>        drm/ili9341: Switch to drm_mode_config_create_initial_state
+>        drm/ili9486: Switch to drm_mode_config_create_initial_state
+>        drm/mi0283qt: Switch to drm_mode_config_create_initial_state
+>        drm/panel-mipi-dbi: Switch to drm_mode_config_create_initial_state
+>        drm/pixpaper: Switch to drm_mode_config_create_initial_state
+>        drm/repaper: Switch to drm_mode_config_create_initial_state
+>        drm/sharp-memory: Switch to drm_mode_config_create_initial_state
+>        drm/udl: Switch to drm_mode_config_create_initial_state
+>        drm/vboxvideo: Switch to drm_mode_config_create_initial_state
+>        drm/verisilicon: Switch to drm_mode_config_create_initial_state
+>        drm/virtio: Switch to drm_mode_config_create_initial_state
+>        drm/vmwgfx: Switch to drm_mode_config_create_initial_state
+>        drm/xen: Switch to drm_mode_config_create_initial_state
+>        drm/xlnx: Switch to drm_mode_config_create_initial_state
+>
+>   drivers/gpu/drm/adp/adp_drv.c                      |  4 +---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  4 +++-
+>   .../amdgpu_dm/tests/amdgpu_dm_connector_test.c     |  3 ++-
+>   .../amdgpu_dm/tests/amdgpu_dm_mst_types_test.c     |  4 +++-
+>   drivers/gpu/drm/arm/hdlcd_drv.c                    |  9 +++++----
+>   drivers/gpu/drm/armada/armada_drv.c                |  4 +++-
+>   drivers/gpu/drm/ast/ast_mode.c                     |  4 +++-
+>   drivers/gpu/drm/exynos/exynos_drm_drv.c            |  4 +++-
+>   drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c          |  4 +++-
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  7 ++++---
+>   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c        |  4 +---
+>   drivers/gpu/drm/imx/ipuv3/imx-drm-core.c           |  4 +++-
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c          | 22 +++++++++++++---------
+>   drivers/gpu/drm/kmb/kmb_drv.c                      |  3 +--
+>   drivers/gpu/drm/logicvc/logicvc_mode.c             |  4 +++-
+>   drivers/gpu/drm/loongson/lsdc_drv.c                |  4 +++-
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  8 +++++++-
+>   drivers/gpu/drm/mgag200/mgag200_g200.c             |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200eh.c           |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200eh3.c          |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200eh5.c          |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200er.c           |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200ev.c           |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200ew3.c          |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200se.c           |  4 +++-
+>   drivers/gpu/drm/mgag200/mgag200_g200wb.c           |  4 +++-
+>   drivers/gpu/drm/msm/msm_kms.c                      |  4 +++-
+>   drivers/gpu/drm/nouveau/nouveau_display.c          |  4 +++-
+>   drivers/gpu/drm/omapdrm/omap_drv.c                 |  4 +++-
+>   drivers/gpu/drm/qxl/qxl_display.c                  | 11 +++++++++--
+>   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c      |  4 +++-
+>   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c       |  4 +++-
+>   drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  4 +++-
+>   drivers/gpu/drm/sitronix/st7571.c                  |  4 +++-
+>   drivers/gpu/drm/sitronix/st7586.c                  |  4 +++-
+>   drivers/gpu/drm/sitronix/st7735r.c                 |  4 +++-
+>   drivers/gpu/drm/sitronix/st7920.c                  |  4 +---
+>   drivers/gpu/drm/sprd/sprd_drm.c                    |  6 ++++--
+>   drivers/gpu/drm/sti/sti_drv.c                      | 10 ++++------
+>   drivers/gpu/drm/stm/drv.c                          |  6 +++++-
+>   drivers/gpu/drm/sun4i/sun4i_drv.c                  |  4 +++-
+>   drivers/gpu/drm/sun4i/sun4i_framebuffer.c          |  6 +++---
+>   drivers/gpu/drm/sun4i/sun4i_framebuffer.h          |  2 +-
+>   drivers/gpu/drm/tegra/drm.c                        |  4 +++-
+>   drivers/gpu/drm/tests/drm_atomic_commit_test.c     |  3 ++-
+>   drivers/gpu/drm/tests/drm_atomic_test.c            |  4 +++-
+>   drivers/gpu/drm/tests/drm_bridge_test.c            | 12 +++++++++---
+>   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  3 ++-
+>   drivers/gpu/drm/tidss/tidss_drv.c                  |  6 +++++-
+>   drivers/gpu/drm/tilcdc/tilcdc_drv.c                |  4 +++-
+>   drivers/gpu/drm/tiny/arcpgu.c                      |  4 +++-
+>   drivers/gpu/drm/tiny/bochs.c                       |  4 +---
+>   drivers/gpu/drm/tiny/cirrus-qemu.c                 |  4 +++-
+>   drivers/gpu/drm/tiny/gm12u320.c                    |  4 +++-
+>   drivers/gpu/drm/tiny/hx8357d.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/ili9163.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/ili9225.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/ili9341.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/ili9486.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/mi0283qt.c                    |  4 +++-
+>   drivers/gpu/drm/tiny/panel-mipi-dbi.c              |  4 +++-
+>   drivers/gpu/drm/tiny/pixpaper.c                    |  4 +++-
+>   drivers/gpu/drm/tiny/repaper.c                     |  4 +++-
+>   drivers/gpu/drm/tiny/sharp-memory.c                |  4 +++-
+>   drivers/gpu/drm/udl/udl_modeset.c                  |  4 +++-
+>   drivers/gpu/drm/vboxvideo/vbox_mode.c              |  5 ++++-
+>   drivers/gpu/drm/verisilicon/vs_drm.c               |  4 +++-
+>   drivers/gpu/drm/virtio/virtgpu_display.c           |  3 +--
+>   drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                | 14 +++++++++++++-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |  3 ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |  3 ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |  3 ---
+>   drivers/gpu/drm/xen/xen_drm_front_kms.c            |  4 +++-
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c                  |  6 ++++--
+>   74 files changed, 243 insertions(+), 115 deletions(-)
+> ---
+> base-commit: a8670a2ab1a81dc3fc30093e47c23b83244ca4d0
+> change-id: 20260712-drm-no-more-config-reset-1ea89f56693d
+>
+> Best regards,
+
 -- 
-2.53.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+
 
