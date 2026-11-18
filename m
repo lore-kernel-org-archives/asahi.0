@@ -1,65 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794961690;
-	b=p68s4a7n7gp9hHvXUywCYa67kGKjCm1LTyJMuOHNsNeZOjCrixk0chAOB8BsNIbl9WAC
-	 anOOlPZFZ6nSAqtZWH+9K7gkC4P3emYjdMnhHiZlwcqNteyRjYaa5pR4KI76VpnOs8rqE
-	 Q5/xhpr0SJtbCCGi4Rg/a+KV1Aja1htnq2kCIjx8m/Reqd7x2C2AnaKoYDog9FLaNigdg
-	 E+sgyoqTKpmv9BwyBCwpaOwtIsBj4fMDasnmksAt0ZuGveRBIAHZHzKMPEyu8zFtu4uN/
-	 6mhkGj8m1E7Wq4yJ8zXeUr1dN2T4dy4RYCzXjNtuYZn7QX5RruTnX/7ChEXT2SgXlJg==
+	t=1795000428;
+	b=soWVzYBaGoQxudtOVPdlKSDvgtQBSPjxOLTZud9DpC3j5KZhpIa/B/i9niTHPhWh9Lxg
+	 m7WwWRNjD8BFXRlL4SS4BI5MMHG2OMRycDNspDNePk/2aiZzVAmxRob1R627iOGTO3ejY
+	 mewo7KeFAjG02+cMrkZdbnVD2GdlT+1MVMFGnchFWrWC3rfpH7N1rkwAqOFA1wYW85gES
+	 D43lmXAgtkEvE13+3i27e3n9HUyadIiecXEI7aHWQ1bJBo2gFqMXXshkYehTvLOK9Yu9M
+	 +eNrb/gYKbbb0ZqBSkoME11pJ3k+zfUh9M1vu98LGM5JLu4316lvTiy23S9CCb/2HwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794961690;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=zvrOcLQ/9j6k4VzNeeZ4ubTA6xIn7QoQ0vI4b1H2fsY=;
-	b=Me1j3OzS9QK3w5/1xQR1wXKiUGDBxxDp3DK8OkNy+dnpyEKON1SXuZ6JnX8N1xGYtOZj
-	 NFgbvOF0yf2FSKFtObImX8wtRZ7SAM8tYeyVF425W9Uty0Rx13+PY8bI5xyoxFMJ+udi3
-	 sDyAf+Jxabdto/Cv+rfqN6RckJWwiRAv/JxmDhRMCnpwt64NneFhpycsoYu9qvW/PQefT
-	 c01Jxr47SsGKHo7TJyZyvLzPkoxI/GWqvM8kCPSXkLOXHjT9jvJazHri9Yq5bR3UiOFzI
-	 Z9/sijynZZjO9tqe8KGT+UPIPxddFqisOi/g4I05uyTgbgiVBQfWrkYtixssirCUbvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795000428;
+	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
+	 X-SA-Exim-Scanned;
+	bh=Emak8Lm259YoIJ5aFedEql1wejCbZp03w6luolSmcoo=;
+	b=Ei6+1U7xXCQwJpjZWxLTJ/pLqRDdXgSNEcbHHBHPix/6Iyh3gPvCI2wREvkwpsH/wo1g
+	 b2RPTbfJ21kzYlc/iHwC5akpLmir98a2NkukMDzVA6MtPCz3nmnOu7a7geHH1l5TCSO4z
+	 B4rPEkcY/cpQsd5EoGLpP7G+mdsUrEglzVBajpXBenAkRuixmUiHDUCfHFqWnFvxsf5a8
+	 8Sl24l6NWR4T759CqzcmDez/XhFlDjNouWs97+NyDvh+AcLiJFfDwjwl6TFloBvGsqTJx
+	 qEYpYdVw41HaKI758iREmnb9zuOpldhptWdUbhPUrrozzOKaqTOtf/ZvltJB+g3/JbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CyWRZB+O;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="jHYmmH/C";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31AE606A338;
-	Wed, 18 Nov 2026 00:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8127A606A31C;
+	Wed, 18 Nov 2026 11:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CyWRZB+O
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485621F000C5;
-	Wed, 18 Nov 2026 00:28:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jHYmmH/C
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C251F000C4;
+	Wed, 18 Nov 2026 11:13:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794961690;
-	bh=zvrOcLQ/9j6k4VzNeeZ4ubTA6xIn7QoQ0vI4b1H2fsY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CyWRZB+OjB6pp3PhlLCT/Z72vh+NaEvArJZGW2I2DVcYct7OiNcGxFxreT5ip9DnG
-	 ym13lqgDUy5shrdUtyD8G13JURZUb3jn/x0sRQxO2ZwvslSaUeqhwdU0H38K+66Or2
-	 RzSY20nyImy2ADM0IxfJGup9GdFjFk4+Vc5Lkie+pj/Y6TH8OeBJpQSYXkFyYAIjrI
-	 1L8odKslmyHqrfbGbzo6rRl94avCRuX4lM51PN6IX2CLqFSBm6Cjr5N7pLqchSb+x7
-	 MRyaYHceKVbRpNtf28lhhHabS0eaBMWscNZRV/ZvxCpEjpHLHFgyJMbcT8CP4MfP7g
-	 nWYJP0Vrpd8SA==
-Date: Tue, 17 Nov 2026 16:28:09 -0800
-From: Oliver Upton <oupton@kernel.org>
-To: Marc Zyngier <maz@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Michael Reeves <michael.reeves077@gmail.com>
-Cc: Myria Sarvay <myrialsarvay@gmail.com>,
-	Yureka Lilian <yureka@cyberchaos.dev>,
-	Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] arm64: Add KVM support for newer Apple Silicon
- CPUs
-Message-ID: <avzxGUgKHnSEnstK@kernel.org>
-References: <20261021-apple-m3-m4-kvm-v2-0-04905152cc2a@gmail.com>
- <179495264127.1456871.1866504028661732526.b4-ty@kernel.org>
+	s=k20260515; t=1795000428;
+	bh=Emak8Lm259YoIJ5aFedEql1wejCbZp03w6luolSmcoo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=jHYmmH/CEPhhkA1F8K8VYzo6YYE/AvQW1kkuC2JZXWBZwjm1c+nbxUS0AjGQHmPXi
+	 tu3TYIhPlm/n57dvSP9+IoyYSUsK/BKK5nzd0AROgWHBP7d8NkQoYVvKUBj4iv4lCq
+	 TZI4MkL4XlI3QhwmqmfCijlrudzXysUPPHFrwZthQzbUcrfr+1wiZw3yVbb/UHQbaA
+	 /+L/LYWBk9weInCbSqtTdVCUpSdY+bpP3VVIiyKX8Blh1ZS6M02BnRJrylWzO7yapj
+	 PE4PXTFvLmDk8C/qIMKChnU4zPK7Ki0C3gGgoFLwpkgDVx5XOyobvdnUAND90Rzp57
+	 N9mmUV5pU6W5A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xTdbl-0000000HUEo-2k8X;
+	Wed, 18 Nov 2026 11:13:45 +0000
+Date: Wed, 18 Nov 2026 11:13:45 +0000
+Message-ID: <865wxu1jfa.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: myrialsarvay@gmail.com
+Cc: Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	Yuvan Shen <yuvanshen09@gmail.com>
+Subject: Re: [PATCH v2 02/15] drivers/perf: apple_m1: Remove unused variables
+In-Reply-To: <20261107-m3-plus-pmu-events-v2-2-acf1e78da039@gmail.com>
+References: <20261107-m3-plus-pmu-events-v2-0-acf1e78da039@gmail.com>
+	<20261107-m3-plus-pmu-events-v2-2-acf1e78da039@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -68,35 +80,34 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179495264127.1456871.1866504028661732526.b4-ty@kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: myrialsarvay@gmail.com, will@kernel.org, mark.rutland@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, sven@kernel.org, j@jannau.net, neal@gompa.dev, linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, yuvanshen09@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Tue, Nov 17, 2026 at 01:57:24PM -0800, Oliver Upton wrote:
-> On Wed, 21 Oct 2026 10:53:19 +1100, Michael Reeves wrote:
-> > This series enables KVM support on Apple Silicon M3 (base, Pro and Max),
-> > base M4, A18 Pro and M5 Pro CPUs.
-> > 
-> > The first patch adds the CPU part numbers and MIDR definitions.
-> > 
-> > The second patch adds these CPUs to the existing Apple Silicon PMU and
-> > broken SEIS workarounds. It also enables TDIR detection so KVM can trap
-> > guest DIR accesses without trapping all common registers.
-> > 
-> > [...]
+On Sat, 07 Nov 2026 10:48:49 +0000,
+Myria Sarvay via B4 Relay <devnull+myrialsarvay.gmail.com@kernel.org> wrote:
 > 
-> Applied to next, thanks!
+> From: Myria Sarvay <myrialsarvay@gmail.com>
 > 
-> [1/2] arm64: Add CPU part numbers for newer Apple Silicon CPUs
->       https://git.kernel.org/kvmarm/kvmarm/c/61615311ce39
-> [2/2] arm64: Apply existing Apple Silicon CPU workarounds to newer CPUs
->       https://git.kernel.org/kvmarm/kvmarm/c/3a7b70524c54
+> These variables are calculated elsewhere as well, remove the extra dead
+> code.
+> 
+> Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
+> Fixes: a639027a1be1 ("drivers/perf: Add Apple icestorm/firestorm CPU PMU driver")
 
-Whoops, this was accidental since I had your changes applied locally for
-testing on an M4.
+Not quite. In this patch, the variables were very much in use. They
+became useless with 75ecffc361bbc ("drivers/perf: apple_m1: Refactor
+event select/filter configuration").
 
-Marc's next fixes pull for 7.4 will be the canonical patches.
+Please adjust the tag accordingly, or just drop it because this really
+isn't a fix, only a minor cleanup.
 
 Thanks,
-Oliver
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
