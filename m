@@ -1,95 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795038329;
-	b=TsqXoCwwCnsCoKwHFMuI7a/pYu7UhDl3wLmVOHize1C2iHtMUPbAWl2p7vmDft/RYUA9
-	 zwi6080K+eVdSLLQ0dLH0S9G9eS4X/DBveJ7RgVvZqqgkubg93oalxUmLYYax20xrNBA7
-	 yQ/wtKcrVNalJW4+IU4ls8YkBnY/3Ah+zf2nBWnQDdg+90e0ULuUK5O+QHx8a6nV0qApM
-	 uaoohnMZLqA+Vxr8E+srde3iAer4Quh+XH8a4D+wlcU67poM8BvcCxysrAkPbPaOM663w
-	 E/+jUIc6kFTUxk5uy/jJPnYAfEx+/6t6+VgOBKt8tCKpubVOJ2/I8bjYQ3pjYq09gUQ==
+	t=1795038383;
+	b=NVpIZgOlNBfvVta8nJAWwxdLdtHU7bFqxT+l8sRdU+98lsnmZqaDQVGL4fSHKT+jTAyR
+	 CqP59JfSzFm9YsF5BI7nldh28bfEi++fB8EGjSEE7MSqwT5cc0YmUpPl36Jg2W+kAvlfl
+	 lZVdJdVmiNV+2yPfjrxTqbcjKu1Q/+e9RA9jVje74fV4PwYX7HuYiXXo8PX94noN6hEVu
+	 CsDZ4yXdBd13dMWk138dvzxiAaN3aQYv3FhENtVUbuJKPaTStM/fkUN3JuH1iVJceB9us
+	 fet7E0+Q7NBqq3/z3zjUyhDZzJUngxmJ6xL8b0IxzazT0rpOws3wXFfV8NuxBh07YLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795038329;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795038383;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:Organization:
-	 Content-Transfer-Encoding;
-	bh=O9sP8o2+H5Ta33ZN1ksryRdsWFwtsjdH10Szd6V1FAU=;
-	b=0bwhCxDE0/zoe8qWoxdkFf4/b/k5KX7rFUsiDbhVX4p/Nj44vtadeFB5yif7GhfUph+E
-	 yUd+YzjC0mAl1SsUdmmUlxKgGzEnl9fVHaSHWna8PayfJqR5yHeIG46CbPtVe+JASB0TC
-	 2o/JvEtCjmhUEdvKYOnKljHPXQep0zFUYpg11j8uXHDUm+QotcOECMMwGZHYN/vPAhQYf
-	 lA52FiwmR31QsAcPSFuYOrjLL8R/UdnmjLSzy/NKpVeZgoOR7eT8TtK9o6zO0ooSN+NFx
-	 IZu4hFcEPPf6O5HEbqGcpebz38bZbiX6FkFzYgxPnvskT4xzYWl4eZ6TVerZtejgLiw==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Organization:Content-Transfer-Encoding;
+	bh=YVgg8kDI07SJ4vE8RPjDbnf1ZVWpYR1vOoJZ4UV0rB8=;
+	b=WOpVMdjuWRg6TFZsyckJFi7MIi1FENeKwe8Jwb9H2GRBOGln27cv6LbICNUxBnf8Euq5
+	 8zphdV7/YP6TzOYcNl6Ota7eg/nICZtk4dTAW7aIeG8yq3Wz9vsn78N5gmnDB5zvx0ceJ
+	 KUHA4g/6yG0KM+rNValzAnZNVGg3okKrZzpKw1KfKXUxY20aOAjuQPTZ390Dfml9rOMF0
+	 WQMxoTiZj+TKDMPH9QZ99WoKar7lIhAJhOzAK53WRGElQZlJnIWtD6JPHOCnL/5wZD6xX
+	 Kp6ubj20MFLvD/o1CRCkRSc0VfcnPCacycKlwW2GkYy3RwfuJ+4azOJiPu404y2Ju3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y76Q4IPO;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nZFyGRYB;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADF0606A331
-	for <asahi@lists.linux.dev>; Wed, 18 Nov 2026 21:45:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EADF0606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E91B606A325
+	for <asahi@lists.linux.dev>; Wed, 18 Nov 2026 21:46:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E91B606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y76Q4IPO
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nZFyGRYB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795038329; x=1826574329;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=E8Mi5GwSGcSZlzHnI46hbjXPMPdMhOLYxYEXR8H1SGA=;
-  b=Y76Q4IPO+q73eS/usnXkSvAMj9rzKw081uhrfdAMZ7vVeSLflj+YYa3r
-   I2FfsKa1fJqzaVx0rF237m7l0Kjg7NMIx0EgcLyYwDCIuZ5bGTtjJuREW
-   0Pj5WowP+5/Qw12z+PT/USpaXWPNO7tO1UCGdmFxpMUWqDA7xOZ62IHk9
-   iLyNo6cVBDVI5NaTGpKRgnZP7A25+BheY6Vg9Fyyo2ipuBwQjS2Pxx+yD
-   ze9AHaigMe1/ia1QaBptdLehnIw7XBotf8GcaTeVQcWmronz+ZvUkfmz3
-   F5vQt/yEBvRy/a6mdAgfpBOU3Ng1nNZjGGYonfgN/0zCSJx3IDIiIGavy
-   Q==;
-X-CSE-ConnectionGUID: KphTjVRVSbGqmBhLX93oDw==
-X-CSE-MsgGUID: UeK5jk1CSbG55qrGlR0hgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3862513"
+  t=1795038383; x=1826574383;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=fmGCYydggi6/pw14GpOKh+8TnEMcL+rruKPQvLKl0ag=;
+  b=nZFyGRYBgpGmFZSftTB6xiImDjZEsND3Mc59Pe5i5/k3HZc26gzW0xQW
+   SpI5oBNitsvklq3isKXAr4riFaz/6COZc0kRGuL1tuaUS7vK6aBGAR5bU
+   IyhgS8S4gk7AaEa+F2n1YqqFYV2IWksYc5QGpDB7k2D8Tr84KYvlLoF3z
+   mKnN9Vg6NjpPoeY/3LPpBf10XGRG6AY4ZRbafEQxQP63SupRVat0DUWJj
+   GlvKwkFVRSS0ocAke0P4788sMckfJZHXfnz8LPJL4sxLsMLwK89SM8l6a
+   KCiE8J/fLWVT2qdN2fWzmDaQVoK0xG2LtE1p8jN7zZnLfyZDUkUvfsK7X
+   A==;
+X-CSE-ConnectionGUID: qOZCujoVTNuYx5tqzPXhpA==
+X-CSE-MsgGUID: 8JxwDaxCS4SANnct4+xxhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3886668"
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3862513"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:45:28 -0800
-X-CSE-ConnectionGUID: 8ARsq6GQRFi7BBoNvbfCfQ==
-X-CSE-MsgGUID: 5Dh0BXP9QGu7NcXtqx61Mg==
+   d="scan'208";a="3886668"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:46:23 -0800
+X-CSE-ConnectionGUID: MNFJ9UuDSyaAj9EA3Tlfdg==
+X-CSE-MsgGUID: Lk9NsYEZSqqjq4KYuuo95A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10390641"
+   d="scan'208";a="10157286"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:45:21 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:46:20 -0800
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Alessio Belle <alessio.belle@imgtec.com>,
-	Alison Wang <alison.wang@nxp.com>,
-	asahi@lists.linux.dev,
-	Danilo Krummrich <dakr@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	imagination@lists.freedesktop.org,
+Cc: Sasha Finkelstein <k@chaosmail.tech>,
 	Janne Grunau <j@jannau.net>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Luigi Santivetti <luigi.santivetti@imgtec.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	nouveau@lists.freedesktop.org,
-	Paul Cercueil <paul@crapouillou.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Stefan Agner <stefan@agner.ch>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH v4 00/20] drm: Increase COMPILE_TEST=y coverage
-Date: Wed, 18 Nov 2026 23:44:57 +0200
-Message-ID: <20261118214518.29317-1-ville.syrjala@linux.intel.com>
+	asahi@lists.linux.dev
+Subject: [PATCH v4 11/20] drm/adp: Include linux/bitfield.h
+Date: Wed, 18 Nov 2026 23:45:08 +0200
+Message-ID: <20261118214518.29317-12-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261118214518.29317-1-ville.syrjala@linux.intel.com>
+References: <20261118214518.29317-1-ville.syrjala@linux.intel.com>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -105,89 +87,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-This series contains a few of my earlier COMPILE_TEST=y coverage
-patches that are still not applied. I've also included whole new
-set of patches based a more recent excursion with Claude. It
-managed to identify some additional drivers we can target.
+adp_drv.c uses FIELD_GET() but doesn't include linux/bitfield.h,
+relying on an indirect include that isn't present on all
+configurations. Include it explicitly so the driver can be built
+with COMPILE_TEST=y on other architectures.
 
-Compile tested on x86-32, x86-64, arm, and arm64, and I've also 
-tried to silence all the resulting new compiler and sparse warnings.
-Also a few kernel-doc warnings crept up in pvr so also tried to
-clear those out.
-
-The tilcdc DT change is the only one that I think might have
-any functional impact. And since I have zero idea about DT
-treat it with suspicion!
-
-Assisted by Claude Sonnet 5.5
-
-Cc: Alessio Belle <alessio.belle@imgtec.com>
-Cc: Alison Wang <alison.wang@nxp.com>
-Cc: asahi@lists.linux.dev
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: imagination@lists.freedesktop.org
-Cc: Janne Grunau <j@jannau.net>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-mips@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: Luigi Santivetti <luigi.santivetti@imgtec.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: nouveau@lists.freedesktop.org
-Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Russell King <linux@armlinux.org.uk>
 Cc: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Janne Grunau <j@jannau.net>
+Cc: asahi@lists.linux.dev
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/adp/adp_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Ville Syrjälä (20):
-  drm/tilcdc: Allow build without __iowmb()
-  drm/tilcdc: Drop volatile from the mmio pointer in tilcdc_write64()
-  drm/tilcdc: Use __le64 for the fallback 64bit write
-  drm/tilcdc: Fix endpoint node names in the legacy panel overlay
-  drm/tilcdc: Allow build with COMPILE_TEST=y
-  drm/armada: Fix printk arguments
-  drm/armada: Fix armada_debugfs_crtc_reg_write() return type
-  drm/armada: Fix sparse __iomem address space warnings
-  drm/armada: Allow build with COMPILE_TEST=y
-  drm/fsl-dcu: Allow build with COMPILE_TEST=y
-  drm/adp: Include linux/bitfield.h
-  drm/adp: Allow build with COMPILE_TEST=y
-  drm/imagination: Include io-64-nonatomic-lo-hi.h
-  drm/imagination: Use rcu_access_pointer() for dma_fence::ops
-  drm/imagination: Allow build with COMPILE_TEST=y
-  drm/imagination: Drop stale kernel-doc for
-    pvr_mmu_backing_page.pvr_dev
-  drm/imagination: Fix kernel-doc for pvr_mmu_op_context anonymous
-    structs
-  drm/ingenic: Allow ingenic-dw-hdmi build with COMPILE_TEST=y
-  drm/nouveau: Allow platform driver build with COMPILE_TEST=y
-  drm/rcar-du: Allow VSP and writeback build with COMPILE_TEST=y
-
- drivers/gpu/drm/adp/Kconfig                     |  2 +-
- drivers/gpu/drm/adp/adp_drv.c                   |  1 +
- drivers/gpu/drm/armada/Kconfig                  |  2 +-
- drivers/gpu/drm/armada/armada_debugfs.c         |  2 +-
- drivers/gpu/drm/armada/armada_fbdev.c           |  2 +-
- drivers/gpu/drm/armada/armada_gem.c             |  7 ++++---
- drivers/gpu/drm/fsl-dcu/Kconfig                 |  2 +-
- drivers/gpu/drm/imagination/Kconfig             |  3 ++-
- drivers/gpu/drm/imagination/pvr_ccb.c           |  5 +++--
- drivers/gpu/drm/imagination/pvr_device.h        |  1 +
- drivers/gpu/drm/imagination/pvr_mmu.c           | 14 ++++++--------
- drivers/gpu/drm/imagination/pvr_queue.c         | 17 +++++++++--------
- drivers/gpu/drm/ingenic/Kconfig                 |  2 +-
- drivers/gpu/drm/nouveau/Kconfig                 |  2 +-
- drivers/gpu/drm/renesas/rcar-du/Kconfig         |  4 ++--
- drivers/gpu/drm/tilcdc/Kconfig                  |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_panel_legacy.dtso |  4 ++--
- drivers/gpu/drm/tilcdc/tilcdc_regs.h            |  7 +++++--
- 18 files changed, 43 insertions(+), 36 deletions(-)
-
+diff --git a/drivers/gpu/drm/adp/adp_drv.c b/drivers/gpu/drm/adp/adp_drv.c
+index fdf0e6316175..21257612f5d0 100644
+--- a/drivers/gpu/drm/adp/adp_drv.c
++++ b/drivers/gpu/drm/adp/adp_drv.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
++#include <linux/bitfield.h>
+ #include <linux/component.h>
+ #include <linux/iopoll.h>
+ #include <linux/of.h>
 -- 
 2.56.0
+
