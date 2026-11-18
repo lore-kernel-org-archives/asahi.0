@@ -1,78 +1,159 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795003173;
-	b=Yiw/Dq6uIZNBQ6waACLeE7k/EuWCN42ihQf5jaIrdPfX+sUKJM9pX/wRemKt040tlVKq
-	 G41V035uWfMu+7qg8yF2WexlyenOiahMW07AmBC/IGCJD0IMU2hFV6w2hZ9Yksh8qocH9
-	 WkXXn/umkfqeXlfAZbb96VUoeLmW648M2zF1rXOfpimCWu0yHppRQO0QpxumxNEiZtXiS
-	 AlBvNB/jUVTcdYGM+N7xBt9BFBCLHoPbnDdzjivbjD7CLIG9iCDKEfUE9N1N2SX1RNRe4
-	 5itOpwgxmyftxHxRRSURfxQGAE29gWE9Ai/5eO2DryK9hRQ3ZXza+1yZEfqDLxwfF8g==
+	t=1795003718;
+	b=RES6wEAQswl432sApe+fA7QaJjViEhNWfjGmf54Ad7jkeNC5MNs2awvQkgejVpqxvg5k
+	 Df15/9KKrVFkLPkwmXRX4w+25RMxFA4PYdsVoQ8TwszLdP/WPKfrypSv5sPl6BpdiVd+D
+	 2G1oiRZgDEgznLDlxGfyVJjZc1T6+NRkDxBPjw95nT4PfnFYk3fbMzBcNZAV8+wgfu785
+	 PTKcVvWk+DeVrmTrX+jm6RehBoQLzZyX4ei7LpXV/4OySxnSrnn8mYCsYDTc9l1rMPPHN
+	 dhxCU+jjpiavZewEv6xei+D8h/Kjg6VQ7Cvz0xnp/DSRamKTIqtI96Vul6Okn2YhEGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795003173;
-	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=t6a0qUAEvTRsG3736CRjvd9xj+hEAg897zrjwcV0qhs=;
-	b=5CR1Cr4O/yYtXwuNess+OWsuTTCfNwO2eFGtpn5pp9Av/phX1/2n3lAT+GLktiJ0126K
-	 IngqDiblxtZLQejj/9p/x4DX42mxWCFA4KIA/MG1sLQ/y7d4ml5Zd8xpWAfKdlsxXI/lT
-	 XMCAPa/sg8u3hkG4cQ6jvODMEG5PUWY8xEn3cMIBRZkKKD3Uh4ysMCn14it6wxQ+E3XKG
-	 azELN6H9TOMFXLW7MT+3/+pMUM2lC2oG+qXKm0dKMbccWCpNflKnMRfPLS085CGee1Z82
-	 UbAGJ91Ud/n/DyxUhx5S3A68aNLqiA76TyxO7L11Dtr28YatF/Xl/iWjYll8tnlXxfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795003718;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=ZqIfHdJWGskORflhidLcXHU0GNeut3EmsuGrPNz6McQ=;
+	b=wrqmCVCO7uqS4jTZBBpHA45XTr+afD9dk7S5zKkUiPteYlbdJf3ZVZ1MLM34/Be1vTMf
+	 8xfIfLrBHflmegjBeoTZucO/qS8s9ygLKrV1p78FeuPsGf00yQb4dOHP021bauqkxT89k
+	 P4ANqmbpszfcqht6T6iHHyNrFEFUpzkdnEUwJClfwdedygrarwTYNQgEmosHig9NfKOTl
+	 v31o+AoWWBl5+cRvicduE7ASwjluQ3eekIgdj+YqUbHQYC+Zl4pcVcD5WyR7fA+6YQZPY
+	 Sfka2izaGMbeXZPSrT0USC1SYv5C4UCerl6jYQLt/O0o3dIy54Sp8YxT2LgCgnCRDgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLmD8M3S;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=S3K1xPI0;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC5C60A2639;
-	Wed, 18 Nov 2026 11:59:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C38606A32F
+	for <asahi@lists.linux.dev>; Wed, 18 Nov 2026 12:08:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13C38606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLmD8M3S
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1998C1F000D0;
-	Wed, 18 Nov 2026 11:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795003173;
-	bh=t6a0qUAEvTRsG3736CRjvd9xj+hEAg897zrjwcV0qhs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=TLmD8M3SujNa0QtYF8gLynGLwQ3o0Jh/fMNhFJ1k2eHY4Nx5voFNq08nnMqY+xbba
-	 eoJEwUtiTfULSfdPSAmMY7RExNHeRt/BM+TFfpigWTnFcmps/CrWkEWRtaP/V82F6N
-	 EAT9yfo0jBBBxeEtBbROn0qIGtHz1p7gFLFPqUaBNwoCPYy4efvTl16NexGeDr7KQo
-	 YtidpzDrMmuU+DTNQioCeedKmIdxOB4F3t9eM1yw9jNbNcFGtfJ89RD0TIFcBwBGKZ
-	 I6KM9UUU1sm2u6XnTumiQsg3L2RPe5SAd/cJpfvXEpCIVg5aXDTPlFraS6Gf8cZ+Fz
-	 v+x+x6geMX+gg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xTeK3-0000000HVE0-0rV3;
-	Wed, 18 Nov 2026 11:59:31 +0000
-Date: Wed, 18 Nov 2026 11:59:30 +0000
-Message-ID: <864ide1hb1.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: myrialsarvay@gmail.com
-Cc: Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=S3K1xPI0
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e3b22e971so433003f8f.0
+        for <asahi@lists.linux.dev>; Wed, 18 Nov 2026 04:08:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1795003715; x=1795608515; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZqIfHdJWGskORflhidLcXHU0GNeut3EmsuGrPNz6McQ=;
+        b=S3K1xPI0+nLnXycJNgRoB020EHMsLPQnxbqAz/AO7xDKy6ysws4g7cdjHu3HIGZBq+
+         ePTtz5RQsKrz1ggPoWkAkAZWO3PyBP4QDXUc415xwOQzzmFLlq9iRcJSqNUV97ENzdJ9
+         8ABGZf4iO0q9JVW1CgfdamhdpT/+BA8j8tMMpOu/qu0tHV4SrZqrKgIH320BK80jnGC6
+         YbvTVY5ljxW50fABT8wC7uuTgzxQeXFAR9sc8zsAD36C53YWfARFJom8CF4NJh6AM1GH
+         pR6Kp/NafSnBgs6QZGecRkC5I4oWNYSrt9S31rWFlPk68OOoPgBt5+T5bswPwRCPGm00
+         m0pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795003715; x=1795608515;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZqIfHdJWGskORflhidLcXHU0GNeut3EmsuGrPNz6McQ=;
+        b=QCfnP2QXRXr2c8+YXu1gJwJEjwj6XrWycd+YLHOCpBThuD13Xv3fZqiOeEZOv3uwiO
+         ZmcyTeVjUsyns4hT1jtqUyYN2hYYkIy5U9UOzr7XTQPJNCrL13z66emIj94XF+3bbcCY
+         qs79kkdYCDr9gbrWcor7JFB+G00mGbV0SLWA7Fq2e0ufOql2dVY3BrqoarXHeCQRy+KQ
+         RDn7zEq/rQuIl9a1G/UKbp9gVjpdIw2FonFt7swrPOTfglskykq47HbjHgk+IabfPwfk
+         YlZJm0oF8vD1jTQqQstQGfswJ94RKI6fkycpa9t2lNbLTxk19jVT4ZjUJgJV5Zit9Ks+
+         sPog==
+X-Forwarded-Encrypted: i=1; AL+hErE14nySnUVRl4s1rmQv/9iugeTcA2OYPk+iBXrTM9+fHMWlghi3BfvVZuRUAv2KiWvAmzIiDg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Qk0DrJ0+xlpvilBMBPVZUKMDbKQ48xPclToCS9a94Bk+zyJkg
+	KWsLyo01SpE31Ire7EWOIzMqdP6re8ttFV5u2JjwV+0piu5LSoH2t8Y7ocklQSm2VOo=
+X-Gm-Gg: AZFdTZciz1TmN3TlJL/pkazZDEdiJ/0a5J5E9pUTrE4x1ghAbM3fAEyTMKTd4p6l8RG
+	hEMM/XbnKPOp2k8KT2rgr9UkokjVppypZYYc8NiVdSEvbz0XaMlUqpjSsqzGJNqkfOg5zM2tQ3H
+	Iuo6ed+B0NOEWsDKYaoKC5COTd+cThnWhPBSq3T8hin+b7jt5A/mtCU8DfJ5eZx6slHYiryIxZB
+	qdyxMwxi7ycILCB999F/H9t8581s3P0Z0bCIBudZlqEHBYjU+t4Jw18fHTe94BMD0y+KfMjsXjs
+	FhxpuCbCxnJo69Xs3fgALaLWPdr0mTMCNZjmacUZHTeryzgwy+cheDFnGQwqB19EJoCIvpQOEh/
+	Hn4Opxff6XLLCPIGhHAPy5DWpYZ9BQUQ9yXCotwUE7m7JAQybQYwBzR+99FVc4ic4aT4JvJamk7
+	e4jkcOVSbj+0+FmfZ/jwm7ZVI6hr2nq0/Js8yJXQrNmv/AAO0XrP8Azjc7bFkCn4K6ZUHFcBXlc
+	Xur6RumWbAjnpisKiTyLTy+kk7jTS2siuAvR8lro+Wv1YYD0FKDJrqf61O7RKYBg+wOFyfYULXD
+	H33RVH2zRIvyJ/aH11qvQOJgUTXybg108hhpjjkcbWH3u/KnvUGzgLzzbyTqtDmxQb9clK2kiol
+	kCzmajGYD7uXIXf8=
+X-Received: by 2002:a05:6000:470a:b0:4a5:a777:b5d5 with SMTP id ffacd0b85a97d-4a63d1da532mr5045850f8f.55.1795003714869;
+        Wed, 18 Nov 2026 04:08:34 -0800 (PST)
+Received: from localhost (p200300f65f19a904dea20c2220232395.dip0.t-ipconnect.de. [2003:f6:5f19:a904:dea2:c22:2023:2395])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4a65541f3b3sm4537428f8f.23.2026.11.18.04.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 04:08:34 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	"Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>,
+	Hugo Sales <hugo@hsal.es>,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	Zhigang Luo <Zhigang.Luo@amd.com>,
+	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	David Lechner <david@lechnology.com>,
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Dave Airlie <airlied@redhat.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Kees Cook <kees+treewide@kernel.org>,
+	Michael Walle <mwalle@kernel.org>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	nouveau@lists.freedesktop.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
 	asahi@lists.linux.dev,
-	Yuvan Shen <yuvanshen09@gmail.com>,
-	Nick Chan <towinchenmi@gmail.com>
-Subject: Re: [PATCH v2 03/15] drivers/perf: apple_m1: Support per-implementation event tables
-In-Reply-To: <20261107-m3-plus-pmu-events-v2-3-acf1e78da039@gmail.com>
-References: <20261107-m3-plus-pmu-events-v2-0-acf1e78da039@gmail.com>
-	<20261107-m3-plus-pmu-events-v2-3-acf1e78da039@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	etnaviv@lists.freedesktop.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	imagination@lists.freedesktop.org,
+	linux-mips@vger.kernel.org,
+	lima@lists.freedesktop.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	spice-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/9] drm: Improvements around device-id arrays
+Date: Wed, 18 Nov 2026 13:08:07 +0100
+Message-ID: <cover.1795002467.git.ukleinek@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -81,232 +162,327 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: myrialsarvay@gmail.com, will@kernel.org, mark.rutland@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, sven@kernel.org, j@jannau.net, neal@gompa.dev, linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, yuvanshen09@gmail.com, towinchenmi@gmail.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=17437; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=cusi/boMbD+x1Pm/G4pa0m2BbrVcm185QOqhPTSRPB4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBq/ZUnzEwB4mHy5ZgAJ72PvaAQv4DmXs/I31u7G NTyp2l7bSCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCav2VJwAKCRCPgPtYfRL+ Tv7RB/9msZyqIvVeGaXtwizzwzzkwmEvZBogp403ClUyjQf6dOFf8vD9xdMFNWtqzOwvKhQuXfM SzT9hOFo8OtXAMVgH/GaZrDV2ErZPyGgUIjEDufg9GVearhhRaUM/g83kesoE+IHiG96xKUxBOD wL4cb1gnIAp7Dn7K1azJGWD11ofvPUxBn73KunSE/xmaBZCStfgyl+oMAtdi3ZLcKZwJ3Sud7Lj HBSJhoawj/nWfTauw3Nl/dIZ7tmkEa1Fu8SdGXIk7YEACZ5uawffoHOn9kd1F58wzXUuoCKMmFj NOForLt+l8rIVAUuwfgytSa5MwOZMoz+ZcOSMlzTgvdmZwID
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Sat, 07 Nov 2026 10:48:50 +0000,
-Myria Sarvay via B4 Relay <devnull+myrialsarvay.gmail.com@kernel.org> wrote:
-> 
-> From: Nick Chan <towinchenmi@gmail.com>
-> 
-> Use per-implementation event tables to allow supporting implementations
-> with a different list of events and event affinities.
-> 
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> Co-developed-by: Myria Sarvay <myrialsarvay@gmail.com>
-> Signed-off-by: Myria Sarvay <myrialsarvay@gmail.com>
-> ---
->  drivers/perf/apple_m1_cpu_pmu.c | 113 ++++++++++++++++++++++++----------------
->  1 file changed, 69 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-> index de4026c63afd..2ff0c2e0b737 100644
-> --- a/drivers/perf/apple_m1_cpu_pmu.c
-> +++ b/drivers/perf/apple_m1_cpu_pmu.c
-> @@ -43,9 +43,6 @@
->   * moment, we don't really need to distinguish between the two because we
->   * know next to nothing about the events themselves, and we already have
->   * per cpu-type PMU abstractions.
-> - *
-> - * If we eventually find out that the events are different across
-> - * implementations, we'll have to introduce per cpu-type tables.
->   */
->  enum m1_pmu_events {
->  	M1_PMU_PERFCTR_RETIRE_UOP				= 0x1,
-> @@ -167,7 +164,7 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
->  	[M1_PMU_PERFCTR_UNKNOWN_fd]				= ONLY_2_4_6,
->  };
->  
-> -static const unsigned m1_pmu_perf_map[PERF_COUNT_HW_MAX] = {
-> +static const unsigned int m1_pmu_perf_map[PERF_COUNT_HW_MAX] = {
->  	PERF_MAP_ALL_UNSUPPORTED,
->  	[PERF_COUNT_HW_CPU_CYCLES]		= M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
->  	[PERF_COUNT_HW_INSTRUCTIONS]		= M1_PMU_PERFCTR_INST_ALL,
-> @@ -486,11 +483,12 @@ static void m1_pmu_write_counter(struct perf_event *event, u64 value)
->  	isb();
->  }
->  
-> -static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-> -				struct perf_event *event)
-> +static int apple_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-> +				   struct perf_event *event,
-> +				   const u16 event_affinities[])
->  {
->  	unsigned long evtype = event->hw.config_base & M1_PMU_CFG_EVENT;
-> -	unsigned long affinity = m1_pmu_event_affinity[evtype];
-> +	unsigned long affinity = event_affinities[evtype];
->  	int idx;
->  
->  	/*
-> @@ -509,6 +507,12 @@ static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
->  	return -EAGAIN;
->  }
->  
-> +static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-> +				struct perf_event *event)
-> +{
-> +	return apple_pmu_get_event_idx(cpuc, event, m1_pmu_event_affinity);
-> +}
-> +
->  static void m1_pmu_clear_event_idx(struct pmu_hw_events *cpuc,
->  				   struct perf_event *event)
->  {
-> @@ -536,44 +540,52 @@ static void m1_pmu_stop(struct arm_pmu *cpu_pmu)
->  	__m1_pmu_set_mode(PMCR0_IMODE_OFF);
->  }
->  
-> +static int apple_pmu_map_event(struct perf_event *event,
-> +			       const unsigned int (*perf_map)[],
-> +			       unsigned int flags)
-> +{
-> +	event->hw.flags |= flags;
-> +	return armpmu_map_event(event, perf_map, NULL, M1_PMU_CFG_EVENT);
-> +}
-> +
-> +/*
-> + * Apple PMU counters have been observed to be either 48 or
-> + * 64 bits wide, depending on the SoC. However, the MSB is
-> + * what triggers an overflow interrupt, so we advertise the
-> + * counters as being 1-bit smaller than hardware so as to
-> + * mimick ARM PMU behaviour
-> + */
->  static int m1_pmu_map_event(struct perf_event *event)
->  {
-> -	/*
-> -	 * Although the counters are 48bit wide, bit 47 is what
-> -	 * triggers the overflow interrupt. Advertise the counters
-> -	 * being 47bit wide to mimick the behaviour of the ARM PMU.
-> -	 */
-> -	event->hw.flags |= ARMPMU_EVT_47BIT;
-> -	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
-> +	return apple_pmu_map_event(event, &m1_pmu_perf_map, ARMPMU_EVT_47BIT);
->  }
->  
->  static int m2_pmu_map_event(struct perf_event *event)
->  {
-> -	/*
-> -	 * Same deal as the above, except that M2 has 64bit counters.
-> -	 * Which, as far as we're concerned, actually means 63 bits.
-> -	 * Yes, this is getting awkward.
-> -	 */
-> -	event->hw.flags |= ARMPMU_EVT_63BIT;
-> -	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
-> +	return apple_pmu_map_event(event, &m1_pmu_perf_map, ARMPMU_EVT_63BIT);
->  }
->  
-> -static int m1_pmu_map_pmuv3_event(unsigned int eventsel)
-> +static int apple_pmu_map_pmuv3_event(unsigned int eventsel, const u16 pmceid_map[])
->  {
-> -	u16 m1_event = HW_OP_UNSUPPORTED;
-> +	u16 apple_event = HW_OP_UNSUPPORTED;
+the motivation for this series is the wish to replace .driver_data in
+various *_device_id structs by an anonymous union. See
+https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+for the idea behind that and the added benefit.
 
-nit: s/apple_event/hw_event/.
+This bases on top of yesterday's next. (Note:
+https://lore.kernel.org/all/cover.1794469153.git.u.kleine-koenig@baylibre.com/
+is also needed for my quest, but this is orthogonal to this series.)
 
->  
->  	if (eventsel < ARMV8_PMUV3_MAX_COMMON_EVENTS)
-> -		m1_event = m1_pmu_pmceid_map[eventsel];
-> +		apple_event = pmceid_map[eventsel];
->  
-> -	return m1_event == HW_OP_UNSUPPORTED ? -EOPNOTSUPP : m1_event;
-> +	return apple_event == HW_OP_UNSUPPORTED ? -EOPNOTSUPP : apple_event;
->  }
->  
-> -static void m1_pmu_init_pmceid(struct arm_pmu *pmu)
-> +static int m1_pmu_map_pmuv3_event(unsigned int eventsel)
-> +{
-> +	return apple_pmu_map_pmuv3_event(eventsel, m1_pmu_pmceid_map);
-> +}
-> +
-> +static void apple_pmu_init_pmceid(struct arm_pmu *pmu)
->  {
->  	unsigned int event;
->  
->  	for (event = 0; event < ARMV8_PMUV3_MAX_COMMON_EVENTS; event++) {
-> -		if (m1_pmu_map_pmuv3_event(event) >= 0)
-> +		if (pmu->map_pmuv3_event(event) >= 0)
->  			set_bit(event, pmu->pmceid_bitmap);
->  	}
->  }
-> @@ -616,33 +628,22 @@ static int m1_pmu_set_event_filter(struct hw_perf_event *event,
->  	return 0;
->  }
->  
-> -static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
-> +static int apple_pmu_init(struct arm_pmu *cpu_pmu)
->  {
->  	cpu_pmu->handle_irq	  = m1_pmu_handle_irq;
->  	cpu_pmu->enable		  = m1_pmu_enable_event;
->  	cpu_pmu->disable	  = m1_pmu_disable_event;
->  	cpu_pmu->read_counter	  = m1_pmu_read_counter;
->  	cpu_pmu->write_counter	  = m1_pmu_write_counter;
-> -	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
->  	cpu_pmu->clear_event_idx  = m1_pmu_clear_event_idx;
->  	cpu_pmu->start		  = m1_pmu_start;
->  	cpu_pmu->stop		  = m1_pmu_stop;
-> -
-> -	if (flags & ARMPMU_EVT_47BIT)
-> -		cpu_pmu->map_event = m1_pmu_map_event;
-> -	else if (flags & ARMPMU_EVT_63BIT)
-> -		cpu_pmu->map_event = m2_pmu_map_event;
-> -	else
-> -		return WARN_ON(-EINVAL);
-> -
->  	cpu_pmu->reset		  = m1_pmu_reset;
->  	cpu_pmu->set_event_filter = m1_pmu_set_event_filter;
->  
-> -	cpu_pmu->map_pmuv3_event  = m1_pmu_map_pmuv3_event;
-> -	m1_pmu_init_pmceid(cpu_pmu);
-> +	apple_pmu_init_pmceid(cpu_pmu);
->  
->  	bitmap_set(cpu_pmu->cntr_mask, 0, M1_PMU_NR_COUNTERS);
-> -	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
->  	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_FORMATS] = &m1_pmu_format_attr_group;
->  	return 0;
->  }
-> @@ -651,25 +652,49 @@ static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
->  static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
->  {
->  	cpu_pmu->name = "apple_icestorm_pmu";
-> -	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_47BIT);
-> +	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
-> +	cpu_pmu->map_event	  = m1_pmu_map_event;
-> +
-> +	cpu_pmu->map_pmuv3_event  = m1_pmu_map_pmuv3_event;
-> +
-> +	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
-> +	return apple_pmu_init(cpu_pmu);
->  }
->
+I didn't split the patches per driver or maintainer team, and I hope I
+don't need to because that is quite some effort for very little gain.
+I'm happy to provide a stable branch for the unsplit series if desired.
+For that I'd rebase on top of v7.4-rc1 in the hope that there aren't too
+many changes that were introduced after that point that need adaption
+here.
 
-Looking at the following patches, I feel that this series is taking
-the long route to get to a relatively clear point: most of the
-invariant that we relied on for M1, slightly relaxed for M2 (counter
-width), are even more relaxed for M3+ (event width). We therefore need
-to indirect things. The way you do it is to mirror the current setup,
-with a whole set of callbacks per implementation and a bunch of
-additional helpers.
+All but the last patch is necessary to progress with the quest pointed
+out above. If you consider the last patch churn, that's fine for me,
+just drop it then.
 
-But instead of having a set of helper functions, one per
-implementation, with an ever increasing set of parameters, it really
-feels like we could do with a more data-centric approach where we have
-a single data structure describing an implementation, containing all
-the relevant data (pointer to the event mapping table, flags, bit
-indices for the user/kernel/guest/host attributes, and so on. We could
-then have a single set of callbacks that work on everything.
+I didn't add everyone to Cc: who was emitted by get_maintainer.pl to not
+trigger mail server limits. Even only keeping maintainers and lists was too
+much.
 
-You could convert M1/M2 to that, then just add the relevant
-descriptions for M3+, which should just add data and the init
-functions, nothing else.
+Best regards
+Uwe
 
-Does this make sense to you?
+Uwe Kleine-König (9):
+  drm/amdgpu: Use named initializer for acpi_device_id array
+  drm/sitronix/st7571-i2c: Drop unused assignment of i2c_device_id
+    driver data
+  drm: Drop unused assignment of spi_device_id driver_data
+  drm: Use designated initializers for spi_device_id arrays
+  drm: Use designated initializers for i2c_device_id arrays
+  drm: Use designated initializers for of_device_id arrays
+  drm: Use an empty initializer as pci_device_id array terminator
+  drm/pl111: Use an empty initializer as amba_id array terminator
+  drm: Unify coding style for *_device_id arrays
 
-Thanks,
+ drivers/gpu/drm/adp/adp-mipi.c                |   4 +-
+ drivers/gpu/drm/adp/adp_drv.c                 |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |   2 +-
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |   8 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c               |   4 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |   8 +-
+ drivers/gpu/drm/armada/armada_crtc.c          |   2 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |   2 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |   2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |   4 +-
+ .../drm/bridge/analogix/analogix-anx6345.c    |   4 +-
+ .../drm/bridge/analogix/analogix-anx78xx.c    |   2 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c     |   4 +-
+ drivers/gpu/drm/bridge/chipone-icn6211.c      |   2 +-
+ drivers/gpu/drm/bridge/chrontel-ch7033.c      |   2 +-
+ drivers/gpu/drm/bridge/display-connector.c    |   2 +-
+ drivers/gpu/drm/bridge/fsl-ldb.c              |  23 +-
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c  |   7 +-
+ .../drm/bridge/imx/imx8qxp-pixel-combiner.c   |   4 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   |   4 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c  |   2 +-
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c   |   2 +-
+ drivers/gpu/drm/bridge/imx/imx93-pdfc.c       |   4 +-
+ drivers/gpu/drm/bridge/ite-it6263.c           |   2 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c      |   4 +-
+ drivers/gpu/drm/bridge/lontium-lt9211.c       |   2 +-
+ drivers/gpu/drm/bridge/lvds-codec.c           |   2 +-
+ .../bridge/megachips-stdpxxxx-ge-b850v3-fw.c  |   4 +-
+ drivers/gpu/drm/bridge/microchip-lvds.c       |   6 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c              |   2 +-
+ drivers/gpu/drm/bridge/nxp-ptn3460.c          |   2 +-
+ drivers/gpu/drm/bridge/parade-ps8622.c        |   6 +-
+ drivers/gpu/drm/bridge/sii902x.c              |   2 +-
+ drivers/gpu/drm/bridge/sii9234.c              |   2 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
+ drivers/gpu/drm/bridge/tc358767.c             |   2 +-
+ drivers/gpu/drm/bridge/tc358768.c             |   4 +-
+ drivers/gpu/drm/bridge/tc358775.c             |   4 +-
+ drivers/gpu/drm/bridge/tda998x_drv.c          |   2 +-
+ drivers/gpu/drm/bridge/th1520-dw-hdmi.c       |   2 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c         |   4 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         |   2 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c         |   4 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c            |   2 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c         |   4 +-
+ drivers/gpu/drm/bridge/waveshare-dsi.c        |   4 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c         |   2 +-
+ drivers/gpu/drm/exynos/exynos5433_drm_decon.c |   6 +-
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c    |   2 +-
+ drivers/gpu/drm/exynos/exynos_dp.c            |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimc.c      |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_fimd.c      |  33 +-
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_gsc.c       |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_rotator.c   |   2 +-
+ drivers/gpu/drm/exynos/exynos_drm_scaler.c    |   2 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c          |   5 +-
+ drivers/gpu/drm/exynos/exynos_mixer.c         |  15 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |   2 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   2 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c  |   2 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |   7 +-
+ .../drm/i915/display/intel_display_device.c   |   2 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |   6 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +-
+ drivers/gpu/drm/imagination/pvr_drv.c         |   2 +-
+ drivers/gpu/drm/imx/dc/dc-drv.c               |   2 +-
+ drivers/gpu/drm/imx/dc/dc-ic.c                |   2 +-
+ drivers/gpu/drm/imx/dc/dc-pe.c                |   2 +-
+ drivers/gpu/drm/imx/dcss/dcss-drv.c           |   4 +-
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c       |  11 +-
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |   4 +-
+ drivers/gpu/drm/imx/ipuv3/imx-ldb.c           |   4 +-
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c           |   2 +-
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c  |   2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   2 +-
+ drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c     |   2 +-
+ drivers/gpu/drm/ingenic/ingenic-ipu.c         |   2 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                 |   4 +-
+ drivers/gpu/drm/lima/lima_drv.c               |   2 +-
+ drivers/gpu/drm/logicvc/logicvc_drm.c         |   2 +-
+ drivers/gpu/drm/mcde/mcde_drv.c               |   2 +-
+ drivers/gpu/drm/mcde/mcde_dsi.c               |   2 +-
+ drivers/gpu/drm/mediatek/mtk_cec.c            |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |  14 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c     |  20 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c     |  20 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |   4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  50 ++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  26 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c             |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |   2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 395 +++++++++++-------
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          |   4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c       |   4 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       |   4 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  28 +-
+ drivers/gpu/drm/meson/meson_dw_hdmi.c         |  24 +-
+ drivers/gpu/drm/meson/meson_dw_mipi_dsi.c     |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  70 ++--
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   6 +-
+ drivers/gpu/drm/msm/dp/dp_display.c           |   2 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                 |   2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi.c               |   2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_phy.c           |  38 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |   2 +-
+ drivers/gpu/drm/msm/msm_mdss.c                |   2 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |   6 +-
+ .../gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c |   2 +-
+ .../gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   2 +-
+ drivers/gpu/drm/omapdrm/dss/dispc.c           |   2 +-
+ drivers/gpu/drm/omapdrm/dss/dsi.c             |   8 +-
+ drivers/gpu/drm/omapdrm/dss/dss.c             |   2 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           |   4 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c           |   6 +-
+ drivers/gpu/drm/omapdrm/dss/venc.c            |   8 +-
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |   2 +-
+ drivers/gpu/drm/panel/panel-arm-versatile.c   |   4 +-
+ drivers/gpu/drm/panel/panel-auo-a030jtn01.c   |   5 +-
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c  |   4 +-
+ .../drm/panel/panel-boe-th101mb31ig002-28a.c  |   4 +-
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    |  47 ++-
+ drivers/gpu/drm/panel/panel-dsi-cm.c          |   6 +-
+ drivers/gpu/drm/panel/panel-edp.c             |   5 +-
+ .../gpu/drm/panel/panel-feixin-k101-im2ba02.c |   2 +-
+ .../drm/panel/panel-feiyang-fy07024di26a30d.c |   2 +-
+ .../gpu/drm/panel/panel-focaltech-ota7290b.c  |   4 +-
+ drivers/gpu/drm/panel/panel-himax-hx83102.c   |  47 ++-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c  |   2 +-
+ .../gpu/drm/panel/panel-ilitek-ili9806e-spi.c |   2 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c |   4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c |  17 +-
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c |  11 +-
+ .../gpu/drm/panel/panel-jadard-jd9365da-h3.c  |  30 +-
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c |   2 +-
+ .../gpu/drm/panel/panel-jdi-lt070me05000.c    |   2 +-
+ drivers/gpu/drm/panel/panel-khadas-ts050.c    |   4 +-
+ .../drm/panel/panel-kingdisplay-kd097d04.c    |   2 +-
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c     |   6 +-
+ drivers/gpu/drm/panel/panel-lg-sw43408.c      |   4 +-
+ .../gpu/drm/panel/panel-lincolntech-lcd197.c  |   2 +-
+ drivers/gpu/drm/panel/panel-lvds.c            |   4 +-
+ .../drm/panel/panel-magnachip-d53e6ea8966.c   |   4 +-
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c  |   6 +-
+ .../gpu/drm/panel/panel-newvision-nv3052c.c   |   6 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c |   2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c |   2 +-
+ .../gpu/drm/panel/panel-novatek-nt36672a.c    |   2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36850.c |   2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c |   2 +-
+ .../gpu/drm/panel/panel-orisetech-ota5601a.c  |   2 +-
+ .../drm/panel/panel-osd-osd101t2587-53ts.c    |   5 +-
+ .../drm/panel/panel-panasonic-vvx10f034n00.c  |   2 +-
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c |   2 +-
+ drivers/gpu/drm/panel/panel-renesas-r63419.c  |   2 +-
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c  |   2 +-
+ .../gpu/drm/panel/panel-samsung-atna33xc20.c  |   2 +-
+ drivers/gpu/drm/panel/panel-samsung-db7430.c  |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c  |   2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c |   6 +-
+ .../panel/panel-samsung-s6e88a0-ams427ap24.c  |   2 +-
+ .../panel/panel-samsung-s6e88a0-ams452ef01.c  |   2 +-
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |   5 +-
+ .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |   2 +-
+ .../gpu/drm/panel/panel-sharp-ls037v7dw01.c   |   4 +-
+ .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |   2 +-
+ drivers/gpu/drm/panel/panel-simple.c          |  70 ++--
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c |   2 +-
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    |  26 +-
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c  |   6 +-
+ .../drm/panel/panel-startek-kd070fhfid015.c   |   2 +-
+ drivers/gpu/drm/panel/panel-summit.c          |   2 +-
+ drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  |   2 +-
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c  |   8 +-
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c  |   6 +-
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c      |   8 +-
+ drivers/gpu/drm/panel/panel-visionox-r66451.c |   2 +-
+ .../gpu/drm/panel/panel-visionox-rm69299.c    |  12 +-
+ .../gpu/drm/panel/panel-widechips-ws2401.c    |   8 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  36 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   4 +-
+ drivers/gpu/drm/pl111/pl111_drv.c             |   2 +-
+ drivers/gpu/drm/pl111/pl111_versatile.c       |   4 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   6 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_cmm.c    |   6 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_dsc.c    |   2 +-
+ .../gpu/drm/renesas/rcar-du/rcar_dw_hdmi.c    |   2 +-
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    |   6 +-
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  12 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   8 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |  32 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  |   2 +-
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c     |   2 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  32 +-
+ .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    |   6 +-
+ drivers/gpu/drm/rockchip/inno_hdmi-rockchip.c |  12 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   4 +-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   6 +-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  |   4 +-
+ drivers/gpu/drm/rockchip/rockchip_vop_reg.c   |  92 ++--
+ drivers/gpu/drm/sitronix/st7571-i2c.c         |   6 +-
+ drivers/gpu/drm/sitronix/st7571-spi.c         |   6 +-
+ drivers/gpu/drm/sitronix/st7586.c             |   6 +-
+ drivers/gpu/drm/sitronix/st7735r.c            |   8 +-
+ drivers/gpu/drm/sitronix/st7920.c             |   2 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c               |   2 +-
+ drivers/gpu/drm/sprd/sprd_drm.c               |   4 +-
+ drivers/gpu/drm/sprd/sprd_dsi.c               |   2 +-
+ drivers/gpu/drm/sti/sti_compositor.c          |   5 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |   4 +-
+ drivers/gpu/drm/sti/sti_dvo.c                 |   2 +-
+ drivers/gpu/drm/sti/sti_hda.c                 |   4 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                |   5 +-
+ drivers/gpu/drm/sti/sti_hqvdp.c               |   2 +-
+ drivers/gpu/drm/sti/sti_tvout.c               |   2 +-
+ drivers/gpu/drm/sti/sti_vtg.c                 |   2 +-
+ drivers/gpu/drm/stm/drv.c                     |   8 +-
+ drivers/gpu/drm/stm/dw_mipi_dsi-stm.c         |   4 +-
+ drivers/gpu/drm/stm/lvds.c                    |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_frontend.c        |   8 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        |   6 +-
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c        |  12 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c        |   6 +-
+ drivers/gpu/drm/sysfb/ofdrm.c                 |   4 +-
+ drivers/gpu/drm/sysfb/simpledrm.c             |   4 +-
+ drivers/gpu/drm/tegra/dc.c                    |   5 +-
+ drivers/gpu/drm/tegra/dpaux.c                 |   2 +-
+ drivers/gpu/drm/tegra/drm.c                   |  84 ++--
+ drivers/gpu/drm/tegra/dsi.c                   |   2 +-
+ drivers/gpu/drm/tegra/gr2d.c                  |   2 +-
+ drivers/gpu/drm/tegra/hdmi.c                  |   2 +-
+ drivers/gpu/drm/tegra/hub.c                   |   9 +-
+ drivers/gpu/drm/tegra/nvdec.c                 |   2 +-
+ drivers/gpu/drm/tegra/nvjpg.c                 |   2 +-
+ drivers/gpu/drm/tegra/sor.c                   |   2 +-
+ drivers/gpu/drm/tegra/vic.c                   |   2 +-
+ drivers/gpu/drm/tidss/tidss_drv.c             |  12 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |   6 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |   4 +-
+ drivers/gpu/drm/tiny/hx8357d.c                |   2 +-
+ drivers/gpu/drm/tiny/ili9163.c                |   2 +-
+ drivers/gpu/drm/tiny/ili9225.c                |   6 +-
+ drivers/gpu/drm/tiny/ili9341.c                |   2 +-
+ drivers/gpu/drm/tiny/ili9486.c                |   8 +-
+ drivers/gpu/drm/tiny/mi0283qt.c               |   6 +-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c         |   6 +-
+ drivers/gpu/drm/tiny/pixpaper.c               |   7 +-
+ drivers/gpu/drm/tiny/repaper.c                |  12 +-
+ drivers/gpu/drm/tiny/sharp-memory.c           |  44 +-
+ drivers/gpu/drm/tve200/tve200_drv.c           |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_dpi.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c                 |   8 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_v3d.c                 |   2 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                 |   2 +-
+ drivers/gpu/drm/verisilicon/vs_dc.c           |   2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |   4 +-
+ drivers/gpu/host1x/dev.c                      |  20 +-
+ drivers/gpu/host1x/tegra114-mipi.c            |   2 +-
+ drivers/gpu/ipu-v3/ipu-common.c               |   8 +-
+ drivers/gpu/ipu-v3/ipu-pre.c                  |   4 +-
+ drivers/gpu/ipu-v3/ipu-prg.c                  |   4 +-
+ 272 files changed, 1238 insertions(+), 1017 deletions(-)
 
-	M.
 
+base-commit: 7cfbf79c66c63e807ea452abf0546e6f6d6833a6
 -- 
-Without deviation from the norm, progress is not possible.
+2.56.0.rc1
+
