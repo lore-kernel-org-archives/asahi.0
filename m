@@ -1,77 +1,157 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795038388;
-	b=QEhBVX4gn27wpa1hnN3IGkBovDvMj/D1JKuPQnOvbCpNHxBZI5iFNXTklE7xZuMtNtM+
-	 vC4J/usxiiUUcY0NVaUlq4wvUlF0sNufT8mKcxN1BbOCQ8Zk7n6H4U+gp+afDhwi58taz
-	 6B8F+9CGFMghBAzXZzvIrFCc7yntO68m94SCX5ERtX67qrXk1iiUf1zzyY0PUgaLfaDlq
-	 JcsZ49vpnj/P/BUfZulsSDTqp95MHyhjS62kHjXs1vg7VeEyzFwb9nScIAo4T26Bs0E8g
-	 cNoGuUlyZb4DY70seGVshRrNdOAXiSo4q1/y2NbvRGmutbMLENPbMYNuuq3jMcwRvvA==
+	t=1795095788;
+	b=l3pSqhDijIEDgJhwCG1z/MiHCm7YtX3HSEzTEvOGwsURRz1Ic0++QVUTn8Adp6ue1Hxt
+	 xOEQCdy90YjS+T6TxDpx4E4nK3CCLSmLDt1k5/xy1X8RY6MqhRAlGWH1jd7MBkOy8r5CB
+	 DC56VOR0Wmne4+cwdXSxwJAdxKYoS8qOVH930HD8CKmCL5GiPdJP30XELeuYnw9PGD9+R
+	 PWZBgrVCY4nFLAjOikN8wW7ePicfeEr5rXolVmM+uir0GFjzdD05KZZ6poZyOLGx3TQWp
+	 k06M+GrNakLXjVERFkr09mFPJiXZY9tGCTsODX1e0WVsKUKv+JesfGUSVO06+pMOffQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795038388;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Organization:Content-Transfer-Encoding;
-	bh=Y0LBTRoIrSbC5Sfll+sGVAP5+OjOCaUvoW8zHiNYncA=;
-	b=ecqVKbhNQrptTltYTc7OAbZl/Wbr//o4v6WBUa737U4j+wuj8I1O/h4SofLeTqsc1FPN
-	 aEiCXlsXDC1odSJcUw+c1PLi4tblidXdvZZPqhhFic0WCuqHDX/hQHASV1MaQcExGkUo1
-	 FWJq7SD7PTxuENDMfiSAJMhab+lUIplJlZ3VYABKBU6vRCWv1mQdeqCdiGdfBU6JxCbqR
-	 FPIOGekGyh8Vat3rawvtNlNnH0L2+f0E/TsUNHXdpsAri5xquNoGaEb59On8aQIJospj3
-	 YTmIhjLrRFAxsOjXn294+1sT8GTXWSrisjd0fjRyWhg2W0t9qHMr7n+GN5a+0rtssig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795095788;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
+	b=h47X2qhB7967iQIcTXCPFXjjrMphxrf+dHgVXSCeldRNhrilKeT4pDhtrqMwuApgEWZk
+	 M+S6ebuPk+ICNiWSwfdi60DFl51iCJnywhvmmsaTa4wdDsYrD3iSaG/YfFYMfR0eLMXdr
+	 zPMOmGPnvujUvEV2oj3EFOiktpc8mxZKH0XLJyvKG6iGmXjK5xQiAkeqQta3Y3jagpW8s
+	 M0SLTugq7frbZQaOT6I6KEGZOxACiSVAGWhWJlON0RAfbIaIc+DIzcpTEBdfbmyH+R6kR
+	 EOAk4gimdNVv2V/9r8mwv9tazTEiaz0KwcPXRn2O9x7aEj4v3aoVyng9rblgSvaCx2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="ThBsci/q";
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="n/jm8GB4";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98F2606A325
-	for <asahi@lists.linux.dev>; Wed, 18 Nov 2026 21:46:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C98F2606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D82C606A33E;
+	Thu, 19 Nov 2026 13:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ThBsci/q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795038388; x=1826574388;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=85MO5QHDvAciZphg0emjzSvADqfM1RF3tb6K8saGXJA=;
-  b=ThBsci/q75f9XEVLQ+CXEl6b7rYbwZBxuUQEeWOebUajcTp7aExtOlDx
-   DyCWWqSpU0kI8UFvm2QwtUEI787VRqPNdRuA8mQ523a79+Qm9C0axrA+X
-   413cH/In6JLnDVvaEPmBeZR2/me15auqngAzlPhHGgS9TpFB4ga+iT/sV
-   ENLE4oLBUNA0YvzeSKH2z1CVZCw6K3Pld/wPwrIXT36NmPpe/WT1L6Spd
-   tlJNtGiKJ5tWn46fXLVX/3jGdz4/3CiuHUnd5E0F74Tb7/SfEtgG1257o
-   b3FwNd4T956ku3cBDywTXOTavgJTXza7OyZjJ4QDWM//PTuoUVadwfQc5
-   Q==;
-X-CSE-ConnectionGUID: sc5gjU3HRm6V919zNulZFw==
-X-CSE-MsgGUID: kbyaf0GgRJCIVMpM0ugC3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3886674"
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="3886674"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:46:28 -0800
-X-CSE-ConnectionGUID: 9Xvmue9aSrCRleNq7yjZ/Q==
-X-CSE-MsgGUID: gRy+kUZkQDuaGA2b5jc2Tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
-   d="scan'208";a="10157289"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.16])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 13:46:26 -0800
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Sasha Finkelstein <k@chaosmail.tech>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n/jm8GB4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C561F000C4;
+	Thu, 19 Nov 2026 13:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795095788;
+	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=n/jm8GB4oI1ZqtVH3mcxqQUwu9zuKiDu90pq6oKhkRGMpkul9cUzIWyL0OMn9lNiE
+	 yBKBsV8prLTEFyx0qEMoD8RpojqItT9dAXuguu1fIPVRXKdIrWHbwCsl9jO+ySa7g7
+	 k00W4Ui1/3OvE8DlqLfbOZX3jHIMUSZi3jgQBAE/Cw/9/Zykh9QHw5PS1qgR2i71IR
+	 zfO8LeXoviNETRPF0eKG6jI5XGyHA/nbymcYM0a9zYLwrYLw9o5tAXmABdR6mFolMb
+	 LOw2bTAgup7y5wAExPZUZs/Z37euTnmiFeLJ23GCI0jxPdlBzRNv8iqF2TPyMS/YJP
+	 fqCrH5mGo+kGQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
 	Janne Grunau <j@jannau.net>,
-	asahi@lists.linux.dev
-Subject: [PATCH v4 12/20] drm/adp: Allow build with COMPILE_TEST=y
-Date: Wed, 18 Nov 2026 23:45:09 +0200
-Message-ID: <20261118214518.29317-13-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261118214518.29317-1-ville.syrjala@linux.intel.com>
-References: <20261118214518.29317-1-ville.syrjala@linux.intel.com>
+	Sasha Finkelstein <k@chaosmail.tech>,
+	asahi@lists.linux.dev,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	sashiko-bot@kernel.org,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Dave Airlie <airlied@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Alison Wang <alison.wang@nxp.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	imx@lists.linux.dev,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-mips@vger.kernel.org,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Qianhai Wu <wuqianhai@loongson.cn>,
+	Xi Ruoyao <xry111@xry111.site>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	nouveau@lists.freedesktop.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	spice-devel@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	David Lechner <david@lechnology.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	linux-tegra@vger.kernel.org,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+	Michal Simek <michal.simek@amd.com>
+Subject: Re: (subset) [PATCH v2 00/64] drm: Switch drivers to drm_mode_config_create_initial_state
+Date: Thu, 19 Nov 2026 14:43:02 +0100
+Message-ID: <179509577844.523497.5498880532220697042.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+References: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -81,36 +161,39 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Mon, 16 Nov 2026 11:30:16 +0100, Maxime Ripard wrote:
+> drm_mode_config_reset() has a dual role: it creates the initial KMS
+> state at probe time, and resets hardware and software state during
+> suspend/resume cycles. However, the two roles need different
+> behaviors, notably for objects like drm_private_obj that must persist
+> across suspend/resume and are excluded from drm_mode_config_reset()
+> by design.
+> 
+> [...]
 
-Allow adp to be built with COMPILE_TEST=y for greater coverage. Builds
-fine on x86, x86_64, arm and arm64 at least.
+Applied to misc/kernel.git (drm-misc-next)
 
-Cc: Sasha Finkelstein <k@chaosmail.tech>
-Cc: Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/adp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[03/64] drm/hdlcd: Fix drm_atomic_helper_shutdown() on the probe error path
+        commit: e388eae138aa9364caada0a372b5712642188c16
+[11/64] drm/hyperv: Switch to drm_mode_config_create_initial_state
+        commit: 50b11ceaaef03d4062971db173bbddc8ac0df28b
+[25/64] drm/rcar-du: Switch to drm_mode_config_create_initial_state
+        commit: d8b8de5c35983567a7ef78fcd9f75db46d6c26af
+[29/64] drm/st7586: Switch to drm_mode_config_create_initial_state
+        commit: 52eb5b7764084bddd68e77c1c3e62e70ad11828f
+[30/64] drm/st7735r: Switch to drm_mode_config_create_initial_state
+        commit: 28d10bb2421152b650329710183c1f6df1bd056e
+[31/64] drm/st7920: Switch to drm_mode_config_create_initial_state
+        commit: b17f5f1abd5c30875d203d7690c92129d2d814d6
+[35/64] drm/stm: Switch to drm_mode_config_create_initial_state
+        commit: d78ccdcc94eba858fd8386f0da6de4ec4cd44666
+[37/64] drm/tegra: Switch to drm_mode_config_create_initial_state
+        commit: 0c187722c35db771276ee7390454f7de70508833
+[50/64] drm/ili9225: Switch to drm_mode_config_create_initial_state
+        commit: 0fc18dd1409138d88089ecdda5544ea2f8785520
 
-diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
-index acfa21ee06d2..6073aa6b46a4 100644
---- a/drivers/gpu/drm/adp/Kconfig
-+++ b/drivers/gpu/drm/adp/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only OR MIT
- config DRM_ADP
- 	tristate "DRM Support for pre-DCP Apple display controllers"
--	depends on DRM && OF && ARM64
-+	depends on DRM && OF && (ARM64 || COMPILE_TEST)
- 	depends on ARCH_APPLE || COMPILE_TEST
- 	select DRM_KMS_HELPER
- 	select DRM_BRIDGE_CONNECTOR
--- 
-2.56.0
-
+Thanks!
+Maxime
