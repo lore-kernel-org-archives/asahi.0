@@ -1,157 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795095788;
-	b=l3pSqhDijIEDgJhwCG1z/MiHCm7YtX3HSEzTEvOGwsURRz1Ic0++QVUTn8Adp6ue1Hxt
-	 xOEQCdy90YjS+T6TxDpx4E4nK3CCLSmLDt1k5/xy1X8RY6MqhRAlGWH1jd7MBkOy8r5CB
-	 DC56VOR0Wmne4+cwdXSxwJAdxKYoS8qOVH930HD8CKmCL5GiPdJP30XELeuYnw9PGD9+R
-	 PWZBgrVCY4nFLAjOikN8wW7ePicfeEr5rXolVmM+uir0GFjzdD05KZZ6poZyOLGx3TQWp
-	 k06M+GrNakLXjVERFkr09mFPJiXZY9tGCTsODX1e0WVsKUKv+JesfGUSVO06+pMOffQ==
+	t=1795102707;
+	b=eLm3xl7rK1WjjaIa2aDPhVH0jg/VDhLtHbs0dYFoXEBJD9fRiQQw9k0Z0PZ07tS6z9iz
+	 FXwefMX0B473MUki8MFW9q04JL82l8nqFAz+rJCS53Szgd5gXNZxWr4EaonEX0G7L6sXZ
+	 ipcJHp+6Rke5J0HxKY++d+MYeFVhiGL04PrtpA/FeGFfAECO6cGAe/m8hR0eeabO1JfmS
+	 MzahVNVjxzG1MlqvieWSZbsVZjKIru5ZcJa/X2gSHNsuc1K6ukzjDrnDmga2igV2LXEc1
+	 wFpEC9KXPFNZV+K5WR5Q7Jxmz3EuCgyGmi2/TBB2mSEjwJiyzdYTsqCCm5KJwIaCuMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795095788;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
-	b=h47X2qhB7967iQIcTXCPFXjjrMphxrf+dHgVXSCeldRNhrilKeT4pDhtrqMwuApgEWZk
-	 M+S6ebuPk+ICNiWSwfdi60DFl51iCJnywhvmmsaTa4wdDsYrD3iSaG/YfFYMfR0eLMXdr
-	 zPMOmGPnvujUvEV2oj3EFOiktpc8mxZKH0XLJyvKG6iGmXjK5xQiAkeqQta3Y3jagpW8s
-	 M0SLTugq7frbZQaOT6I6KEGZOxACiSVAGWhWJlON0RAfbIaIc+DIzcpTEBdfbmyH+R6kR
-	 EOAk4gimdNVv2V/9r8mwv9tazTEiaz0KwcPXRn2O9x7aEj4v3aoVyng9rblgSvaCx2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795102707;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type:Content-Transfer-Encoding;
+	bh=WGQr9homvcBDDaDNFjGaP7bjHcrXtaqxHaJKTI0quEg=;
+	b=YLXzy0wp17oDfvFiS45c9u/QxLcwSZlElIzprl6zYOgcTsgr9+DeHhBKX0RwlpEKL8LZ
+	 /SX9izmYgZr17VvvjxA2G8I9zzj8frAO7TehcQnMDIwZdkjFI31MAdCT9S6JoIRXMadcU
+	 mhev9Gpd8HGirhUnTK0bhuKdsgTpmuetlwfybSIPGN9h5S4TwfUzg0btq8gFAHg2NMxCk
+	 LzfHAnDyYIjzr891OiZUwWodz175K9zevjdLYtb66V0fVacR1b+RZzyr2OkLkiyuXnIlx
+	 q811I78FrJqXq8VLqo6fO5n75ZYBBBkDZQite8r9mde93laoV97JqMlNPnoiSxXIWng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="n/jm8GB4";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWGDqYNC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D82C606A33E;
-	Thu, 19 Nov 2026 13:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C4D60A2607;
+	Thu, 19 Nov 2026 15:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n/jm8GB4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7C561F000C4;
-	Thu, 19 Nov 2026 13:43:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWGDqYNC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E8A1F000C9;
+	Thu, 19 Nov 2026 15:38:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795095788;
-	bh=CbEg7XvfeDnBQ/K77/dlrEkK7yv8e4LifTJxVZmhLAs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=n/jm8GB4oI1ZqtVH3mcxqQUwu9zuKiDu90pq6oKhkRGMpkul9cUzIWyL0OMn9lNiE
-	 yBKBsV8prLTEFyx0qEMoD8RpojqItT9dAXuguu1fIPVRXKdIrWHbwCsl9jO+ySa7g7
-	 k00W4Ui1/3OvE8DlqLfbOZX3jHIMUSZi3jgQBAE/Cw/9/Zykh9QHw5PS1qgR2i71IR
-	 zfO8LeXoviNETRPF0eKG6jI5XGyHA/nbymcYM0a9zYLwrYLw9o5tAXmABdR6mFolMb
-	 LOw2bTAgup7y5wAExPZUZs/Z37euTnmiFeLJ23GCI0jxPdlBzRNv8iqF2TPyMS/YJP
-	 fqCrH5mGo+kGQ==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org,
-	Janne Grunau <j@jannau.net>,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	asahi@lists.linux.dev,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	sashiko-bot@kernel.org,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Dave Airlie <airlied@redhat.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Alison Wang <alison.wang@nxp.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
-	Yongbang Shi <shiyongbang@huawei.com>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Saurabh Sengar <ssengar@linux.microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	imx@lists.linux.dev,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Jianmin Lv <lvjianmin@loongson.cn>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Qianhai Wu <wuqianhai@loongson.cn>,
-	Xi Ruoyao <xry111@xry111.site>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>,
-	freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Lyude Paul <lyude@redhat.com>,
-	nouveau@lists.freedesktop.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	spice-devel@lists.freedesktop.org,
-	virtualization@lists.linux.dev,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	David Lechner <david@lechnology.com>,
-	Iker Pedrosa <ikerpedrosam@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-tegra@vger.kernel.org,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-	Alex Lanzano <lanzano.alex@gmail.com>,
-	LiangCheng Wang <zaq14760@gmail.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-	Michal Simek <michal.simek@amd.com>
-Subject: Re: (subset) [PATCH v2 00/64] drm: Switch drivers to drm_mode_config_create_initial_state
-Date: Thu, 19 Nov 2026 14:43:02 +0100
-Message-ID: <179509577844.523497.5498880532220697042.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
-References: <20261116-drm-no-more-config-reset-v2-0-0bb471f4d1e0@kernel.org>
+	s=k20260515; t=1795102707;
+	bh=WGQr9homvcBDDaDNFjGaP7bjHcrXtaqxHaJKTI0quEg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=nWGDqYNCGgY6EsYektk0F3ocquHXbRy1fnBV1cjg2r5M/i1bmrbziHyQsCLWESUdJ
+	 opBWD9W5X5P5mOOl4X7/vqsOz5egFXFqJAoPrL4wF2t4goJ4HyOW0XVMH95ZFst1+K
+	 zMl6ZnTfRZ3zlTPlIVDjv/wCnHDmdeEMZiGZi3Oz2oDcuTE9oVH8vy/+c97AqyrB06
+	 qfAK6S6U9Kmd9ZtWqMyHpCYtStkgZRJhpi9hovItWRr9tH5NJJXztFH0dK+aOhgXFI
+	 5abk/OIW6k2WsjCfCEqMkNRBGtntyyVmO0X4Bua4NEszIh6DdRYDzmfJ3kdQhFCz/+
+	 HsHGJtTPB/JZg==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BDA09198003A;
+	Thu, 19 Nov 2026 10:38:24 -0500 (EST)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Thu, 19 Nov 2026 10:38:24 -0500
+X-ME-Sender: <xms:7Rf_ahjoSDHuY-li6z80mwYOQLNJTGQf1s9UH2cE69IDojYofOJwPg>
+    <xme:7Rf_ag02Px5PS4iBvm_FnNjsIZ6ZtHQjpcHB8i3JsRRyvwbq0U9FF8ofWY68gj4vd
+    ihV1_A3F1imUG4RxW7k_Qc7xhu6BK1y-71x4MxdUuBj2ooChhuX7UHh>
+X-ME-Proxy-Cause: dmFkZTFjUXYloFjoDllRlpZzwX+Mr2aQT9ODXP8XGqHiLINShhj92g8SnoXLjarMGxqFOO
+    oMDZM9EMatC8AGeg/TSMAdaFkP0NJsv1RNjS5Z5wWE7XSkhmx4jF+oLRVh3mFvSxwbe+xk
+    nU298dZTxAa+bh/zAwbQbFPI3xyGDOOUS+385VVsVL1+gnA2mILXuFwfM0DajlGwagkkBS
+    u27MEZWc8i8uC/2bF9euzQlyo4MLEJN8OuSZrtvxdRVK1sYclzWbHdRfR72lilcXQx0dLz
+    i3W7h3MPidwET8W+CEXkC+RoWeLCGzPYlagVwS2A5U3Y11yanQZV1s6/vZkWj53tyOy2AD
+    pzA9vLhqXXaM9bjhj4TJ+RCvFGC+1d+/mxLqU4jENV6V9cg2cbVPnjK017AVB0ZjBJVpr3
+    s6siunXhUGx205Yl44urUhkqQpwryhaQ70MGhoa6F+xWX5jg7c8biylL5yT1OMtAuJGuqr
+    MwQHxiAoZwbrPftISKaf60cnPvn9tGs3EH+fVmm7/OTXfIjBXcfKM2Nm7amnjiiHF8O+nt
+    od6D2ndZV4Tg8t2DNQYZ07MeZfFHqEw2FGpeLs+MY2H7cWkgrlHEGVW6tk8MNmtCZI2VbU
+    zrEFfeiZRVlvNisMmkmYFY6hsVs+/dc+sZkZ36SJx+rOx3TOi3fFB/o/OTfw
+X-ME-Proxy: <xmx:8Bf_ailq9KZsUJBEpXUEZIDn32ElvnIruMtxjDCpKznCpT1ZTkVThA>
+    <xmx:8Bf_akG8_SUQdfXtfWLssOzQRlbG3JFU89ndf_BfWHbWgGdCiKq6Vw>
+    <xmx:8Bf_amEpQKt3967seOdLahbvyYJbpHiNLFsWPrFIeR0LP7WwCukBZw>
+    <xmx:8Bf_as3jiR3CjL8AoEsqrCL3Ad7TrusWoiXyrbNpceBqdUwceNWKtg>
+    <xmx:8Bf_aofDdp_XnT9_bucLRcIiGEv1YKmTwbaVBT6hJMDgjrNll8blkGpU>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id BEF05F80093; Thu, 19 Nov 2026 10:38:21 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -161,39 +77,157 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Date: Thu, 19 Nov 2026 16:38:00 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Sven Peter" <sven@kernel.org>, "Will Deacon" <will@kernel.org>
+Cc: "Mark Rutland" <mark.rutland@arm.com>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Sudeep Holla" <sudeep.holla@kernel.org>, "Janne Grunau" <j@jannau.net>,
+ "Neal Gompa" <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org, asahi@lists.linux.dev
+Message-Id: <a1b18224-4171-4702-acb2-cef994dd9921@app.fastmail.com>
+In-Reply-To: <ef76e141-491d-44a9-90a6-e9cd54526012@kernel.org>
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+ <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+ <apldL6Ml91GW-tE9@J2N7QTR9R3.cambridge.arm.com>
+ <aplk2hHRB7Yw9FWW@willie-the-truck>
+ <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
+ <cadadedb-1de1-46f0-9bfd-35eb8bdfa85b@kernel.org>
+ <avxETlOGyr_WQ2zp@willie-the-truck>
+ <ef76e141-491d-44a9-90a6-e9cd54526012@kernel.org>
+Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel sharing EL2
+ for Apple Silicon
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, 16 Nov 2026 11:30:16 +0100, Maxime Ripard wrote:
-> drm_mode_config_reset() has a dual role: it creates the initial KMS
-> state at probe time, and resets hardware and software state during
-> suspend/resume cycles. However, the two roles need different
-> behaviors, notably for objects like drm_private_obj that must persist
-> across suspend/resume and are excluded from drm_mode_config_reset()
-> by design.
-> 
-> [...]
 
-Applied to misc/kernel.git (drm-misc-next)
 
-[03/64] drm/hdlcd: Fix drm_atomic_helper_shutdown() on the probe error path
-        commit: e388eae138aa9364caada0a372b5712642188c16
-[11/64] drm/hyperv: Switch to drm_mode_config_create_initial_state
-        commit: 50b11ceaaef03d4062971db173bbddc8ac0df28b
-[25/64] drm/rcar-du: Switch to drm_mode_config_create_initial_state
-        commit: d8b8de5c35983567a7ef78fcd9f75db46d6c26af
-[29/64] drm/st7586: Switch to drm_mode_config_create_initial_state
-        commit: 52eb5b7764084bddd68e77c1c3e62e70ad11828f
-[30/64] drm/st7735r: Switch to drm_mode_config_create_initial_state
-        commit: 28d10bb2421152b650329710183c1f6df1bd056e
-[31/64] drm/st7920: Switch to drm_mode_config_create_initial_state
-        commit: b17f5f1abd5c30875d203d7690c92129d2d814d6
-[35/64] drm/stm: Switch to drm_mode_config_create_initial_state
-        commit: d78ccdcc94eba858fd8386f0da6de4ec4cd44666
-[37/64] drm/tegra: Switch to drm_mode_config_create_initial_state
-        commit: 0c187722c35db771276ee7390454f7de70508833
-[50/64] drm/ili9225: Switch to drm_mode_config_create_initial_state
-        commit: 0fc18dd1409138d88089ecdda5544ea2f8785520
+On Tue, 17 Nov 2026, at 16:25, Sven Peter wrote:
+> On 17.11.26 13:10, Will Deacon wrote:
+>> On Sun, Nov 15, 2026 at 07:38:35PM +0100, Sven Peter wrote:
+>>>
+>>>
+>>> On 03.09.26 15:25, Ard Biesheuvel wrote:
+>>>> On Thu, 3 Sep 2026, at 14:15, Will Deacon wrote:
+>>>>> On Thu, Sep 03, 2026 at 12:42:39PM +0100, Mark Rutland wrote:
+>>>>>> On Thu, Sep 03, 2026 at 01:34:56PM +0200, Ard Biesheuvel wrote:
+>>>>>>> On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
+>>>>>>>> This series adds a custom EFI table that points to a PSCI entry point
+>>>>>>>> (plus some other stuff that has to be available before EFI runtime
+>>>>>>>> services are set up) and adds support for this new conduit to the psci
+>>>>>>>> code. We can't directly use the normal EFI runtime path because that one
+>>>>>>>> takes a sleeping lock and we need to be able to call into PSCI from
+>>>>>>>> atomic context during e.g. cpu bringup or during idle.
+>>>>>>>> It also adds support for specifying the specific MAIR attributes for EFI
+>>>>>>>> runtime mappings as defined in the latest UEFI spec since Apple Silicon
+>>>>>>>> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
+>>>>>>
+>>>>>>>>         dt-bindings: arm: psci: Add EFI conduit
+>>>>>>>>         arm64/efi: Add and parse custom PSCI EFI configuration table
+>>>>>>>>         efi: Add EFI_MEMORY_ISA_{MASK,VALID}
+>>>>>>>>         arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
+>>>>>>>>         firmware/psci: Add EFI runtime conduit
+>>>>>>>>         arm64: dts: apple: t8103: Add PSCI and CPU idle states
+>>>>>>>>
+>>>>>>>
+>>>>>>> I've picked up patches #3 and #4, which are useful in their own right.
+>>>>>>>
+>>>>>>> I'm not sure if the arm64 maintainers will want to consider this, but
+>>>>>>> I think it's a reasonable compromise, as it puts the abstraction in
+>>>>>>> the right place.
+>>>>>>
+>>>>>> Sorry for the late reply; I've been away almost all of August and I'm
+>>>>>> slowly catching up on things.
+>>>>>>
+>>>>>> As with last time this was proposed (in abstract), I am not happy about
+>>>>>> bodging an EFI conduit into PSCI, given that the manner in which state
+>>>>>> is managed is completely different from SMCCC.
+>>>>>>
+>>>>>> If we need a mechanism for doing hotplug and/or idle without HVC/SMC,
+>>>>>> that's one thing we can consider. I don't think we should pretend that
+>>>>>> it is PSCI.
+>>>>>
+>>>>> What do you have in mind for an alternative mechanism? I understand your
+>>>>> objection to this proposal, but at least it keeps the interface fairly
+>>>>> high-level and avoids opening the flood gates for a bunch of SoC-specific
+>>>>> idle routines. Are you thinking of extensions to the PSCI spec or
+>>>>> something else?
+>>>>>
+>>>>
+>>>> I can't speak for Mark, of course, but I could imagine EFI being used as a
+>>>> conduit to provide a callable set of interfaces (with a rigorously defined
+>>>> set of constraints such as the ones in this patch, i.e., reentrancy, no FP
+>>>> or SIMD, not relying on ISA features that the OS needs to know about and
+>>>> enable, etc).
+>>>>
+>>>> There is prior art here in ACPI PRM, which does something similar, and this
+>>>> also relies on EFI runtime services.
+>>>>
+>>>> You'd still need to implement the CPU ops and a cpuidle driver afaict (no
+>>>> expert here), but at least those would be coded against an interface that
+>>>> the kernel itself specified, and can be made as generic as we choose to.
+>>>>
+>>>> Not saying this is all great, but it might be a worthwhile compromise to
+>>>> consider.
+>>>
+>>> Finally getting back to this series...
+>>>
+>>>
+>>> I'd definitely like to keep mapping the resident firmware using EFI runtime
+>>> services because otherwise I'd have to duplicate a whole lot of tricky code
+>>> to do the same thing via some other means (e.g. a device tree nodes that
+>>> contains all mappings + callbacks) and I just don't see much value in that.
+>>>
+>>> I'm happy to just drop the PSCI part though and replace that with a simple
+>>> and somewhat generic "efi-rt" (or similar) cpuidle driver and make that one
+>>> have similar requirements like I added for this RFC series and expose bunch
+>>> of generic callbacks (that will just happen to resemble PSCI functions very
+>>> much ;)) via a custom EFI table. That would keep PSCI out of all of this but
+>>> come at the cost of an additional cpuidle driver.
+>>>
+>>> I don't think that would open any flood gates for SoC-specific drivers since
+>>> we could just point them to the generic one and tell them to use that one if
+>>> they can't do PSCI for some reason.
+>>>
+>>>
+>>> Now before I go off and prototype this: Would this approach be fine in
+>>> general with you, Mark and Will?
+>> 
+>> tbh, if the "efi-rt" thing is just PSCI with a different conduit and that
+>> conduit is properly documented, then I really don't see the point in keeping
+>> it separate. However. I suspect that we probably all have slightly different
+>> opinions here which isn't going to help you very much :(
+>
+> Yeah, well, I agree but I really don't have a strong opinion or any good 
+> argument if either "efi-rt" vs "psci-via-efi" is better or worse. I only 
+> think both are better than SoC-specific cpuidle and cpu_ops drivers and 
+> I have no idea how else we could do this. (We could drop the kernel to 
+> EL1 and do "normal" PSCI in EL2 then but that would be much worse than 
+> either of those options imho)
+>
 
-Thanks!
-Maxime
+I agree with Mark that implementing a pseudo-PSCI that can never quite
+comply with everything in the PSCI spec is probably not a great idea
+unless we actually need it.
+
+> And especially with M4+ I'd like to have something that can go upstream 
+> because normal wfi loses most general purpose regs there and has to be 
+> disabled which is not great.
+>
+> I can also just prototype the efi-rt cpuidle+cpu_ops thing and then we 
+> can take a look at it as well and see if that's better than what I have 
+> in this series if that helps but I'd rather not spend that time if that 
+> has no chance of being accepted either.
+>
+
+I think a consistent approach for both secondary bringup (+teardown?) and
+cpuidle that is based on the same efi-runtime layer is perfectly acceptable,
+and allows us to define it as narrowly as we can, rather than having to
+consider what shared code might assume once it sees enable-method=psci on
+a CPU, or a PSCI conduit (SMCCC detection, mitigations, etc etc)
+
