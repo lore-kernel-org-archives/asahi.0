@@ -1,73 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795102707;
-	b=eLm3xl7rK1WjjaIa2aDPhVH0jg/VDhLtHbs0dYFoXEBJD9fRiQQw9k0Z0PZ07tS6z9iz
-	 FXwefMX0B473MUki8MFW9q04JL82l8nqFAz+rJCS53Szgd5gXNZxWr4EaonEX0G7L6sXZ
-	 ipcJHp+6Rke5J0HxKY++d+MYeFVhiGL04PrtpA/FeGFfAECO6cGAe/m8hR0eeabO1JfmS
-	 MzahVNVjxzG1MlqvieWSZbsVZjKIru5ZcJa/X2gSHNsuc1K6ukzjDrnDmga2igV2LXEc1
-	 wFpEC9KXPFNZV+K5WR5Q7Jxmz3EuCgyGmi2/TBB2mSEjwJiyzdYTsqCCm5KJwIaCuMA==
+	t=1795181012;
+	b=UFrizV1+4gRIiAHb4BGYsYfCgzXcWU/gKp37HONBrzr7/fn0VrE81Rwiqfz60YwqWuEO
+	 ulHRn4XItIj8fhUvc8m/GdlgNN3vPlTE8Lpb6juVxfXpuXRc++aYuV+sBiF1CAGUUTVu4
+	 9iFUgI0bAVRZ/mJndwb+TEwQugc0l3d/6xCtX2tJoCounyurN+oyqy5O3TJgLc2u76yIK
+	 y6xs7kgd5JwVXZHmavYq6f1zkyaO22ZADJy90mPelD4QPdXG8N5fmzVHTfYPsJN57tE3X
+	 CZQ9vtU5BMRxsd9Tmg40Y2Bywo8KO/2SUd/clQ4+fQi3dZkYhRkrVd1Z3DDED4HPKSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795102707;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type:Content-Transfer-Encoding;
-	bh=WGQr9homvcBDDaDNFjGaP7bjHcrXtaqxHaJKTI0quEg=;
-	b=YLXzy0wp17oDfvFiS45c9u/QxLcwSZlElIzprl6zYOgcTsgr9+DeHhBKX0RwlpEKL8LZ
-	 /SX9izmYgZr17VvvjxA2G8I9zzj8frAO7TehcQnMDIwZdkjFI31MAdCT9S6JoIRXMadcU
-	 mhev9Gpd8HGirhUnTK0bhuKdsgTpmuetlwfybSIPGN9h5S4TwfUzg0btq8gFAHg2NMxCk
-	 LzfHAnDyYIjzr891OiZUwWodz175K9zevjdLYtb66V0fVacR1b+RZzyr2OkLkiyuXnIlx
-	 q811I78FrJqXq8VLqo6fO5n75ZYBBBkDZQite8r9mde93laoV97JqMlNPnoiSxXIWng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795181012;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=9Yave6DZDGUUAvsSfmLDal9WFXgDPPi+dD/iYkllA/8=;
+	b=1zSyKMeqE6AhNufCqoHqwWNygCgI8qziIfiMA5cdYupoM4ViHiED/q4sLebZXH0Y5Ux1
+	 KnrYfZ0TKVvGCfWXbUUZ18MVW3W3bBDY8Qb4vCWO+SGhta3rM9nvH+T4lwEiTzfBYbdMT
+	 xY1r8d+/wI3KHMu6uwwDLIVAX/tbmyGDMkoIlJNcUWhWxYQhpWodcVuThWiw7+q9tl1Pk
+	 bAgXxBzkbI/Mv7B4MeDvJCrFdijP/93s0V5jUSpGS/oIiK5UTBa/0hYtPbX/aoUJ5iyHG
+	 FLP2aWS3Fsvxh/zwIxCqYEfw4cvBu74SaLobwAxV5siemQXYd6JYGWzfSVM8k432cew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWGDqYNC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C4D60A2607;
-	Thu, 19 Nov 2026 15:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D94606A331
+	for <asahi@lists.linux.dev>; Fri, 20 Nov 2026 13:23:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D94606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nWGDqYNC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76E8A1F000C9;
-	Thu, 19 Nov 2026 15:38:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795102707;
-	bh=WGQr9homvcBDDaDNFjGaP7bjHcrXtaqxHaJKTI0quEg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=nWGDqYNCGgY6EsYektk0F3ocquHXbRy1fnBV1cjg2r5M/i1bmrbziHyQsCLWESUdJ
-	 opBWD9W5X5P5mOOl4X7/vqsOz5egFXFqJAoPrL4wF2t4goJ4HyOW0XVMH95ZFst1+K
-	 zMl6ZnTfRZ3zlTPlIVDjv/wCnHDmdeEMZiGZi3Oz2oDcuTE9oVH8vy/+c97AqyrB06
-	 qfAK6S6U9Kmd9ZtWqMyHpCYtStkgZRJhpi9hovItWRr9tH5NJJXztFH0dK+aOhgXFI
-	 5abk/OIW6k2WsjCfCEqMkNRBGtntyyVmO0X4Bua4NEszIh6DdRYDzmfJ3kdQhFCz/+
-	 HsHGJtTPB/JZg==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id BDA09198003A;
-	Thu, 19 Nov 2026 10:38:24 -0500 (EST)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Thu, 19 Nov 2026 10:38:24 -0500
-X-ME-Sender: <xms:7Rf_ahjoSDHuY-li6z80mwYOQLNJTGQf1s9UH2cE69IDojYofOJwPg>
-    <xme:7Rf_ag02Px5PS4iBvm_FnNjsIZ6ZtHQjpcHB8i3JsRRyvwbq0U9FF8ofWY68gj4vd
-    ihV1_A3F1imUG4RxW7k_Qc7xhu6BK1y-71x4MxdUuBj2ooChhuX7UHh>
-X-ME-Proxy-Cause: dmFkZTFjUXYloFjoDllRlpZzwX+Mr2aQT9ODXP8XGqHiLINShhj92g8SnoXLjarMGxqFOO
-    oMDZM9EMatC8AGeg/TSMAdaFkP0NJsv1RNjS5Z5wWE7XSkhmx4jF+oLRVh3mFvSxwbe+xk
-    nU298dZTxAa+bh/zAwbQbFPI3xyGDOOUS+385VVsVL1+gnA2mILXuFwfM0DajlGwagkkBS
-    u27MEZWc8i8uC/2bF9euzQlyo4MLEJN8OuSZrtvxdRVK1sYclzWbHdRfR72lilcXQx0dLz
-    i3W7h3MPidwET8W+CEXkC+RoWeLCGzPYlagVwS2A5U3Y11yanQZV1s6/vZkWj53tyOy2AD
-    pzA9vLhqXXaM9bjhj4TJ+RCvFGC+1d+/mxLqU4jENV6V9cg2cbVPnjK017AVB0ZjBJVpr3
-    s6siunXhUGx205Yl44urUhkqQpwryhaQ70MGhoa6F+xWX5jg7c8biylL5yT1OMtAuJGuqr
-    MwQHxiAoZwbrPftISKaf60cnPvn9tGs3EH+fVmm7/OTXfIjBXcfKM2Nm7amnjiiHF8O+nt
-    od6D2ndZV4Tg8t2DNQYZ07MeZfFHqEw2FGpeLs+MY2H7cWkgrlHEGVW6tk8MNmtCZI2VbU
-    zrEFfeiZRVlvNisMmkmYFY6hsVs+/dc+sZkZ36SJx+rOx3TOi3fFB/o/OTfw
-X-ME-Proxy: <xmx:8Bf_ailq9KZsUJBEpXUEZIDn32ElvnIruMtxjDCpKznCpT1ZTkVThA>
-    <xmx:8Bf_akG8_SUQdfXtfWLssOzQRlbG3JFU89ndf_BfWHbWgGdCiKq6Vw>
-    <xmx:8Bf_amEpQKt3967seOdLahbvyYJbpHiNLFsWPrFIeR0LP7WwCukBZw>
-    <xmx:8Bf_as3jiR3CjL8AoEsqrCL3Ad7TrusWoiXyrbNpceBqdUwceNWKtg>
-    <xmx:8Bf_aofDdp_XnT9_bucLRcIiGEv1YKmTwbaVBT6hJMDgjrNll8blkGpU>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id BEF05F80093; Thu, 19 Nov 2026 10:38:21 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795181012; x=1826717012;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cJJw5vbcJuFQOpdae3ptvun5p75snXhnCZwChzdLyPk=;
+  b=Nb99TAm+VhGiURfBHECJLBBBu2HJZqt6RDeXbtNVNvfDMVPwYmANlzw0
+   ImJefDIHTbMw9l0dHYp1J/YBMqnZIhpaR/IurvEc05mJdgR7PAa+ZTqqt
+   ijTdTynrDXQQZfLEGvJ1XwFowkkaVmRZmabEaNnI/24VQ8oXtLpg8RqMf
+   nwsLJcVUV+EQp981K0sXrg/qFdQYniLlBf/6s8gOzy+ESeCT7yJZK+R8D
+   bySsdMP32inamWlhV6sR9rpxD67PaQ6l0/8keKi4VzjUj4r353qcKDRj4
+   QX7tKpbN+bKQnAB2FLSu1fCayXTVhmbrdpAZmOOJW3i9nzTBpdTHDWLcP
+   w==;
+X-CSE-ConnectionGUID: 4SUkRav9TkWYdcJ68qMeUA==
+X-CSE-MsgGUID: VMH3GxA1TzGK5gvhtOk5dA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3945342"
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="3945342"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:23:32 -0800
+X-CSE-ConnectionGUID: +D3uAwM0Ql+ilvQ35dXt6w==
+X-CSE-MsgGUID: LFt9NXU/RaC7A91NKsxlkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
+   d="scan'208";a="11035886"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 05:23:29 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 0BF6799; Fri, 20 Nov 2026 14:23:28 +0100 (CET)
+Date: Fri, 20 Nov 2026 14:23:28 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Keisuke Tsukuda <tkdkei@outlook.jp>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] usb: roles: wait for callbacks on unregister
+Message-ID: <awBJ0NDCvbznrBjk@black.igk.intel.com>
+References: <20261117125825.27629-1-tkdkei@outlook.jp>
+ <20261117125825.27629-3-tkdkei@outlook.jp>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -77,157 +87,93 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Thu, 19 Nov 2026 16:38:00 +0100
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Sven Peter" <sven@kernel.org>, "Will Deacon" <will@kernel.org>
-Cc: "Mark Rutland" <mark.rutland@arm.com>,
- "Lorenzo Pieralisi" <lpieralisi@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Sudeep Holla" <sudeep.holla@kernel.org>, "Janne Grunau" <j@jannau.net>,
- "Neal Gompa" <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org, asahi@lists.linux.dev
-Message-Id: <a1b18224-4171-4702-acb2-cef994dd9921@app.fastmail.com>
-In-Reply-To: <ef76e141-491d-44a9-90a6-e9cd54526012@kernel.org>
-References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
- <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
- <apldL6Ml91GW-tE9@J2N7QTR9R3.cambridge.arm.com>
- <aplk2hHRB7Yw9FWW@willie-the-truck>
- <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
- <cadadedb-1de1-46f0-9bfd-35eb8bdfa85b@kernel.org>
- <avxETlOGyr_WQ2zp@willie-the-truck>
- <ef76e141-491d-44a9-90a6-e9cd54526012@kernel.org>
-Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel sharing EL2
- for Apple Silicon
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261117125825.27629-3-tkdkei@outlook.jp>
 
+On Tue, Nov 17, 2026 at 01:00:20PM +0000, Keisuke Tsukuda wrote:
+> usb_role_switch_set_role() and usb_role_switch_get_role() check the
+> registered flag before taking the switch lock. If a provider is
+> unregistered during a role request, unregister can return while its
+> callback is still running. The provider may then free memory used by
+> the callback, causing a use-after-free. A caller that passed the check
+> can also enter a callback after unregister returns.
+> 
+> Move the registered checks under the switch lock and clear the flag while
+> holding the same lock on unregister. This waits for active callbacks and
+> rejects callers that acquire the lock after the flag is cleared. The
+> preceding Apple DWC3 change avoids a lock inversion in its remove path.
+> 
+> Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-On Tue, 17 Nov 2026, at 16:25, Sven Peter wrote:
-> On 17.11.26 13:10, Will Deacon wrote:
->> On Sun, Nov 15, 2026 at 07:38:35PM +0100, Sven Peter wrote:
->>>
->>>
->>> On 03.09.26 15:25, Ard Biesheuvel wrote:
->>>> On Thu, 3 Sep 2026, at 14:15, Will Deacon wrote:
->>>>> On Thu, Sep 03, 2026 at 12:42:39PM +0100, Mark Rutland wrote:
->>>>>> On Thu, Sep 03, 2026 at 01:34:56PM +0200, Ard Biesheuvel wrote:
->>>>>>> On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
->>>>>>>> This series adds a custom EFI table that points to a PSCI entry point
->>>>>>>> (plus some other stuff that has to be available before EFI runtime
->>>>>>>> services are set up) and adds support for this new conduit to the psci
->>>>>>>> code. We can't directly use the normal EFI runtime path because that one
->>>>>>>> takes a sleeping lock and we need to be able to call into PSCI from
->>>>>>>> atomic context during e.g. cpu bringup or during idle.
->>>>>>>> It also adds support for specifying the specific MAIR attributes for EFI
->>>>>>>> runtime mappings as defined in the latest UEFI spec since Apple Silicon
->>>>>>>> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
->>>>>>
->>>>>>>>         dt-bindings: arm: psci: Add EFI conduit
->>>>>>>>         arm64/efi: Add and parse custom PSCI EFI configuration table
->>>>>>>>         efi: Add EFI_MEMORY_ISA_{MASK,VALID}
->>>>>>>>         arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
->>>>>>>>         firmware/psci: Add EFI runtime conduit
->>>>>>>>         arm64: dts: apple: t8103: Add PSCI and CPU idle states
->>>>>>>>
->>>>>>>
->>>>>>> I've picked up patches #3 and #4, which are useful in their own right.
->>>>>>>
->>>>>>> I'm not sure if the arm64 maintainers will want to consider this, but
->>>>>>> I think it's a reasonable compromise, as it puts the abstraction in
->>>>>>> the right place.
->>>>>>
->>>>>> Sorry for the late reply; I've been away almost all of August and I'm
->>>>>> slowly catching up on things.
->>>>>>
->>>>>> As with last time this was proposed (in abstract), I am not happy about
->>>>>> bodging an EFI conduit into PSCI, given that the manner in which state
->>>>>> is managed is completely different from SMCCC.
->>>>>>
->>>>>> If we need a mechanism for doing hotplug and/or idle without HVC/SMC,
->>>>>> that's one thing we can consider. I don't think we should pretend that
->>>>>> it is PSCI.
->>>>>
->>>>> What do you have in mind for an alternative mechanism? I understand your
->>>>> objection to this proposal, but at least it keeps the interface fairly
->>>>> high-level and avoids opening the flood gates for a bunch of SoC-specific
->>>>> idle routines. Are you thinking of extensions to the PSCI spec or
->>>>> something else?
->>>>>
->>>>
->>>> I can't speak for Mark, of course, but I could imagine EFI being used as a
->>>> conduit to provide a callable set of interfaces (with a rigorously defined
->>>> set of constraints such as the ones in this patch, i.e., reentrancy, no FP
->>>> or SIMD, not relying on ISA features that the OS needs to know about and
->>>> enable, etc).
->>>>
->>>> There is prior art here in ACPI PRM, which does something similar, and this
->>>> also relies on EFI runtime services.
->>>>
->>>> You'd still need to implement the CPU ops and a cpuidle driver afaict (no
->>>> expert here), but at least those would be coded against an interface that
->>>> the kernel itself specified, and can be made as generic as we choose to.
->>>>
->>>> Not saying this is all great, but it might be a worthwhile compromise to
->>>> consider.
->>>
->>> Finally getting back to this series...
->>>
->>>
->>> I'd definitely like to keep mapping the resident firmware using EFI runtime
->>> services because otherwise I'd have to duplicate a whole lot of tricky code
->>> to do the same thing via some other means (e.g. a device tree nodes that
->>> contains all mappings + callbacks) and I just don't see much value in that.
->>>
->>> I'm happy to just drop the PSCI part though and replace that with a simple
->>> and somewhat generic "efi-rt" (or similar) cpuidle driver and make that one
->>> have similar requirements like I added for this RFC series and expose bunch
->>> of generic callbacks (that will just happen to resemble PSCI functions very
->>> much ;)) via a custom EFI table. That would keep PSCI out of all of this but
->>> come at the cost of an additional cpuidle driver.
->>>
->>> I don't think that would open any flood gates for SoC-specific drivers since
->>> we could just point them to the generic one and tell them to use that one if
->>> they can't do PSCI for some reason.
->>>
->>>
->>> Now before I go off and prototype this: Would this approach be fine in
->>> general with you, Mark and Will?
->> 
->> tbh, if the "efi-rt" thing is just PSCI with a different conduit and that
->> conduit is properly documented, then I really don't see the point in keeping
->> it separate. However. I suspect that we probably all have slightly different
->> opinions here which isn't going to help you very much :(
->
-> Yeah, well, I agree but I really don't have a strong opinion or any good 
-> argument if either "efi-rt" vs "psci-via-efi" is better or worse. I only 
-> think both are better than SoC-specific cpuidle and cpu_ops drivers and 
-> I have no idea how else we could do this. (We could drop the kernel to 
-> EL1 and do "normal" PSCI in EL2 then but that would be much worse than 
-> either of those options imho)
->
+> ---
+>  drivers/usb/roles/class.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -79,10 +79,11 @@
+>  	if (IS_ERR_OR_NULL(sw))
+>  		return 0;
+>  
+> -	if (!sw->registered)
+> -		return -EOPNOTSUPP;
+> -
+>  	mutex_lock(&sw->lock);
+> +	if (!sw->registered) {
+> +		ret = -EOPNOTSUPP;
+> +		goto unlock;
+> +	}
+>  
+>  	ret = sw->set(sw, role);
+>  	if (!ret) {
+> @@ -90,6 +91,7 @@
+>  		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
+>  	}
+>  
+> +unlock:
+>  	mutex_unlock(&sw->lock);
+>  
+>  	return ret;
+> @@ -107,16 +109,21 @@
+>  {
+>  	enum usb_role role;
+>  
+> -	if (IS_ERR_OR_NULL(sw) || !sw->registered)
+> +	if (IS_ERR_OR_NULL(sw))
+>  		return USB_ROLE_NONE;
+>  
+>  	mutex_lock(&sw->lock);
+> +	if (!sw->registered) {
+> +		role = USB_ROLE_NONE;
+> +		goto unlock;
+> +	}
+>  
+>  	if (sw->get)
+>  		role = sw->get(sw);
+>  	else
+>  		role = sw->role;
+>  
+> +unlock:
+>  	mutex_unlock(&sw->lock);
+>  
+>  	return role;
+> @@ -423,7 +430,10 @@
+>  {
+>  	if (IS_ERR_OR_NULL(sw))
+>  		return;
+> +	/* Wait for in-flight set/get callbacks before unregistering. */
+> +	mutex_lock(&sw->lock);
+>  	sw->registered = false;
+> +	mutex_unlock(&sw->lock);
+>  	if (dev_fwnode(&sw->dev))
+>  		component_del(&sw->dev, &connector_ops);
+>  	device_unregister(&sw->dev);
 
-I agree with Mark that implementing a pseudo-PSCI that can never quite
-comply with everything in the PSCI spec is probably not a great idea
-unless we actually need it.
-
-> And especially with M4+ I'd like to have something that can go upstream 
-> because normal wfi loses most general purpose regs there and has to be 
-> disabled which is not great.
->
-> I can also just prototype the efi-rt cpuidle+cpu_ops thing and then we 
-> can take a look at it as well and see if that's better than what I have 
-> in this series if that helps but I'd rather not spend that time if that 
-> has no chance of being accepted either.
->
-
-I think a consistent approach for both secondary bringup (+teardown?) and
-cpuidle that is based on the same efi-runtime layer is perfectly acceptable,
-and allows us to define it as narrowly as we can, rather than having to
-consider what shared code might assume once it sees enable-method=psci on
-a CPU, or a PSCI conduit (SMCCC detection, mitigations, etc etc)
-
+-- 
+heikki
