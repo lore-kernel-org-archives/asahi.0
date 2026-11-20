@@ -1,83 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795181012;
-	b=UFrizV1+4gRIiAHb4BGYsYfCgzXcWU/gKp37HONBrzr7/fn0VrE81Rwiqfz60YwqWuEO
-	 ulHRn4XItIj8fhUvc8m/GdlgNN3vPlTE8Lpb6juVxfXpuXRc++aYuV+sBiF1CAGUUTVu4
-	 9iFUgI0bAVRZ/mJndwb+TEwQugc0l3d/6xCtX2tJoCounyurN+oyqy5O3TJgLc2u76yIK
-	 y6xs7kgd5JwVXZHmavYq6f1zkyaO22ZADJy90mPelD4QPdXG8N5fmzVHTfYPsJN57tE3X
-	 CZQ9vtU5BMRxsd9Tmg40Y2Bywo8KO/2SUd/clQ4+fQi3dZkYhRkrVd1Z3DDED4HPKSg==
+	t=1795191379;
+	b=z0D2J15zjCIMEvfuZBo8RF9YM7gGll9rPwE+m5avj0FAtzOxE48EtmEiS9aurevYXiCF
+	 fGJx2mcPc6EWSCx4tsXei/lkNKNuE7PpJdL/1npEYJK3qtfPQ+PnYu19B1d/gTl+LV7za
+	 NfZUM6fZj5+jRYCgJiayN9TBmVq72lcD0Xmbfti9AFXlHf50gt8wPtJTkIHFj8NYIWjl0
+	 ujsO4E3CIUanfJyg851le83ctozO5NIVRLXbNij+6/5UK0ddcczHlgohgIz4vRO4l2139
+	 Dt40UqUXmDV1qNP1VviayT1F8t3PvppNFDnEGW5qg4wPAyCJNrmp23kzyy05/sg+aDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795181012;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=9Yave6DZDGUUAvsSfmLDal9WFXgDPPi+dD/iYkllA/8=;
-	b=1zSyKMeqE6AhNufCqoHqwWNygCgI8qziIfiMA5cdYupoM4ViHiED/q4sLebZXH0Y5Ux1
-	 KnrYfZ0TKVvGCfWXbUUZ18MVW3W3bBDY8Qb4vCWO+SGhta3rM9nvH+T4lwEiTzfBYbdMT
-	 xY1r8d+/wI3KHMu6uwwDLIVAX/tbmyGDMkoIlJNcUWhWxYQhpWodcVuThWiw7+q9tl1Pk
-	 bAgXxBzkbI/Mv7B4MeDvJCrFdijP/93s0V5jUSpGS/oIiK5UTBa/0hYtPbX/aoUJ5iyHG
-	 FLP2aWS3Fsvxh/zwIxCqYEfw4cvBu74SaLobwAxV5siemQXYd6JYGWzfSVM8k432cew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191379;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ufkrJtwpBnz6WPMTAKwab4l3d1SzDvPyFYqyMLcrdh0=;
+	b=L3QmyqecA72tcRH1RHh1CA/lG2OBoQiowOymuDM/SqO4RqSjjGfE/QjxLe29XchkYVsY
+	 XejpuKLugtVyvwiKFlYKbiKF6znmXoGzVOHTCLrnl2ufL53Jj5lqISSFzA2uxrruHtis2
+	 VOOO4VnIhdpRUSAPZRErBJfpfZFeAZVEOc9ACZ0qT5FRa319FwmEeakoa0T6Pbw3xD1hq
+	 YFP3tcDds7jQNcLuikp/TuT5X9ZHcviibJBYEMiKoxv3VlrfW7GZzfiYHltmicR7G64Tb
+	 H36VcLbChgzLVw4vHRwDdwITgPtA4ZRLP4XkbLS3CMT1c/or2qrdSDlHyxuV33QHl2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dFvHyXyV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D94606A331
-	for <asahi@lists.linux.dev>; Fri, 20 Nov 2026 13:23:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D94606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65013606A32A;
+	Fri, 20 Nov 2026 16:16:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nb99TAm+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795181012; x=1826717012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cJJw5vbcJuFQOpdae3ptvun5p75snXhnCZwChzdLyPk=;
-  b=Nb99TAm+VhGiURfBHECJLBBBu2HJZqt6RDeXbtNVNvfDMVPwYmANlzw0
-   ImJefDIHTbMw9l0dHYp1J/YBMqnZIhpaR/IurvEc05mJdgR7PAa+ZTqqt
-   ijTdTynrDXQQZfLEGvJ1XwFowkkaVmRZmabEaNnI/24VQ8oXtLpg8RqMf
-   nwsLJcVUV+EQp981K0sXrg/qFdQYniLlBf/6s8gOzy+ESeCT7yJZK+R8D
-   bySsdMP32inamWlhV6sR9rpxD67PaQ6l0/8keKi4VzjUj4r353qcKDRj4
-   QX7tKpbN+bKQnAB2FLSu1fCayXTVhmbrdpAZmOOJW3i9nzTBpdTHDWLcP
-   w==;
-X-CSE-ConnectionGUID: 4SUkRav9TkWYdcJ68qMeUA==
-X-CSE-MsgGUID: VMH3GxA1TzGK5gvhtOk5dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3945342"
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="3945342"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 05:23:32 -0800
-X-CSE-ConnectionGUID: +D3uAwM0Ql+ilvQ35dXt6w==
-X-CSE-MsgGUID: LFt9NXU/RaC7A91NKsxlkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,223,1787036400"; 
-   d="scan'208";a="11035886"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Nov 2026 05:23:29 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 0BF6799; Fri, 20 Nov 2026 14:23:28 +0100 (CET)
-Date: Fri, 20 Nov 2026 14:23:28 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Keisuke Tsukuda <tkdkei@outlook.jp>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] usb: roles: wait for callbacks on unregister
-Message-ID: <awBJ0NDCvbznrBjk@black.igk.intel.com>
-References: <20261117125825.27629-1-tkdkei@outlook.jp>
- <20261117125825.27629-3-tkdkei@outlook.jp>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dFvHyXyV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054D01F000CF;
+	Fri, 20 Nov 2026 16:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795191378;
+	bh=ufkrJtwpBnz6WPMTAKwab4l3d1SzDvPyFYqyMLcrdh0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dFvHyXyVfCYjJ7NGMnBGAqmFCpcmUE94vICjEkzBBZoW/GMfsILWHwMTtiuJI1dZR
+	 isbdUdY2VdAjzDG9uOuj3HvrSFais+CocjccNOVwLZRv4W5ikc+GRT4v+Fx8NdqWKr
+	 ZyxCUZJwx62l8JwkMmsTJRdoDyRAYUklPkgCUjc0vcfaQmkZGX7zdu73B4j7pKlt9w
+	 g12fUi9O3FgrMF6IzDZZ0QywB+0HnVHqTSchls1fGpNhgm5tGk871tvM0ulpNBvy1x
+	 VvNSDoA5BvpXMpyONoBdWe1qJLOqoJGSzHqSYgnpGAyU4vXMxP3P+LXZxSsJ99YNir
+	 xqWdZ+uG5iH2A==
+Message-ID: <2bd84c5a-221e-4da0-bc08-93096b293395@kernel.org>
+Date: Fri, 20 Nov 2026 17:16:13 +0100
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -87,93 +51,171 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117125825.27629-3-tkdkei@outlook.jp>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/6] PSCI-via-EFI to support firmware and kernel
+ sharing EL2 for Apple Silicon
+To: Ard Biesheuvel <ardb@kernel.org>, Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Sudeep Holla <sudeep.holla@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-efi@vger.kernel.org, asahi@lists.linux.dev
+References: <20260708-efi-psci-v1-0-9efb3abf0e4c@kernel.org>
+ <9c53cfd7-e193-4441-83ca-7710060225b7@app.fastmail.com>
+ <apldL6Ml91GW-tE9@J2N7QTR9R3.cambridge.arm.com>
+ <aplk2hHRB7Yw9FWW@willie-the-truck>
+ <eb75b82a-8910-4198-b89a-5c8b487c0fd5@app.fastmail.com>
+ <cadadedb-1de1-46f0-9bfd-35eb8bdfa85b@kernel.org>
+ <avxETlOGyr_WQ2zp@willie-the-truck>
+ <ef76e141-491d-44a9-90a6-e9cd54526012@kernel.org>
+ <a1b18224-4171-4702-acb2-cef994dd9921@app.fastmail.com>
+Content-Language: en-US
+From: Sven Peter <sven@kernel.org>
+In-Reply-To: <a1b18224-4171-4702-acb2-cef994dd9921@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 17, 2026 at 01:00:20PM +0000, Keisuke Tsukuda wrote:
-> usb_role_switch_set_role() and usb_role_switch_get_role() check the
-> registered flag before taking the switch lock. If a provider is
-> unregistered during a role request, unregister can return while its
-> callback is still running. The provider may then free memory used by
-> the callback, causing a use-after-free. A caller that passed the check
-> can also enter a callback after unregister returns.
+
+
+On 19.11.26 16:38, Ard Biesheuvel wrote:
 > 
-> Move the registered checks under the switch lock and clear the flag while
-> holding the same lock on unregister. This waits for active callbacks and
-> rejects callers that acquire the lock after the flag is cleared. The
-> preceding Apple DWC3 change avoids a lock inversion in its remove path.
 > 
-> Fixes: fde0aa6c175a ("usb: common: Small class for USB role switches")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Keisuke Tsukuda <tkdkei@outlook.jp>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
->  drivers/usb/roles/class.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+> On Tue, 17 Nov 2026, at 16:25, Sven Peter wrote:
+>> On 17.11.26 13:10, Will Deacon wrote:
+>>> On Sun, Nov 15, 2026 at 07:38:35PM +0100, Sven Peter wrote:
+>>>>
+>>>>
+>>>> On 03.09.26 15:25, Ard Biesheuvel wrote:
+>>>>> On Thu, 3 Sep 2026, at 14:15, Will Deacon wrote:
+>>>>>> On Thu, Sep 03, 2026 at 12:42:39PM +0100, Mark Rutland wrote:
+>>>>>>> On Thu, Sep 03, 2026 at 01:34:56PM +0200, Ard Biesheuvel wrote:
+>>>>>>>> On Wed, 8 Jul 2026, at 09:15, Sven Peter wrote:
+>>>>>>>>> This series adds a custom EFI table that points to a PSCI entry point
+>>>>>>>>> (plus some other stuff that has to be available before EFI runtime
+>>>>>>>>> services are set up) and adds support for this new conduit to the psci
+>>>>>>>>> code. We can't directly use the normal EFI runtime path because that one
+>>>>>>>>> takes a sleeping lock and we need to be able to call into PSCI from
+>>>>>>>>> atomic context during e.g. cpu bringup or during idle.
+>>>>>>>>> It also adds support for specifying the specific MAIR attributes for EFI
+>>>>>>>>> runtime mappings as defined in the latest UEFI spec since Apple Silicon
+>>>>>>>>> is rather allergic to using Device-nGnRnE vs. Device-nGnRE for its MMIO.
+>>>>>>>
+>>>>>>>>>          dt-bindings: arm: psci: Add EFI conduit
+>>>>>>>>>          arm64/efi: Add and parse custom PSCI EFI configuration table
+>>>>>>>>>          efi: Add EFI_MEMORY_ISA_{MASK,VALID}
+>>>>>>>>>          arm64/efi: Honor EFI_MEMORY_ISA_MASK for Device-nGnRnE vs -nGnRE
+>>>>>>>>>          firmware/psci: Add EFI runtime conduit
+>>>>>>>>>          arm64: dts: apple: t8103: Add PSCI and CPU idle states
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> I've picked up patches #3 and #4, which are useful in their own right.
+>>>>>>>>
+>>>>>>>> I'm not sure if the arm64 maintainers will want to consider this, but
+>>>>>>>> I think it's a reasonable compromise, as it puts the abstraction in
+>>>>>>>> the right place.
+>>>>>>>
+>>>>>>> Sorry for the late reply; I've been away almost all of August and I'm
+>>>>>>> slowly catching up on things.
+>>>>>>>
+>>>>>>> As with last time this was proposed (in abstract), I am not happy about
+>>>>>>> bodging an EFI conduit into PSCI, given that the manner in which state
+>>>>>>> is managed is completely different from SMCCC.
+>>>>>>>
+>>>>>>> If we need a mechanism for doing hotplug and/or idle without HVC/SMC,
+>>>>>>> that's one thing we can consider. I don't think we should pretend that
+>>>>>>> it is PSCI.
+>>>>>>
+>>>>>> What do you have in mind for an alternative mechanism? I understand your
+>>>>>> objection to this proposal, but at least it keeps the interface fairly
+>>>>>> high-level and avoids opening the flood gates for a bunch of SoC-specific
+>>>>>> idle routines. Are you thinking of extensions to the PSCI spec or
+>>>>>> something else?
+>>>>>>
+>>>>>
+>>>>> I can't speak for Mark, of course, but I could imagine EFI being used as a
+>>>>> conduit to provide a callable set of interfaces (with a rigorously defined
+>>>>> set of constraints such as the ones in this patch, i.e., reentrancy, no FP
+>>>>> or SIMD, not relying on ISA features that the OS needs to know about and
+>>>>> enable, etc).
+>>>>>
+>>>>> There is prior art here in ACPI PRM, which does something similar, and this
+>>>>> also relies on EFI runtime services.
+>>>>>
+>>>>> You'd still need to implement the CPU ops and a cpuidle driver afaict (no
+>>>>> expert here), but at least those would be coded against an interface that
+>>>>> the kernel itself specified, and can be made as generic as we choose to.
+>>>>>
+>>>>> Not saying this is all great, but it might be a worthwhile compromise to
+>>>>> consider.
+>>>>
+>>>> Finally getting back to this series...
+>>>>
+>>>>
+>>>> I'd definitely like to keep mapping the resident firmware using EFI runtime
+>>>> services because otherwise I'd have to duplicate a whole lot of tricky code
+>>>> to do the same thing via some other means (e.g. a device tree nodes that
+>>>> contains all mappings + callbacks) and I just don't see much value in that.
+>>>>
+>>>> I'm happy to just drop the PSCI part though and replace that with a simple
+>>>> and somewhat generic "efi-rt" (or similar) cpuidle driver and make that one
+>>>> have similar requirements like I added for this RFC series and expose bunch
+>>>> of generic callbacks (that will just happen to resemble PSCI functions very
+>>>> much ;)) via a custom EFI table. That would keep PSCI out of all of this but
+>>>> come at the cost of an additional cpuidle driver.
+>>>>
+>>>> I don't think that would open any flood gates for SoC-specific drivers since
+>>>> we could just point them to the generic one and tell them to use that one if
+>>>> they can't do PSCI for some reason.
+>>>>
+>>>>
+>>>> Now before I go off and prototype this: Would this approach be fine in
+>>>> general with you, Mark and Will?
+>>>
+>>> tbh, if the "efi-rt" thing is just PSCI with a different conduit and that
+>>> conduit is properly documented, then I really don't see the point in keeping
+>>> it separate. However. I suspect that we probably all have slightly different
+>>> opinions here which isn't going to help you very much :(
+>>
+>> Yeah, well, I agree but I really don't have a strong opinion or any good
+>> argument if either "efi-rt" vs "psci-via-efi" is better or worse. I only
+>> think both are better than SoC-specific cpuidle and cpu_ops drivers and
+>> I have no idea how else we could do this. (We could drop the kernel to
+>> EL1 and do "normal" PSCI in EL2 then but that would be much worse than
+>> either of those options imho)
+>>
 > 
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -79,10 +79,11 @@
->  	if (IS_ERR_OR_NULL(sw))
->  		return 0;
->  
-> -	if (!sw->registered)
-> -		return -EOPNOTSUPP;
-> -
->  	mutex_lock(&sw->lock);
-> +	if (!sw->registered) {
-> +		ret = -EOPNOTSUPP;
-> +		goto unlock;
-> +	}
->  
->  	ret = sw->set(sw, role);
->  	if (!ret) {
-> @@ -90,6 +91,7 @@
->  		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
->  	}
->  
-> +unlock:
->  	mutex_unlock(&sw->lock);
->  
->  	return ret;
-> @@ -107,16 +109,21 @@
->  {
->  	enum usb_role role;
->  
-> -	if (IS_ERR_OR_NULL(sw) || !sw->registered)
-> +	if (IS_ERR_OR_NULL(sw))
->  		return USB_ROLE_NONE;
->  
->  	mutex_lock(&sw->lock);
-> +	if (!sw->registered) {
-> +		role = USB_ROLE_NONE;
-> +		goto unlock;
-> +	}
->  
->  	if (sw->get)
->  		role = sw->get(sw);
->  	else
->  		role = sw->role;
->  
-> +unlock:
->  	mutex_unlock(&sw->lock);
->  
->  	return role;
-> @@ -423,7 +430,10 @@
->  {
->  	if (IS_ERR_OR_NULL(sw))
->  		return;
-> +	/* Wait for in-flight set/get callbacks before unregistering. */
-> +	mutex_lock(&sw->lock);
->  	sw->registered = false;
-> +	mutex_unlock(&sw->lock);
->  	if (dev_fwnode(&sw->dev))
->  		component_del(&sw->dev, &connector_ops);
->  	device_unregister(&sw->dev);
+> I agree with Mark that implementing a pseudo-PSCI that can never quite
+> comply with everything in the PSCI spec is probably not a great idea
+> unless we actually need it.
+> 
+>> And especially with M4+ I'd like to have something that can go upstream
+>> because normal wfi loses most general purpose regs there and has to be
+>> disabled which is not great.
+>>
+>> I can also just prototype the efi-rt cpuidle+cpu_ops thing and then we
+>> can take a look at it as well and see if that's better than what I have
+>> in this series if that helps but I'd rather not spend that time if that
+>> has no chance of being accepted either.
+>>
+> 
+> I think a consistent approach for both secondary bringup (+teardown?) and
+> cpuidle that is based on the same efi-runtime layer is perfectly acceptable,
+> and allows us to define it as narrowly as we can, rather than having to
+> consider what shared code might assume once it sees enable-method=psci on
+> a CPU, or a PSCI conduit (SMCCC detection, mitigations, etc etc)
 
--- 
-heikki
+
+True, that's a very good point.
+At least for Apple SoCs I don't need anything nearly as complex as what 
+PSCI provides. I think all that's required is cpu_on, maybe cpu_off, and 
+cpu_enter_idle plus a bunch of static values (number of cpus, available 
+idle states, etc.). Let me think this over and maybe come up with a 
+simple proof of concept then.
+
+
+Sven
+
