@@ -1,125 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.156
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795261978;
-	b=shAj3XRTy3oqFBjE4cjT0WwzGStw0ePEGYTiL/Q1FoGteHPZukWKniBxKsmpdDbYdwn8
-	 RNNc0qGsLEjr1cLlphdWS7yeGC+5uuLQvucq31z+0ELd4G3xAiVxePfn6Ax3i0JFrOabh
-	 Q7Qm3dMBg33i79OMskStaXtsoquL0lmRyc9Ekw5UkXRuDN3p0UYKXP88I3B3kSy2zfa+J
-	 GTYBqG7lwamZ9zV5YkgAg5zbjUFhKJ8F4a56I7EjrE8SnJKOgCBWT4p1OH57T44b7DmVa
-	 zK/kvIOZFEBp3MVIpr7FZJL5I5IDSbwgAHt48iEumf9aJo2vk/cuGvzNKon5gvLItuQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795261978;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Vf5yNidlEa+rFU9C3BVI0MM4tRR53gAKOOYaK0pBN2o=;
-	b=MLFBDd0bbpbQWMBG0SceiBa9SZYy7CdEXuXRvO0fAm6L/lBxWTgVu1Ij4nIpv7HtzLyO
-	 R5dnQDwg1mAgXFOdhHTRZ56oRtNkE5AAY0/NR9bkr7iCOFPfv/27sSxtWkT9wbv7g3Z+q
-	 EPfwV+oXAO++iOsot4kn49Pw0vlMg7CY4FOWwttZs1NmBo6LHmANtxHzy9oPf9aqXwLWo
-	 juctp0vectJ+HkOtv66h8IEAX2BXXBuhiqbkmZ7cDnRYZZV4SHk+tD9fxBSGth1LlHJdK
-	 cmfMVGQ/gOvjEPAy2+9esP28264DCF6Cd+fJTd7ZoU9PgMvknahAbzxeTyq+uunzN8g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=jannau.net;
-	spf=pass smtp.mailfrom=jannau.net;
-	dkim=pass header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm2 header.b=FV+bHprt;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=yhn56oJr;
-	arc=none smtp.remote-ip=202.12.124.156
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.224.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1795263091;
+	b=O4WTGdsbKxyh+bntz/zReLg33ipkyFzb3wPKJ/qW78ExZFFrZbwc7P2tjLn1iMQtBAg6
+	 Iksx8lNZ00zoGou+PovApembWkuOnIYlFh0sFKs0v80qRmedVHXTVGR6GLcLtZFd9y+uM
+	 4FVLnAGwtoE4zz/vWeYEyYHSDZeVKDXhZAGbdv2w6FZprKE+Z+Qu3uztpM8Hiua3uv1O7
+	 maTr5KpOgikop1T2rDgQ7xo7T1vMy4LVhbDEJyNtDlAdQwoVESBtLK19zDvQufbMcbTKU
+	 Ze/pLer/ghFKac8VH7DabLVGObStX0uIgiBgmQQ7AVH/BKavQG1feoOAAm4Z/7GV6AA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795263091;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=uEZb922kTk9cPdYuJdRQn/n68pwJkacBa3uckuCCVJY=;
+	b=1J7GoE0HvLaHwYSnuMLAMNdFg6WsD7DVGiHSoQMwlxzt1EIbZKWDnIOzIkgx6B2LP0L3
+	 dX3dUKI7PGdkstusMqNqntvtziJQaimFDooNj1iPXh+lyoBOTepnqu7w8sbJjFvvT1kff
+	 9NuYSUMymXs2oB5V1jTuEseSjTv2ps9m7MTP9U+gUBrNyxRC6EOXAr7o6FlAyq+H8ziuf
+	 Rl3CFf3z3uRFb7+1TB8+priDtbUnw+9/Dc0A0ySQv3+2EOXAPHKwdaXbEZ/AXCJa5FbLN
+	 ZQMhrTX2RUnPrx4Y+Yc14XVTuol0EXZnMLop5Z/7nY9kJ/9eCJ6jNMGiN7ASq2vTSnw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="snpqDc/U";
+	arc=fail smtp.remote-ip=74.125.224.43
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AB5606A331
-	for <asahi@lists.linux.dev>; Sat, 21 Nov 2026 11:52:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71AB5606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F8F606A32A
+	for <asahi@lists.linux.dev>; Sat, 21 Nov 2026 12:11:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2F8F606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=jannau.net header.i=@jannau.net header.a=rsa-sha256 header.s=fm2 header.b=FV+bHprt;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=yhn56oJr
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 841CF7A033A
-	for <asahi@lists.linux.dev>; Sat, 21 Nov 2026 06:52:56 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Sat, 21 Nov 2026 06:52:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1795261975; x=1795348375; bh=Vf5yNidlEa
-	+rFU9C3BVI0MM4tRR53gAKOOYaK0pBN2o=; b=FV+bHprtVjMGB2S8RcLRQNQDn9
-	bZdh+OR7HG23Eg6iylzbnNjXbSLUhRtn7ZpFMYTx+R1bGmzxPc/sBDgE4qAeZuuT
-	ljl7aatyY3m3OlDdDOOZ1HL6iBJPJPcIGcw+aEPg6pSzCZWjUqJ5FmGc0sIfQxqo
-	/MgFJVLUyZhDpEp+JuttdPu218/+huqi/7VoVwxETi6JMzYZnuLYsDy5jdh0xKuA
-	UyBLE2nZR5wiMJX7Aky4axoCdnsmJgBrFFSjogUefe4Aa6VRkrcjnbi718vC+4Is
-	PxnUuY9PbiwvU6odlizUE/IKbTEFPICfYBFBFTUbm0jN+d9EtWJvX4NHqG2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795261975; x=1795348375; bh=Vf5yNidlEa+rFU9C3BVI0MM4tRR53gAKOOY
-	aK0pBN2o=; b=yhn56oJrEzjDnsdu/l3J1BAmPI3UEVBkOImzk4xKA8wXJkRDMeZ
-	pYiFZIoZM3BiUdrfz9rSGSi41D0lRDXnX+TzUpfI5Ehs0PuT36m0cyKdvl0zBODq
-	HlRJFIg65GAHRkqATI2SvJ+7W8+C/5f72Jd/WAkIs1vePt9DXOB2ceBFGFrtOcI2
-	MnXJ5neKdLu0uViuRuVM+GA27LfcZExBAjva4Mr7b9N7jJ8AOSAINYATvhLFEJft
-	xv9yWyUaEa1ABsyMW+Ii1l+RZIF0gRszLx13ZsSitkrr2IdpF30VqswWVP5Sbcew
-	vbGbJq2uLmoEe4VwGb8xFnPWuApfIG68uhQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=jannau.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795261975; d=jannau.net;
-	mf=PGpAamFubmF1Lm5ldD4=; rt=PGFzYWhpQGxpc3RzLmxpbnV4LmRldj4=;
-	s=fm2:rsa-sha256:B5DCqhnsGwB3pRrqDVnb5B7t/HHCfqtL6QYsg6EeVBUZBw6
-	hR/5I4Q0aVNa8GPeql740bBpwhyowxQE+8WdgyMVWmWpDTrcviBtHYArFYqT76WG
-	w2NnOFt6ivqjervXwJiiRkbH2azGim6sLqqMThvpoVuHeRGxQcT5xY625bezjey/
-	k4kt0Lf2fFD38sRiBfxO5cpjjzlhcc5ieHxFJSZqqlKu5KKwMQegIcoUjnWuXaTs
-	flt/SF09MwAtldm/BhioDITWOuQVa/kfoa8oa7pMn0WOYJcNM0KDhT66x8EE46Ae
-	VTwvas7kyMTlUoQSZyviL+ZjOMNaioJujRThsMA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:PllbRkZUG5kqS11BHAzi7Gauwu+Tul1lkzhnOroHy78=:Y0U1brNihjDI0zmj+e0NOmljkQ36GWR80sjuK4SJP94=;
-X-ME-Sender: <xms:FoYBazJb02vEQArLE73gHOfrJZHzcsyPLDR8-aJ9bW0whXi8H-abDg>
-    <xme:FoYBa-uPlpFVaLJSweu7cjdQryecnK-EiDXSgMft03FZy7jO4W7PeNmpW66fktOQP
-    JkDrGlsl4ZiEWMfn3xowHn6uxITulwg2-t7RJzbdl0rIxKA_RHjE4dO>
-X-ME-Received: <xmr:FoYBa7Vzt9PGb-j7UxZI5KfnddKw7pD2eVpZzIF_GZnvXq5soKOUo5l-NCrEdTmv_2FU699ljWH0Bc6kKG99lbPWcfHHoSVYpTM>
-X-ME-Proxy-Cause: dmFkZTFE/iCAR/qJY1Oq9ehUAbZRcRuEB44N0ZYXPZcCNO8pC2g2/wBbtOpAQuaTZgK70W
-    xKLm/wK+/fyJtgak4tomAxv8Y1XuWiITTjpY3AoRg3NDOtWYO3dObYAw6kyZHnjShp4W1z
-    W4Rd9w6lREJDTZKjD3qisRXJLAWNLrq0qqgqXRbPQuFhCUvdQ5aZulYouqamUdQ8TpZ38A
-    rl9ZbOsdG3k+z+6rKgAhZwjCRyTO6+wD58HRvk1K8eVcqIoo5SMzei4hN7MTFp9DaLl/Bk
-    h8k805wdD+QtvsCKbjHCsVTZRORR223mnvwPr6v90KvUks/A3YitkE4dKqLze7GYH2oosb
-    cvWl3TuBkBYsbCkq0xVPV1CCUNTteQSKEoHskc9teXXYZfumL8NrtpxQzjAG37H24tLcIJ
-    NuqQT780v7AgME+wMTQFtRtc8Qg1Fg/XKL4HaMLoNlR/8oMriOs9Upqck1DgLnqeRfuQox
-    PLoZOkla0SBhI/Tn+ONfzTssWlS0TfebbkDrs1ghcG4fC+RnlfBaWWke4dYNAfIoYiAY0O
-    lqwG9l4Eizche5BbFGeM3ED6Bd1pE0ep4bQI1wWWE4TBwiWTkIVcGbAOC2JAx45KROI1MJ
-    rxSPMQQHmPqQbUDtY1m5VIFvzV2OcmqY6uswsP+4C7CGcwcTLBtNhYiXTuFg
-X-ME-Proxy: <xmx:FoYBa5JBoEt1NktQEeUlTj9FZq8XE2-UE6Ohcb1cA38NPrZf4uedOQ>
-    <xmx:FoYBaw-fDlEKUXoopB0j9KXJw81ZAYpajMN16WOWEZ4fKfac6TZcEg>
-    <xmx:FoYBa3Nxeyl1RpGWqscv0oUkRP2LoCXYR0UbfTvIK--zfLtVgtQGag>
-    <xmx:FoYBa827fFffiz8YY99o9dlC2yJqeBjNtF4yEH2Y08hPdX0OAgCqzw>
-    <xmx:F4YBa4TAoJAFaTeVXe1PjjV-M9TcG19Jr5ZAok6slITaOqkhMTj9kJvc>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Nov 2026 06:52:53 -0500 (EST)
-Date: Sat, 21 Nov 2026 12:52:51 +0100
-From: Janne Grunau <j@jannau.net>
-To: michael.reeves077@gmail.com
-Cc: Sven Peter <sven@kernel.org>, Neal Gompa <neal@gompa.dev>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yureka Lilian <yureka@cyberchaos.dev>
-Subject: Re: [PATCH 0/4] arm64: dts: apple: Add CPU frequency scaling and
- OPPs for M3 family
-Message-ID: <20261121115251.GB515128@robin.jannau.net>
-References: <20261121-m3-cpufreq-opp-v1-0-42a0c07c48a4@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=snpqDc/U
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-67db35e7953so1955587d50.0
+        for <asahi@lists.linux.dev>; Sat, 21 Nov 2026 04:11:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795263090; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qdjiGp97U6PgweN5ckPLPzCk2qP37W9oxSYYvESXQZFbcJYBV/Yf7vOvzuEE8ivaK6
+         6KV/BftCTWyHndwT+rd9OcQzlDOCuLExLG3P/bZbMOtvbKKDOYULRKxIXKoOFcQ1v8YR
+         8jp39DpPs/liKMUbQJSjhYF8TwaQdnRYQ56s1tttHxVGFnVrkN3nD+vj7xanh8onQd3n
+         pDhouQMu1l5wzDgsRLxjARUxd9xgqSQuJ96bXodNCBz7EKkYSEHbvLjZVGLEpT2zP82Y
+         nYAOosjek5mEDqP8ci0tPSAGPT13Zezg2ltxjsWJTg9hNeckj0iz3fiwcj/RU6GU3Uif
+         yePQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uEZb922kTk9cPdYuJdRQn/n68pwJkacBa3uckuCCVJY=;
+        fh=fh057yQ6aons0dCPWTXjTWikF7gVxqfVEae8k7n7yVM=;
+        b=n74xnqGlSdVL5IHM5nR/9G3ArIzjxDR9++thO+FqJDiChdkCY73DRI9MWdeUTzipen
+         0m0y2WDOysFGB1aa1ri92nJlGEgUR6ghFokzA3lzMqHsuZGcwcg+blYI2X3gC9kveAV4
+         Bun8lkg8vD4Vc6EIYbXOM+weZ1sTpva5fMM2DLGq/N2AqJ3DeeF3Ufbz8gNGa5TjFsGd
+         wbNZ6QphvICPC4dFUvSvY66ES+ycEUHeMUvwlb53wz7S6BVAU2D6+KFAi2d3k3YDbp2G
+         ybrqnMprmg2OFrnUMwmsx3iQQtsj6jMU93aIngA4BiPhlM+0T+sqm1LbPE6/YLEmGeCp
+         Hy8A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795263090; x=1795867890; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uEZb922kTk9cPdYuJdRQn/n68pwJkacBa3uckuCCVJY=;
+        b=snpqDc/UKiV1fzj5aiGibKcvQDOGKqUNOEJ+pCH0Hyhm2XuWqZL3oGcKqJwg6pnwso
+         hSFrsScDkIs0nT3DETN9m21JUVV9SA9Cnx0peFhgax36y1kGxAD1E3+tJwKk9qzt3+HG
+         agdu1VoSqAYvfPH5mSNmQt4A5q2mUrtBl+LRioYY6tPbOZlgVkSgyz1/5P1tTygpR5HZ
+         amEo5RSU33/hrXeRQoETrlkNxluA081IknO5w5+Uk/EKHhTYAWHEtVRB6ACX+F4nBfrB
+         WaDqlLQIiqpTA7N4XfZZbJ13bLicSArSeCKYq9hIqMmo64lwpMNnWGn2kak9bYbMOOap
+         WIpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795263090; x=1795867890;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uEZb922kTk9cPdYuJdRQn/n68pwJkacBa3uckuCCVJY=;
+        b=yQu6UN6jCdNIWHEiq3FugIMRVV1WvGtaF77lbSSW4FhSvzjaaJpibmrrfb2jDiVCPh
+         EOLXGk/i1uRdGw/6jyVyQQ6LmwVnePxoEogT+ecTmqWKS60h9wYjiRGzRRKHSZBo7uGD
+         jAjMHCrHaLt4gUGb5HQA8u71pGXJMWbu0GlD2J3rxGzS7VuZ/M/rupG4/eGPMMDrZitE
+         Du1Ts28y6E1ZnKz8UX7lWi6hpxNp1ZR+IGEkbTFQKvhA9f5+Evob2k5rcFiGySJeKZKS
+         DR6gDuNVvLcco19FP8OVtZwoWWnv9RnQWZ6r45n6bORVx4egBGqjqT1XyQR9Op9YX+H7
+         WMnA==
+X-Forwarded-Encrypted: i=1; AL+hErG286uUx6YJ9C5gvKEy9qLPe1anUurzoMgG6svHTNI7RKdUId9d0s9g453uZxkI8RyShsPL9Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9UQZHUloTLvJ2MkND8rRdxy4tGJw8Zzmg/R8Ih7yL7/9CvU3A7
+	MM22/EW2IPO+A/ecotcoIjv74WP7cv2TOh3Ru41lqXRUVdI9j6bgD/7zMHzYyHbTC1cwR/n7QbU
+	4j4tWIhIXRg3i8EN0PQUVEVB70CRfdoo=
+X-Gm-Gg: AZFdTZeHGoqMBjCuxnjXbloNnFE+v1voaH+P7V8OjYRjlDrR4bFPi8e7IrAmnQOYZg0
+	hBMbSnbUKw5u9OFvDfYVezSnS3LKu4ZE9oLyl2m5FslARUDXRQU4BTjo5TiWr2cEAci7bzjDGJq
+	86qRX+IhKpak8uGKYC81IJ6KybGWm4TBE7Pdh/fgLHjM75Bc78knjIqAXgEb2okfZNJTUI5AkSG
+	yEiEYZfPBZFmt0aVVxo/HkB+RfuYCBCQi6EFyXetCEdXShzonz65j8/m61VDAWZkUgoZuJPog3T
+	G41DZBczho6bIctGosBGNFIlnsfyCzp+o8qF9NIjoqLWKy66lsZzucmBYEAMNLGsNv6msEeo49E
+	mvkaN23LByG/t/Dw0se1eg7Ot4Naxv4WtdgzJmI5oMRR7fUctVeC7YCDMe8Nr8qHoN/5b+HZEQF
+	7KArSrEDYKt5G0GUfU5Q1ESSUOGQ==
+X-Received: by 2002:a05:690c:61c4:b0:8b3:5fd6:a544 with SMTP id
+ 00721157ae682-8b52047e1c1mr19674487b3.58.1795263089936; Sat, 21 Nov 2026
+ 04:11:29 -0800 (PST)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -129,24 +105,35 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261121-m3-cpufreq-opp-v1-0-42a0c07c48a4@gmail.com>
+References: <20261121-m3-cpufreq-opp-v1-0-42a0c07c48a4@gmail.com>
+ <20261121-m3-cpufreq-opp-v1-4-42a0c07c48a4@gmail.com> <CANpmGNvd3Bnv58BQX3UcX5eOip5Q0DfmPhvPp_9DGRQQUWOqQg@mail.gmail.com>
+In-Reply-To: <CANpmGNvd3Bnv58BQX3UcX5eOip5Q0DfmPhvPp_9DGRQQUWOqQg@mail.gmail.com>
+From: Michael Reeves <michael.reeves077@gmail.com>
+Date: Sat, 21 Nov 2026 23:11:18 +1100
+X-Gm-Features: Aa3M54osrg6doytRUFLjK8s5YltogEr6ZngrwFO8UHAiCYiFQIm7-VCyERe-Cqo
+Message-ID: <CANpmGNtfmk8QODQf9x7nkVSr8F+=8Hfh8GbKjCOnxvw3PXCTFw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: apple: t6031: Add CPU frequency scaling
+ and OPPs
+To: michael.reeves077@gmail.com
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Yureka Lilian <yureka@cyberchaos.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 21, 2026 at 11:42:45AM +0000, Michael Reeves via B4 Relay wrote:
-> Hi folks,
-> 
-> This series adds CPU frequency scaling support, operating performance
-> point tables, and asymmetric CPU capacity values for the following 
-> Apple M3 family SoCs:
-> 
-> - T8122 (M3)
-> - T6030 (M3 Pro)
-> - T6031 / T6034 (M3 Max)
-> 
-> On T6032 (M3 Ultra), the cores on the first die inherit this support
-> from M3 Max, however those on the second are not supported yet.
+Hi,
+On Sat, Nov 21, 2026 at 10:52=E2=80=AFPM Michael Reeves
+<michael.reeves077@gmail.com> wrote:
+> Oops, I accidentally forgot the capacity-dmips-mhz for these ones.
+> It's just 1024 like all the others. Can you apply that when picking
+> this up, or would you prefer I send v2?
 
-Please duplicate the values from die0 int6032.dtsi.
+To fix this and add proper T6032 die1 support (as suggested by Janne
+in response to the cover) I will be sending a v2 shortly.
 
-Janne
+Thanks,
+Michael
