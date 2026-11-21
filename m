@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795250081;
-	b=qLrYjwms5QxCx19TNxlhPin73CyxnIScWf2CBlB/48S0ezGDl9rPvMKACMUoA/qJxtgU
-	 W0gCAMnjkD1EP6kx8JtWcACUMYtmAiZT7G9kYufBrY2mD6x+68yYtHaXDTJDbW0feVW22
-	 DMLITZ5XPkBaVTjAjL87mKFaTSfJzvuG5wSM4b0+I4YbBtLqbj/2htziBq2kChGhm2ynQ
-	 1sfV9Vpm0VXPkvzZfoZzLzGxyFs5tA2kiXCVHdEe7Hka/OmCf1rGF2wdYz0I7+LgLeAAz
-	 U43ve2M3qJDpcvperrvlCLOkHHpKAJCVZ9nQfsXc5y4CttJVx9huSMXxSwF8BkSw4NQ==
+	t=1795261479;
+	b=hl1iNcXj2/bUF8NqzggRr17h/BE0YFXiOsuePz7C7Y/hz2dX5nReY5V4wYyVC2qdzeLT
+	 DPFqte2+FAnimXuXTx6YNdy9fwg7XidbLcvHK/wer2Ii7EZZZqcfW5+a1dd0UfM9KjZQN
+	 odXG3qrHQvZ9WzGDuMaaVEtEso7XB5Sdcr/HjOJ+00+8aGYWGm/WCiChymS0LyTrPX/n/
+	 h2e8zXqPL4YVa/IretOlgfLNecHXg5PNs2EDt1m780l9R8A+0kMb8iVMHx7Wz12+HNEb0
+	 OE5trAqb2jGUss0xftX+VNaifPp/NTR4XKeMf0neVU1b6FrEhb782bsaMKbTAIUAYuA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795250081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795261479;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=rL0MUx276mgMEoRjX+bVIlwuG86tWqK7KWE3DnOCyNk=;
-	b=XrHWfEMMxBsKYlfltbZEgDRHXbCkPgfIuHQO8TSH4CkIl9S4AQT4n5ninVoY6FS0OqQI
-	 BB65hhnGG3cPixEwnCbkFQN4d1FkcE9xLuWIBrHFkj1/ZJzKRKWcN+/dvGgoyH0RO7PkE
-	 n9BxlO8Z2kZnsugZKwDdigFIixmpsPpMbcB80h72FBRLXefzzFe90n+9dOdkq6eABPL47
-	 GXFxaY+F75rD7TMbariL82C74h4gN0h4EiiaQBH5eZGKq7aSsCsjgzO1L08SwzHdzj7Zo
-	 +wabHc+1q+Hvap4nTjwJeaUgztZ3iXpn4cbKQ8NdjSIm2Dg3KPZynn+016dQiSAv2Ng==
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=z4JW42X5iD/lJnTftpanyIMbBetfqY4zpOSQ2Qgitb0=;
+	b=lrtcwqhX8RK1MO2F+WhLNpGWvIo3y4rmMTrUYRSb9BqTF0JbkGJMtXyVyP4hvAS+XKaX
+	 VWv2g7FllvfAJrRZvAaDPZ+BLswd0oR/f87jFNaSLsYC+yBAVjnC0WlqKYZjKmaU5De6a
+	 xr6zGv9VmarnDx1WVqAQEPG2Ax0IxxHpKMTjBA7kW7sOhPUjWE3pG2xfGot3da+XBAAgA
+	 fEsmxHJ8a33EcyI0D+cgICGedUAF+RV4sYMKtOI34ZVbd0b6j9hDLBgPsoNOw+EsriPp9
+	 BJH4ccFXtnQgeNtIH+6+XWNgGr7f5HXjxTuviJ08SVpJzmXtU6IUovRFHQyrwuHOELw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hpxxNDGC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hG4tA7U1;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34723606A333;
-	Sat, 21 Nov 2026 08:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E458606A325;
+	Sat, 21 Nov 2026 11:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hpxxNDGC
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hG4tA7U1
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795250081;
-	b=qGrMZ26wf5Z47XgYEPR2/vUqJ4iKygmaxTvkbmfcCDhDALQRz8XCI8ISSN8C5inDk/w/
-	 9TFmtS2Jfv2TQSKwea2FB3MgqkAcBO0jGxRCGBD3IQvmcOYybcIfBLizSDmS5WHsnCpcD
-	 5QRuCT2Bnnk9BgpWp3hBON5eNGg7kwugMZy4rTwMebr2MUoWaBPLL5HQUZk3ZvE/Z4/Ij
-	 VPB0poSWWvgCM1CFrna8k94hCmJrjzbstxY2lzNiPjcqYSsY2Vybu0YlolesMN92GLavh
-	 5dQOIBNZT5TgX08J+BJEDVEP1fK3Cfcx5HcnzJJiobWXMW/5oYpMnlrnCqJDuZ5Adxw==
+	t=1795261478;
+	b=uALm5KJzgwKrsxj86Ewd/BB/PPu43Ym+ybdgqF9u2lpeekfM6hqfMFRukwqrS9O1/EGc
+	 JfYX50Vgy8NL0yxucpkoIwdsQA9HtIrk4JLVOLnbn7Z5BHTXCGmkb7f9JpeCbKcyxCMe3
+	 SeG6GfIkOHaoxYQXuvCigNY6cvEO2cpL7p9MdwGWZ+pVPgekXG8BJ+l1ojYEzyE48q0Dw
+	 QELrY/9Ud+8r0lgtufjQwkisLm65v/7oQbRq+H6gqlsyg95YJU+IfQ+lMGbQAppBeLqm2
+	 tGluVppbVCEiVKCaRIG+eaZKQTt1ZZGId7ew+6+XDPvg43Z/lmA3Ag9QBY/hH8xFe/w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795250081;
+	c=relaxed/relaxed; t=1795261478;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=rL0MUx276mgMEoRjX+bVIlwuG86tWqK7KWE3DnOCyNk=;
-	b=jAq5EFH2UQFjcEvcnQ7b7FLo2R10COn2fgV7M7vWkD01Y93b1O0HWNHyZuUCFaUlr+Kr
-	 vQiqgJJLtsfJ1SpszEwSiEiBpV+pBb63/e3Ggp0vWTr+nsfBZ18Tk3tHPw6zzngQkqhyS
-	 1PT4KCbpVjSWn68AP5ZwWCqW5v/9VplppdKJHMDSiD0djVD6mtN6vu4F6uyqdWk7PC00W
-	 KstWc5mKLClckPsGuaKLvsQgzp22HUamDJDUed53wBMA9jiF08QqNDHXgsQ2tcbVdwyGy
-	 b/LTu4QTm4vF53ALRqES74Qo9wmvKFvnOrB5Yy5o22+fE8YT3XogSmwSZ7TLdBoGNWw==
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=z4JW42X5iD/lJnTftpanyIMbBetfqY4zpOSQ2Qgitb0=;
+	b=vwVbYFNSRwo+upsboOGlJG04bJI6++GkrKGurmGvP0irCYcEvp49gCQkQKHvTiXDlqgC
+	 OuwHNlIxlWcubL4zZgRoDYQLTaxZtn2ks2Ayfppap9v6xBrf9TfB+qVhZ8o26WKNWMuEc
+	 xXDeUaUYLPCJ/Rc12EhqndXDXyWxNptzwfBsYuL3/BqZRCt99clfZLgKspNUkemQJ3y5H
+	 14FqNUe6/vBRdv7w4+PoPyeNDyFJ7V1sE13aE6HeWVhFg42e5O6+FNjdQ4bIHuZ8E76fa
+	 T+UJu0ypW9s7YDWNJ2iPHRGDWx2Kmqgt4CKRz/5TEyysFCo3CPTzlLuI3HOJfZUW2BQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 12B201F000C0;
-	Sat, 21 Nov 2026 08:34:40 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 23DC01F000C0;
+	Sat, 21 Nov 2026 11:44:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795250081;
-	bh=rL0MUx276mgMEoRjX+bVIlwuG86tWqK7KWE3DnOCyNk=;
+	s=k20260515; t=1795261478;
+	bh=z4JW42X5iD/lJnTftpanyIMbBetfqY4zpOSQ2Qgitb0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=hpxxNDGCHMLFMLXd+NM4KMYZihw6v9cfchd5Xo7Y7FvmEWRhCWugMX6h+1YYWUai9
-	 mD9Dm6O4Jj7qPCugRRGWXl0q4oiIUOMc50GWpAlb30mA68iJPQ25xQS545gJDYMSYU
-	 iFcSqY70AECzCglI2Oa6UbvfdwVNBTHHkTL9EnQf7MYZc+Jm+G7qtVyLb1FavLuaWb
-	 R/RnzQRbMBmdtCtr7stBfYWa4BjWEVrjsnC1e6TZzi3tjCKV5CLy0AgK8Se6ARUEmN
-	 CI0N6wuQ+LXcJvCWnZYYID9SOo51DiPSbJtm45AfQiHRs3xnKWULBl6XLjltAZbsx9
-	 E8FgjLGdDU8mw==
+	b=hG4tA7U1XjdRNvjqIJ/tmZM3DlC4dWUbfdq++1JCKQBQMzpbzjrFPd9SzT3td3gDv
+	 Hjzc9ySt2v1WSXqaSoFmmPxfQn9K9WJVYkcqGTPe0vQ/AhKyBwWzzM4QM/f9SKavSo
+	 Szphjdd8pRwupXo9pHkElWoLBO+XTn2JQ74d6K5kVkB+B8wxE0VcwA37BlqrKn/R+v
+	 C2S7+K+4FEJ6dd8OFW7VQ1TpInHpqIR8UBNPx0cLeMbdppmhDcLccmVX4aNf/l8+wm
+	 Sa2nJohzWcO6aTeYnUWNgECYR9Sf85+k807BSuRKc3va+K1LwbavaWfLAraIUQjQNS
+	 Ij8qxiE5sATbA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9435D4BB9B;
-	Sat, 21 Nov 2026 08:34:39 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 8EAAC4BC0F;
+	Sat, 21 Nov 2026 11:44:37 +0000 (UTC)
 From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Date: Sat, 21 Nov 2026 08:34:17 +0000
-Subject: [PATCH 3/4] arm64: dts: apple: t8122: Add NUB SPMI controller and
- PMIC
+Date: Sat, 21 Nov 2026 11:42:46 +0000
+Subject: [PATCH 1/4] dt-bindings: cpufreq: apple,cluster-cpufreq: Add M3
+ family compatibles
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -84,112 +84,65 @@ List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261121-t8122-smc-dt-v1-3-898f3f5d6228@gmail.com>
-References: <20261121-t8122-smc-dt-v1-0-898f3f5d6228@gmail.com>
-In-Reply-To: <20261121-t8122-smc-dt-v1-0-898f3f5d6228@gmail.com>
+Message-Id: <20261121-m3-cpufreq-opp-v1-1-42a0c07c48a4@gmail.com>
+References: <20261121-m3-cpufreq-opp-v1-0-42a0c07c48a4@gmail.com>
+In-Reply-To: <20261121-m3-cpufreq-opp-v1-0-42a0c07c48a4@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
- Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Neal Gompa <neal@gompa.dev>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Sasha Finkelstein <k@chaosmail.tech>, 
- Lee Jones <lee@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- mfd@lists.linux.dev, Michael Reeves <michael.reeves077@gmail.com>
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Michael Reeves <michael.reeves077@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795250077; l=2163;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795261476; l=1356;
  i=michael.reeves077@gmail.com; s=20261107; h=from:subject:message-id;
- bh=WIEK8D0DKokW1yUBnum23jVc4HEfCGnQdTPUuT8Oy9E=;
- b=W625NLC3d6xr9LAGJdlO6jThPUcK6j4G4VQEz5SeOSMndkaQlE96OwEsqIE8BG68Zx/nhPdvn
- GXGsKNpWsC+BWxcruLi4GZYC3bSEnM2BrNetv/6oOSDZmNjCM1kGY8H
+ bh=+HvmgCEavFBOajIqGH23VOYZLXgPd/UuvSVcHqeHPKw=;
+ b=HljbQapLWB7r5SkMx2ZT1MQOvMAUVgBZEuBpZJ8vSJSusfQ4dKa1q873lhCb4troGRZzZnRTk
+ +qOmoZ1FalRDcEDSgBZ14cbXYFifDp3Mhs4BtnjYhnJV/O9eTN5Xyau
 X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
  pk=ykwkLcuByJYb/cdLc2UuoYP03pIzwrscEZg30+4tJL8=
 X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20261107
  with auth_id=1442
 X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
 Reply-To: michael.reeves077@gmail.com
+Content-Transfer-Encoding: 7bit
 
-From: Janne Grunau <j@jannau.net>
+From: Michael Reeves <michael.reeves077@gmail.com>
 
-Add the NUB SPMI controller node and its attached Stowe PMIC with the
-fixed NVMEM layout for the Apple M3 (T8122) SoC. These NVMEM cells
-provide boot stage, shutdown, panic, and RTC offset storage used by SMC.
+Add compatible strings for the Apple M3 family cluster cpufreq
+controllers:
 
-Signed-off-by: Janne Grunau <j@jannau.net>
+- apple,t8122-cluster-cpufreq (M3)
+- apple,t6030-cluster-cpufreq (M3 Pro)
+- apple,t6031-cluster-cpufreq (M3 Max / M3 Ultra)
+
+All three are compatible with the M2 (T8112) cluster cpufreq controller
+and fall back to "apple,t8112-cluster-cpufreq".
+
 Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8122.dtsi | 57 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ .../devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml          | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/apple/t8122.dtsi b/arch/arm64/boot/dts/apple/t8122.dtsi
-index 959ddf36efa1..3766da3c7b18 100644
---- a/arch/arm64/boot/dts/apple/t8122.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8122.dtsi
-@@ -411,6 +411,63 @@ wdt: watchdog@2e42b0000 {
- 			interrupts = <AIC_IRQ 432 IRQ_TYPE_LEVEL_HIGH>;
- 		};
+diff --git a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+index b51913a81791..516216cb6ad6 100644
+--- a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
++++ b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+@@ -36,7 +36,11 @@ properties:
+           - const: apple,s5l8960x-cluster-cpufreq
+       - const: apple,s5l8960x-cluster-cpufreq
+       - items:
+-          - const: apple,t6020-cluster-cpufreq
++          - enum:
++              - apple,t6020-cluster-cpufreq
++              - apple,t6030-cluster-cpufreq
++              - apple,t6031-cluster-cpufreq
++              - apple,t8122-cluster-cpufreq
+           - const: apple,t8112-cluster-cpufreq
  
-+		nub_spmi: spmi@2e4714000 {
-+			compatible = "apple,t8122-spmi", "apple,t8103-spmi";
-+			reg = <0x2 0xe4714000 0x0 0x100>;
-+			#address-cells = <2>;
-+			#size-cells = <0>;
-+
-+			pmic1: pmic@e {
-+				compatible = "apple,stowe-pmic", "apple,spmi-nvmem";
-+				reg = <0xe SPMI_USID>;
-+
-+				nvmem-layout {
-+					compatible = "fixed-layout";
-+					#address-cells = <1>;
-+					#size-cells = <1>;
-+
-+					fault_shadow: fault-shadow@867b {
-+						reg = <0x867b 0x10>;
-+					};
-+
-+					socd: socd@8b00 {
-+						reg = <0x8b00 0x400>;
-+					};
-+
-+					boot_stage: boot-stage@f701 {
-+						reg = <0xf701 0x1>;
-+					};
-+
-+					boot_error_count: boot-error-count@f702,0 {
-+						reg = <0xf702 0x1>;
-+						bits = <0 4>;
-+					};
-+
-+					panic_count: panic-count@f702,4 {
-+						reg = <0xf702 0x1>;
-+						bits = <4 4>;
-+					};
-+
-+					boot_error_stage: boot-error-stage@f703 {
-+						reg = <0xf703 0x1>;
-+					};
-+
-+					shutdown_flag: shutdown-flag@f70f,3 {
-+						reg = <0xf70f 0x1>;
-+						bits = <3 1>;
-+					};
-+
-+					pm_setting: pm-setting@f801 {
-+						reg = <0xf801 0x1>;
-+					};
-+
-+					rtc_offset: rtc-offset@f900 {
-+						reg = <0xf900 0x6>;
-+					};
-+				};
-+			};
-+		};
-+
- 		pinctrl_smc: pinctrl@2ec820000 {
- 			compatible = "apple,t8122-pinctrl", "apple,t8103-pinctrl";
- 			reg = <0x2 0xec820000 0x0 0x4000>;
+   reg:
 
 -- 
 2.56.0
