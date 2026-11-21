@@ -1,80 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795250081;
-	b=2ek0A2v8qyuuUkOEzHB3gR11roWuXgz2Cu+iD8NJuWQrUL3zgPYcrbYmztB81O/Q7/Bz
-	 c/Q6VyPFxR14oFi+6t17i5BRXP7BAdHtT3ZLrZAvMU1oq2UVAe6SgDcm668QQ5pqJypab
-	 fLPug2bZEA2RTOyXze98kkbUEqUNRiBIW3DtT1V7wiTzP9cSMpW78D8sGkHtnImTTam2T
-	 uWk/3Y0tYNOl5Gt+d7nYm9U9FOieLo/vI0qlEDwFhhpptuP4pVz31WVMIWdfyKzSFsyko
-	 BXzme+TwpusOAiquXN+yPrAAf89B772x9+eI5CjiD3FqrnJ+Ucl5xe7IaJBtJeM8+Ng==
+	b=kC3bKVb/RD8C2nLUtI+fWhfKlr7qNYSFaYQv6XrUeOXp/vl+anWHYOY7UHYRtpquoUjZ
+	 cE+dNm9oe0FyotOgRMubAgfA2kYhkjImvuY4E4PhX55yRf/FlP2gWXu7DRZ4q2O/JZhfw
+	 7a25j3O63iKTWe7ttV5ND2qPHtMKlE5hjCgrMl/QkuLmA7PBTFnyPOnarqDmZ+9gOIhX/
+	 KHT/VAtwqxTJXAn6B2rQnZW9vQdHHDJuwNpVox4HnCjdVotifb9634uynryGpSyEcKhXA
+	 YqPwYEFUvrCHGMBYPv+luc+LqcgEOrHNkySD8YKRdUy2ogCKidOBbg6P8qbusjFHvRA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795250081;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=+uIxrdqE5r+AeSD4q57ptStowr04BgOsL+c0IfgWRB8=;
-	b=CJMFRdfJ5Nx9/bhYe4NqtvEJ2MRlC5eN8A8XA0Oq1qSehnmRqoh8G87D9wXSfQm9EITb
-	 7kbo9Ruc6tWKM6+EC5CUcNi/xg9G/99+oY6d2uRCW38fdqB9fYNI1skMaz2Tutll8rs2Y
-	 pW15F+wy8imnfyoud2qCZuZfiptzOOBamKdRCQJoBbw5reZ7tEQGdVKFLHQn4YmeB+tCb
-	 F0ZqxuUhzB0aNbVqPFtcktXYeLXZdGqcsNelBjPLonwpbXONQhMv55PsAtDYdgFZjL58o
-	 qhWIM/yjOKemNqrg6VNAwxUuSkZ6DtcrRqWqzgw8NAbCaNxbdDRCS1RgzLdGjucz9/Q==
+	bh=lY3RZXnYKdS7JNZIMxGDLvSX/hSbpPA7qXVgH1rivdA=;
+	b=IzwJ0zP7lno5SQTP+ADs1k2Cg+/xZ8iTazVcXeRULRcFhNFEz/FW4eJUZBVNXtgXXKRa
+	 uv1b9UxXlkhG9zGMy9jpxcROZrfy2HRahULpvPv02yrbDC33NhJ7NqPL2QT8OULFQMiRT
+	 FZWUzDMeQJzMejRooGX7u74F33uUECTvJMwTmQk7Spsm5aeistPG2GbJ72ww6eOZFEz9/
+	 yrm8p2ZkLLLbalFR/dh1RdjAAsJSSm5y9oJa1djcgLibLPD1VtHk3Rd+f0Yp118u3mZEo
+	 2OLLuJsKaZlPlpyrf+Y4Fz9UlTFXsCukbUeM20Jeyzbh7hm5oMQKiytMRvKi8bvZm2g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UfuBxsb1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mfXsunPB;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99180606A68A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C89606A332;
 	Sat, 21 Nov 2026 08:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UfuBxsb1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mfXsunPB
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795250081;
-	b=eeinYktOgK44eNJtba06DHTwD0xECF3UDSG52pOBI5eCemom0mA/af8nnCKM5LRAy+am
-	 NwIVRWZ5Gh30iiRXEVmuhQxH8Q+Y4LEZKs9+DYcS+8nmfTKCX9jnZwbg4BfaF7+CWiErm
-	 7HUxCea//Tqj9jZLr0ljWt2cH+9NQbQojGEjcXJzqYxNHUWD5b4PTk469wLI5n2Lrj1IA
-	 eR0Ro4ASnNpXewYy5GKf0TUeugwwnhcf6sr7C0/g+QgGvBLRX9Sx/puvAl/XkS9FEvBqi
-	 kPRIKP91VMS41c6qSt5RacU7h7AyjtrrLtp8y/VNeO7GnZlVlrKrDhj/mKcrmXonMRg==
+	t=1795250080;
+	b=Ktafl5LyDqbNCiCPTkpOxIjKdgvbgJhTqy6oqwkSGZVC4xwlLOfKC/qN2ucNMbilDPUB
+	 YZs9pkmTasnR73gZ1gQ3gUT2ls6inJeUjf86E0zrGsh6H4AGa6S6g7W3usJtbSyMeu9Xl
+	 7Qsd6bRY++OaYEYo7BvmXRLUXKuhOoLMgKJmBqUWV/hcArkDxjoSyklRAif4oYh1Qf5RQ
+	 /fXD/CcBt4bSPTgvz8ayNRCMTa8mLstvMA2tJHN1X75Uf5fV+MXu9j5aOWut0Gasp1Ir/
+	 bIcEnsfn2uUpCFtHP5SpDOfTwOnVX8eVWHYJvdJo/N/mmsPn6P7H0yUTV0eE2NYxBzQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795250081;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	c=relaxed/relaxed; t=1795250080;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=+uIxrdqE5r+AeSD4q57ptStowr04BgOsL+c0IfgWRB8=;
-	b=ySbJu6i5faxIrre05eOfykgBWTs4X9TmuQGucth4vRY0SDFKtxM/542GnjBtgkLNxLio
-	 Ki57+z1CHVEvGswLnrM0jbVl5By1QWSnuRl55Z0n09ANC4oRtWudtudFV0BAAO7iDAyr7
-	 duiK87IyhGjhCZTrdv1EeA5va+xT9qvrbn/p1pmiTriMtpYBzL1kKWGZxwI2BJDH0vLvy
-	 4uffv6nsJj10I+ztOlDJy0UeLstC9BkgAvXa0qkgkkUIYZzSwrQ1SlLPoMF6xwBG6iHBe
-	 kfDu3Ed3vxjxjYfd2aGvVx3sn84hZmnkn43rPqGzjUkJhThMcWUl6RIYUTxM2cY9eYA==
+	bh=lY3RZXnYKdS7JNZIMxGDLvSX/hSbpPA7qXVgH1rivdA=;
+	b=xhxVTyEThy7OMg3s/6nWhS3fh+AR+3TCzmPTYEyWD2+ydKiEHPGarPTzuvAqmS03HHV9
+	 ix3q2zXIP8j2+tgUjBJ2K4E9j/VyLvDNhsXH0O9IzoMSY4Q6PwWvVcQjuuOimRrcrSUWr
+	 KMADPgBTXMdUH+AZQ60hBtC69TK6iUaFRf/Smfdkx9Gp5RhB/2nVFxuE8JBFQJRNzDxzi
+	 sX/WxdoIXbccwwzdI+Gb139H5qPfJB5iBzHEwvbJLDKq2uiz8U+IhWRFOFCPnX5msya+D
+	 XrqrLhU2zFErnQpZoKEIMG13van0DI1bra0PhkUGn25fARaZbZ/qUiaXQOs91h621IQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DD8D51F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id EE84E1F000CF;
 	Sat, 21 Nov 2026 08:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795250081;
-	bh=+uIxrdqE5r+AeSD4q57ptStowr04BgOsL+c0IfgWRB8=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=UfuBxsb1VVFfjGRPG52L5n9rOidFB2T4OzEte3sa5Uqdajt2LfqPSLnACaK4cV2Ow
-	 nNU4FVBovCQdDNn+qm71mVtFJVnqt9cungX89R0iGhOMk9mRWUQ6BQsfGbjB3PFzKU
-	 XhWh3B1GYODSrxDM0p0ISZWg/brQ64IfK0sU/w9gZ4VKCVCVos5C/JiEocg9R0KVd2
-	 KPvOOuPfHIAXYRkaLsu3QO7VflFaslf5ydIFUWl0htioospMoaMIeDLhJ+qZQLixiL
-	 oD40f6IR5F3SfiNIlCXl23OZAoOyRkdkrEpB3N0h6w7CeZJvVMCpI9sWBVgKeTirQ9
-	 R1qFQHnKx4P4w==
+	s=k20260515; t=1795250080;
+	bh=lY3RZXnYKdS7JNZIMxGDLvSX/hSbpPA7qXVgH1rivdA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=mfXsunPBsGbf/SoWd1udSgbRvpKT7mXr/bRv025/+eS0CEmspg9r1GE4PNljckgji
+	 DmD0nIAD0lIYll30QmFQ9V1NLfw7Mt6M7YyeUbzADj1j6XwPx75wuW7SOGauVRIkVZ
+	 kpgn9wG3ogLS37UvTIeGAIZNESepYACZDS9mQ4HZFmf5CdNUJf8d6ggm39dxxViabH
+	 nOVONYcN3eI0alDb1eMIRaPSIz7xjb1si8ldPgaig35ID6F8m5trY57842Y2fMYREc
+	 RfCQUG3uDE7lRl2aL0p+ZWzB4KEOl6vDM5K2qDj9hVPS50e++AWzAy56ZVc05bXikM
+	 WmBMk82c4U/pg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3E7344BB93;
+	by lkml.kernel.org (Postfix) with ESMTP id 7A4704BB97;
 	Sat, 21 Nov 2026 08:34:39 +0000 (UTC)
 From: Michael Reeves via B4 Relay <devnull+michael.reeves077.gmail.com@kernel.org>
-Subject: [PATCH 0/4] arm64: dts: apple: t8122: Add SMC and NUB SPMI device
- tree nodes
-Date: Sat, 21 Nov 2026 08:34:14 +0000
-Message-Id: <20261121-t8122-smc-dt-v1-0-898f3f5d6228@gmail.com>
+Date: Sat, 21 Nov 2026 08:34:16 +0000
+Subject: [PATCH 2/4] dt-bindings: mfd: apple,smc: Add t8122-smc compatible
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -86,10 +84,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQqDMAyA4VeRnA2YoMXtVYaH2sYtg7nR1DEQ3
- 91Oj9/h/1cwSSoG12qFJF81fc8FVFcQHn6+C2osBm7YETFh7okZ7RUwZhypbaK7UO9dByX5JJn
- 0d+xuw2lbxqeE/H/Atu1f/uXLcAAAAA==
-X-Change-ID: 20261121-t8122-smc-dt-b140d6918a65
+Message-Id: <20261121-t8122-smc-dt-v1-2-898f3f5d6228@gmail.com>
+References: <20261121-t8122-smc-dt-v1-0-898f3f5d6228@gmail.com>
+In-Reply-To: <20261121-t8122-smc-dt-v1-0-898f3f5d6228@gmail.com>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Neal Gompa <neal@gompa.dev>, Stephen Boyd <sboyd@kernel.org>, 
  Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -100,11 +97,11 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  mfd@lists.linux.dev, Michael Reeves <michael.reeves077@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795250077; l=1103;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795250077; l=946;
  i=michael.reeves077@gmail.com; s=20261107; h=from:subject:message-id;
- bh=+VGF3OgM8McNO1QrReHnnifTPEONvOY5aVFINlqg0P4=;
- b=69QOjr6tPfcAJvARlYWO+HNGBJ4V7g5KBF7WR4kbSxBU+WYYhLiE4W9uYoqIXgUgRiOS4i/cP
- Cehpxr6632hAPeZrX20exaiB+Uk2tfLDKDlfjfZUfaEmQzbBiuS5+BQ
+ bh=tn5lVW1FjAYmZE60s+OKJciG68xs7HiP2AZnWSAa9v8=;
+ b=6kSbfAXUY6Hx8zZUZFBAQvz8WcZ4q2RQ3ZdaVS8fU/1yMEP2+nQhCgjo7LEIvIovLZAWK4ETP
+ ZkucVQe7/UuAhZKcrLPTm8hvQbpXqHfSupR5JZn7IEyJRMSlrgjusZK
 X-Developer-Key: i=michael.reeves077@gmail.com; a=ed25519;
  pk=ykwkLcuByJYb/cdLc2UuoYP03pIzwrscEZg30+4tJL8=
 X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20261107
@@ -112,41 +109,34 @@ X-Endpoint-Received: by B4 Relay for michael.reeves077@gmail.com/20261107
 X-Original-From: Michael Reeves <michael.reeves077@gmail.com>
 Reply-To: michael.reeves077@gmail.com
 
-Hi folks,
+From: Janne Grunau <j@jannau.net>
 
-This series adds the System Management Controller and its NUB SPMI
-bindings and device tree nodes for the Apple M3 (T8122) SoC.
+Add the apple,t8122-smc compatible for the System Management Controller
+on the Apple M3 (T8122) SoC, which is compatible with apple,t8103-smc.
 
-The SMC node includes its ASC mailbox, GPIO, hwmon, reboot, and RTC
-child nodes.
-
-It is based off apple-soc/dt-7.5.
-
-Thanks,
-Michael
-
+Signed-off-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Michael Reeves <michael.reeves077@gmail.com>
 ---
-Janne Grunau (2):
-      dt-bindings: mfd: apple,smc: Add t8122-smc compatible
-      arm64: dts: apple: t8122: Add NUB SPMI controller and PMIC
+ Documentation/devicetree/bindings/mfd/apple,smc.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Michael Reeves (1):
-      arm64: dts: apple: t8122: Add SMC and its mailbox
+diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+index 34ce048619f5..d5d30c053845 100644
+--- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
++++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+@@ -17,7 +17,9 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-          - const: apple,t6020-smc
++          - enum:
++              - apple,t6020-smc
++              - apple,t8122-smc
+           - const: apple,t8103-smc
+       - items:
+           - enum:
 
-Sasha Finkelstein (1):
-      dt-bindings: spmi: apple,spmi: Add t8122-spmi compatible
-
- .../devicetree/bindings/mfd/apple,smc.yaml         |   4 +-
- .../devicetree/bindings/spmi/apple,spmi.yaml       |   1 +
- arch/arm64/boot/dts/apple/t8122.dtsi               | 102 +++++++++++++++++++++
- 3 files changed, 106 insertions(+), 1 deletion(-)
----
-base-commit: 477f3d0f46b0d885f162a64d13ca51e2f7afa542
-change-id: 20261121-t8122-smc-dt-b140d6918a65
-
-Best regards,
---  
-Michael Reeves <michael.reeves077@gmail.com>
+-- 
+2.56.0
 
 
