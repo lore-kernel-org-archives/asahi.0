@@ -1,53 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795350542;
-	b=RTHEu4B2zg8amvaWdaXE5nkHxwbPMcwC6zWNqGNEmhT6UqF97NaGQ+oxc9Uh+Bb7HVTU
-	 zezcb8O3jAEkKQkScVxeLYnHgRsFU3Cal2kKcqrEQzvA7YdLvoqi2f84412KW/gY3nt1E
-	 Jb43ho8F98RnmWRaihu9lZj/IByovs5HhLf3Zvf8k05pMr6pt2mwxHrGxoO3tdEsPR0m1
-	 fXM5Sqsecwh0DUJduBvnocahEMpIp95aPFhPC2XOkhhJDKFuHB6WCfV1Qg0cW/UDiZZ+Q
-	 zGKyFegtda+FPNVjJ5MClhx+TTgKTbk2k8GFe0krRO+n9IHJjaGk+lpLVc2h3IRKrXQ==
+	b=yaOWiRVEX9Xc5JtED1qcMQuq187KIeV/wXNk/V6xzqKS+vrdozgOhDjhd+oAqipB/tA0
+	 gm6wdoSEcOm26ASBzuIyPrt2Id0dOOHZ7ircRLI7oxS1UiLs26NgfHgi//HvVqtck6FWc
+	 kz2H+vg9lcICzLlpvfiR7BlNUn4IwhwdojxDAw6T0h3IDduJMEKi28u+zMZWtBmUuRRRp
+	 2HJDsttUoED4wafBqP6dboS23R/FFPpm88BWptevk9Ebe0N94KKZNsHQ3KINahL/B/RJO
+	 QMPiI+DEGi45iA12LIz9bPcN2Hud9eC5xeTOWfpFWV2omuBLKhqfnlZs8OcEwNJcxmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795350542;
 	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key;
-	bh=ln7E0bqwRjCO7eEwITKBVwuAOD4EnywK/eSZxsOZzE4=;
-	b=DPz5hryJ0G93G1k6V9sdEABbV5HvTMH6P0DX2dKvk8BbB+M2J6AjYSaIiEXrw6elG3aR
-	 Hx/AZ4Z0COJZmFRf1ZCmlUyVYvC4kTwFoZm/BeSKk6VXhZBZIbwU3fEb4cWBdGPs2oABx
-	 giR5wndRMFyXG+bECpa+Gmxzp3UQqJNhzymXsDCqWHsxqbBP42jPLHJCAknQoaCdd9zKp
-	 r36GvzMnrCepHvq08SowfEIjFS7oUb5ep3ay4XwEmOob/gshjPxBWoz5R7/WY9PD7WaIj
-	 VxAH/8XacmUCQMOfzl6Fd4RmWAYW1NBBsD8rNBhAmONVFnQlSLlpFkbcagznFd/fOJQ==
+	bh=Bd/a2IQI4yRof3/z645MICoywcD9F/oPI3EddqEknBM=;
+	b=wm8siofAiebFJ/YC3thhlzph5rL/oeYfR128tWd9T+fFbRBIxZXgg5TntSDtzaeJ1rzm
+	 fP800F+O75UnF57CUM6eGTtJRk/r+zkVJzmdnurECyXkpZjJgPQj+Ch7EW8TC8qyvWNi1
+	 nMM/CDbk6/vnhkM49qKCQpfXrREZLI0LKSE1xaOQykdXKEkEJPSmLyZAsc+4lPRN1jK+F
+	 j/HcSLZ83uTfMZSH8oLCmdQNvOQeYXp/CFGz9BsL3iPY4Vj0/72LI4gUfM/6tyHew2buI
+	 AOkclidxbwYZkay8yKfy2T1tbxomzEEGtP73hunU+2GD03EtJ6U3QpEZA8VIXZzD+Ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chaosmail.tech;
 	spf=pass smtp.mailfrom=chaosmail.tech;
-	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=X0zi9iEu;
+	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=C1WJKCmw;
 	arc=none smtp.remote-ip=77.81.229.115
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2150606A336
-	for <asahi@lists.linux.dev>; Sun, 22 Nov 2026 12:29:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2150606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6415606A68F
+	for <asahi@lists.linux.dev>; Sun, 22 Nov 2026 12:29:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6415606A68F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=X0zi9iEu
-Received: by chaosmail.tech (Postfix) id F26841C8A0D;
-	Sun, 22 Nov 2026 12:28:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=C1WJKCmw
+Received: by chaosmail.tech (Postfix) id C6F701C8A15;
+	Sun, 22 Nov 2026 12:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1795350539;
+	s=mail; t=1795350540;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ln7E0bqwRjCO7eEwITKBVwuAOD4EnywK/eSZxsOZzE4=;
-	b=X0zi9iEuMpNPVK409bLbgIaftu8/i5Wsugs68hwrsWDUPT7RY+Kb52BUSXmDzusG98Xow3
-	CaM/uvNEYeVWNyvEiNeRgVgT6qaV8i5m4JiJvcpqK3kuK4z5MWXp7VmVHALT42A+bdNxfi
-	79POQ6F/sO3E960+HI+wGQnLl2267Xw=
+	bh=Bd/a2IQI4yRof3/z645MICoywcD9F/oPI3EddqEknBM=;
+	b=C1WJKCmwyel6GhwYPgnKOqZch3Qod47ueKZu95403NTxEMigBj0kxY+0+WDNM1hAGtoSjQ
+	22Q6euEiWfhhevwWdvQwtEl+EV5PJZVmJFs26bf9+twUVDZdb0uTLM2dvjHRW5zi22F9ID
+	a5mGwjFUEvtUWq1XNWnGxjEs4YfEcYs=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sun, 22 Nov 2026 13:27:59 +0100
-Subject: [PATCH v2 3/5] phy: apple: atc: Add initial M3 series support
+Date: Sun, 22 Nov 2026 13:28:00 +0100
+Subject: [PATCH v2 4/5] phy: apple: atc: Add T8122 DisplayPort support
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -59,7 +59,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261122-t8122-phy-v2-3-8d5c8fdf31ba@chaosmail.tech>
+Message-Id: <20261122-t8122-phy-v2-4-8d5c8fdf31ba@chaosmail.tech>
 References: <20261122-t8122-phy-v2-0-8d5c8fdf31ba@chaosmail.tech>
 In-Reply-To: <20261122-t8122-phy-v2-0-8d5c8fdf31ba@chaosmail.tech>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
@@ -69,661 +69,841 @@ To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795350536; l=25591;
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
+ Ramzi Abdiche <abdicheramzi@gmail.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795350536; l=32760;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=S1xyB0J/4so+RiNb5W/lhjHRqwl1KD5gMx8t3iquQL4=;
- b=SaDddwace+dd2sr+jnFzejDtc7cBZAVy+zD8OB8NjWOaK0RbpPi7fvqno1JNWvpg+4Q9/oYiX
- vhUqyS+DRsIDasL6sYy35mmW18tJrT94/0d+Su59O9FM5BlAHCRyhvX
+ bh=wiT8QwR4/blxFeEHm7OGz9mdA4NyKNBH6NrnWOBOF0A=;
+ b=GweSYNXevZ5Q/Gc5Kn4CSo7aQmeYIdpFSZRREe7r0CLnGFvFbM3Adl09aM+CJMtOVbbQvqKG5
+ AxI99/ngb4ZCE6R7XEpwDBRbiUiY304a5SDx3/jDZHpT/Phg8t5qWGp
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Adds initial support for the new t8122 phy. USB/TB only for now, DP
-will fail to negotiate
+From: Ramzi Abdiche <abdicheramzi@gmail.com>
 
+Add DisplayPort AUX and lane setup for T8122-family PHYs.
+Select clock and lane settings by link rate and stop active
+lanes before orientation changes.
+
+Signed-off-by: Ramzi Abdiche <abdicheramzi@gmail.com>
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
- drivers/phy/apple/atc.c | 456 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 354 insertions(+), 102 deletions(-)
+ drivers/phy/apple/atc.c | 642 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 617 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-index 45f1280a6faa..398b2be5dd11 100644
+index 398b2be5dd11..647093bb70f1 100644
 --- a/drivers/phy/apple/atc.c
 +++ b/drivers/phy/apple/atc.c
-@@ -100,9 +100,15 @@
- #define AUSPLL_FREQ_CFG 0x2224
- #define AUSPLL_FREQ_REFCLK GENMASK(1, 0)
+@@ -431,6 +431,129 @@ enum atcphy_lane_mode {
+ #define LN_LDOCLK_EN_BIG_OV BIT(14)
+ #define LN_LDOCLK_EN_BIG BIT(15)
  
-+#define AUS_COMMON_SHIM_BLK_BIAS_REG 0x0a00
-+#define AUS_COMMON_SHIM_BLK_BIAS_REG_BGBIAS_OV BIT(1)
++/* T8122 DisplayPort registers; power bit names inferred from the sequences */
++#define ACIOPHY_CFG1 0x000c
++#define ACIOPHY_SLEEP_CTRL_T8122 0x010c
++#define ACIOPHY_TX_SLEEP_BIG(lane) BIT(lane)
++#define ACIOPHY_TX_SLEEP_BIG_OV(lane) BIT(2 + (lane))
++#define ACIOPHY_TX_SLEEP_SMALL(lane) BIT(4 + (lane))
++#define ACIOPHY_TX_SLEEP_SMALL_OV(lane) BIT(6 + (lane))
++#define ACIOPHY_TX_CLAMP(lane) BIT(8 + (lane))
++#define ACIOPHY_TX_CLAMP_OV(lane) BIT(10 + (lane))
++#define ACIOPHY_RXTX_SLEEP_BIG(lane) BIT(lane)
++#define ACIOPHY_RXTX_SLEEP_BIG_OV(lane) BIT(2 + (lane))
++#define ACIOPHY_RXTX_SLEEP_SMALL(lane) BIT(4 + (lane))
++#define ACIOPHY_RXTX_SLEEP_SMALL_OV(lane) BIT(6 + (lane))
++#define ACIOPHY_RX_SLEEP_BIG(lane) BIT(6 + (lane))
++#define ACIOPHY_RX_SLEEP_BIG_OV(lane) BIT(8 + (lane))
++#define ACIOPHY_RX_SLEEP_SMALL(lane) BIT(10 + (lane))
++#define ACIOPHY_RX_SLEEP_SMALL_OV(lane) BIT(12 + (lane))
++#define ACIOPHY_RX_CLAMP(lane) BIT(14 + (lane))
++#define ACIOPHY_RX_CLAMP_OV(lane) BIT(16 + (lane))
 +
- #define AUS_COMMON_SHIM_BLK_VREG 0x0a04
- #define AUS_VREG_TRIM GENMASK(6, 2)
- 
-+#define AUS_COMMON_DIG_RCAL1 0x804
-+#define AUS_COMMON_DIG_RCAL1_ALL_CODES_DONE BIT(0)
++#define AUSPLL_BGR_T8122 0x2218
++#define AUSPLL_FREQ_CFG_T8122 0x2234
++#define AUSPLL_CLKOUT_MASTER_PCLK_DRVR_EN_T8122 BIT(3)
++#define ACIOPHY_DP_PCLK_STAT_T8122 0x7034
 +
- #define AUS_UNK_A20 0x0a20
- #define AUS_UNK_A20_TX_CAL_CODE GENMASK(23, 20)
- 
-@@ -123,15 +129,23 @@
- #define CIO3PLL_DTC_VREG 0x2a20
- #define CIO3PLL_DTC_VREG_ADJUST GENMASK(16, 14)
- 
-+#define ATCPHY_EVT_USB2_CTL 0x0
-+#define ATCPHY_EVT_USB2_CTL_EVT_EN 0x1
-+#define ATCPHY_EVT_USB2_CTL_LOAD_CNT 0x8
++#define LN_AUSPMA_TX_TOP_EQ1 0x0050
++#define LN_AUSPMA_TX_TOP_EQ17 0x00d0
++#define LN_AUSPMA_TX_TOP_EQ18 0x00d4
++#define LN_AUSPMA_RX_TOP_EQ1 0x0210
++#define LN_AUSPMA_RX_TOP_EQ17 0x0244
++#define LN_AUSPMA_RX_TOP_EQ18 0x0248
++#define LN_EQ_SWING GENMASK(3, 0)
++#define LN_EQ_SWING_LSB GENMASK(15, 14)
++#define LN_EQ_SWING_OV BIT(28)
++#define LN_EQ_AUTO_CTRL_DP BIT(20)
++/* Deemphasis and override bits; individual fields unknown */
++#define LN_EQ_DEEMPH_FIELDS GENMASK(18, 0)
 +
- #define ACIOPHY_CFG0 0x08
-+#define ACIOPHY_CFG0_COMMON_BIG BIT(0)
- #define ACIOPHY_CFG0_COMMON_BIG_OV BIT(1)
-+#define ACIOPHY_CFG0_COMMON_SMALL BIT(2)
- #define ACIOPHY_CFG0_COMMON_SMALL_OV BIT(3)
-+#define ACIOPHY_CFG0_COMMON_CLAMP BIT(4)
- #define ACIOPHY_CFG0_COMMON_CLAMP_OV BIT(5)
- #define ACIOPHY_CFG0_RX_SMALL_OV GENMASK(9, 8)
- #define ACIOPHY_CFG0_RX_BIG_OV GENMASK(13, 12)
- #define ACIOPHY_CFG0_RX_CLAMP_OV GENMASK(17, 16)
- 
--#define ACIOPHY_CROSSBAR 0x4c
-+#define ACIOPHY_CROSSBAR_T8103 0x4c
-+#define ACIOPHY_CROSSBAR_T8122 0x64
- #define ACIOPHY_CROSSBAR_PROTOCOL GENMASK(4, 0)
- #define ACIOPHY_CROSSBAR_PROTOCOL_USB4 0x0
- #define ACIOPHY_CROSSBAR_PROTOCOL_USB4_SWAPPED 0x1
-@@ -146,7 +160,8 @@
- #define ACIOPHY_CROSSBAR_DP_SINGLE_PMA_UNK008 0x008
- #define ACIOPHY_CROSSBAR_DP_BOTH_PMA BIT(17)
- 
--#define ACIOPHY_LANE_MODE 0x48
-+#define ACIOPHY_LANE_MODE_T8103 0x48
-+#define ACIOPHY_LANE_MODE_T8122 0x60
- #define ACIOPHY_LANE_MODE_RX0 GENMASK(2, 0)
- #define ACIOPHY_LANE_MODE_TX0 GENMASK(5, 3)
- #define ACIOPHY_LANE_MODE_RX1 GENMASK(8, 6)
-@@ -180,6 +195,24 @@ enum atcphy_lane_mode {
- #define ACIOPHY_TOP_BIST_PHY_CFG1 0xac
- #define ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN GENMASK(13, 10)
- 
-+#define ACIOPHY_BIST_CFG1 0x17000
-+#define ACIOPHY_BIST_CFG1_CLOCK_EN BIT(0)
-+#define ACIOPHY_BIST_CFG1_USB_EN BIT(2)
++#define LN_AUSPMA_TX_SHM_MAIN2 0x0004
++#define LN_MAIN2_BYTECLK_SYNC_SEL BIT(24)
++#define LN_MAIN2_BYTECLK_SYNC_SEL_OV BIT(25)
++#define LN_MAIN2_BYTECLK_SYNC_EN BIT(28)
++#define LN_MAIN2_BYTECLK_SYNC_EN_OV BIT(29)
++#define LN_AUSPMA_TX_SHM_MAIN4 0x000c
++#define LN_MAIN4_DIV2_4_EN GENMASK(25, 24)
++#define LN_MAIN4_DIV2_4_EN_OV BIT(26)
++#define LN_AUSPMA_TX_SHM_MAIN5 0x0010
++#define LN_MAIN5_CLK_EN BIT(9)
++#define LN_MAIN5_CLK_EN_OV BIT(10)
++#define LN_AUSPMA_TX_SHM_CLKMON1 0x001c
++#define LN_CLKMON1_HIZ BIT(22)
++#define LN_CLKMON1_HIZ_OV BIT(23)
++#define LN_AUSPMA_TX_SHM_LDOCLK1 0x0044
++#define LN_LDOCLK1_VREG_ADJ GENMASK(10, 6)
++#define LN_LDOCLK1_VREF_EN BIT(12)
++#define LN_LDOCLK1_VREF_FILTER_BOOST (GENMASK(18, 17) | GENMASK(15, 14))
++#define LN_LDOCLK1_BYPASS_SMALL BIT(20)
++#define LN_LDOCLK1_BYPASS_BIG BIT(22)
++#define LN_LDOCLK1_EN_SMALL BIT(24)
++#define LN_LDOCLK1_EN_BIG BIT(26)
 +
-+#define ACIOPHY_BIST_CFG2 0x17004
-+#define ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE BIT(2)
++#define LN_AUSPMA_RX_TOP_TXMODE 0x0160
++#define LN_AUSPMA_RX_TOP_AFE1 0x01d4
++#define LN_AFE1_DIV20_RESET_N_OV BIT(0)
++#define LN_AFE1_DIV20_RESET_N BIT(1)
++#define LN_AUSPMA_RX_TOP_DCO1 0x01dc
++#define LN_DCO1_LPBKIN_RECOVERED_DATA GENMASK(16, 15)
 +
-+#define ACIOPHY_BIST_MAC_USBPHY_STATUS2 0x17080
-+#define ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2 BIT(7)
++#define LN_AUSPMA_RX_SHM_CTLE2 0x0030
++#define LN_CTLE2_TX_CLK_EN BIT(10)
++#define LN_CTLE2_TX_CLK_EN_OV BIT(11)
++#define LN_AUSPMA_RX_SHM_DFE101 0x0064
++#define LN_DFE101_DFEH1FB_EN BIT(2)
++#define LN_DFE101_DFEH1FB_EN_OV BIT(3)
++#define LN_DFE101_DTVREG_ADJUST_FIELDS GENMASK(15, 10)
++#define LN_AUSPMA_RX_SHM_DFE111 0x0068
++#define LN_DFE111_DTVREG_BIG_EN BIT(5)
++#define LN_DFE111_DTVREG_BIG_EN_OV BIT(6)
++#define LN_DFE111_DTVREG_SMALL_EN BIT(7)
++#define LN_DFE111_DTVREG_SMALL_EN_OV BIT(8)
++#define LN_AUSPMA_RX_SHM_DFE121 0x006c
++#define LN_DFE121_TX_BYTECLK_SYNC_CLR BIT(9)
++#define LN_DFE121_TX_BYTECLK_SYNC_CLR_OV BIT(10)
++#define LN_DFE121_TX_BYTECLK_SYNC_EN BIT(11)
++#define LN_DFE121_TX_HRCLK_SEL BIT(13)
++#define LN_DFE121_TX_HRCLK_SEL_OV BIT(14)
++#define LN_DFE121_TX_PBIAS_EN BIT(15)
++#define LN_DFE121_TX_PBIAS_EN_OV BIT(16)
++#define LN_AUSPMA_RX_SHM_SAVOS161 0x00a4
++#define LN_SAVOS161_RXTERM_EN BIT(0)
++#define LN_SAVOS161_RXTERM_EN_OV BIT(1)
++#define LN_AUSPMA_RX_SHM_TERM191 0x00a8
++#define LN_TERM191_TX_TEST_EN BIT(15)
++#define LN_TERM191_TX_TEST_EN_OV BIT(16)
++#define LN_TERM191_TX_EN BIT(17)
++#define LN_TERM191_TX_EN_OV BIT(18)
++#define LN_TERM191_TX_DIV2_EN GENMASK(20, 19)
++#define LN_TERM191_TX_DIV2_EN_OV BIT(21)
++#define LN_TERM191_TX_DIV2_RST BIT(22)
++#define LN_TERM191_TX_DIV2_RST_OV BIT(23)
++#define LN_AUSPMA_RX_SHM_VREF221 0x00d4
++/* Adjust, filter and enable overrides; individual fields unknown */
++#define LN_VREF221_INIT_FIELDS (GENMASK(20, 16) | GENMASK(12, 7))
++#define LN_VREF221_BIAS_FIELDS GENMASK(15, 13)
++#define LN_VREF221_EN BIT(16)
++#define LN_VREF221_FILTER_ADJUST GENMASK(19, 18)
++#define LN_AUSPMA_RX_SHM_VREF231 0x00d8
++#define LN_VREF231_BOOST_CTRL GENMASK(1, 0)
++#define LN_VREF231_BOOST_CTRL_OV BIT(2)
++#define LN_AUSPMA_RX_SHM_VREG1 0x00dc
++#define LN_VREG1_DTVREG_POWER_MODE GENMASK(4, 3)
 +
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1 0x17088
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PIPE_RESET_N_OV 0x100000
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV GENMASK(26, 25)
++/* T8122 AUX registers (core window) */
++#define AUX_TOP_CTRL 0x16000
++#define AUX_TOP_PWRDN BIT(0)
++#define AUX_SHM_PWR 0x16400
++#define AUX_SLEEP_SML_OV BIT(0)
++#define AUX_SLEEP_SML BIT(1)
++#define AUX_SLEEP_BIG_OV BIT(2)
++#define AUX_SLEEP_BIG BIT(3)
++#define AUX_CLAMP_OV BIT(8)
++#define AUX_CLAMP BIT(9)
 +
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2 0x1708c
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV 0x200
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV 0x20
-+
- #define ACIOPHY_SLEEP_CTRL 0x1b0
- #define ACIOPHY_SLEEP_CTRL_TX_BIG_OV GENMASK(3, 2)
- #define ACIOPHY_SLEEP_CTRL_TX_SMALL_OV GENMASK(7, 6)
-@@ -463,6 +496,7 @@ enum atcphy_lane_mode {
- 
- /* USB2 PHY regs */
- #define USB2PHY_USBCTL 0x00
-+#define USB2PHY_USBCTL_USB_MODE 0x7
- #define USB2PHY_USBCTL_RUN 2
- #define USB2PHY_USBCTL_ISOLATION 4
- 
-@@ -556,6 +590,21 @@ struct atcphy_mode_configuration {
- 	bool set_swap;
+ /* LPDPTX registers */
+ #define LPDPTX_AUX_CFG_BLK_AUX_CTRL 0x0000
+ #define LPDPTX_BLK_AUX_CTRL_PWRDN BIT(4)
+@@ -524,6 +647,9 @@ enum atcphy_dp_link_rate {
+ 	ATCPHY_DP_LINK_RATE_HBR3,
  };
  
-+struct apple_atcphy;
-+
-+struct atcphy_hw {
-+	void (*configure_post_tunable)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
-+	void (*configure_pipehandler_usb3_host)(struct apple_atcphy *atcphy);
-+	void (*configure_usb2_evt_ctl)(struct apple_atcphy *atcphy);
-+	void (*enable_cio3pll_clk)(struct apple_atcphy *atcphy);
-+	int (*wait_rcal1_done)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
-+	void (*configure_lane_pmafsm)(struct apple_atcphy *atcphy,
-+				      const struct atcphy_mode_configuration *mode_cfg);
-+	int aciophy_lane_mode;
-+	int aciophy_crossbar;
-+	bool need_dp_tunables;
-+};
++#define ATCPHY_DP_LINK_RATE_IDLE		(-1)
++#define ATCPHY_DP_LINK_RATE_PENDING	(-2)
 +
  /**
-  * struct apple_atcphy - Apple Type-C PHY device struct
-  * @np: Device node pointer
-@@ -566,6 +615,7 @@ struct atcphy_mode_configuration {
-  * @tunables.lane_usb3: USB3 lane-specific tunables
-  * @tunables.lane_dp: DisplayPort lane-specific tunables
-  * @tunables.lane_usb4: USB4 lane-specific tunables
-+ * @hw: Hardware version specific data
+  * enum atcphy_pipehandler_state - States of the PIPE mux interface ("pipehandler")
+  * @ATCPHY_PIPEHANDLER_STATE_DUMMY: "Dummy PHY" (disables USB3, USB2 only)
+@@ -592,6 +718,13 @@ struct atcphy_mode_configuration {
+ 
+ struct apple_atcphy;
+ 
++struct atcphy_dp_ops {
++	void (*enable_aux)(struct apple_atcphy *atcphy);
++	void (*disable_aux)(struct apple_atcphy *atcphy);
++	int (*set_rate)(struct apple_atcphy *atcphy, enum atcphy_dp_link_rate lr);
++	int (*stop)(struct apple_atcphy *atcphy);
++};
++
+ struct atcphy_hw {
+ 	void (*configure_post_tunable)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
+ 	void (*configure_pipehandler_usb3_host)(struct apple_atcphy *atcphy);
+@@ -600,6 +733,7 @@ struct atcphy_hw {
+ 	int (*wait_rcal1_done)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
+ 	void (*configure_lane_pmafsm)(struct apple_atcphy *atcphy,
+ 				      const struct atcphy_mode_configuration *mode_cfg);
++	const struct atcphy_dp_ops *dp;
+ 	int aciophy_lane_mode;
+ 	int aciophy_crossbar;
+ 	bool need_dp_tunables;
+@@ -618,7 +752,8 @@ struct atcphy_hw {
+  * @hw: Hardware version specific data
   * @mode: Current PHY operating mode
   * @swap_lanes: True if lanes must be swapped due to cable orientation
-  * @dp_link_rate: DisplayPort link rate
-@@ -599,9 +649,10 @@ struct apple_atcphy {
- 		struct apple_tunable *lane_usb4[2];
- 	} tunables;
+- * @dp_link_rate: DisplayPort link rate
++ * @dp_link_rate: DisplayPort link rate index, ATCPHY_DP_LINK_RATE_IDLE, or
++ *               ATCPHY_DP_LINK_RATE_PENDING when cleanup is still needed
+  * @pipehandler_up: True if the PIPE mux ("pipehandler") is set to USB3 or USB4 mode
+  * @regs: Memory-mapped registers
+  * @regs.core: Core registers
+@@ -880,6 +1015,28 @@ static const struct atcphy_dp_link_rate_configuration dp_lr_config[] = {
+ 	},
+ };
  
-+	const struct atcphy_hw *hw;
- 	enum atcphy_mode mode;
--	bool swap_lanes;
- 	int dp_link_rate;
-+	bool swap_lanes;
- 	bool pipehandler_up;
- 
- 	struct {
-@@ -983,11 +1034,141 @@ static void atcphy_pipehandler_set_mux(struct apple_atcphy *atcphy, u32 data, u3
- 	udelay(10);
++static const struct {
++	u8 vclk_op_divn;
++	bool vclk_pre_divn;
++} dp_lr_config_t8122[] = {
++	[ATCPHY_DP_LINK_RATE_RBR] = {
++		.vclk_op_divn = 1,
++		.vclk_pre_divn = false,
++	},
++	[ATCPHY_DP_LINK_RATE_HBR] = {
++		.vclk_op_divn = 1,
++		.vclk_pre_divn = false,
++	},
++	[ATCPHY_DP_LINK_RATE_HBR2] = {
++		.vclk_op_divn = 1,
++		.vclk_pre_divn = true,
++	},
++	[ATCPHY_DP_LINK_RATE_HBR3] = {
++		.vclk_op_divn = 1,
++		.vclk_pre_divn = true,
++	},
++};
++
+ static inline void mask32(void __iomem *reg, u32 mask, u32 set)
+ {
+ 	u32 value = readl(reg);
+@@ -914,6 +1071,12 @@ static inline void core_clear32(struct apple_atcphy *atcphy, u32 reg, u32 clear)
+ 	core_mask32(atcphy, reg, clear, 0);
  }
  
--static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool host)
-+static void atcphy_clear_nonselected_phy_reset(struct apple_atcphy *atcphy)
++static void __iomem *atcphy_lane_reg(struct apple_atcphy *atcphy,
++				  unsigned int lane, u32 lane0_reg)
 +{
-+	/* Clear reset for non-selected USB3 PHY (?) */
-+	mask32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
-+	       PIPEHANDLER_NATIVE_POWER_DOWN, FIELD_PREP(PIPEHANDLER_NATIVE_POWER_DOWN, 3));
-+	clear32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
-+		PIPEHANDLER_NATIVE_RESET);
++	return atcphy->regs.core + lane0_reg + lane * (LN1_AUSPMA_RX_TOP - LN0_AUSPMA_RX_TOP);
 +}
 +
-+static void atcphy_configure_pipehandler_usb3_host_t8122(struct apple_atcphy *atcphy)
+ static const struct atcphy_mode_configuration *atcphy_get_mode_config(struct apple_atcphy *atcphy,
+ 								      enum atcphy_mode mode)
  {
- 	int ret;
- 	u32 reg;
+@@ -1376,7 +1539,391 @@ static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode
  
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_CLOCK_EN);
-+	/* This should be a mask, but unsure what bits should be cleared */
-+	writel(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PIPE_RESET_N_OV |
-+	       FIELD_PREP(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV, 2),
-+	       atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_CFG_OV1);
-+	/* This should be a mask, but unsure what bits should be cleared */
-+	writel(ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV |
-+	       ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV,
-+	       atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_CFG_OV2);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_STATUS2, reg,
-+				 !(reg & ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2),
-+				 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2\n");
-+
-+	core_set32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	core_mask32(atcphy, ACIOPHY_BIST_MAC_USBPHY_CFG_OV1,
-+		    ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV,
-+		    FIELD_PREP(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV, 3));
-+
-+	/* there is a read and write of ACIOPHY_BIST_MAC_USBPHY_CFG_OV2 here with same values */
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN 2nd toggle\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_STATUS2, reg,
-+				 !(reg & ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2),
-+				 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2 2nd time\n");
-+	core_set32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+
-+	atcphy_clear_nonselected_phy_reset(atcphy);
-+
-+	core_clear32(atcphy, ACIOPHY_BIST_MAC_USBPHY_CFG_OV2,
-+		     ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV |
-+		     ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN 3rd toggle\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_CLOCK_EN);
-+}
-+
-+static void atcphy_configure_pipehandler_usb3_host_t8103(struct apple_atcphy *atcphy)
+ }
+ 
+-static void atcphy_enable_dp_aux(struct apple_atcphy *atcphy)
++static int atcphy_dp_poll(struct apple_atcphy *atcphy, u32 reg, u32 mask, u32 expected)
 +{
-+	int ret;
-+	u32 reg;
-+
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG0,
-+		   ACIOPHY_TOP_BIST_PHY_CFG0_LN0_RESET_N);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG, ACIOPHY_TOP_BIST_OV_CFG_LN0_RESET_N_OV);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
-+
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
-+		   ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
-+	core_clear32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
-+		     ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
-+
-+	core_mask32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG1,
-+		    ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN,
-+		    FIELD_PREP(ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN, 3));
-+
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG,
-+		   ACIOPHY_TOP_BIST_OV_CFG_LN0_PWR_DOWN_OV);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+	writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_CIOPHY_CFG1);
-+
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 (reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK0), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK0\n");
-+
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
-+
-+	atcphy_clear_nonselected_phy_reset(atcphy);
-+
-+	/* More BIST stuff (?) */
-+	writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_OV_CFG);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+}
-+
-+static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool host)
-+{
++	u32 value;
 +	int ret;
 +
- 	ret = atcphy_pipehandler_check(atcphy);
- 	if (ret)
- 		return ret;
-@@ -1012,56 +1193,7 @@ static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool h
- 		}
- 
- 		/* BIST dance */
--		core_set32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG0,
--			   ACIOPHY_TOP_BIST_PHY_CFG0_LN0_RESET_N);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG, ACIOPHY_TOP_BIST_OV_CFG_LN0_RESET_N_OV);
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "Timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
--
--		core_set32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
--			   ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
--		core_clear32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
--			     ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
--
--		core_mask32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG1,
--			    ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN,
--			    FIELD_PREP(ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN, 3));
--
--		core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG,
--			   ACIOPHY_TOP_BIST_OV_CFG_LN0_PWR_DOWN_OV);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
--		writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_CIOPHY_CFG1);
--
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 (reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK0), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK0\n");
--
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
--
--		/* Clear reset for non-selected USB3 PHY (?) */
--		mask32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
--		       PIPEHANDLER_NATIVE_POWER_DOWN, FIELD_PREP(PIPEHANDLER_NATIVE_POWER_DOWN, 3));
--		clear32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
--			PIPEHANDLER_NATIVE_RESET);
--
--		/* More BIST stuff (?) */
--		writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_OV_CFG);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+		atcphy->hw->configure_pipehandler_usb3_host(atcphy);
- 	}
- 
- 	/* Configure PIPE mux to USB3 PHY */
-@@ -1183,33 +1315,10 @@ static void atcphy_setup_pipehandler(struct apple_atcphy *atcphy)
- 				   PIPEHANDLER_MUX_CTRL_CLK_DUMMY);
- }
- 
--static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+static void
-+atcphy_configure_lane_pmafsm_t8103(struct apple_atcphy *atcphy,
-+				   const struct atcphy_mode_configuration *mode_cfg)
- {
--	const struct atcphy_mode_configuration *mode_cfg = atcphy_get_mode_config(atcphy, mode);
--
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_RX0,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_RX0, mode_cfg->lane_mode[0]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_TX0,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_TX0, mode_cfg->lane_mode[0]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_RX1,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_RX1, mode_cfg->lane_mode[1]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_TX1,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_TX1, mode_cfg->lane_mode[1]));
--	core_mask32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_PROTOCOL,
--		    FIELD_PREP(ACIOPHY_CROSSBAR_PROTOCOL, mode_cfg->crossbar));
--
--	if (mode_cfg->set_swap)
--		core_set32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
--	else
--		core_clear32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
--
--	core_mask32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_SINGLE_PMA,
--		    FIELD_PREP(ACIOPHY_CROSSBAR_DP_SINGLE_PMA, mode_cfg->crossbar_dp_single_pma));
--	if (mode_cfg->crossbar_dp_both_pma)
--		core_set32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
--	else
--		core_clear32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
--
- 	if (mode_cfg->dp_lane[0]) {
- 		core_set32(atcphy, LN0_AUSPMA_RX_TOP + LN_AUSPMA_RX_TOP_PMAFSM,
- 			   LN_AUSPMA_RX_TOP_PMAFSM_PCS_OV);
-@@ -1235,6 +1344,38 @@ static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode
- 	}
- }
- 
-+static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	const struct atcphy_mode_configuration *mode_cfg = atcphy_get_mode_config(atcphy, mode);
-+
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_RX0,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_RX0, mode_cfg->lane_mode[0]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_TX0,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_TX0, mode_cfg->lane_mode[0]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_RX1,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_RX1, mode_cfg->lane_mode[1]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_TX1,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_TX1, mode_cfg->lane_mode[1]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_PROTOCOL,
-+		    FIELD_PREP(ACIOPHY_CROSSBAR_PROTOCOL, mode_cfg->crossbar));
-+
-+	if (mode_cfg->set_swap)
-+		core_set32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
-+	else
-+		core_clear32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
-+
-+	core_mask32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_SINGLE_PMA,
-+		    FIELD_PREP(ACIOPHY_CROSSBAR_DP_SINGLE_PMA, mode_cfg->crossbar_dp_single_pma));
-+	if (mode_cfg->crossbar_dp_both_pma)
-+		core_set32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
-+	else
-+		core_clear32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
-+
-+	if (atcphy->hw->configure_lane_pmafsm)
-+		atcphy->hw->configure_lane_pmafsm(atcphy, mode_cfg);
-+
-+}
-+
- static void atcphy_enable_dp_aux(struct apple_atcphy *atcphy)
- {
- 	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DPTXPHY_PMA_LANE_RESET_N);
-@@ -1639,7 +1780,8 @@ static int atcphy_dp_configure(struct apple_atcphy *atcphy, enum atcphy_dp_link_
- static void atcphy_usb2_power_off(struct apple_atcphy *atcphy)
- {
- 	/* Disable the PHY, this clears USB2PHY_USBCTL_RUN */
--	writel(USB2PHY_USBCTL_ISOLATION, atcphy->regs.usb2phy + USB2PHY_USBCTL);
-+	mask32(atcphy->regs.usb2phy + USB2PHY_USBCTL, USB2PHY_USBCTL_USB_MODE,
-+	       USB2PHY_USBCTL_ISOLATION);
- 	udelay(10);
- 
- 	/* Switch the PHY to low power mode */
-@@ -1689,6 +1831,13 @@ static int atcphy_power_off(struct apple_atcphy *atcphy)
- 	return 0;
- }
- 
-+static void atcphy_configure_usb2_evt_ctl_t8122(struct apple_atcphy *atcphy)
-+{
-+	core_set32(atcphy, ATCPHY_EVT_USB2_CTL, ATCPHY_EVT_USB2_CTL_LOAD_CNT |
-+		ATCPHY_EVT_USB2_CTL_EVT_EN);
-+	udelay(10);
-+}
-+
- static void atcphy_usb2_power_on(struct apple_atcphy *atcphy)
- {
- 	set32(atcphy->regs.usb2phy + USB2PHY_SIG,
-@@ -1705,6 +1854,10 @@ static void atcphy_usb2_power_on(struct apple_atcphy *atcphy)
- 	udelay(10);
- 	clear32(atcphy->regs.usb2phy + USB2PHY_CTL, USB2PHY_CTL_PORT_RESET);
- 	udelay(10);
-+
-+	if (atcphy->hw->configure_usb2_evt_ctl)
-+		atcphy->hw->configure_usb2_evt_ctl(atcphy);
-+
- 	set32(atcphy->regs.usb2phy + USB2PHY_CTL, USB2PHY_CTL_APB_RESET_N);
- 	udelay(10);
- 	clear32(atcphy->regs.usb2phy + USB2PHY_MISCTUNE, USB2PHY_MISCTUNE_APBCLK_GATE_OFF);
-@@ -1745,24 +1898,8 @@ static int atcphy_power_on(struct apple_atcphy *atcphy)
- 	return 0;
- }
- 
--static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+static void atcphy_configure_post_tunable_t8103(struct apple_atcphy *atcphy, enum atcphy_mode _mode)
- {
--	int ret = 0;
--
--	lockdep_assert_held(&atcphy->lock);
--
--	if (mode == APPLE_ATCPHY_MODE_OFF) {
--		ret = atcphy_power_off(atcphy);
--		atcphy->mode = mode;
--		return ret;
--	}
--
--	ret = atcphy_power_on(atcphy);
--	if (ret)
--		return ret;
--
--	atcphy_apply_tunables(atcphy, mode);
--
- 	core_set32(atcphy, AUSPLL_FSM_CTRL, 0x1fe000);
- 	core_set32(atcphy, AUSPLL_APB_CMD_OVERRIDE, AUSPLL_APB_CMD_OVERRIDE_UNK28);
- 
-@@ -1792,18 +1929,100 @@ static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
- 	mask32(atcphy->regs.core + ACIOPHY_CFG0, ACIOPHY_CFG0_RX_CLAMP_OV,
- 	       FIELD_PREP(ACIOPHY_CFG0_RX_CLAMP_OV, 3));
- 	udelay(10);
-+}
-+
-+static void atcphy_configure_post_tunable_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	if (atcphy_modes[mode].pipehandler_state != ATCPHY_PIPEHANDLER_STATE_USB3)
-+		return;
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL_OV);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_BIG);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_BIG_OV);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_CLAMP);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_CLAMP_OV);
-+	udelay(10);
-+	core_set32(atcphy, AUS_COMMON_SHIM_BLK_BIAS_REG, AUS_COMMON_SHIM_BLK_BIAS_REG_BGBIAS_OV);
-+	udelay(10);
-+}
-+
-+static void atcphy_configure_post_tunable_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	if (atcphy_modes[mode].pipehandler_state == ATCPHY_PIPEHANDLER_STATE_USB3 ||
-+	    (atcphy->hw->dp && atcphy_modes[mode].enable_dp_aux))
-+		atcphy_power_on_common_t8122(atcphy);
-+}
-+
-+static void atcphy_enable_cio3pll_clk_t8103(struct apple_atcphy *atcphy)
-+{
-+	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_PCLK_EN);
-+	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_REFCLK_EN);
-+}
-+
-+static int atcphy_wait_rcal1_done_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	int ret = 0;
-+	u32 reg;
-+
-+	if (atcphy_modes[mode].pipehandler_state == ATCPHY_PIPEHANDLER_STATE_USB3) {
-+		ret = readl_poll_timeout(atcphy->regs.core + AUS_COMMON_DIG_RCAL1, reg,
-+					 (reg & AUS_COMMON_DIG_RCAL1_ALL_CODES_DONE), 10, 100000);
-+		if (ret) {
-+			atcphy_power_off(atcphy);
-+			dev_err(atcphy->dev, "Failed to wait for RCAL1 done\n");
-+			return ret;
-+		}
-+	}
++	lockdep_assert_held(&atcphy->lock);
++	ret = readl_poll_timeout_atomic(atcphy->regs.core + reg, value,
++					(value & mask) == expected, 1, 1000);
++	if (ret)
++		dev_err(atcphy->dev, "DP timeout reg=%#x mask=%#x want=%#x got=%#x\n",
++			reg, mask, expected, value);
 +	return ret;
 +}
 +
-+static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
++static int atcphy_auspll_set_command(struct apple_atcphy *atcphy, u32 command, bool request)
 +{
-+	int ret = 0;
++	core_mask32(atcphy, AUSPLL_APB_CMD_OVERRIDE,
++		    AUSPLL_APB_CMD_OVERRIDE_REQ | AUSPLL_APB_CMD_OVERRIDE_CMD |
++		    AUSPLL_APB_CMD_OVERRIDE_UNK28,
++		    FIELD_PREP(AUSPLL_APB_CMD_OVERRIDE_CMD, command) |
++		    AUSPLL_APB_CMD_OVERRIDE_UNK28 | (request ? AUSPLL_APB_CMD_OVERRIDE_REQ : 0));
++	return atcphy_dp_poll(atcphy, AUSPLL_APB_CMD_OVERRIDE, AUSPLL_APB_CMD_OVERRIDE_ACK,
++			     request ? AUSPLL_APB_CMD_OVERRIDE_ACK : 0);
++}
 +
-+	lockdep_assert_held(&atcphy->lock);
++static int atcphy_dp_start_pll_t8122(struct apple_atcphy *atcphy,
++				  enum atcphy_dp_link_rate lr)
++{
++	const struct atcphy_dp_link_rate_configuration *cfg = &dp_lr_config[lr];
++	int ret;
 +
-+	if (mode == APPLE_ATCPHY_MODE_OFF) {
-+		ret = atcphy_power_off(atcphy);
-+		atcphy->mode = mode;
-+		return ret;
-+	}
-+
-+	ret = atcphy_power_on(atcphy);
++	core_clear32(atcphy, AUSPLL_FREQ_CFG_T8122, AUSPLL_FREQ_REFCLK);
++	core_mask32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0,
++		    DPTX_PCLK1_SELECT | DPTX_PCLK2_SELECT | DPRX_PCLK_SELECT,
++		    FIELD_PREP(DPTX_PCLK1_SELECT, 1) | FIELD_PREP(DPTX_PCLK2_SELECT, 1) |
++		    FIELD_PREP(DPRX_PCLK_SELECT, 1));
++	core_mask32(atcphy, AUSPLL_FREQ_DESC_A, U32_MAX,
++		    FIELD_PREP(AUSPLL_FD_FREQ_COUNT_TARGET, cfg->freqinit_count_target) |
++		    FIELD_PREP(AUSPLL_FD_KI_MAN, 8) | FIELD_PREP(AUSPLL_FD_KI_EXP, 3) |
++		    FIELD_PREP(AUSPLL_FD_KP_MAN, 8) | FIELD_PREP(AUSPLL_FD_KP_EXP, 7));
++	core_mask32(atcphy, AUSPLL_FREQ_DESC_B, U32_MAX,
++		    FIELD_PREP(AUSPLL_FD_FBDIVN_FRAC_DEN, cfg->fbdivn_frac_den) |
++		    FIELD_PREP(AUSPLL_FD_FBDIVN_FRAC_NUM, cfg->fbdivn_frac_num));
++	core_mask32(atcphy, AUSPLL_FREQ_DESC_C, U32_MAX,
++		    FIELD_PREP(AUSPLL_FD_PCLK_DIV_SEL, cfg->pclk_div_sel) |
++		    FIELD_PREP(AUSPLL_FD_LFSDM_DIV, 1) |
++		    FIELD_PREP(AUSPLL_FD_LFCLK_CTRL, cfg->lfclk_ctrl) |
++		    FIELD_PREP(AUSPLL_FD_VCLK_OP_DIVN, dp_lr_config_t8122[lr].vclk_op_divn) |
++		    (dp_lr_config_t8122[lr].vclk_pre_divn ? AUSPLL_FD_VCLK_PRE_DIVN : 0));
++	core_mask32(atcphy, AUSPLL_CLKOUT_DIV, AUSPLL_CLKOUT_PLLA_REFBUFCLK_DI,
++		    FIELD_PREP(AUSPLL_CLKOUT_PLLA_REFBUFCLK_DI, 7));
++	core_set32(atcphy, AUSPLL_BGR_T8122, AUSPLL_BGR_CTRL_AVAIL);
++	core_set32(atcphy, AUSPLL_CLKOUT_MASTER, AUSPLL_CLKOUT_MASTER_PCLK_DRVR_EN_T8122);
++	ret = atcphy_auspll_set_command(atcphy, 0, true);
 +	if (ret)
 +		return ret;
++	ret = atcphy_dp_poll(atcphy, ACIOPHY_DP_PCLK_STAT_T8122, ACIOPHY_AUSPLL_LOCK,
++			     ACIOPHY_AUSPLL_LOCK);
++	if (ret)
++		return ret;
++	return atcphy_auspll_set_command(atcphy, 0x2800, false);
++}
 +
-+	atcphy_apply_tunables(atcphy, mode);
-+	atcphy->hw->configure_post_tunable(atcphy, mode);
- 
- 	/* Setup AUX channel if DP altmode is requested */
- 	if (atcphy_modes[mode].enable_dp_aux)
- 		atcphy_enable_dp_aux(atcphy);
- 
- 	/* Enable clocks and configure lanes */
--	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_PCLK_EN);
--	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_REFCLK_EN);
-+	if (atcphy->hw->enable_cio3pll_clk)
-+		atcphy->hw->enable_cio3pll_clk(atcphy);
++static void atcphy_dp_power_on_tx_t8122(struct apple_atcphy *atcphy, unsigned int lane)
++{
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_SMALL(lane));
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_SMALL_OV(lane));
++	udelay(1);
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_BIG(lane));
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_BIG_OV(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_CLAMP(lane));
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_CLAMP_OV(lane));
++	udelay(1);
++}
 +
- 	atcphy_configure_lanes(atcphy, mode);
++static void atcphy_dp_power_on_rxtx_t8122(struct apple_atcphy *atcphy, unsigned int lane)
++{
++	core_set32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_SMALL(lane));
++	core_set32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_SMALL_OV(lane));
++	udelay(1);
++	core_set32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_BIG(lane));
++	core_set32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_BIG_OV(lane));
++	udelay(1);
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_SMALL(lane));
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_SMALL_OV(lane));
++	udelay(1);
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_BIG(lane));
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_BIG_OV(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_CLAMP(lane));
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_CLAMP_OV(lane));
++	udelay(1);
++}
++
++static void atcphy_dp_configure_tx_t8122(struct apple_atcphy *atcphy, unsigned int lane,
++					 const struct atcphy_dp_link_rate_configuration *cfg)
++{
++	void __iomem *shm = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_TX_SHM);
++	void __iomem *top = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_TX_TOP);
++
++	atcphy_dp_power_on_tx_t8122(atcphy, lane);
++	/* Fixed LDO initialization value, not a calibration tunable. */
++	mask32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, U32_MAX, 0x0aafb800);
++	udelay(1);
++	set32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_EN_SMALL);
++	udelay(1);
++	set32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_EN_BIG);
++	udelay(1);
++	mask32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_VREG_ADJ,
++	       FIELD_PREP(LN_LDOCLK1_VREG_ADJ, 12));
++	udelay(1);
++	clear32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_VREF_FILTER_BOOST);
++	udelay(1);
++	set32(top + LN_AUSPMA_TX_TOP_EQ17, LN_EQ_AUTO_CTRL_DP);
++	clear32(top + LN_AUSPMA_TX_TOP_EQ1, LN_EQ_SWING | LN_EQ_SWING_LSB);
++	set32(top + LN_AUSPMA_TX_TOP_EQ18, LN_EQ_SWING_OV);
++	mask32(top + LN_AUSPMA_TX_TOP_EQ17, LN_EQ_DEEMPH_FIELDS, 1);
++	if (cfg->txa_ldoclk_bypass) {
++		set32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_BYPASS_SMALL);
++		udelay(1);
++		set32(shm + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_BYPASS_BIG);
++		udelay(1);
++	}
++	mask32(shm + LN_AUSPMA_TX_SHM_MAIN2,
++	       LN_MAIN2_BYTECLK_SYNC_SEL | LN_MAIN2_BYTECLK_SYNC_SEL_OV,
++	       LN_MAIN2_BYTECLK_SYNC_SEL_OV);
++	set32(shm + LN_AUSPMA_TX_SHM_MAIN2, LN_MAIN2_BYTECLK_SYNC_EN | LN_MAIN2_BYTECLK_SYNC_EN_OV);
++	mask32(shm + LN_AUSPMA_TX_SHM_MAIN4, LN_MAIN4_DIV2_4_EN | LN_MAIN4_DIV2_4_EN_OV,
++	       FIELD_PREP(LN_MAIN4_DIV2_4_EN, cfg->txa_div2_en) | LN_MAIN4_DIV2_4_EN_OV);
++	set32(shm + LN_AUSPMA_TX_SHM_MAIN5, LN_MAIN5_CLK_EN | LN_MAIN5_CLK_EN_OV);
++	mask32(shm + LN_AUSPMA_TX_SHM_CLKMON1, LN_CLKMON1_HIZ | LN_CLKMON1_HIZ_OV,
++	       LN_CLKMON1_HIZ_OV);
++}
++
++static void atcphy_dp_configure_rxtx_t8122(struct apple_atcphy *atcphy, unsigned int lane,
++					   const struct atcphy_dp_link_rate_configuration *cfg)
++{
++	void __iomem *shm = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_SHM);
++	void __iomem *top = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_TOP);
++
++	set32(top + LN_AUSPMA_RX_TOP_TXMODE, LN_RX_TXMODE);
++	set32(top + LN_AUSPMA_RX_TOP_DCO1, LN_DCO1_LPBKIN_RECOVERED_DATA);
++	mask32(shm + LN_AUSPMA_RX_SHM_SAVOS161, LN_SAVOS161_RXTERM_EN | LN_SAVOS161_RXTERM_EN_OV,
++	       LN_SAVOS161_RXTERM_EN_OV);
++	mask32(shm + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_TEST_EN | LN_TERM191_TX_TEST_EN_OV,
++	       LN_TERM191_TX_TEST_EN_OV);
++	mask32(shm + LN_AUSPMA_RX_SHM_DFE121, LN_DFE121_TX_PBIAS_EN | LN_DFE121_TX_PBIAS_EN_OV,
++	       LN_DFE121_TX_PBIAS_EN_OV);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF221, LN_VREF221_INIT_FIELDS, 0x121180);
++	mask32(shm + LN_AUSPMA_RX_SHM_DFE101, LN_DFE101_DTVREG_ADJUST_FIELDS, 0xb800);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF231,
++	       LN_VREF231_BOOST_CTRL | LN_VREF231_BOOST_CTRL_OV,
++	       LN_VREF231_BOOST_CTRL_OV);
++	clear32(shm + LN_AUSPMA_RX_SHM_VREG1, LN_VREG1_DTVREG_POWER_MODE);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF221, LN_VREF221_BIAS_FIELDS, 0xc000);
++	udelay(1);
++	atcphy_dp_power_on_rxtx_t8122(atcphy, lane);
++	set32(shm + LN_AUSPMA_RX_SHM_DFE121, LN_DFE121_TX_BYTECLK_SYNC_EN);
++	mask32(top + LN_AUSPMA_RX_TOP_AFE1, LN_AFE1_DIV20_RESET_N | LN_AFE1_DIV20_RESET_N_OV,
++	       LN_AFE1_DIV20_RESET_N_OV);
++	udelay(1);
++	set32(top + LN_AUSPMA_RX_TOP_AFE1, LN_AFE1_DIV20_RESET_N);
++	mask32(shm + LN_AUSPMA_RX_SHM_DFE121,
++	       LN_DFE121_TX_BYTECLK_SYNC_CLR | LN_DFE121_TX_BYTECLK_SYNC_CLR_OV,
++	       LN_DFE121_TX_BYTECLK_SYNC_CLR_OV);
++	udelay(1);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF221, LN_VREF221_EN | LN_VREF221_FILTER_ADJUST,
++	       LN_VREF221_EN | FIELD_PREP(LN_VREF221_FILTER_ADJUST, 1));
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF231, LN_VREF231_BOOST_CTRL,
++	       FIELD_PREP(LN_VREF231_BOOST_CTRL, 1));
++	udelay(1);
++	clear32(shm + LN_AUSPMA_RX_SHM_VREF221, LN_VREF221_FILTER_ADJUST);
++	udelay(1);
++	set32(shm + LN_AUSPMA_RX_SHM_DFE111,
++	      LN_DFE111_DTVREG_SMALL_EN | LN_DFE111_DTVREG_SMALL_EN_OV);
++	udelay(1);
++	set32(shm + LN_AUSPMA_RX_SHM_DFE111, LN_DFE111_DTVREG_BIG_EN | LN_DFE111_DTVREG_BIG_EN_OV);
++	udelay(1);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF231, LN_VREF231_BOOST_CTRL,
++	       FIELD_PREP(LN_VREF231_BOOST_CTRL, 3));
++	udelay(1);
++	mask32(shm + LN_AUSPMA_RX_SHM_VREF231, LN_VREF231_BOOST_CTRL,
++	       FIELD_PREP(LN_VREF231_BOOST_CTRL, 2));
++	udelay(1);
++	clear32(shm + LN_AUSPMA_RX_SHM_VREF231, LN_VREF231_BOOST_CTRL);
++	udelay(1);
++	set32(shm + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_EN | LN_TERM191_TX_EN_OV);
++	udelay(1);
++	mask32(shm + LN_AUSPMA_RX_SHM_DFE121, LN_DFE121_TX_HRCLK_SEL | LN_DFE121_TX_HRCLK_SEL_OV,
++	       LN_DFE121_TX_HRCLK_SEL_OV);
++	clear32(top + LN_AUSPMA_RX_TOP_EQ1, LN_EQ_SWING | LN_EQ_SWING_LSB);
++	set32(top + LN_AUSPMA_RX_TOP_EQ18, LN_EQ_SWING_OV);
++	mask32(top + LN_AUSPMA_RX_TOP_EQ17, LN_EQ_DEEMPH_FIELDS, 0x1f81);
++	mask32(shm + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_DIV2_EN | LN_TERM191_TX_DIV2_EN_OV,
++	       FIELD_PREP(LN_TERM191_TX_DIV2_EN, cfg->txa_div2_en) | LN_TERM191_TX_DIV2_EN_OV);
++	mask32(shm + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_DIV2_RST | LN_TERM191_TX_DIV2_RST_OV,
++	       LN_TERM191_TX_DIV2_RST_OV);
++	udelay(1);
++	set32(shm + LN_AUSPMA_RX_SHM_CTLE2, LN_CTLE2_TX_CLK_EN | LN_CTLE2_TX_CLK_EN_OV);
++	udelay(1);
++}
++
++static void atcphy_dp_stop_lane_t8122(struct apple_atcphy *atcphy, unsigned int lane)
++{
++	void __iomem *tx = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_TX_SHM);
++	void __iomem *rx = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_SHM);
++	void __iomem *top = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_TOP);
++
++	set32(tx + LN_AUSPMA_TX_SHM_CLKMON1, LN_CLKMON1_HIZ | LN_CLKMON1_HIZ_OV);
++	mask32(tx + LN_AUSPMA_TX_SHM_MAIN5, LN_MAIN5_CLK_EN | LN_MAIN5_CLK_EN_OV,
++	       LN_MAIN5_CLK_EN_OV);
++	mask32(tx + LN_AUSPMA_TX_SHM_MAIN2, LN_MAIN2_BYTECLK_SYNC_EN | LN_MAIN2_BYTECLK_SYNC_EN_OV,
++	       LN_MAIN2_BYTECLK_SYNC_EN_OV);
++	udelay(1);
++	clear32(tx + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_BYPASS_SMALL);
++	udelay(1);
++	clear32(tx + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_BYPASS_BIG);
++	udelay(1);
++	clear32(tx + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_EN_BIG);
++	udelay(1);
++	clear32(tx + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_EN_SMALL);
++	udelay(1);
++	clear32(tx + LN_AUSPMA_TX_SHM_LDOCLK1, LN_LDOCLK1_VREF_EN);
++	core_set32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_CLAMP(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_BIG(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_SLEEP_CTRL_T8122, ACIOPHY_TX_SLEEP_SMALL(lane));
++	udelay(1);
++
++	mask32(rx + LN_AUSPMA_RX_SHM_CTLE2, LN_CTLE2_TX_CLK_EN | LN_CTLE2_TX_CLK_EN_OV,
++	       LN_CTLE2_TX_CLK_EN_OV);
++	udelay(1);
++	set32(rx + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_DIV2_RST | LN_TERM191_TX_DIV2_RST_OV);
++	udelay(1);
++	mask32(rx + LN_AUSPMA_RX_SHM_TERM191, LN_TERM191_TX_EN | LN_TERM191_TX_EN_OV,
++	       LN_TERM191_TX_EN_OV);
++	mask32(rx + LN_AUSPMA_RX_SHM_DFE111, LN_DFE111_DTVREG_BIG_EN | LN_DFE111_DTVREG_BIG_EN_OV,
++	       LN_DFE111_DTVREG_BIG_EN_OV);
++	udelay(1);
++	mask32(rx + LN_AUSPMA_RX_SHM_DFE111,
++	       LN_DFE111_DTVREG_SMALL_EN | LN_DFE111_DTVREG_SMALL_EN_OV,
++	       LN_DFE111_DTVREG_SMALL_EN_OV);
++	udelay(1);
++	clear32(rx + LN_AUSPMA_RX_SHM_VREF221, LN_VREF221_EN);
++	udelay(1);
++	set32(rx + LN_AUSPMA_RX_SHM_DFE121,
++	      LN_DFE121_TX_BYTECLK_SYNC_CLR | LN_DFE121_TX_BYTECLK_SYNC_CLR_OV);
++	mask32(top + LN_AUSPMA_RX_TOP_AFE1, LN_AFE1_DIV20_RESET_N | LN_AFE1_DIV20_RESET_N_OV,
++	       LN_AFE1_DIV20_RESET_N_OV);
++	clear32(rx + LN_AUSPMA_RX_SHM_DFE121, LN_DFE121_TX_BYTECLK_SYNC_EN);
++	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_CLAMP(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_BIG(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_CFG0, ACIOPHY_RX_SLEEP_SMALL(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_BIG(lane));
++	udelay(1);
++	core_clear32(atcphy, ACIOPHY_CFG1, ACIOPHY_RXTX_SLEEP_SMALL(lane));
++	udelay(1);
++}
++
++static int atcphy_dp_start_link_t8122(struct apple_atcphy *atcphy, u8 pmas,
++				   enum atcphy_dp_link_rate lr)
++{
++	const struct atcphy_dp_link_rate_configuration *cfg = &dp_lr_config[lr];
++	int ret;
++
++	lockdep_assert_held(&atcphy->lock);
++	if (!pmas || pmas > 3)
++		return -EINVAL;
++	ret = atcphy_dp_start_pll_t8122(atcphy, lr);
++	if (ret)
++		return ret;
++	/* Set both feedback overrides before releasing the shared lane reset. */
++	for (unsigned int lane = 0; lane < 2; lane++) {
++		void __iomem *shm = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_SHM);
++
++		if (pmas & BIT(lane))
++			mask32(shm + LN_AUSPMA_RX_SHM_DFE101,
++			       LN_DFE101_DFEH1FB_EN | LN_DFE101_DFEH1FB_EN_OV,
++			       LN_DFE101_DFEH1FB_EN_OV);
++	}
++	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0,
++		   DPTXPHY_PMA_LANE_RESET_N | DPTXPHY_PMA_LANE_RESET_N_OV);
++	udelay(1);
++	for (unsigned int lane = 0; lane < 2; lane++) {
++		if (!(pmas & BIT(lane)))
++			continue;
++		atcphy_dp_configure_tx_t8122(atcphy, lane, cfg);
++		atcphy_dp_configure_rxtx_t8122(atcphy, lane, cfg);
++	}
++	core_clear32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DP_PMA_BYTECLK_RESET);
++	return 0;
++}
++
++static int atcphy_dp_stop_link_t8122(struct apple_atcphy *atcphy)
++{
++	const struct atcphy_mode_configuration *cfg;
++	int ret;
++
++	lockdep_assert_held(&atcphy->lock);
++	if (atcphy->dp_link_rate == ATCPHY_DP_LINK_RATE_IDLE)
++		return 0;
++	cfg = atcphy_get_mode_config(atcphy, atcphy->mode);
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_PENDING;
++	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DP_PMA_BYTECLK_RESET);
++	for (unsigned int lane = 0; lane < 2; lane++) {
++		if (cfg->dp_lane[lane])
++			atcphy_dp_stop_lane_t8122(atcphy, lane);
++	}
++	core_mask32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0,
++		    DPTXPHY_PMA_LANE_RESET_N | DPTXPHY_PMA_LANE_RESET_N_OV,
++		    DPTXPHY_PMA_LANE_RESET_N_OV);
++	ret = atcphy_auspll_set_command(atcphy, 0, true);
++	if (ret)
++		return ret;
++	ret = atcphy_auspll_set_command(atcphy, 3, false);
++	if (ret)
++		return ret;
++	ret = atcphy_dp_poll(atcphy, ACIOPHY_DP_PCLK_STAT_T8122, ACIOPHY_AUSPLL_LOCK, 0);
++	if (ret)
++		return ret;
++	core_clear32(atcphy, AUSPLL_CLKOUT_MASTER, AUSPLL_CLKOUT_MASTER_PCLK_DRVR_EN_T8122);
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_IDLE;
++	return 0;
++}
++
++static int atcphy_dp_set_rate_t8122(struct apple_atcphy *atcphy, enum atcphy_dp_link_rate lr)
++{
++	const struct atcphy_mode_configuration *cfg;
++	u8 pmas;
++	int ret;
++
++	guard(mutex)(&atcphy->lock);
++	if (!atcphy_modes[atcphy->mode].enable_dp_aux)
++		return -ENOLINK;
++	cfg = atcphy_get_mode_config(atcphy, atcphy->mode);
++	pmas = cfg->dp_lane[0] | (cfg->dp_lane[1] << 1);
++	if (!pmas)
++		return -EINVAL;
++	if (atcphy->dp_link_rate == lr)
++		return 0;
++	ret = atcphy_dp_stop_link_t8122(atcphy);
++	if (ret)
++		return ret;
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_PENDING;
++	ret = atcphy_dp_start_link_t8122(atcphy, pmas, lr);
++	if (ret) {
++		atcphy_dp_stop_link_t8122(atcphy);
++		return ret;
++	}
++	atcphy->dp_link_rate = lr;
++	return 0;
++}
++
++static void atcphy_enable_dp_aux_t8122(struct apple_atcphy *atcphy)
++{
++	core_set32(atcphy, AUX_SHM_PWR, AUX_SLEEP_SML_OV | AUX_SLEEP_SML);
++	udelay(1);
++	core_set32(atcphy, AUX_SHM_PWR, AUX_SLEEP_BIG_OV | AUX_SLEEP_BIG);
++	udelay(1);
++	core_mask32(atcphy, AUX_SHM_PWR, AUX_CLAMP_OV | AUX_CLAMP,
++		    AUX_CLAMP_OV);
++	udelay(1);
++	core_clear32(atcphy, AUX_TOP_CTRL, AUX_TOP_PWRDN);
++	udelay(1);
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_IDLE;
++}
++
++static void atcphy_disable_dp_aux_t8122(struct apple_atcphy *atcphy)
++{
++	core_set32(atcphy, AUX_TOP_CTRL, AUX_TOP_PWRDN);
++	udelay(1);
++	core_set32(atcphy, AUX_SHM_PWR, AUX_CLAMP);
++	udelay(1);
++	core_clear32(atcphy, AUX_SHM_PWR, AUX_SLEEP_BIG);
++	udelay(1);
++	core_clear32(atcphy, AUX_SHM_PWR, AUX_SLEEP_SML);
++	udelay(1);
++}
++
++static void atcphy_enable_dp_aux_t8103(struct apple_atcphy *atcphy)
+ {
+ 	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DPTXPHY_PMA_LANE_RESET_N);
+ 	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DPTXPHY_PMA_LANE_RESET_N_OV);
+@@ -1425,10 +1972,10 @@ static void atcphy_enable_dp_aux(struct apple_atcphy *atcphy)
+ 	mask32(atcphy->regs.lpdptx + LPDPTX_AUX_CFG_BLK_AUX_MARGIN, LPDPTX_AUX_MARGIN_RCAL_TXSWING,
+ 	       FIELD_PREP(LPDPTX_AUX_MARGIN_RCAL_TXSWING, 12));
  
- 	/* Take the USB3 PHY out of reset */
- 	core_set32(atcphy, ATCPHY_POWER_CTRL, ATCPHY_POWER_PHY_RESET_N);
-+	/*
-+	 * NOTE: Not what macos does, it takes the phy out of reset right before writing to
-+	 * ACIOPHY_CFG0_COMMON_SMALL does lane configuration with phy out of reset, and the poll is
-+	 * right after AUS_COMMON_SHIM_BLK_BIAS_REG write. Does not seem to matter, but if something
-+	 * does not work, consider re-ordering things to macos order.
-+	 */
-+	if (atcphy->hw->wait_rcal1_done) {
-+		ret = atcphy->hw->wait_rcal1_done(atcphy, mode);
+-	atcphy->dp_link_rate = -1;
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_IDLE;
+ }
+ 
+-static void atcphy_disable_dp_aux(struct apple_atcphy *atcphy)
++static void atcphy_disable_dp_aux_t8103(struct apple_atcphy *atcphy)
+ {
+ 	set32(atcphy->regs.lpdptx + LPDPTX_AUX_CONTROL, LPDPTX_AUX_PWN_DOWN);
+ 	set32(atcphy->regs.lpdptx + LPDPTX_AUX_CFG_BLK_AUX_CTRL, LPDPTX_BLK_AUX_CTRL_PWRDN);
+@@ -1444,6 +1991,20 @@ static void atcphy_disable_dp_aux(struct apple_atcphy *atcphy)
+ 	core_clear32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DPTX_PCLK2_ENABLE);
+ }
+ 
++static void atcphy_dp_enable_aux(struct apple_atcphy *atcphy)
++{
++	if (atcphy->hw->dp)
++		atcphy->hw->dp->enable_aux(atcphy);
++	else
++		dev_warn_once(atcphy->dev, "DisplayPort AUX initialization is not implemented\n");
++}
++
++static void atcphy_dp_disable_aux(struct apple_atcphy *atcphy)
++{
++	if (atcphy->hw->dp)
++		atcphy->hw->dp->disable_aux(atcphy);
++}
++
+ static int atcphy_dp_configure_lane(struct apple_atcphy *atcphy, enum atcphy_lane lane,
+ 				    const struct atcphy_dp_link_rate_configuration *cfg)
+ {
+@@ -1452,20 +2013,11 @@ static int atcphy_dp_configure_lane(struct apple_atcphy *atcphy, enum atcphy_lan
+ 
+ 	lockdep_assert_held(&atcphy->lock);
+ 
+-	switch (lane) {
+-	case APPLE_ATCPHY_LANE_0:
+-		tx_shm = atcphy->regs.core + LN0_AUSPMA_TX_SHM;
+-		rx_shm = atcphy->regs.core + LN0_AUSPMA_RX_SHM;
+-		rx_top = atcphy->regs.core + LN0_AUSPMA_RX_TOP;
+-		break;
+-	case APPLE_ATCPHY_LANE_1:
+-		tx_shm = atcphy->regs.core + LN1_AUSPMA_TX_SHM;
+-		rx_shm = atcphy->regs.core + LN1_AUSPMA_RX_SHM;
+-		rx_top = atcphy->regs.core + LN1_AUSPMA_RX_TOP;
+-		break;
+-	default:
++	if ((unsigned int)lane > APPLE_ATCPHY_LANE_1)
+ 		return -EINVAL;
+-	}
++	tx_shm = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_TX_SHM);
++	rx_shm = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_SHM);
++	rx_top = atcphy_lane_reg(atcphy, lane, LN0_AUSPMA_RX_TOP);
+ 
+ 	set32(tx_shm + LN_AUSPMA_TX_SHM_TXA_LDOCLK, LN_LDOCLK_EN_SML);
+ 	set32(tx_shm + LN_AUSPMA_TX_SHM_TXA_LDOCLK, LN_LDOCLK_EN_SML_OV);
+@@ -1804,7 +2356,7 @@ static int atcphy_power_off(struct apple_atcphy *atcphy)
+ 	u32 reg;
+ 	int ret;
+ 
+-	atcphy_disable_dp_aux(atcphy);
++	atcphy_dp_disable_aux(atcphy);
+ 
+ 	/* Enable all reset lines */
+ 	core_clear32(atcphy, ATCPHY_POWER_CTRL, ATCPHY_POWER_PHY_RESET_N);
+@@ -1931,10 +2483,8 @@ static void atcphy_configure_post_tunable_t8103(struct apple_atcphy *atcphy, enu
+ 	udelay(10);
+ }
+ 
+-static void atcphy_configure_post_tunable_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
++static void atcphy_power_on_common_t8122(struct apple_atcphy *atcphy)
+ {
+-	if (atcphy_modes[mode].pipehandler_state != ATCPHY_PIPEHANDLER_STATE_USB3)
+-		return;
+ 	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL);
+ 	udelay(10);
+ 	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL_OV);
+@@ -1986,6 +2536,11 @@ static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
+ 	int ret = 0;
+ 
+ 	lockdep_assert_held(&atcphy->lock);
++	if (atcphy->hw->dp && atcphy->hw->dp->stop) {
++		ret = atcphy->hw->dp->stop(atcphy);
 +		if (ret)
 +			return ret;
 +	}
  
- 	atcphy->mode = mode;
+ 	if (mode == APPLE_ATCPHY_MODE_OFF) {
+ 		ret = atcphy_power_off(atcphy);
+@@ -2002,7 +2557,7 @@ static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
  
-@@ -2201,6 +2420,7 @@ static int atcphy_probe_mux(struct apple_atcphy *atcphy)
+ 	/* Setup AUX channel if DP altmode is requested */
+ 	if (atcphy_modes[mode].enable_dp_aux)
+-		atcphy_enable_dp_aux(atcphy);
++		atcphy_dp_enable_aux(atcphy);
  
- static int atcphy_load_tunables(struct apple_atcphy *atcphy)
+ 	/* Enable clocks and configure lanes */
+ 	if (atcphy->hw->enable_cio3pll_clk)
+@@ -2148,6 +2703,10 @@ static int atcphy_dpphy_configure(struct phy *phy, union phy_configure_opts *opt
+ 		return -EINVAL;
+ 
+ 	if (opts->set_rate) {
++		if (!atcphy->hw->dp) {
++			dev_warn(atcphy->dev, "DisplayPort lane setup is not implemented\n");
++			return -EOPNOTSUPP;
++		}
+ 		switch (opts->link_rate) {
+ 		case 1620:
+ 			link_rate = ATCPHY_DP_LINK_RATE_RBR;
+@@ -2162,12 +2721,18 @@ static int atcphy_dpphy_configure(struct phy *phy, union phy_configure_opts *opt
+ 			link_rate = ATCPHY_DP_LINK_RATE_HBR3;
+ 			break;
+ 		case 0:
++			if (atcphy->hw->dp->stop) {
++				guard(mutex)(&atcphy->lock);
++				return atcphy->hw->dp->stop(atcphy);
++			}
+ 			return 0;
+ 		default:
+ 			dev_err(atcphy->dev, "Unsupported link rate: %d\n", opts->link_rate);
+ 			return -EINVAL;
+ 		}
+ 
++		if (atcphy->hw->dp->set_rate)
++			return atcphy->hw->dp->set_rate(atcphy, link_rate);
+ 		return atcphy_dp_configure(atcphy, link_rate);
+ 	}
+ 
+@@ -2290,20 +2855,32 @@ static int atcphy_probe_rcdev(struct apple_atcphy *atcphy)
+ static int atcphy_sw_set(struct typec_switch_dev *sw, enum typec_orientation orientation)
  {
-+	size_t tunable_count;
- 	struct {
- 		const char *dt_name;
- 		struct apple_tunable **tunable;
-@@ -2216,8 +2436,15 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
- 		{ "apple,tunable-lane0-dp", &atcphy->tunables.lane_dp[0], atcphy->res.core },
- 		{ "apple,tunable-lane1-dp", &atcphy->tunables.lane_dp[1], atcphy->res.core },
- 	};
-+	if (!atcphy->hw->need_dp_tunables) {
-+		tunable_count = ARRAY_SIZE(tunables) - 2;
-+		atcphy->tunables.lane_dp[0] = NULL;
-+		atcphy->tunables.lane_dp[1] = NULL;
-+	} else {
-+		tunable_count = ARRAY_SIZE(tunables);
-+	}
+ 	struct apple_atcphy *atcphy = typec_switch_get_drvdata(sw);
++	bool swap_lanes;
++	int ret;
  
--	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
-+	for (size_t i = 0; i < tunable_count; i++) {
- 		*tunables[i].tunable = devm_apple_tunable_parse(
- 			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
- 		if (IS_ERR(*tunables[i].tunable)) {
-@@ -2301,6 +2528,10 @@ static int atcphy_probe(struct platform_device *pdev)
- 	if (!atcphy)
- 		return -ENOMEM;
+ 	guard(mutex)(&atcphy->lock);
  
-+	atcphy->hw = of_device_get_match_data(&pdev->dev);
-+	if (!atcphy->hw)
+ 	switch (orientation) {
+ 	case TYPEC_ORIENTATION_NONE:
+-		break;
++		return 0;
+ 	case TYPEC_ORIENTATION_NORMAL:
+-		atcphy->swap_lanes = false;
++		swap_lanes = false;
+ 		break;
+ 	case TYPEC_ORIENTATION_REVERSE:
+-		atcphy->swap_lanes = true;
++		swap_lanes = true;
+ 		break;
++	default:
 +		return -EINVAL;
+ 	}
+ 
++	/* Cleanup needs the old lane configuration until shutdown succeeds. */
++	if (swap_lanes != atcphy->swap_lanes && atcphy->hw->dp && atcphy->hw->dp->stop) {
++		ret = atcphy->hw->dp->stop(atcphy);
++		if (ret)
++			return ret;
++	}
++	atcphy->swap_lanes = swap_lanes;
 +
- 	atcphy->dev = dev;
- 	atcphy->np = dev->of_node;
- 	mutex_init(&atcphy->lock);
-@@ -2319,8 +2550,29 @@ static int atcphy_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+@@ -2545,12 +3122,26 @@ static int atcphy_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	atcphy->mode = APPLE_ATCPHY_MODE_OFF;
++	atcphy->dp_link_rate = ATCPHY_DP_LINK_RATE_IDLE;
+ 	atcphy->pipehandler_up = false;
+ 
  	return atcphy_probe_finalize(atcphy);
  }
  
-+static const struct atcphy_hw atcphy_hw_t8103 = {
-+	.need_dp_tunables = true,
-+	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8103,
-+	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8103,
-+	.configure_post_tunable = atcphy_configure_post_tunable_t8103,
-+	.configure_pipehandler_usb3_host = atcphy_configure_pipehandler_usb3_host_t8103,
-+	.enable_cio3pll_clk = atcphy_enable_cio3pll_clk_t8103,
-+	.configure_lane_pmafsm = atcphy_configure_lane_pmafsm_t8103,
++static const struct atcphy_dp_ops atcphy_dp_ops_t8103 = {
++	.enable_aux = atcphy_enable_dp_aux_t8103,
++	.disable_aux = atcphy_disable_dp_aux_t8103,
 +};
 +
-+static const struct atcphy_hw atcphy_hw_t8122 = {
-+	.need_dp_tunables = false,
-+	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8122,
-+	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8122,
-+	.configure_post_tunable = atcphy_configure_post_tunable_t8122,
-+	.configure_pipehandler_usb3_host = atcphy_configure_pipehandler_usb3_host_t8122,
-+	.configure_usb2_evt_ctl = atcphy_configure_usb2_evt_ctl_t8122,
-+	.wait_rcal1_done = atcphy_wait_rcal1_done_t8122,
++static const struct atcphy_dp_ops atcphy_dp_ops_t8122 = {
++	.enable_aux = atcphy_enable_dp_aux_t8122,
++	.disable_aux = atcphy_disable_dp_aux_t8122,
++	.set_rate = atcphy_dp_set_rate_t8122,
++	.stop = atcphy_dp_stop_link_t8122,
 +};
 +
- static const struct of_device_id atcphy_match[] = {
--	{ .compatible = "apple,t8103-atcphy" },
-+	{ .compatible = "apple,t8103-atcphy", .data = &atcphy_hw_t8103 },
-+	{ .compatible = "apple,t8122-atcphy", .data = &atcphy_hw_t8122 },
- 	{},
+ static const struct atcphy_hw atcphy_hw_t8103 = {
++	.dp = &atcphy_dp_ops_t8103,
+ 	.need_dp_tunables = true,
+ 	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8103,
+ 	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8103,
+@@ -2561,6 +3152,7 @@ static const struct atcphy_hw atcphy_hw_t8103 = {
  };
- MODULE_DEVICE_TABLE(of, atcphy_match);
+ 
+ static const struct atcphy_hw atcphy_hw_t8122 = {
++	.dp = &atcphy_dp_ops_t8122,
+ 	.need_dp_tunables = false,
+ 	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8122,
+ 	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8122,
 
 -- 
 2.56.1
