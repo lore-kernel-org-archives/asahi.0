@@ -1,53 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=77.81.229.115
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795612326;
-	b=t6sy7YPd13TxLo9vqTtIEkoryMeRQIoLDE1Nc8mudwwvRDtSPPjSdqOME2c2ppmFHWSs
-	 Ng8tcZZAR/tRA6VU9lzFGSDsiWFTcjVVIoZAdIvr58BcpUOVH4TvZF/6IuGph08V1wGbc
-	 v/L8Uf/u9rI5FiEFtIORcPQZCdSfo4uaK5NF6ebTpAjA1tMlSCEu82z6kcebEd9+qKWMZ
-	 l4BirQ6gRH0yIWpAeM80vtpJJ1oIjxwp2LMaEUdpK18D6cm6/XrwR7swMxTfjd/fqNMjl
-	 80+7JxL3dIVJ40/DLMjYfPmxlxP5kVne8cH33/00+HAXsOiy43KDaKxBbULyQh3DRKA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795612326;
-	h=DMARC-Filter:Received:DKIM-Signature:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key;
-	bh=K7tjEIo+LG8kBheOtNPmxz3aLdVmkv/Cch8TSIp9EC0=;
-	b=hIKu7GRIrpYY1Ffbfof4pxsL27hwZTcl8hdQnpwDO6YToUNS8imKMID6ryok4QT1rycC
-	 v5wFm1squmCtrcNvFNPBRwhhZa2d4lucOz/Za6FeFjfzcC4uQ4VeTR5jNeJLl24KQz3Wy
-	 x6lFvzRjs0zuYAU60QkpxLLrn2h75gqCaxyr/sQJsLolAElQyoDHTWWFDsCNIfHRMy8hZ
-	 vlZQbxh7r9V0cQUF9r3O8dwOmIRuekNjoljwGSEfUFnpnh+YcrdF7ssnLW0l9gAe92nr2
-	 BuWzp5sHCMbGERK9XxVIBq9P1S+uST73kzHXKhkLyBbYMBG9yr/jDSTvgYwBlokgMrw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chaosmail.tech;
-	spf=pass smtp.mailfrom=chaosmail.tech;
-	dkim=pass header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=RFbWkLyU;
-	arc=none smtp.remote-ip=77.81.229.115
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.34
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795618513;
+	b=GcoD4hv+yArD5gjUDkQ99QnFPs3w7CKiE6tgfL74wRJ7rS0XiP0Z2LEl3aNl15mIoXsL
+	 9keuRkTrIj4ksAOyHkD69RT0CtVj1NGLTPZPv4oJxsi/Xy5Um7i0qnWIq61XpkgIdF3Fp
+	 4IhiPro/uUAjkwzLhzE3r2L3tSStRzrvNNTCuZyowv24d0OGnaNX694XT1xbdzgD8zW1M
+	 3hv7za2NfxVqvd3zb3z+Hm2qG3iq84QtD9QJT1LBDEcCgYazX7PIv3el5x02SHXHNDP9e
+	 eS8lAMY6Wjc2QDD0RNfajD86B4+t+5pPhCuhEoV6WTi1O5hzko+OBdktlgJHx3RrWLg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795618513;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=UVfZCnCS1lfKWlAQxCT2m4GZR6ZyKOxu8kvt/BZqS5Y=;
+	b=yBVQsiRnkEhO2lRHyEKYu7gtSTF+bIV8+RnIVvlSSqdjNQs2meIZNnaskFzlk9TST34c
+	 uX+neXFX5yVX5srmyQKroJVeormjMlUMhG/dAbEILtjsy1C3C3FK91Tzy5RQ2j2Kwso7g
+	 Q/GWw5JkeZnXCmxL5EvrCUAO66dhe3e2efpxmuBXH+EUMPQdTMsXoIfViN06r6REQu388
+	 k+hUhpXAPrWRJmCZMnj21+kPDaN2Ur+jVGoDMmTej0fq3ssEEwig4KiNLMYNRDRSZXa+H
+	 eFIR7gXEhhzWhAwEZ9UlzD14X+GJgjGUyyJIb7cKbtn57Dz5XmdqGtwjA9KByMGAx2A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=j8HOzmRL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.34
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011034.outbound.protection.outlook.com [52.101.65.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF40606A32D
-	for <asahi@lists.linux.dev>; Wed, 25 Nov 2026 13:12:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AF40606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6192B606A31E;
+	Wed, 25 Nov 2026 14:55:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6192B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.a=rsa-sha256 header.s=mail header.b=RFbWkLyU
-Received: by chaosmail.tech (Postfix) id D04E31CA00E;
-	Wed, 25 Nov 2026 13:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1795612318;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K7tjEIo+LG8kBheOtNPmxz3aLdVmkv/Cch8TSIp9EC0=;
-	b=RFbWkLyUFKtZRTXbDz01Ql5KnlLzpfmW/SUU2l+UsZ2SWcxXHdkIbVy2EyuIr9SSK3Ajr9
-	PHC8F55fF3ublcuV/18STG3qGeZ6Wmr66/9IQQS6AT+lCnrknoXbWSqGO5RSrmRVzWAyCR
-	ty/pqTaSFr+4nCFbQgxNhEKpiciqqns=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Wed, 25 Nov 2026 14:11:47 +0100
-Subject: [PATCH v3 3/5] phy: apple: atc: Add initial M3 series support
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=j8HOzmRL
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t65I6Sq63mygC2gF3j3ExHLYXAkORyza530HN/vVJY4ogIra4r7+wFuIAj4LSEYkdkdVsBJRpjXKyYfZ0f0M5kUmwV+9efmPbbymkkL8w4sGZ7XsbAwSg0g8bNIruZAr1E/lK8end2qXMDg8LSvtI8uavk/Fhop4tvpP8e1KL3MLw/egH2y4pJKYeTNosWnUdxOLEbXSBzbuD4ttSru8bQ5QV30raipXe6DbVyuJJdSxzKwsQASG63nfYhslqyKUJ6d+7OtIL+00T1GFC1TC1rUthOJwtfLNtp3ji8yTqr5ncyP8HFvcjqHTRgEY1GdX63wdfyxOfcNFd8hLxUshhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UVfZCnCS1lfKWlAQxCT2m4GZR6ZyKOxu8kvt/BZqS5Y=;
+ b=XkhDCzQajR8G8rG4CaquHcvyD/yI8Glz6T2LDZFFwMoSGuztfVi7hGYanon0OviyidB1CqAvkNLVv7heNumsHowFf1uFnZ+EnnMbOxE9QbZDtSVv3gY39d3233nP9WU4zggzharjAWwS+SxldoZt2OYy2s90WMk+2HwqQxPwDlO4qJwe32VvFBQlYMr6Af8DnsNZ90r02aoXCW1LnJYwpQUS2rJJ2+J7xLyV1Grp8ghvJQcrLbXl3VZZSGzZlgBbxqAncP9t9GTDST0sq7n8yl4OSkxItCSH/EsfjepbJrERCZPsH6CulLgwkjRtew+rFQKXHP+kvc2TbCLh5xRusw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UVfZCnCS1lfKWlAQxCT2m4GZR6ZyKOxu8kvt/BZqS5Y=;
+ b=j8HOzmRLbX1Xd6Rm9BNIAo2ZIWvJAnBpWD8rJIpMObyafRpNv7/RU+NjQa4nYiumwmWv6k/9kdzTORyg/xpdSMca3ms1OomNS52H5LXAXmMa6pkfgTd7Cox1Noo/SyTIkbMGewKhOGijqf6KaeOhDDx5bFXubkJAM4FaFCvVE/anhJYxcaiXC/BU4kEmMGXkXMyrPK76vxUXlOqqYJnR1gKsJGMYrZ7HZYJL5I3mwgB6ZteNh+gRrY4eBvTaZE9XozyG/E/gRiH/+JqTDkzhV/3jLYzqX6D3UNwv9glVoK79xQGd1XpE6yk9SkoT/2qjRQSGOL1DkIxKmB/JLsAGCw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by DUYPR04MB12666.eurprd04.prod.outlook.com (2603:10a6:10:65f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
+ 2026 14:55:07 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%4]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
+ 14:55:07 +0000
+Date: Wed, 25 Nov 2026 09:54:58 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Frank Li <Frank.Li@nxp.com>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Tejas Narendra Joglekar <Tejas.Joglekar@synopsys.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Neal Gompa <neal@gompa.dev>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 3/3] usb: dwc3: Allow glue drivers to override all
+ dwc3_properties
+Message-ID: <awb2woyxkeXBU6xB@lizhi-Precision-Tower-5810>
+References: <cover.1795559405.git.Thinh.Nguyen@synopsys.com>
+ <b0b118ce86d1046d73fdbe297117f993df38cf20.1795559405.git.Thinh.Nguyen@synopsys.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b0b118ce86d1046d73fdbe297117f993df38cf20.1795559405.git.Thinh.Nguyen@synopsys.com>
+X-ClientProxiedBy: PH7P220CA0061.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32c::25) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -57,667 +112,284 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-t8122-phy-v3-3-196e20b3537e@chaosmail.tech>
-References: <20261125-t8122-phy-v3-0-196e20b3537e@chaosmail.tech>
-In-Reply-To: <20261125-t8122-phy-v3-0-196e20b3537e@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795612315; l=25294;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=iKYSPR7cpjcu7J8UNsIr9FVj2BJ3MFiObiuQXT60sXM=;
- b=rFJPMg2qHopWcA/cVrtoc2MvWp4KSKYMBFOHCrHIIYdKX6U+XjHNiBuUeN+seGVzugnyMpkCA
- dysQJYDPs4bAq9EUnFN2Ak3k04nEQdNyME8qPRCoFJeY5PDLwVM/WTG
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|DUYPR04MB12666:EE_
+X-MS-Office365-Filtering-Correlation-Id: 132697d7-1b48-41bc-3c5c-08df4b04188a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|23010399003|1800799024|19092799006|10067099003|56012099006|11063799006|261022105027099003|261026121527099003|261026140227099003|261028144727099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|18002099003|22082099003|4143699003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	V/HTfwrL1aPkKp68qnKA21w9O7RaKPF+KKrP4L3/e9SBphnaaGQcuoymFRWoxj9E4iZMW0xzeYeBCx2ao73RJkqjX/+Jy0jblTAl33ef9vFkLSvTBYAnmOG+BW4Z+P0cUsBDIq788U99gOBSKnAlC0gStPZ3OIhFEXtaYwoxnCtkPdaYs901K9Gi35QeaNyFaXLzAdD0aVAQ3vEHq8vdisf0l+cGPWPSnFwouOCI9aPdKWBoJYAaQc47gFuaA6ZFY/AOg01Pa7eEo5mNnIFYyoWl2MkCEp56NkSt4eJel/nry/K68lcPelFH2MmjbFI8mlkvGQuwE58oEakohGspPvz02PDsAIaOzPJwIm0EOpgVu+YYnvIWn1yHLLZLE6W29ZHBQWdIlrcWnIdJJWr7AkJiw03FvXP5YNrOmkHoMVA8UjCVzopHhuWK+D0MfPkGL8zKYDDQQ8sRCbYG1Lxf9PRp/R2OuMNEwqfgVfw6/C8QhpQOE2FsMgkGgKqu+S9BS48whjsHrBtR9cMErm8N4/xqvtcLcZF5NvhFoePjpteLZzu47KehgSGoVCRlCFX8ZHUoXLJJZIy13EdpnmYpBumLBlZJesFAm8+8Qr3Vg7vPq3P6HkhVCoEUde1+PK34Ls5VS/60slgShyIVYIoc5S7djMD7iorFBsosNhJTOx8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(1800799024)(19092799006)(10067099003)(56012099006)(11063799006)(261022105027099003)(261026121527099003)(261026140227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(4143699003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?TPhZ+Fh1BrgkG4QYF52RCiG7Ajccj+UE/0TT3jFKrb0SjdJldlYb9Ba1R7RJ?=
+ =?us-ascii?Q?0RUZ2NjnnapgBL6yEfQdlCwEA2TWhiaU/tdAZJluruS8PPW4IXIe0gT+2G/0?=
+ =?us-ascii?Q?FdWFJA5x6mANQ+sdhUHUyhjW/wrjCE+te+jIBg+E/GHoUnWdLaVw1vbbbOdb?=
+ =?us-ascii?Q?V7kMZhXPIirShPoJLHk/R/x+fPRLO8Ro0kxLkIM0UIPMHze1E+tzGeTvBjyk?=
+ =?us-ascii?Q?WPvCJZ/zjNQN21V8kSrByH/ekXA542zvWkxEb15f41X4VzH3mlqyO2IPwj4K?=
+ =?us-ascii?Q?FLxEvjwLvN6Kml7kFFmymPxXz+MnFh+T35XkC+OyCbCSLJsrGUqekwbh7mHB?=
+ =?us-ascii?Q?UquGax9XqkNhu/vEqb94sNYzOFste0PrihBYNAM4NDnnuAvLPc7VV0xPo42X?=
+ =?us-ascii?Q?ogJAXZO33cGRs7e5tZXwsnVOxEuM8JlSdCVcomzV4dEpRneYGZq6cQdfTbNp?=
+ =?us-ascii?Q?mVVUzald06aw3dth8xEzqlf3x3Bql4jQJtn+7O4aXzp+9l6SpHMJTswUIf2J?=
+ =?us-ascii?Q?2JH5tYI6riGKri+HZ4SFeBAr78A3uOK43FRJf8Vvg3fbTxDTCGa7Ku4TJlxV?=
+ =?us-ascii?Q?JYgcfoAQb0fQL1yGxi4weXc11hGISg9ctLAvjYcum8vWu5Kc30DMyTMCdbWJ?=
+ =?us-ascii?Q?nFsBuyMHgW6XFdBuLs4AQdCjDI+5MK9kgC4R8AlLttcuoBsxNczO0i1jZ2dj?=
+ =?us-ascii?Q?+DMdICELVgxJwsr2HIeEHv8EFrJOy4SzzhI+nIRIxncDke5NITI0A1XAoql1?=
+ =?us-ascii?Q?3dMBlB4l8ncqp9MMYpMvAximZVln77xWnh+fOA4BWsYCc+fGSff3N+OO2K2a?=
+ =?us-ascii?Q?6/yehgxsfJ7ubFW7IvUQJyVP5W8ocN5B2nH5Qyc2C/p+H61zHRFbTMPNk/Pi?=
+ =?us-ascii?Q?LHk0p0a0HQkjI035WdoEF2qEomPv0boHgCEfI3lTLpP3bvrBP1iTHWMEG4Tu?=
+ =?us-ascii?Q?R6asI4dM5jTMdl4wC2wN7lw2HodfA6uZ7wLx37gxaXlK1XISmsTceTQoFCK5?=
+ =?us-ascii?Q?d3aByUdNkWmw9/TK4tkx25OXeLJGkxgN/iMmqm+qIcDe7HPs/toGyyvpOG+V?=
+ =?us-ascii?Q?codqz2zjZVciFJOCNfLJzP6opK3SrQisCMhyjiZezNI18/3oo7Th4fJnLukP?=
+ =?us-ascii?Q?2V77IxnjEKWhRNnh3MfBjlCAoHPl674dmzjSvjl1/eHr9BBtgKLBnXhQNUnN?=
+ =?us-ascii?Q?fXTej/TWMgwgCAHN/Uwo8aq3hAHt8QvufRJXAEWI2R4VXFeg0YZbkRnaRCE6?=
+ =?us-ascii?Q?sEsW9tbOI/vWnp/cZvRKwljOtane1X1neoK4hjrEP05vfRUdZVR1yh8XfoOu?=
+ =?us-ascii?Q?GyDZMxMQ9BJazHjnEtMivcino+sWAJOxoLWj8iMaKEf06tDaVLe6yFPzMu3c?=
+ =?us-ascii?Q?tE6+dveahbqDgTy3sm2OFl+N9ljt4DIOSAcypwJKyqWGHmUNF9isKkJB679C?=
+ =?us-ascii?Q?V5cZ1PlhXILvIPDmH/01w6SZLJpfI5ykfNZsAfi1060b6wBYpzgFphaqXYSN?=
+ =?us-ascii?Q?wMOz/8T4rIl7VQRQ1BIU4V3EU/VDb/Kh7+E1DXmxzGL7GxIT5OEcUSVnTP7n?=
+ =?us-ascii?Q?/xX3hpiRyMjOB5ucSvFI5stg4OUcrYK4fDGewseRpChxwBzAkP7mTNVNIoBX?=
+ =?us-ascii?Q?0pAdEZisCPOHKdvwAPhlWrEy+HySmANEU/AjA+zMk8eKXpP+Dm9NJ1bmzaux?=
+ =?us-ascii?Q?Vlq1PNofMHr25nMBvB7U9rDLps3uW5PXRhh+JS92Fa0kQOYACnkX4GyDrwow?=
+ =?us-ascii?Q?7mZP/yWArtQxRT0lNVonamcXNQtoW5EhGMiGktudftpEX4uGWQIF?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 132697d7-1b48-41bc-3c5c-08df4b04188a
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 14:55:07.4510
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: M+gKpXyWDphR4aLoLJlZeFWoR0xavRNAc5OL4PJ7+l2BX+7uPcPx1ruqcmaG1JPo2R02qKg/vTVDU2E6HceoJJXGTCdYe2eYbq96g2XSll1bq51xidlXJhB7KkO+VSoF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUYPR04MB12666
 
-Adds initial support for the new t8122 phy. USB/TB only for now, DP
-will fail to negotiate
+On Tue, Nov 24, 2026 at 10:59:31PM +0000, Thinh Nguyen wrote:
+> struct dwc3_properties holds all glue-overridable properties, but glue
+> drivers can only set needs_full_reinit and gsbuscfg0_reqinfo.
+>
+> Replace the properties value in struct dwc3_probe_data with a
+> fixup_properties() hook. The core calls it after reading the DT
+> properties, so glue drivers can set properties that DT does not
+> provide, or override DT values, including clearing them, to correct
+> broken SoC settings. Convert imx and ls1028a to the hook.
+>
+> Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> ---
 
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- drivers/phy/apple/atc.c | 449 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 347 insertions(+), 102 deletions(-)
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-diff --git a/drivers/phy/apple/atc.c b/drivers/phy/apple/atc.c
-index 45f1280a6faa..68fc93a88f41 100644
---- a/drivers/phy/apple/atc.c
-+++ b/drivers/phy/apple/atc.c
-@@ -100,9 +100,15 @@
- #define AUSPLL_FREQ_CFG 0x2224
- #define AUSPLL_FREQ_REFCLK GENMASK(1, 0)
- 
-+#define AUS_COMMON_SHIM_BLK_BIAS_REG 0x0a00
-+#define AUS_COMMON_SHIM_BLK_BIAS_REG_BGBIAS_OV BIT(1)
-+
- #define AUS_COMMON_SHIM_BLK_VREG 0x0a04
- #define AUS_VREG_TRIM GENMASK(6, 2)
- 
-+#define AUS_COMMON_DIG_RCAL1 0x804
-+#define AUS_COMMON_DIG_RCAL1_ALL_CODES_DONE BIT(0)
-+
- #define AUS_UNK_A20 0x0a20
- #define AUS_UNK_A20_TX_CAL_CODE GENMASK(23, 20)
- 
-@@ -123,15 +129,23 @@
- #define CIO3PLL_DTC_VREG 0x2a20
- #define CIO3PLL_DTC_VREG_ADJUST GENMASK(16, 14)
- 
-+#define ATCPHY_EVT_USB2_CTL 0x0
-+#define ATCPHY_EVT_USB2_CTL_EVT_EN 0x1
-+#define ATCPHY_EVT_USB2_CTL_LOAD_CNT 0x8
-+
- #define ACIOPHY_CFG0 0x08
-+#define ACIOPHY_CFG0_COMMON_BIG BIT(0)
- #define ACIOPHY_CFG0_COMMON_BIG_OV BIT(1)
-+#define ACIOPHY_CFG0_COMMON_SMALL BIT(2)
- #define ACIOPHY_CFG0_COMMON_SMALL_OV BIT(3)
-+#define ACIOPHY_CFG0_COMMON_CLAMP BIT(4)
- #define ACIOPHY_CFG0_COMMON_CLAMP_OV BIT(5)
- #define ACIOPHY_CFG0_RX_SMALL_OV GENMASK(9, 8)
- #define ACIOPHY_CFG0_RX_BIG_OV GENMASK(13, 12)
- #define ACIOPHY_CFG0_RX_CLAMP_OV GENMASK(17, 16)
- 
--#define ACIOPHY_CROSSBAR 0x4c
-+#define ACIOPHY_CROSSBAR_T8103 0x4c
-+#define ACIOPHY_CROSSBAR_T8122 0x64
- #define ACIOPHY_CROSSBAR_PROTOCOL GENMASK(4, 0)
- #define ACIOPHY_CROSSBAR_PROTOCOL_USB4 0x0
- #define ACIOPHY_CROSSBAR_PROTOCOL_USB4_SWAPPED 0x1
-@@ -146,7 +160,8 @@
- #define ACIOPHY_CROSSBAR_DP_SINGLE_PMA_UNK008 0x008
- #define ACIOPHY_CROSSBAR_DP_BOTH_PMA BIT(17)
- 
--#define ACIOPHY_LANE_MODE 0x48
-+#define ACIOPHY_LANE_MODE_T8103 0x48
-+#define ACIOPHY_LANE_MODE_T8122 0x60
- #define ACIOPHY_LANE_MODE_RX0 GENMASK(2, 0)
- #define ACIOPHY_LANE_MODE_TX0 GENMASK(5, 3)
- #define ACIOPHY_LANE_MODE_RX1 GENMASK(8, 6)
-@@ -180,6 +195,24 @@ enum atcphy_lane_mode {
- #define ACIOPHY_TOP_BIST_PHY_CFG1 0xac
- #define ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN GENMASK(13, 10)
- 
-+#define ACIOPHY_BIST_CFG1 0x17000
-+#define ACIOPHY_BIST_CFG1_CLOCK_EN BIT(0)
-+#define ACIOPHY_BIST_CFG1_USB_EN BIT(2)
-+
-+#define ACIOPHY_BIST_CFG2 0x17004
-+#define ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE BIT(2)
-+
-+#define ACIOPHY_BIST_MAC_USBPHY_STATUS2 0x17080
-+#define ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2 BIT(7)
-+
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1 0x17088
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PIPE_RESET_N_OV 0x100000
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV GENMASK(26, 25)
-+
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2 0x1708c
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV 0x200
-+#define ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV 0x20
-+
- #define ACIOPHY_SLEEP_CTRL 0x1b0
- #define ACIOPHY_SLEEP_CTRL_TX_BIG_OV GENMASK(3, 2)
- #define ACIOPHY_SLEEP_CTRL_TX_SMALL_OV GENMASK(7, 6)
-@@ -463,6 +496,7 @@ enum atcphy_lane_mode {
- 
- /* USB2 PHY regs */
- #define USB2PHY_USBCTL 0x00
-+#define USB2PHY_USBCTL_USB_MODE 0x7
- #define USB2PHY_USBCTL_RUN 2
- #define USB2PHY_USBCTL_ISOLATION 4
- 
-@@ -556,6 +590,21 @@ struct atcphy_mode_configuration {
- 	bool set_swap;
- };
- 
-+struct apple_atcphy;
-+
-+struct atcphy_hw {
-+	void (*configure_post_tunable)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
-+	void (*configure_pipehandler_usb3_host)(struct apple_atcphy *atcphy);
-+	void (*configure_usb2_evt_ctl)(struct apple_atcphy *atcphy);
-+	void (*enable_cio3pll_clk)(struct apple_atcphy *atcphy);
-+	int (*wait_rcal1_done)(struct apple_atcphy *atcphy, enum atcphy_mode mode);
-+	void (*configure_lane_pmafsm)(struct apple_atcphy *atcphy,
-+				      const struct atcphy_mode_configuration *mode_cfg);
-+	int aciophy_lane_mode;
-+	int aciophy_crossbar;
-+	bool need_dp_tunables;
-+};
-+
- /**
-  * struct apple_atcphy - Apple Type-C PHY device struct
-  * @np: Device node pointer
-@@ -566,6 +615,7 @@ struct atcphy_mode_configuration {
-  * @tunables.lane_usb3: USB3 lane-specific tunables
-  * @tunables.lane_dp: DisplayPort lane-specific tunables
-  * @tunables.lane_usb4: USB4 lane-specific tunables
-+ * @hw: Hardware version specific data
-  * @mode: Current PHY operating mode
-  * @swap_lanes: True if lanes must be swapped due to cable orientation
-  * @dp_link_rate: DisplayPort link rate
-@@ -599,9 +649,10 @@ struct apple_atcphy {
- 		struct apple_tunable *lane_usb4[2];
- 	} tunables;
- 
-+	const struct atcphy_hw *hw;
- 	enum atcphy_mode mode;
--	bool swap_lanes;
- 	int dp_link_rate;
-+	bool swap_lanes;
- 	bool pipehandler_up;
- 
- 	struct {
-@@ -983,11 +1034,141 @@ static void atcphy_pipehandler_set_mux(struct apple_atcphy *atcphy, u32 data, u3
- 	udelay(10);
- }
- 
--static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool host)
-+static void atcphy_clear_nonselected_phy_reset(struct apple_atcphy *atcphy)
-+{
-+	/* Clear reset for non-selected USB3 PHY (?) */
-+	mask32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
-+	       PIPEHANDLER_NATIVE_POWER_DOWN, FIELD_PREP(PIPEHANDLER_NATIVE_POWER_DOWN, 3));
-+	clear32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
-+		PIPEHANDLER_NATIVE_RESET);
-+}
-+
-+static void atcphy_configure_pipehandler_usb3_host_t8122(struct apple_atcphy *atcphy)
-+{
-+	int ret;
-+	u32 reg;
-+
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_CLOCK_EN);
-+	/* This should be a mask, but unsure what bits should be cleared */
-+	writel(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PIPE_RESET_N_OV |
-+	       FIELD_PREP(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV, 2),
-+	       atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_CFG_OV1);
-+	/* This should be a mask, but unsure what bits should be cleared */
-+	writel(ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV |
-+	       ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV,
-+	       atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_CFG_OV2);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_STATUS2, reg,
-+				 !(reg & ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2),
-+				 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2\n");
-+
-+	core_set32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	core_mask32(atcphy, ACIOPHY_BIST_MAC_USBPHY_CFG_OV1,
-+		    ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV,
-+		    FIELD_PREP(ACIOPHY_BIST_MAC_USBPHY_CFG_OV1_LN0_PWR_DOWN_OV, 3));
-+
-+	/* there is a read and write of ACIOPHY_BIST_MAC_USBPHY_CFG_OV2 here with same values */
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN 2nd toggle\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_MAC_USBPHY_STATUS2, reg,
-+				 !(reg & ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2),
-+				 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_MAC_USBPHY_STATUS2_LN0_PHY_STATUS2 2nd time\n");
-+	core_set32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG2, ACIOPHY_BIST_CFG2_LN0_PHY_STATUS_RE);
-+
-+	atcphy_clear_nonselected_phy_reset(atcphy);
-+
-+	core_clear32(atcphy, ACIOPHY_BIST_MAC_USBPHY_CFG_OV2,
-+		     ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_RESET_N_OV |
-+		     ACIOPHY_BIST_MAC_USBPHY_CFG_OV2_LN0_PWR_DOWN_OV);
-+	core_set32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_BIST_CFG1, reg,
-+				 (reg & ACIOPHY_BIST_CFG1_USB_EN), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_BIST_CFG1_USB_EN 3rd toggle\n");
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_USB_EN);
-+	core_clear32(atcphy, ACIOPHY_BIST_CFG1, ACIOPHY_BIST_CFG1_CLOCK_EN);
-+}
-+
-+static void atcphy_configure_pipehandler_usb3_host_t8103(struct apple_atcphy *atcphy)
- {
- 	int ret;
- 	u32 reg;
- 
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG0,
-+		   ACIOPHY_TOP_BIST_PHY_CFG0_LN0_RESET_N);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG, ACIOPHY_TOP_BIST_OV_CFG_LN0_RESET_N_OV);
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "Timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
-+
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
-+		   ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
-+	core_clear32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
-+		     ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
-+
-+	core_mask32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG1,
-+		    ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN,
-+		    FIELD_PREP(ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN, 3));
-+
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG,
-+		   ACIOPHY_TOP_BIST_OV_CFG_LN0_PWR_DOWN_OV);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+	writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_CIOPHY_CFG1);
-+
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 (reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK0), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK0\n");
-+
-+	ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
-+				 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
-+	if (ret)
-+		dev_warn(atcphy->dev,
-+			 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
-+
-+	atcphy_clear_nonselected_phy_reset(atcphy);
-+
-+	/* More BIST stuff (?) */
-+	writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_OV_CFG);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
-+	core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
-+		   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+}
-+
-+static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool host)
-+{
-+	int ret;
-+
- 	ret = atcphy_pipehandler_check(atcphy);
- 	if (ret)
- 		return ret;
-@@ -1012,56 +1193,7 @@ static int atcphy_configure_pipehandler_usb3(struct apple_atcphy *atcphy, bool h
- 		}
- 
- 		/* BIST dance */
--		core_set32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG0,
--			   ACIOPHY_TOP_BIST_PHY_CFG0_LN0_RESET_N);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG, ACIOPHY_TOP_BIST_OV_CFG_LN0_RESET_N_OV);
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "Timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
--
--		core_set32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
--			   ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
--		core_clear32(atcphy, ACIOPHY_TOP_BIST_READ_CTRL,
--			     ACIOPHY_TOP_BIST_READ_CTRL_LN0_PHY_STATUS_RE);
--
--		core_mask32(atcphy, ACIOPHY_TOP_BIST_PHY_CFG1,
--			    ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN,
--			    FIELD_PREP(ACIOPHY_TOP_BIST_PHY_CFG1_LN0_PWR_DOWN, 3));
--
--		core_set32(atcphy, ACIOPHY_TOP_BIST_OV_CFG,
--			   ACIOPHY_TOP_BIST_OV_CFG_LN0_PWR_DOWN_OV);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
--		writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_CIOPHY_CFG1);
--
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 (reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK0), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK0\n");
--
--		ret = readl_poll_timeout(atcphy->regs.core + ACIOPHY_TOP_PHY_STAT, reg,
--					 !(reg & ACIOPHY_TOP_PHY_STAT_LN0_UNK23), 10, 10000);
--		if (ret)
--			dev_warn(atcphy->dev,
--				 "timed out waiting for ACIOPHY_TOP_PHY_STAT_LN0_UNK23\n");
--
--		/* Clear reset for non-selected USB3 PHY (?) */
--		mask32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
--		       PIPEHANDLER_NATIVE_POWER_DOWN, FIELD_PREP(PIPEHANDLER_NATIVE_POWER_DOWN, 3));
--		clear32(atcphy->regs.pipehandler + PIPEHANDLER_NONSELECTED_OVERRIDE,
--			PIPEHANDLER_NATIVE_RESET);
--
--		/* More BIST stuff (?) */
--		writel(0, atcphy->regs.core + ACIOPHY_TOP_BIST_OV_CFG);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_CLK_EN);
--		core_set32(atcphy, ACIOPHY_TOP_BIST_CIOPHY_CFG1,
--			   ACIOPHY_TOP_BIST_CIOPHY_CFG1_BIST_EN);
-+		atcphy->hw->configure_pipehandler_usb3_host(atcphy);
- 	}
- 
- 	/* Configure PIPE mux to USB3 PHY */
-@@ -1183,33 +1315,10 @@ static void atcphy_setup_pipehandler(struct apple_atcphy *atcphy)
- 				   PIPEHANDLER_MUX_CTRL_CLK_DUMMY);
- }
- 
--static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+static void
-+atcphy_configure_lane_pmafsm_t8103(struct apple_atcphy *atcphy,
-+				   const struct atcphy_mode_configuration *mode_cfg)
- {
--	const struct atcphy_mode_configuration *mode_cfg = atcphy_get_mode_config(atcphy, mode);
--
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_RX0,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_RX0, mode_cfg->lane_mode[0]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_TX0,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_TX0, mode_cfg->lane_mode[0]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_RX1,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_RX1, mode_cfg->lane_mode[1]));
--	core_mask32(atcphy, ACIOPHY_LANE_MODE, ACIOPHY_LANE_MODE_TX1,
--		    FIELD_PREP(ACIOPHY_LANE_MODE_TX1, mode_cfg->lane_mode[1]));
--	core_mask32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_PROTOCOL,
--		    FIELD_PREP(ACIOPHY_CROSSBAR_PROTOCOL, mode_cfg->crossbar));
--
--	if (mode_cfg->set_swap)
--		core_set32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
--	else
--		core_clear32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
--
--	core_mask32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_SINGLE_PMA,
--		    FIELD_PREP(ACIOPHY_CROSSBAR_DP_SINGLE_PMA, mode_cfg->crossbar_dp_single_pma));
--	if (mode_cfg->crossbar_dp_both_pma)
--		core_set32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
--	else
--		core_clear32(atcphy, ACIOPHY_CROSSBAR, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
--
- 	if (mode_cfg->dp_lane[0]) {
- 		core_set32(atcphy, LN0_AUSPMA_RX_TOP + LN_AUSPMA_RX_TOP_PMAFSM,
- 			   LN_AUSPMA_RX_TOP_PMAFSM_PCS_OV);
-@@ -1235,6 +1344,38 @@ static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode
- 	}
- }
- 
-+static void atcphy_configure_lanes(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	const struct atcphy_mode_configuration *mode_cfg = atcphy_get_mode_config(atcphy, mode);
-+
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_RX0,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_RX0, mode_cfg->lane_mode[0]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_TX0,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_TX0, mode_cfg->lane_mode[0]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_RX1,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_RX1, mode_cfg->lane_mode[1]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_lane_mode, ACIOPHY_LANE_MODE_TX1,
-+		    FIELD_PREP(ACIOPHY_LANE_MODE_TX1, mode_cfg->lane_mode[1]));
-+	core_mask32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_PROTOCOL,
-+		    FIELD_PREP(ACIOPHY_CROSSBAR_PROTOCOL, mode_cfg->crossbar));
-+
-+	if (mode_cfg->set_swap)
-+		core_set32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
-+	else
-+		core_clear32(atcphy, ATCPHY_MISC, ATCPHY_MISC_LANE_SWAP);
-+
-+	core_mask32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_SINGLE_PMA,
-+		    FIELD_PREP(ACIOPHY_CROSSBAR_DP_SINGLE_PMA, mode_cfg->crossbar_dp_single_pma));
-+	if (mode_cfg->crossbar_dp_both_pma)
-+		core_set32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
-+	else
-+		core_clear32(atcphy, atcphy->hw->aciophy_crossbar, ACIOPHY_CROSSBAR_DP_BOTH_PMA);
-+
-+	if (atcphy->hw->configure_lane_pmafsm)
-+		atcphy->hw->configure_lane_pmafsm(atcphy, mode_cfg);
-+
-+}
-+
- static void atcphy_enable_dp_aux(struct apple_atcphy *atcphy)
- {
- 	core_set32(atcphy, ACIOPHY_LANE_DP_CFG_BLK_TX_DP_CTRL0, DPTXPHY_PMA_LANE_RESET_N);
-@@ -1639,7 +1780,8 @@ static int atcphy_dp_configure(struct apple_atcphy *atcphy, enum atcphy_dp_link_
- static void atcphy_usb2_power_off(struct apple_atcphy *atcphy)
- {
- 	/* Disable the PHY, this clears USB2PHY_USBCTL_RUN */
--	writel(USB2PHY_USBCTL_ISOLATION, atcphy->regs.usb2phy + USB2PHY_USBCTL);
-+	mask32(atcphy->regs.usb2phy + USB2PHY_USBCTL, USB2PHY_USBCTL_USB_MODE,
-+	       USB2PHY_USBCTL_ISOLATION);
- 	udelay(10);
- 
- 	/* Switch the PHY to low power mode */
-@@ -1689,6 +1831,13 @@ static int atcphy_power_off(struct apple_atcphy *atcphy)
- 	return 0;
- }
- 
-+static void atcphy_configure_usb2_evt_ctl_t8122(struct apple_atcphy *atcphy)
-+{
-+	core_set32(atcphy, ATCPHY_EVT_USB2_CTL, ATCPHY_EVT_USB2_CTL_LOAD_CNT |
-+		ATCPHY_EVT_USB2_CTL_EVT_EN);
-+	udelay(10);
-+}
-+
- static void atcphy_usb2_power_on(struct apple_atcphy *atcphy)
- {
- 	set32(atcphy->regs.usb2phy + USB2PHY_SIG,
-@@ -1705,6 +1854,10 @@ static void atcphy_usb2_power_on(struct apple_atcphy *atcphy)
- 	udelay(10);
- 	clear32(atcphy->regs.usb2phy + USB2PHY_CTL, USB2PHY_CTL_PORT_RESET);
- 	udelay(10);
-+
-+	if (atcphy->hw->configure_usb2_evt_ctl)
-+		atcphy->hw->configure_usb2_evt_ctl(atcphy);
-+
- 	set32(atcphy->regs.usb2phy + USB2PHY_CTL, USB2PHY_CTL_APB_RESET_N);
- 	udelay(10);
- 	clear32(atcphy->regs.usb2phy + USB2PHY_MISCTUNE, USB2PHY_MISCTUNE_APBCLK_GATE_OFF);
-@@ -1745,24 +1898,8 @@ static int atcphy_power_on(struct apple_atcphy *atcphy)
- 	return 0;
- }
- 
--static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+static void atcphy_configure_post_tunable_t8103(struct apple_atcphy *atcphy, enum atcphy_mode _mode)
- {
--	int ret = 0;
--
--	lockdep_assert_held(&atcphy->lock);
--
--	if (mode == APPLE_ATCPHY_MODE_OFF) {
--		ret = atcphy_power_off(atcphy);
--		atcphy->mode = mode;
--		return ret;
--	}
--
--	ret = atcphy_power_on(atcphy);
--	if (ret)
--		return ret;
--
--	atcphy_apply_tunables(atcphy, mode);
--
- 	core_set32(atcphy, AUSPLL_FSM_CTRL, 0x1fe000);
- 	core_set32(atcphy, AUSPLL_APB_CMD_OVERRIDE, AUSPLL_APB_CMD_OVERRIDE_UNK28);
- 
-@@ -1792,18 +1929,93 @@ static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
- 	mask32(atcphy->regs.core + ACIOPHY_CFG0, ACIOPHY_CFG0_RX_CLAMP_OV,
- 	       FIELD_PREP(ACIOPHY_CFG0_RX_CLAMP_OV, 3));
- 	udelay(10);
-+}
-+
-+static void atcphy_configure_post_tunable_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	if (atcphy_modes[mode].pipehandler_state != ATCPHY_PIPEHANDLER_STATE_USB3)
-+		return;
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_SMALL_OV);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_BIG);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_BIG_OV);
-+	udelay(10);
-+	core_clear32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_CLAMP);
-+	udelay(10);
-+	core_set32(atcphy, ACIOPHY_CFG0, ACIOPHY_CFG0_COMMON_CLAMP_OV);
-+	udelay(10);
-+	core_set32(atcphy, AUS_COMMON_SHIM_BLK_BIAS_REG, AUS_COMMON_SHIM_BLK_BIAS_REG_BGBIAS_OV);
-+	udelay(10);
-+}
-+
-+static void atcphy_enable_cio3pll_clk_t8103(struct apple_atcphy *atcphy)
-+{
-+	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_PCLK_EN);
-+	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_REFCLK_EN);
-+}
-+
-+static int atcphy_wait_rcal1_done_t8122(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	int ret = 0;
-+	u32 reg;
-+
-+	if (atcphy_modes[mode].pipehandler_state == ATCPHY_PIPEHANDLER_STATE_USB3) {
-+		ret = readl_poll_timeout(atcphy->regs.core + AUS_COMMON_DIG_RCAL1, reg,
-+					 (reg & AUS_COMMON_DIG_RCAL1_ALL_CODES_DONE), 10, 100000);
-+		if (ret) {
-+			atcphy_power_off(atcphy);
-+			dev_err(atcphy->dev, "Failed to wait for RCAL1 done\n");
-+			return ret;
-+		}
-+	}
-+	return ret;
-+}
-+
-+static int atcphy_configure(struct apple_atcphy *atcphy, enum atcphy_mode mode)
-+{
-+	int ret = 0;
-+
-+	lockdep_assert_held(&atcphy->lock);
-+
-+	if (mode == APPLE_ATCPHY_MODE_OFF) {
-+		ret = atcphy_power_off(atcphy);
-+		atcphy->mode = mode;
-+		return ret;
-+	}
-+
-+	ret = atcphy_power_on(atcphy);
-+	if (ret)
-+		return ret;
-+
-+	atcphy_apply_tunables(atcphy, mode);
-+	atcphy->hw->configure_post_tunable(atcphy, mode);
- 
- 	/* Setup AUX channel if DP altmode is requested */
- 	if (atcphy_modes[mode].enable_dp_aux)
- 		atcphy_enable_dp_aux(atcphy);
- 
- 	/* Enable clocks and configure lanes */
--	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_PCLK_EN);
--	core_set32(atcphy, CIO3PLL_CLK_CTRL, CIO3PLL_CLK_REFCLK_EN);
-+	if (atcphy->hw->enable_cio3pll_clk)
-+		atcphy->hw->enable_cio3pll_clk(atcphy);
-+
- 	atcphy_configure_lanes(atcphy, mode);
- 
- 	/* Take the USB3 PHY out of reset */
- 	core_set32(atcphy, ATCPHY_POWER_CTRL, ATCPHY_POWER_PHY_RESET_N);
-+	/*
-+	 * NOTE: Not what macos does, it takes the phy out of reset right before writing to
-+	 * ACIOPHY_CFG0_COMMON_SMALL does lane configuration with phy out of reset, and the poll is
-+	 * right after AUS_COMMON_SHIM_BLK_BIAS_REG write. Does not seem to matter, but if something
-+	 * does not work, consider re-ordering things to macos order.
-+	 */
-+	if (atcphy->hw->wait_rcal1_done) {
-+		ret = atcphy->hw->wait_rcal1_done(atcphy, mode);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	atcphy->mode = mode;
- 
-@@ -2201,6 +2413,7 @@ static int atcphy_probe_mux(struct apple_atcphy *atcphy)
- 
- static int atcphy_load_tunables(struct apple_atcphy *atcphy)
- {
-+	size_t tunable_count;
- 	struct {
- 		const char *dt_name;
- 		struct apple_tunable **tunable;
-@@ -2216,8 +2429,15 @@ static int atcphy_load_tunables(struct apple_atcphy *atcphy)
- 		{ "apple,tunable-lane0-dp", &atcphy->tunables.lane_dp[0], atcphy->res.core },
- 		{ "apple,tunable-lane1-dp", &atcphy->tunables.lane_dp[1], atcphy->res.core },
- 	};
-+	if (!atcphy->hw->need_dp_tunables) {
-+		tunable_count = ARRAY_SIZE(tunables) - 2;
-+		atcphy->tunables.lane_dp[0] = NULL;
-+		atcphy->tunables.lane_dp[1] = NULL;
-+	} else {
-+		tunable_count = ARRAY_SIZE(tunables);
-+	}
- 
--	for (int i = 0; i < ARRAY_SIZE(tunables); i++) {
-+	for (size_t i = 0; i < tunable_count; i++) {
- 		*tunables[i].tunable = devm_apple_tunable_parse(
- 			atcphy->dev, atcphy->np, tunables[i].dt_name, tunables[i].res);
- 		if (IS_ERR(*tunables[i].tunable)) {
-@@ -2301,6 +2521,10 @@ static int atcphy_probe(struct platform_device *pdev)
- 	if (!atcphy)
- 		return -ENOMEM;
- 
-+	atcphy->hw = of_device_get_match_data(&pdev->dev);
-+	if (!atcphy->hw)
-+		return -EINVAL;
-+
- 	atcphy->dev = dev;
- 	atcphy->np = dev->of_node;
- 	mutex_init(&atcphy->lock);
-@@ -2319,8 +2543,29 @@ static int atcphy_probe(struct platform_device *pdev)
- 	return atcphy_probe_finalize(atcphy);
- }
- 
-+static const struct atcphy_hw atcphy_hw_t8103 = {
-+	.need_dp_tunables = true,
-+	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8103,
-+	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8103,
-+	.configure_post_tunable = atcphy_configure_post_tunable_t8103,
-+	.configure_pipehandler_usb3_host = atcphy_configure_pipehandler_usb3_host_t8103,
-+	.enable_cio3pll_clk = atcphy_enable_cio3pll_clk_t8103,
-+	.configure_lane_pmafsm = atcphy_configure_lane_pmafsm_t8103,
-+};
-+
-+static const struct atcphy_hw atcphy_hw_t8122 = {
-+	.need_dp_tunables = false,
-+	.aciophy_lane_mode = ACIOPHY_LANE_MODE_T8122,
-+	.aciophy_crossbar = ACIOPHY_CROSSBAR_T8122,
-+	.configure_post_tunable = atcphy_configure_post_tunable_t8122,
-+	.configure_pipehandler_usb3_host = atcphy_configure_pipehandler_usb3_host_t8122,
-+	.configure_usb2_evt_ctl = atcphy_configure_usb2_evt_ctl_t8122,
-+	.wait_rcal1_done = atcphy_wait_rcal1_done_t8122,
-+};
-+
- static const struct of_device_id atcphy_match[] = {
--	{ .compatible = "apple,t8103-atcphy" },
-+	{ .compatible = "apple,t8103-atcphy", .data = &atcphy_hw_t8103 },
-+	{ .compatible = "apple,t8122-atcphy", .data = &atcphy_hw_t8122 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, atcphy_match);
-
--- 
-2.56.1
-
+>  drivers/usb/dwc3/core.c              | 18 +++++-------------
+>  drivers/usb/dwc3/dwc3-apple.c        |  1 -
+>  drivers/usb/dwc3/dwc3-generic-plat.c | 19 +++++++++++--------
+>  drivers/usb/dwc3/dwc3-google.c       |  1 -
+>  drivers/usb/dwc3/dwc3-imx.c          |  9 +++++++--
+>  drivers/usb/dwc3/dwc3-qcom.c         |  1 -
+>  drivers/usb/dwc3/glue.h              | 10 ++++------
+>  7 files changed, 27 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index 3b2b5fcc627a..369c9ce9f1dc 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -1684,24 +1684,14 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
+>  	dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE, true);
+>  }
+>
+> -static void dwc3_get_software_properties(struct dwc3 *dwc,
+> -					 const struct dwc3_properties *properties)
+> +static void dwc3_get_software_properties(struct dwc3 *dwc)
+>  {
+>  	struct device *tmpdev;
+>  	u16 gsbuscfg0_reqinfo;
+>  	int ret;
+>
+> -	if (properties->needs_full_reinit)
+> -		dwc->needs_full_reinit = true;
+> -
+>  	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
+>
+> -	if (properties->gsbuscfg0_reqinfo !=
+> -	    DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED) {
+> -		dwc->gsbuscfg0_reqinfo = properties->gsbuscfg0_reqinfo;
+> -		return;
+> -	}
+> -
+>  	/*
+>  	 * Iterate over all parent nodes for finding swnode properties
+>  	 * and non-DT (non-ABI) properties.
+> @@ -2310,7 +2300,10 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+>  	dwc->regs_size	= resource_size(&dwc_res);
+>
+>  	dwc3_get_properties(dwc);
+> -	dwc3_get_software_properties(dwc, &data->properties);
+> +	dwc3_get_software_properties(dwc);
+> +
+> +	if (data->fixup_properties)
+> +		data->fixup_properties(dwc, &dwc->properties);
+>
+>  	if (dwc->sysdev_is_parent)
+>  		dwc->sysdev = dwc->dev->parent;
+> @@ -2470,7 +2463,6 @@ static int dwc3_probe(struct platform_device *pdev)
+>
+>  	probe_data.dwc = dwc;
+>  	probe_data.res = res;
+> -	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+>
+>  	return dwc3_core_probe(&probe_data);
+>  }
+> diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
+> index 1f474a8bc59e..8289d22e5994 100644
+> --- a/drivers/usb/dwc3/dwc3-apple.c
+> +++ b/drivers/usb/dwc3/dwc3-apple.c
+> @@ -181,7 +181,6 @@ static int dwc3_apple_core_probe(struct dwc3_apple *appledwc)
+>  	probe_data.res = appledwc->mmio_resource;
+>  	probe_data.ignore_clocks_and_resets = true;
+>  	probe_data.skip_core_init_mode = true;
+> -	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+>
+>  	ret = dwc3_core_probe(&probe_data);
+>  	if (ret)
+> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
+> index 3e90ddf25809..69a6acd84a0f 100644
+> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+> @@ -33,7 +33,8 @@ struct dwc3_generic {
+>
+>  struct dwc3_generic_config {
+>  	int (*init)(struct dwc3_generic *dwc3g);
+> -	struct dwc3_properties properties;
+> +	void (*fixup_properties)(struct dwc3 *dwc,
+> +				 struct dwc3_properties *props);
+>  };
+>
+>  #define to_dwc3_generic(d) container_of((d), struct dwc3_generic, dwc)
+> @@ -137,12 +138,10 @@ static int dwc3_generic_probe(struct platform_device *pdev)
+>  	probe_data.ignore_clocks_and_resets = true;
+>
+>  	plat_config = of_device_get_match_data(dev);
+> -	if (!plat_config) {
+> -		probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+> +	if (!plat_config)
+>  		goto core_probe;
+> -	}
+>
+> -	probe_data.properties = plat_config->properties;
+> +	probe_data.fixup_properties = plat_config->fixup_properties;
+>  	if (plat_config->init) {
+>  		ret = plat_config->init(dwc3g);
+>  		if (ret)
+> @@ -220,16 +219,20 @@ static const struct dev_pm_ops dwc3_generic_dev_pm_ops = {
+>
+>  static const struct dwc3_generic_config spacemit_k1_dwc3 = {
+>  	.init = dwc3_spacemit_k1_init,
+> -	.properties = DWC3_DEFAULT_PROPERTIES,
+>  };
+>
+> +static void dwc3_ls1028a_fixup_properties(struct dwc3 *dwc,
+> +					  struct dwc3_properties *props)
+> +{
+> +	props->gsbuscfg0_reqinfo = 0x2222;
+> +}
+> +
+>  static const struct dwc3_generic_config fsl_ls1028_dwc3 = {
+> -	.properties.gsbuscfg0_reqinfo = 0x2222,
+> +	.fixup_properties = dwc3_ls1028a_fixup_properties,
+>  };
+>
+>  static const struct dwc3_generic_config eic7700_dwc3 =  {
+>  	.init = dwc3_eic7700_init,
+> -	.properties = DWC3_DEFAULT_PROPERTIES,
+>  };
+>
+>  static const struct of_device_id dwc3_generic_of_match[] = {
+> diff --git a/drivers/usb/dwc3/dwc3-google.c b/drivers/usb/dwc3/dwc3-google.c
+> index 67eda7f0d528..213c03048aa0 100644
+> --- a/drivers/usb/dwc3/dwc3-google.c
+> +++ b/drivers/usb/dwc3/dwc3-google.c
+> @@ -440,7 +440,6 @@ static int dwc3_google_probe(struct platform_device *pdev)
+>  	probe_data.dwc = &google->dwc;
+>  	probe_data.res = res;
+>  	probe_data.ignore_clocks_and_resets = true;
+> -	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+>  	ret = dwc3_core_probe(&probe_data);
+>  	if (ret)  {
+>  		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+> diff --git a/drivers/usb/dwc3/dwc3-imx.c b/drivers/usb/dwc3/dwc3-imx.c
+> index 64da121a8f76..396d76311120 100644
+> --- a/drivers/usb/dwc3/dwc3-imx.c
+> +++ b/drivers/usb/dwc3/dwc3-imx.c
+> @@ -192,6 +192,12 @@ static const struct software_node dwc3_imx_swnode = {
+>  	.properties = dwc3_imx_properties,
+>  };
+>
+> +static void dwc3_imx_fixup_properties(struct dwc3 *dwc,
+> +				      struct dwc3_properties *props)
+> +{
+> +	props->needs_full_reinit = true;
+> +}
+> +
+>  static int dwc3_imx_probe(struct platform_device *pdev)
+>  {
+>  	struct device		*dev = &pdev->dev;
+> @@ -265,8 +271,7 @@ static int dwc3_imx_probe(struct platform_device *pdev)
+>
+>  	probe_data.res = res;
+>  	probe_data.dwc = dwc;
+> -	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+> -	probe_data.properties.needs_full_reinit = true;
+> +	probe_data.fixup_properties = dwc3_imx_fixup_properties;
+>
+>  	ret = dwc3_core_probe(&probe_data);
+>  	if (ret) {
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index 5a68025ccea5..ef38308023aa 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -745,7 +745,6 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+>  	probe_data.dwc = &qcom->dwc;
+>  	probe_data.res = &res;
+>  	probe_data.ignore_clocks_and_resets = true;
+> -	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
+>  	ret = dwc3_core_probe(&probe_data);
+>  	if (ret)  {
+>  		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
+> diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
+> index b7ce196e84ea..e56fee68e4bc 100644
+> --- a/drivers/usb/dwc3/glue.h
+> +++ b/drivers/usb/dwc3/glue.h
+> @@ -9,10 +9,6 @@
+>  #include <linux/types.h>
+>  #include "core.h"
+>
+> -#define DWC3_DEFAULT_PROPERTIES ((struct dwc3_properties){		\
+> -	.gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED,	\
+> -	})
+> -
+>  /**
+>   * dwc3_probe_data: Initialization parameters passed to dwc3_core_probe()
+>   * @dwc: Reference to dwc3 context structure
+> @@ -21,14 +17,16 @@
+>   *		be ignored by the DWC3 core, as they are managed by the glue
+>   * @skip_core_init_mode: Skip the final initialization of the target mode, as
+>   *		it must be managed by the glue
+> - * @properties: dwc3 software manage properties
+> + * @fixup_properties: optional hook to set or override properties after
+> + *		the core reads them from DT
+>   */
+>  struct dwc3_probe_data {
+>  	struct dwc3 *dwc;
+>  	struct resource *res;
+>  	bool ignore_clocks_and_resets;
+>  	bool skip_core_init_mode;
+> -	struct dwc3_properties properties;
+> +	void (*fixup_properties)(struct dwc3 *dwc,
+> +				 struct dwc3_properties *props);
+>  };
+>
+>  /**
+> --
+> 2.53.0
