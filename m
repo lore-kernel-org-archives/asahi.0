@@ -1,84 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795654411;
-	b=bwCWjsUhsBZa6ue3+uJjVLKD9Ct1oH3DDXpMhzQGuaq4d+zFJ5V02q1P0gtFi1DgYDuV
-	 mKXDaYIIYTv+luIK7JKjRCkGxithZfLlIkbMq9U7beHNfkaOXjYyu67gxxCTEEqZNX9+i
-	 PUnf56XJDGbxY82NMNEXLWTgSofa2CjIdCVLnQ2K2JOoT4Thz+CS5I7KFM4UZSthQQEXH
-	 j8zcq4CdYFvrhWBWppTNj21Ik8RvptLsf9BlLx/xj4GFJ+1VlsmExxnbfUoY/AH/iDnG7
-	 YJaJkVEPFlh2fOitCRJKNmYkT8nNZ5oYBQjWpvf0+wqXIvxGatVJ+T4bp3H/PtvHhWQ==
+	b=OhW4E1dfyFlvAqkCDkqvLpZ8r7bulTx8mC2qvuCYvDoe2JQDyG/7hVxWwF4Q+WRlPejl
+	 yODxSGSHmpEGq9mKHbvK6h68WDSotFepYq15doJ6V7r6ttOvhT647/FkDJigSm5SbT0o1
+	 B2yIzHxar9kCG5rZVqsm5EIPlKL7Zfc/lDd+G5944lGelDvKr/bSsX29y/1Ai/AJmX63j
+	 DLipApLMhnLuB1rH6S29COqxPSns0V0HfzCw1uA/Tax4c11FgShF65DbmRF18Yvrw3PsW
+	 F3V2XT1gHtGFmBQdQu1Ncax6+hzDOTHkREGqKPZkDSXliZDyXgMCYyQVXVNTbrultTg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795654411;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LklHKyM9bGGZVemTOxAFYstoICcsH+jH/mA9tcJ4Czo=;
-	b=PvIhqoe/T0B9il/P1XDfVoEB/2I0rjz1hDYRl0PoCPbM3vgbezkA2h75peAXsTcHkl1f
-	 ixAVHtKdSm+bceXqyCXW5CxhmV+i13SHYMIRqZ1q/Lhw1zzgYC/PMV7TDn7pnIwKSZhyT
-	 xkjMiPlPluwhpcFn1ajuUGHr2AuhLQcaZhoe+mx2LjQKLip8CiONtKl1fivHQnGZwhkk0
-	 HMJ8TDdT8iiKu65YNENPDdLDxqjCrUa3HyMgjj7KB4nFvAPSi5JQ7rWXcDFT3/rNjgfr0
-	 zm4qnHD6vtpelJ89UcLkKWsOrWzWauPLN9+b2uEHXIUJw7k4j2R90/XXkP+exc5XY/g==
+	bh=e5szLG09BDbOjbUS8HjffVQeyptCSU4q676Qd4Mu/q4=;
+	b=GUVd8znxmwteiWHFyQmXkYAMih3+1xTLg8YEsnbEwYmOEEKyvAjhKiS758pLRv7a1p0I
+	 R9qCMsmDZuTMOSen58edRO5XYofUoD8ungGY1bdcFZAYknAgu/HApgacbFurAjRuJEEBn
+	 F4DcGlZZ8mnmyJjaG+bxdPBNZCX3nRJMCiuaafMpIxcdBxsZca7IBD5wPljqk21YSjkrT
+	 OU6W+OkhQW9wfz5yOTe9ExvAvvgrqsVF/2UrsKUt4+QRtDPGanenWGtOepIUk7cfFtY7W
+	 t0srhafUQ1bJ4HZ8zKehbJncq4LTqvT+URGgeU/B7KfPq74eAhNeLAGzDiy9Ubk9T9A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EcplUiGI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzwlcTkJ;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82472606A32A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9753606A33B;
 	Thu, 26 Nov 2026 00:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EcplUiGI
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzwlcTkJ
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1795654411;
-	b=N1Ig75m7Cjw4uXk+YPN+HXAmZhkztZRgZeUPtWJRKtedo7V2iWqLjvdS4fnUYOYOxbKr
-	 xcxeTxZn5YdgFc8g7Y3HDLIyPOOG6D9FICnlVuCwfTkXrpkaCtZ5US8ythG4BP6WYY045
-	 U9ni4ceL9QMYFDmYrNxN3dazC6sDcys41c/c+eM7gV7fplrszj1Kn4S+lXJKN7McbWU2M
-	 +GTV/XwoSayp3GVswpAvXrbGjrHyVajeznc9OrJBdoAVOYlrw5gm6GI+Ng4jITXi7LR4T
-	 0cualZ4kRcC0cGNJ977hRlITCLcwojuXAWTDKuxDaambLW6zP9tRPYntMmVMzZQ5sTg==
+	b=Bqh1ZW01lyxADVe2Io7zTtWaq+MYPQDb1mkqpF0vComfXR0siOsG3XndkzqkJY21x2iB
+	 8HUI9OLV5ZZH04Pq4zfeSDMiMUZ4OZJlwag3fzDDVO7d1NRk/uIwdH34ZOXwk0V5q8Erp
+	 WyRa25OIfKjbnPwyPK4i/fJII1tFF4/kvXl0zp2M4cp/wocf4lO8t349jEKPx2jZmoPp5
+	 Avz9JtGBjS2K5mvbeMn0Nkwy+KiXMkIeWNQoo/0hsxgOEnqTw5WPR7qIzLMA1a/PVPZPx
+	 VJD++VQdj1kr3kaoMBGpdPWF9DYYcOJZYyFdFb7owDcdrUCknXN7a+FX/uoGC8ZMJKQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1795654411;
 	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LklHKyM9bGGZVemTOxAFYstoICcsH+jH/mA9tcJ4Czo=;
-	b=uJOcchUTeRJkbqtvg+WNM7zsoSEdAHvnnNzLZGWp7b9yknX2f/6DFR51tkEYfF9EKl2Z
-	 dqZsCfXOhvEzqAdUkKGiDP4CTY8SElNIOQvgGend+CRH8dlyq6gscKowr56jep4gEmzOZ
-	 EeTMBkVjISF3H5Dc5ZkorlPpz+hrcOxwZJjaFVovUojpqZdTCTfptdWkdmSUvgY6kXUlo
-	 tR+htUVe87yYBMhnfru8BHP1k+VHZTZLdEGLJ84BqGywpb3j5m8/4dn6NktHpUP0Od29R
-	 dVz6w+H9OZVsAjsKhuPjuLWk8D41Xa9Qu8Zd5PZTtocLK53tBHVINeAk9Y+1qhEHDDA==
+	bh=e5szLG09BDbOjbUS8HjffVQeyptCSU4q676Qd4Mu/q4=;
+	b=tD8m7pXp9Bo9X6alXVFuqrDYax3hA409Lc9AcatVJGjyJLtMSrhZ8aE7Vg29146AUVDi
+	 It5vY/tVmvTZo5EfUjlof4qOvYVe5Q4qWHZqxZ2uSA1tmx4JtFVFUOHnKiTAm3EAGFwNF
+	 CwvUG/xIzy0CBUc6FUP5x05E1LZDQcXUW/3cjOFfC+aPfuJ/xOGI9RYz6AlETTKChJwlC
+	 4iLamxMEtuDfq/sqMEK8XMJLINpRCcNhuUgKk3fTyMMRinPm3v2paAzwxwINHK8bVjx8w
+	 Npei9vDRxE9WZscrMhpKeeXhL+LT3DZtL/xh5fT9mNxjpAo8kvrO0kTiqZEhkVvJOZg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A5EDA1F000D3;
+	by smtp.kernel.org (Postfix) with ESMTPS id 85E291F000D2;
 	Thu, 26 Nov 2026 00:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795654411;
-	bh=LklHKyM9bGGZVemTOxAFYstoICcsH+jH/mA9tcJ4Czo=;
+	bh=e5szLG09BDbOjbUS8HjffVQeyptCSU4q676Qd4Mu/q4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To;
-	b=EcplUiGIKP+M6nB52puBXONiULPdM1uadUM+HY0vyvdxPURs9DHEexHXoBnDuT930
-	 bicGqJE66jc/wGdz/yfG3msHiRYqIvFefYIooD8SU+n7SMPus8lQXLPjSThmmpISN6
-	 gJMVKDCHVRS6tEt3h2qnCKauvmaBiFLn9sdWL9DS3fR4bmcJ9dE2dIyEGRnTFdhxPF
-	 dXBCe82CfN87KBaBAOtZhnb8fbZ5YGSkfhjlHUiAjOsB2Lw6/OfkHr1lXyEhKU2qfE
-	 QWW6/JMcleSbOeTn2DftGQ8EOgacnEXmmunr3lu0SyMflhJMZt8gTEItt81cAVWt4O
-	 N2eNNAR8CZv4w==
+	b=UzwlcTkJ7DoSuAOzI6dl1862qL3TLbNgrnGUPbDc7hCFwzb0MP+INgSVx84PAyje9
+	 bt5VGZOyypdXorxXHCHUZZMu/5MC0Xz4AKvvkkd6RV1IBHQdZfM2RF6RMA/LLud540
+	 fuNxyeQzR7PKyPT2qI+KehZ+LRViU4J0Qx+fG6KxHzt9lpZykjza8R3wmrvq3+xjOh
+	 00mzL9nPdcNEiF3D3RFYinUrkxEv5tq689QpqRtN4dz/rZ46aG4lDr+Zxzj70cXC4z
+	 wjm4z7ZGmQKaRV0XwnDnD8HH23mkUhgpSBJzIyg0xRy42x2EclzzI2eUAQoLLgtQCl
+	 AM8m55EvYFQgQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 2F1484D12C;
+	by lkml.kernel.org (Postfix) with ESMTP id 0F5F04D129;
 	Thu, 26 Nov 2026 00:53:19 +0000 (UTC)
 From: Ilia Snezhkov via B4 Relay <devnull+iasnezhkov.gmail.com@kernel.org>
 To: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com, sven@kernel.org, j@jannau.net, 
  Thinh.Nguyen@synopsys.com, asahi@lists.linux.dev, linux-usb@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] usb: roles: serialize registered checks and
- unregister under sw->lock
-Date: Thu, 26 Nov 2026 00:53:20 +0000
-Message-Id: <20261126005318.71705-3-iasnezhkov@gmail.com>
+Subject: [PATCH v2 1/2] usb: dwc3: apple: unregister role switch outside
+ appledwc->lock
+Date: Thu, 26 Nov 2026 00:53:19 +0000
+Message-Id: <20261126005318.71705-2-iasnezhkov@gmail.com>
 In-Reply-To: <20261126005318.71705-1-iasnezhkov@gmail.com>
 References: <20261126005318.71705-1-iasnezhkov@gmail.com>
 X-Mailing-List: asahi@lists.linux.dev
@@ -92,11 +92,11 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795654398; l=2998;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795654398; l=1659;
  i=iasnezhkov@gmail.com; s=mindone2026; h=from:subject:message-id;
- bh=HEQ5iQ9eo9olCENuZfKzQGC2n/Gwb59EhbSCA5vNYwc=;
- b=G5QzeHdGiXzdcP+PvM8K/0OdSJoTP/Ex4wHciwx21LDAIiu+rhTEsYKt1rvSvpdv/gEwCbfKn
- 8lfnNwuHv0qCyindFB9udVRtQkSe+5oCM1E/SDfNfxHZy6qr8o8HmqS
+ bh=Xp06A3FHG/XK7qHNfZ3rlNyEPxz/IhGg4iOv80ET3F0=;
+ b=AMfuWfdiddw8Ndl0XmAmmSC5iJnrSaq7gxYQF6yEDW46sW5YeVP9hlYrUZMsVNGqKKrB6EQDi
+ +XqDVUXnce9A2w2E/84X7eWHemTdvEIA6kPlEHeszqjjxSSqbLAtSVO
 X-Developer-Key: i=iasnezhkov@gmail.com; a=ed25519;
  pk=hQgXfiWi4ukk2jh4BHu1vRVhg9BUivo//AFp50AKMag=
 X-Endpoint-Received: by B4 Relay for iasnezhkov@gmail.com/mindone2026 with
@@ -107,99 +107,45 @@ Content-Transfer-Encoding: 7bit
 
 From: Ilia Snezhkov <iasnezhkov@gmail.com>
 
-usb_role_switch_set_role() and usb_role_switch_get_role() check
-sw->registered outside sw->lock, while usb_role_switch_unregister()
-clears sw->registered without acquiring sw->lock.
+dwc3_apple_remove() holds appledwc->lock across
+usb_role_switch_unregister(), while both dwc3_usb_role_switch_set() and
+dwc3_usb_role_switch_get() acquire appledwc->lock.
 
-A consumer can observe sw->registered == true, be preempted before
-acquiring sw->lock, and still invoke sw->set() or sw->get() after
-usb_role_switch_unregister() has returned and the provider driver has
-torn down its state. Likewise, an in-flight callback already holding
-sw->lock is not drained before usb_role_switch_unregister() returns.
+Calling usb_role_switch_unregister() under appledwc->lock creates an
+ABBA lock-order inversion against both sysfs attribute teardown
+(device_unregister() -> kernfs_drain() waiting on an active role_show /
+role_store callback) and synchronizing usb_role_switch_unregister()
+against in-flight callbacks under sw->lock.
 
-Move the sw->registered check inside sw->lock in both
-usb_role_switch_set_role() and usb_role_switch_get_role(), clear
-sw->registered under sw->lock in usb_role_switch_unregister() so new
-callbacks are rejected and in-flight callbacks finish before teardown
-proceeds, and document the lock-ordering contract on
-usb_role_switch_unregister().
+appledwc->role_sw is assigned once during probe and never modified
+afterwards. Unregister the role switch before acquiring appledwc->lock
+for hardware teardown.
 
 Found and drafted with an AI coding assistant.
 
-Fixes: b787a3e78175 ("usb: roles: don't get/set_role() when usb_role_switch is unregistered")
+Fixes: 0ec946d32ef7 ("usb: dwc3: Add Apple Silicon DWC3 glue layer driver")
 Signed-off-by: Ilia Snezhkov <iasnezhkov@gmail.com>
 ---
- drivers/usb/roles/class.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ drivers/usb/dwc3/dwc3-apple.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index edec139..ce23e95 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -79,10 +79,11 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
- 	if (IS_ERR_OR_NULL(sw))
- 		return 0;
+diff --git a/drivers/usb/dwc3/dwc3-apple.c b/drivers/usb/dwc3/dwc3-apple.c
+index 1f474a8..035aeeb 100644
+--- a/drivers/usb/dwc3/dwc3-apple.c
++++ b/drivers/usb/dwc3/dwc3-apple.c
+@@ -487,10 +487,10 @@ static void dwc3_apple_remove(struct platform_device *pdev)
+ 	struct dwc3 *dwc = platform_get_drvdata(pdev);
+ 	struct dwc3_apple *appledwc = to_dwc3_apple(dwc);
  
--	if (!sw->registered)
--		return -EOPNOTSUPP;
+-	guard(mutex)(&appledwc->lock);
 -
- 	mutex_lock(&sw->lock);
-+	if (!sw->registered) {
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
+ 	usb_role_switch_unregister(appledwc->role_sw);
  
- 	ret = sw->set(sw, role);
- 	if (!ret) {
-@@ -90,6 +91,7 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
- 		kobject_uevent(&sw->dev.kobj, KOBJ_CHANGE);
- 	}
- 
-+out:
- 	mutex_unlock(&sw->lock);
- 
- 	return ret;
-@@ -105,18 +107,21 @@ EXPORT_SYMBOL_GPL(usb_role_switch_set_role);
-  */
- enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw)
- {
--	enum usb_role role;
-+	enum usb_role role = USB_ROLE_NONE;
- 
--	if (IS_ERR_OR_NULL(sw) || !sw->registered)
-+	if (IS_ERR_OR_NULL(sw))
- 		return USB_ROLE_NONE;
- 
- 	mutex_lock(&sw->lock);
-+	if (!sw->registered)
-+		goto out;
- 
- 	if (sw->get)
- 		role = sw->get(sw);
- 	else
- 		role = sw->role;
- 
-+out:
- 	mutex_unlock(&sw->lock);
- 
- 	return role;
-@@ -418,12 +423,16 @@ EXPORT_SYMBOL_GPL(usb_role_switch_register);
-  * @sw: USB Role Switch
-  *
-  * Unregister switch that was registered with usb_role_switch_register().
-+ * Callers must not hold locks acquired by the switch's ->set() or ->get()
-+ * callbacks.
-  */
- void usb_role_switch_unregister(struct usb_role_switch *sw)
- {
- 	if (IS_ERR_OR_NULL(sw))
- 		return;
-+	mutex_lock(&sw->lock);
- 	sw->registered = false;
-+	mutex_unlock(&sw->lock);
- 	if (dev_fwnode(&sw->dev))
- 		component_del(&sw->dev, &connector_ops);
- 	device_unregister(&sw->dev);
++	guard(mutex)(&appledwc->lock);
++
+ 	/*
+ 	 * If we're still in DWC3_APPLE_PROBE_PENDING we never got any cable connected event and
+ 	 * dwc3_core_probe was never called and there's hence no need to call dwc3_core_remove.
 -- 
 2.54.0 (Apple Git-157)
 
