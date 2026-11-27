@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785909;
-	b=OpT6jIh5AOOoiP3VX6MdyyQyMHOglhqaN96CiY/oQNPEUEbgI00upjsuO6kCTVZfScGd
-	 jwI97EFjM58A3W7kAT/J/HzoTCLbKQW0E9GvLBq8u3Hh0d0Fv4l0RI7dwswX3oGPZhDTi
-	 NkohYSyNNpbA536xFwIT7ApUO4/qEYaBoLfDnbkjEpX8pRhRBnY2nxOGfD10eee0/ku6y
-	 xKZBy+qMpiqM7lXtZskOVZ2Zk+iW2/rDDkgD16p3GdvzYeW5ASkZMY+AiX3kEtxlLaZaj
-	 bMQMLD9ImBmchbLRNJGFEi/LUcsoDE+Of8/Mo1quB97nBC1QVIG1pE3qINsKKFAcemw==
+	t=1795785911;
+	b=J3K9wfNg+H2zBldBT0FZslF1qy2EtfSMKdicQTd8aDWSLWvXUILaLtcGpBBkSaY6LoHz
+	 WPOREBeM8/FpQRMHV/Aide9XR6EqIb9JntTMD7vrEphnd5B1CiuHEmzZEQJvESb8jJBQe
+	 JCj5x4KhzjFq6HcLSwQ1GEttdGRf6Qxzm/8N4xI9BowcdqyO4nyWfVB79dgQ+jzChXv7W
+	 ST/mWQLz+Mq5gH0N2lH4dYaEpBWZ0zXU0vSVhb6OpwyuJ5rPd43kns/XAo4udbv/gfK2D
+	 Mb/Sbqs78y/XWI0DtkF1+glqYe4T0mR3My377f0GOq9tmcVQEcdDWa8Hl8NFH05OxNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785909;
-	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=v3yEbC+AJmlftdTFGRLi1VzGahJ69Ti/aAE4/7WZpZ8=;
-	b=ncYjs95IOm22vJXWPLfzXkIekOVosRA77OWsIW9giV3SRIAaw+WQY1tUYlhOnK0hwlNw
-	 YBUg8aAmafewRk/d0vNxnDnYyVtRB6NVjl+6kY5OgoUFgD7yEnuvstxsMSrdMYbqwkQCn
-	 3YyAb6olG1XlHJtgyxo6KY7+dPeMT/TbzKenmJKcX1SYnE57xo3Twxb1/o1fYgnUaqdUG
-	 qNyvvoI/KDiVGjMnkyyYKemm1j2RqoHTzqwYtL773Q0Z8Zyxd5GANxeT49kx/vPf1Zsa1
-	 XIzdVvB39aGFLFbZ3p3HGZLneuNF3BhnSw0k/iXmgviTHBCh3GdUh0EQmimwSwBJcfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785911;
+	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=tfsVJeJwoTJiKqOmwk8wLZHyZsE94at7N5lewUc/Esk=;
+	b=K5rgQoa8BJJqk2kne3rGzkhhn61W6SdLIG+Z72iGZ8sfOUd0t/IwdkQoEbMT+1RVc4+r
+	 9J4vHH0pJvbM6iv7a5pJ2+rJcI3hnSEteWg1tyY7EpxUFJxgoXAd8zU9GBz6JWmvuWcLe
+	 MGuIaxyPNX5fwNkmvpCGSGlKI5FqsEE4DaFiMrLpZU/0DOmeOKh648aJUi7FcsBqB3ZsQ
+	 9fJgRlo8EpM0N03IfsDpHykcveRqkL8N51YiIYXbVWCteXZA7D36LQoidzZeff0kfUAUq
+	 GcfLquRFIveU/qnACwvkNAQ8CN4YEKJU9tPwdzS//DUQe7BelYw94yu7LuvX7x0zxvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=XIee0nPO;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=JwHmXFds;
 	arc=none smtp.remote-ip=91.216.248.207
 Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A3D606A333
-	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55A3D606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC87606A329
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DC87606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=XIee0nPO
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=JwHmXFds
 From: Andre Eikmeyer <dev@deq.rocks>
-X-Lima-ML-UUID: be76e0bf-39fa-4763-b198-36333ccb8c8d
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1795785905;
-	bh=jCbGfbLhz0HJs0XbEZQr5LjpS053K2gG8GUfQl41Qr0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XIee0nPOFMYsVn0LGgyRbwD8r91BOqjTLtTGbqQmsNLRzh8eYtV+hjX+XvGwjd+lv
-	 3KUvI0EfxBWmO6WWZEr6pAmHVwxDOnhkdPu6EqnXv81YHXbEvCXzH6D6Jlj3h+0fHK
-	 a7Wuw5atrgwrygc/xxbVmxua/FcftRx5W//K1a29xiy1d1zTLlhnKg7Y2UNURE310O
-	 Huo1zb/ZTMWF25endityMHWoquAMfRCzNh1oWEVQ0cXUZQiqb49fzZx+9qw5B01oJT
-	 JwuJDH1YOTMk9VLE0FYsK5CKRRcdiFgCnN3PVXg1Hyg6Gavxz5rHSD93A8lVVw1yF5
-	 LFU2hbOFyuLXA==
+	s=securedbylima-20251205; t=1795785908;
+	bh=p0cocobOgw98O0lkAGSK3F5IMjPJ/CuN79FKcDuz6d4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JwHmXFds2j7Y+B55qCcGYxj5tU3Z1umtwucK28yxLCln+iBEWphP+kdZsZPXx5x1o
+	 ONt01ou++sU+dddBXlLinRp6KVIF/NlK6Xu/x9rjZlIoCzksnT5P6rzFXnVtI01o4E
+	 C4RQlzfZaiQ2CxXCnFctSEln6/ouNypiTD2BDRvxzmDKPu6a6O8j4v4NeGPjm26+cY
+	 VM20v2c1oYbi5hA/l1b4UA/UB2JG2Ktqzf5bTHX5GhDUIDNcNiflMGr7iSNih+nXh8
+	 2fw7BVjDy4grFq0SWlL6zYjT41x6ORYfZ9lf9Y44VwZsf82pJZ1+kb9YsZbBhdSIdV
+	 NSERuhk57tUXQ==
 To: sven@kernel.org,
 	marcel@holtmann.org,
 	luiz.dentz@gmail.com
@@ -54,10 +54,12 @@ Cc: j@jannau.net,
 	linux-bluetooth@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v3 0/3] Bluetooth: hci_bcm4377: resume after ACPI S3 and ASPM
-Date: Fri, 27 Nov 2026 14:24:58 +0100
-Message-ID: <20261127132501.262651-1-dev@deq.rocks>
+Subject: [PATCH v3 1/3] Bluetooth: hci_bcm4377: check hci_register_dev() for a negative return
+Date: Fri, 27 Nov 2026 14:24:59 +0100
+Message-ID: <20261127132501.262651-2-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261127132501.262651-1-dev@deq.rocks>
+References: <20261127132501.262651-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -69,45 +71,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After ACPI S3 the Bluetooth function of the BCM4377 comes back without
-its firmware. Patch 2 probes it again after such a resume.
+If another controller already holds hci0, a USB Bluetooth dongle for
+example, the BCM4377 is registered as hci1 and probe returns 1. The PCI
+core takes that as success, but the devm action that unregisters the
+controller is never added, so it stays registered after unbind while
+its driver data is freed.
 
-When the previous controller is still being released, the re-probe
-registers the new one under another index, which runs into the probe
-return check fixed in patch 1. Patch 1 is a fix on its own and goes
-first.
+hci_register_dev() returns the index of the new controller on success.
+Check for a negative return, as the other drivers do.
 
-Because of a hardware erratum the driver keeps ASPM disabled on the
-whole link to the Wi-Fi and Bluetooth chip for as long as it is bound,
-which holds the CPU package at PC3. Patch 3 disables ASPM only while
-the firmware boots and restores it once the firmware runs, also after
-the re-probe from patch 2.
+Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
+Reviewed-by: Sven Peter <sven@kernel.org>
+Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+---
+ drivers/bluetooth/hci_bcm4377.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The Wi-Fi function of the same chip needs the same after S3 and goes to
-linux-wireless in "wifi: brcmfmac: pcie: S3 suspend and resume on the
-T2 Mac chips".
-
-Tested on MacBookAir9,1 and MacBookPro15,4.
-
-Changes in v3:
-- Rebase on bluetooth-next
-- Patch 1: shorter subject, add Sven's Reviewed-by from v1
-- Patch 3: add Sven's Acked-by
-
-Changes in v2:
-- Add patch 3, keep ASPM off only while the firmware boots
-- Patches 1 and 2 are unchanged
-
-v2: https://lore.kernel.org/all/20261111120248.21062-1-dev@deq.rocks/
-v1: https://lore.kernel.org/all/20261107154839.89941-1-dev@deq.rocks/
-
-Andre Eikmeyer (3):
-  Bluetooth: hci_bcm4377: check hci_register_dev() for a negative return
-  Bluetooth: hci_bcm4377: probe again after a resume through firmware
-  Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
-
- drivers/bluetooth/hci_bcm4377.c | 93 +++++++++++++++++++++++++++++----
- 1 file changed, 83 insertions(+), 10 deletions(-)
-
-
-base-commit: f57f78086ab54f3b3122fbaeba2c842ba7bb6d00
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 72a9f269e8b..8c9833d625e 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -2410,7 +2410,7 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		return ret;
+ 
+ 	ret = hci_register_dev(hdev);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
+ 	return devm_add_action_or_reset(&pdev->dev, bcm4377_hci_unregister_dev,
+ 					hdev);
