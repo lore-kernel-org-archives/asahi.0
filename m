@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785920;
-	b=x+4jCbehLbArIv3MkSicEse7QTqFcr13K2iLXsOPT9sleM7Ai2iXSCMlCgTIcw5IxDMN
-	 FBcqjIP73bApz4e3RkkSvHa2fbRtMwyNmEm93NhdsBAZ3KQBYjUBQomBzn4rRjP223twD
-	 CvPbokw0O6R3ADD9Wll89klKlJuxltV8u/W81U2JHvEgA9PyZRWEhVQI4u7GUeed1NYCv
-	 hg/XEroTzlQiT7FvAIfuWEZNKS7qUQXAuJU0iQ6PixDeoj2kZFYU7VmWYqozF8KyCtwm2
-	 cSS0eaAqA3c/ZAjUzd4zYgWQw6dQIl9TTQTx+Z8Go5L4Ivl/ed9dpQUYFEDNYRuI2HA==
+	t=1795785921;
+	b=ugKc8LlSO7gSRrSpYEItmlCOGwMLQCRpOP6aJ/TTWwp1AEIo+1kxQpvXFswAZ/v0KELm
+	 Sy8vmtW8ASXdQco+Yq49gZDonkRp6mur0/rh0bZ8sQfq5fKkSUAbCr65+WPvEES9sbK0x
+	 BIDVHdsBtTvKnUzYqi5HlDytx+XimbBG2MzZ2+0tmvdqj3Q6Z9rCKPcNUeLVTEn5lbZCp
+	 BPxgMSTin9v9YxMeXgsBWJE1wID7zg4iJ5+BPbm3uzGHrHsDUKkxr1Us0EaEgeXQvG/g9
+	 ERM35iKnlAph5hXdNdcH+2G9tWlZjDtYYCcuftWhLUs8eu7/L3DZlLwavntken0Ufdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785920;
-	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=87loX2K1MRUkuuriEOw5VwScje1H4+shrb09r2CZSlo=;
-	b=XMZ3x0hd+yx1LrHfcJorRbBokEZsesY8/+EvT2WvhOqsb0mHLak6zLzpUzn9aCZ3jcmx
-	 W+vap0jiGkjwbrpnnhf0dpJzFVNapLeIAdTQ+LkmaALZ5C/0HBlAZIevebMJzE4i962LE
-	 OHqrSn9dpLE09Ww6fcthJTy1eNVp2JqdWhiIyOMaqX80FhPucVhiGTniakR3klD1nRTUE
-	 fg5qXLEWDlohWlQJaj3MZaAr1PYdXD7wNyVQV+Cegxxdg7LPKSZQjowbx2tiPpjpkSHzq
-	 5KGwSENpFzuEsPjKw4dNolQvtztNRh1Q3su/TYn2kCWu2hcrGkyoivKZROD7tqnU8Mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785921;
+	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=nJ7i/lV5fWkejYj/nHVOUDs2jnq1DfOwLwLLwe6GDAw=;
+	b=XfBKyFCpl8ewKUODLuzMc5JyCZXlI0n+XPZiIKywlAWpSrjRrP1UFFuaYmzCESKwCBr5
+	 7eaIjIqsMG1tZawp4jHx0GWnTIvWVAiMKz6UfrRpaMHY/edMCS39YaQxhwHNLup8XJcgy
+	 mW0lSO/z7Gp4LlkgX5VttDJRf36QwP1CVGzGA3Ay2mtBICGHfRmXCEDKwWAMxOK50OVR6
+	 PEOqIy9ohRgYS0NA7Nvi8c0lL1ibiXOpi1sMONX7bZBySTWZSaFO1jxD7Icv/XVSV+3Ch
+	 w2HLd3S7LCUILlPVQxUWpFM4tMUYc0G/fzXfgICemdb16rPQtwD0NLv6o/8GixcpIjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b="BF9/M/FJ";
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=ZldzcSjK;
 	arc=none smtp.remote-ip=91.216.248.212
 Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F4D606A32A
-	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F4D606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6AA606A336
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F6AA606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=BF9/M/FJ
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=ZldzcSjK
 From: Andre Eikmeyer <dev@deq.rocks>
-X-Lima-ML-UUID: 8a5ecd65-d520-476d-b113-531c87366ce0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1795785917;
-	bh=TFZW56ctheIsJ0mDPfySDHNMgAhFyvnxeAxQ3mNsdZM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BF9/M/FJpQud79g1eDuHaDZh/VfV/gCMOpSOs/kMUYPS0n551LaZqCkuLuDkivO+5
-	 aJE+yNF3auuRXMoe88w9bVsP8GNl/EOY6xO62gsBDjxPA3ce6X/nV5PrLptkJGJbtz
-	 nIXf4HoZeTTRzanm0kQtDf3kC6Q9GkHyKCvJg9MVnnD1jprLsU2V5NKghVe7wvNK2h
-	 f8Cvf7vdVPfkCm9WR1fxw6imPRc15Xhb47k92IQ57JIlGvqtyilkt0LBpxmJYJCyBn
-	 aAK2E4Y/C0XV/zSYUFJRvIzjZlZY1cZMrIzmOVrqpE2gZ6XvhJsPAsdwl15UHBSCPC
-	 EQRCoeeYdP3aQ==
-To: marcel@holtmann.org,
+	s=securedbylima-20251205; t=1795785912;
+	bh=J4K17xM/lvKD8rJFt9ZzUQWYOZ+o9QZB0HamYWyWF2c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZldzcSjKfDM3c0ybDoLIlhTWFdL9l565UpnGysEb906GfuBYiBBt/UuDZdnmLy2Fs
+	 asH/XV9NrMQw2qSud2vUVF/qOVwWG4gjOPoJgGWc4s9Be1xdouEzRAinw2VlSO5War
+	 HhrfBCGgXj3ZNBEJhDvDrnMw5k1eXC0C9K5l2owwZCUDirMmg3G99ti8BjmA8bBzKY
+	 +XLAh6rfeIab6hKkCvs849jobnn3t51BLA1MjV2aUY2J9x7o+1v0LBw+KwEzYF5Nfu
+	 7B6ESpa960kXof1gQ6JmedogTCkkMODhWqX4tlX2pMBMQNrxmxhAfmwUjEML6EzVef
+	 wqi1R1KEjhq5w==
+To: sven@kernel.org,
+	marcel@holtmann.org,
 	luiz.dentz@gmail.com
-Cc: linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	sven@kernel.org,
-	j@jannau.net,
+Cc: j@jannau.net,
 	neal@gompa.dev,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	Sasha Finkelstein <k@chaosmail.tech>,
-	Myria Sarvay <myrialsarvay@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v3 0/2] Bluetooth: Broadcom controllers of the Apple T2 Macs
-Date: Fri, 27 Nov 2026 14:25:11 +0100
-Message-ID: <20261127132513.262754-1-dev@deq.rocks>
+Subject: [PATCH v3 3/3] Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
+Date: Fri, 27 Nov 2026 14:25:01 +0100
+Message-ID: <20261127132501.262651-4-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261127132501.262651-1-dev@deq.rocks>
+References: <20261127132501.262651-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -71,44 +71,95 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series is for the Broadcom Bluetooth controllers of the Apple T2
-Macs, the BCM4364 over UART (hci_bcm) and the BCM4377 over PCIe
-(hci_bcm4377).
+The BCM4377 needs ASPM disabled because of a hardware erratum, and the
+driver disables it on the whole link for as long as the device is bound.
+On the MacBookAir9,1 this keeps the link to the Wi-Fi and Bluetooth chip
+in L0, and the package does not go deeper than PC3.
 
-Patch 1 builds on a vendor command the Android Broadcom vendor library
-uses, 0xfc57, to keep A2DP from dropping out while WLAN runs on 2.4 GHz.
-Patch 2 sets the strict duplicate filter quirk in both drivers, so a
-discovery reports changed advertisement data before its next cycle.
+Disable ASPM only in this function's Link Control register before the
+function level reset and the firmware boot, and restore the saved value
+once the firmware runs. A non-ARI Multi-Function Device enables only the
+ASPM states enabled in all of its functions, so the link stays in L0
+until then.
 
-The T2 Linux community runs these patches. Users reported them working
-on the MacBookPro15,1, 15,2, 15,3, 15,4, 16,1, 16,4, MacBookAir9,1 and
-iMac20,1.
+Tested on a MacBookAir9,1: with ASPM L1 enabled by the PCI core the link
+returns to L1 after probe and after the re-probe that follows ACPI S3,
+Bluetooth and Wi-Fi keep working, and the package reaches PC8 instead of
+PC3 at idle.
 
-Changes in v3:
-- Rebase on bluetooth-next. Patch 2 sets the quirk after the new
-  platform address check in bcm_setup()
-- Patch 2: shorter subject
-- Patch 1 is unchanged. The comparison with Sasha Finkelstein's channel
-  priority patch is in the v2 thread
+Acked-by: Sven Peter <sven@kernel.org>
+Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+---
+ drivers/bluetooth/hci_bcm4377.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
-Changes in v2:
-- Dropped "Bluetooth: btbcm: clear vendor bits in LE advertising report
-  types" and the revert of 88397423671f. The mask in hci_event.c stays
-  as it is.
-
-v2: https://lore.kernel.org/all/20261105085750.120392-1-dev@deq.rocks/
-v1: https://lore.kernel.org/all/20261104151601.70493-1-dev@deq.rocks/
-
-Andre Eikmeyer (2):
-  Bluetooth: btbcm: raise ACL priority on Apple Broadcom controllers
-  Bluetooth: set the strict duplicate filter quirk on Apple Broadcom
-
- drivers/bluetooth/Kconfig       |  1 +
- drivers/bluetooth/btbcm.c       | 71 +++++++++++++++++++++++++++++++++
- drivers/bluetooth/btbcm.h       |  7 ++++
- drivers/bluetooth/hci_bcm.c     | 23 +++++++++--
- drivers/bluetooth/hci_bcm4377.c |  8 ++++
- 5 files changed, 107 insertions(+), 3 deletions(-)
-
-
-base-commit: f57f78086ab54f3b3122fbaeba2c842ba7bb6d00
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index f1beb09c9f5..fc1164a470c 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -497,7 +497,8 @@ struct bcm4377_data;
+  * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
+  *                                     vendor-specific subsystem control
+  *                                     register has to be cleared
+- * disable_aspm: Set to true if ASPM must be disabled due to hardware errata
++ * disable_aspm: Set to true if ASPM must be disabled while the firmware is
++ *               loaded and booted due to hardware errata
+  * broken_ext_scan: Set to true if the chip erroneously claims to support
+  *                  extended scanning
+  * broken_mws_transport_config: Set to true if the chip erroneously claims to
+@@ -572,6 +573,9 @@ struct bcm4377_data {
+ 	/* set when the controller lost its firmware during system sleep */
+ 	bool fw_lost;
+ 
++	/* Link Control value saved while ASPM is disabled for the boot */
++	u16 link_ctl;
++
+ 	void __iomem *bar0;
+ 	void __iomem *bar2;
+ 
+@@ -2260,20 +2264,27 @@ static int bcm4377_probe_of(struct bcm4377_data *bcm4377)
+ 	return 0;
+ }
+ 
++/*
++ * ASPM is disabled in this function's Link Control register only. A
++ * non-ARI Multi-Function Device enables only the ASPM states enabled in
++ * all of its functions, so the link stays in L0 until it is restored.
++ */
+ static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
+ {
+-	pci_disable_link_state(bcm4377->pdev,
+-			       PCIE_LINK_STATE_L0S | PCIE_LINK_STATE_L1);
+-
+-	/*
+-	 * pci_disable_link_state can fail if either CONFIG_PCIEASPM is disabled
+-	 * or if the BIOS hasn't handed over control to us. We must *always*
+-	 * disable ASPM for this device due to hardware errata though.
+-	 */
++	pcie_capability_read_word(bcm4377->pdev, PCI_EXP_LNKCTL,
++				  &bcm4377->link_ctl);
+ 	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
+ 				   PCI_EXP_LNKCTL_ASPMC);
+ }
+ 
++static void bcm4377_restore_aspm(struct bcm4377_data *bcm4377)
++{
++	pcie_capability_clear_and_set_word(bcm4377->pdev, PCI_EXP_LNKCTL,
++					   PCI_EXP_LNKCTL_ASPMC,
++					   bcm4377->link_ctl &
++					   PCI_EXP_LNKCTL_ASPMC);
++}
++
+ static void bcm4377_pci_free_irq_vectors(void *data)
+ {
+ 	pci_free_irq_vectors(data);
+@@ -2425,6 +2436,9 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	if (bcm4377->hw->disable_aspm)
++		bcm4377_restore_aspm(bcm4377);
++
+ 	ret = hci_register_dev(hdev);
+ 	if (ret < 0)
+ 		return ret;
