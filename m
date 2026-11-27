@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.212
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785919;
-	b=CIg4ObryS6c6r1AdUruUoJ8sdhb5nbYa9gv0iMCSqzs/v70b50s+AJT72whG34yYWKwR
-	 eeIy0pYbnhF60XK5HM2FCsaVN26ct+bTkL/oU9Uc7+vXvVwMpDAtqMF3tBAQguFa4OR7G
-	 bwNr37kFlpIOwLFBDrtpCsDWqByguspAt/1VgFT+zuzSPk+qPwbYLcaNIu9upDojQyWnD
-	 9s+QbM9Yx/RhSLDyTRFXIuetI6K3u8RSHMfgsexXEhCUKSQ7tbjF/bjXqV4YXw622iD39
-	 bJGJnsAxGNdqLI5eNi4KHAEzpdmyFQO70FomVxoc8f2KNGRVvdVLv1K0xvvtxoe6gZQ==
+	t=1795785920;
+	b=x+4jCbehLbArIv3MkSicEse7QTqFcr13K2iLXsOPT9sleM7Ai2iXSCMlCgTIcw5IxDMN
+	 FBcqjIP73bApz4e3RkkSvHa2fbRtMwyNmEm93NhdsBAZ3KQBYjUBQomBzn4rRjP223twD
+	 CvPbokw0O6R3ADD9Wll89klKlJuxltV8u/W81U2JHvEgA9PyZRWEhVQI4u7GUeed1NYCv
+	 hg/XEroTzlQiT7FvAIfuWEZNKS7qUQXAuJU0iQ6PixDeoj2kZFYU7VmWYqozF8KyCtwm2
+	 cSS0eaAqA3c/ZAjUzd4zYgWQw6dQIl9TTQTx+Z8Go5L4Ivl/ed9dpQUYFEDNYRuI2HA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785919;
-	h=DMARC-Filter:From:DKIM-Signature:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=bq2bT06VdOokWroCEDAW2WkYAtYpKDoLg0HVCeahJd0=;
-	b=h4GgPQRHV/yqBBNA6xzIH4Q4XoePpxA1twTzvzmiJDHv+0ZJOVIcZEKTFKVjr9euSvUy
-	 ANeaA08qB8qaAxkVVYMgL5dV9qAahHxgJnOQgxL26AK3ga7UEuXNgViFRadRY2g2JJAc7
-	 EiIK6kRDObZSl/aCK/NPCXDgg0yx0/6DfFgQY1puzKdY12BPKG3Xl6JGOKlpaXaQfMzSe
-	 HLyTx9H17XNBZyiKx202/iyzjkoBGtDaUcYoQrX3YrHMZPXP5muJ8QuUSswRn7Cp2JMe6
-	 KUyj83/MTnZMH8Av9HW5wcjZbfm6KvvW922ZPMM1FUAF/8gZLwHsZV/fc0DY5k5E1Vw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785920;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=87loX2K1MRUkuuriEOw5VwScje1H4+shrb09r2CZSlo=;
+	b=XMZ3x0hd+yx1LrHfcJorRbBokEZsesY8/+EvT2WvhOqsb0mHLak6zLzpUzn9aCZ3jcmx
+	 W+vap0jiGkjwbrpnnhf0dpJzFVNapLeIAdTQ+LkmaALZ5C/0HBlAZIevebMJzE4i962LE
+	 OHqrSn9dpLE09Ww6fcthJTy1eNVp2JqdWhiIyOMaqX80FhPucVhiGTniakR3klD1nRTUE
+	 fg5qXLEWDlohWlQJaj3MZaAr1PYdXD7wNyVQV+Cegxxdg7LPKSZQjowbx2tiPpjpkSHzq
+	 5KGwSENpFzuEsPjKw4dNolQvtztNRh1Q3su/TYn2kCWu2hcrGkyoivKZROD7tqnU8Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=deq.rocks;
 	spf=none smtp.mailfrom=deq.rocks;
-	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EaNRqZ3e;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b="BF9/M/FJ";
 	arc=none smtp.remote-ip=91.216.248.212
 Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB6B606A32F
-	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EB6B606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F4D606A32A
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F4D606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=EaNRqZ3e
+	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=BF9/M/FJ
 From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: 8a5ecd65-d520-476d-b113-531c87366ce0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1795785910;
-	bh=V1C5VH1z8t54cs61S8a6VCL8sJ+HDsoL+WFd+UAABD8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EaNRqZ3e/i9cSqt8uBPInfodrpMp/xvZpWlz6cfzyTu4ejfmEoVlqFiejUuIi5WWD
-	 60rONptrm6DNg9GubVH8/kHcqtUq3npeFNpbdAdm9ILtndYVI9CU6+lsZhaJwL5+op
-	 qdyanTBi89+lo+5aNq3Oir+GWCJjYmnbwW+7OlxXlBsIM4iDrcoOqOEXZeFVADLkby
-	 1T0rcnagfmU8fn/+48AVJEuMIU/j1sArP311NIchvN3DKetHWuBxorBcbJGPJGN14s
-	 GNLEl84zr7pimR5g6lPeeXSXCzymoeqIZabYd1Vq09AKn34K5SM+9uMc/BPjupyx2i
-	 PeAZwxGkWGyIQ==
-To: sven@kernel.org,
-	marcel@holtmann.org,
+	s=securedbylima-20251205; t=1795785917;
+	bh=TFZW56ctheIsJ0mDPfySDHNMgAhFyvnxeAxQ3mNsdZM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BF9/M/FJpQud79g1eDuHaDZh/VfV/gCMOpSOs/kMUYPS0n551LaZqCkuLuDkivO+5
+	 aJE+yNF3auuRXMoe88w9bVsP8GNl/EOY6xO62gsBDjxPA3ce6X/nV5PrLptkJGJbtz
+	 nIXf4HoZeTTRzanm0kQtDf3kC6Q9GkHyKCvJg9MVnnD1jprLsU2V5NKghVe7wvNK2h
+	 f8Cvf7vdVPfkCm9WR1fxw6imPRc15Xhb47k92IQ57JIlGvqtyilkt0LBpxmJYJCyBn
+	 aAK2E4Y/C0XV/zSYUFJRvIzjZlZY1cZMrIzmOVrqpE2gZ6XvhJsPAsdwl15UHBSCPC
+	 EQRCoeeYdP3aQ==
+To: marcel@holtmann.org,
 	luiz.dentz@gmail.com
-Cc: j@jannau.net,
+Cc: linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	sven@kernel.org,
+	j@jannau.net,
 	neal@gompa.dev,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	Myria Sarvay <myrialsarvay@gmail.com>,
 	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v3 2/3] Bluetooth: hci_bcm4377: probe again after a resume through firmware
-Date: Fri, 27 Nov 2026 14:25:00 +0100
-Message-ID: <20261127132501.262651-3-dev@deq.rocks>
+Subject: [PATCH v3 0/2] Bluetooth: Broadcom controllers of the Apple T2 Macs
+Date: Fri, 27 Nov 2026 14:25:11 +0100
+Message-ID: <20261127132513.262754-1-dev@deq.rocks>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261127132501.262651-1-dev@deq.rocks>
-References: <20261127132501.262651-1-dev@deq.rocks>
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -71,118 +71,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The BCM4377 is powered off during ACPI S3 and loses its firmware. On
-resume the driver only unquiesces it, so every command times out.
+This series is for the Broadcom Bluetooth controllers of the Apple T2
+Macs, the BCM4364 over UART (hci_bcm) and the BCM4377 over PCIe
+(hci_bcm4377).
 
-When the platform firmware handled the resume, probe the controller
-again from a work item and skip the ring teardown messages to the lost
-firmware. Suspend to idle keeps the quiesce path.
+Patch 1 builds on a vendor command the Android Broadcom vendor library
+uses, 0xfc57, to keep A2DP from dropping out while WLAN runs on 2.4 GHz.
+Patch 2 sets the strict duplicate filter quirk in both drivers, so a
+discovery reports changed advertisement data before its next cycle.
 
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
- drivers/bluetooth/hci_bcm4377.c | 59 +++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+The T2 Linux community runs these patches. Users reported them working
+on the MacBookPro15,1, 15,2, 15,3, 15,4, 16,1, 16,4, MacBookAir9,1 and
+iMac20,1.
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 8c9833d625e..f1beb09c9f5 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -16,6 +16,9 @@
- #include <linux/of.h>
- #include <linux/pci.h>
- #include <linux/printk.h>
-+#include <linux/slab.h>
-+#include <linux/suspend.h>
-+#include <linux/workqueue.h>
- 
- #include <linux/unaligned.h>
- 
-@@ -566,6 +569,9 @@ struct bcm4377_data {
- 	struct pci_dev *pdev;
- 	struct hci_dev *hdev;
- 
-+	/* set when the controller lost its firmware during system sleep */
-+	bool fw_lost;
-+
- 	void __iomem *bar0;
- 	void __iomem *bar2;
- 
-@@ -1017,6 +1023,11 @@ static int bcm4377_destroy_completion_ring(struct bcm4377_data *bcm4377,
- 	struct bcm4377_destroy_completion_ring_msg msg;
- 	int ret;
- 
-+	if (bcm4377->fw_lost) {
-+		ring->enabled = false;
-+		return 0;
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_type = BCM4377_CONTROL_MSG_DESTROY_COMPLETION_RING;
- 	msg.ring_id = cpu_to_le16(ring->ring_id);
-@@ -1107,6 +1118,11 @@ static int bcm4377_destroy_transfer_ring(struct bcm4377_data *bcm4377,
- 	struct bcm4377_destroy_transfer_ring_msg msg;
- 	int ret;
- 
-+	if (bcm4377->fw_lost) {
-+		ring->enabled = false;
-+		return 0;
-+	}
-+
- 	memset(&msg, 0, sizeof(msg));
- 	msg.msg_type = BCM4377_CONTROL_MSG_DESTROY_XFER_RING;
- 	msg.ring_id = cpu_to_le16(ring->ring_id);
-@@ -2432,11 +2448,54 @@ static int bcm4377_suspend(struct device *dev)
- 	return 0;
- }
- 
-+struct bcm4377_reprobe {
-+	struct work_struct work;
-+	struct pci_dev *pdev;
-+};
-+
-+static void bcm4377_reprobe_work(struct work_struct *work)
-+{
-+	struct bcm4377_reprobe *reprobe =
-+		container_of(work, struct bcm4377_reprobe, work);
-+	int ret;
-+
-+	/*
-+	 * Probing stays blocked until the system resume completes, the driver
-+	 * core then retries the deferred probe.
-+	 */
-+	ret = device_reprobe(&reprobe->pdev->dev);
-+	if (ret && ret != -EPROBE_DEFER)
-+		dev_err(&reprobe->pdev->dev, "re-probe after resume failed (%d)\n",
-+			ret);
-+
-+	pci_dev_put(reprobe->pdev);
-+	kfree(reprobe);
-+}
-+
- static int bcm4377_resume(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct bcm4377_data *bcm4377 = pci_get_drvdata(pdev);
- 
-+	/*
-+	 * The controller is powered off when the platform firmware handles
-+	 * the system sleep, as with ACPI S3 on x86 Macs, and comes back
-+	 * without its firmware. Probe it again.
-+	 */
-+	if (pm_resume_via_firmware()) {
-+		struct bcm4377_reprobe *reprobe;
-+
-+		reprobe = kzalloc_obj(*reprobe);
-+		if (!reprobe)
-+			return -ENOMEM;
-+
-+		bcm4377->fw_lost = true;
-+		reprobe->pdev = pci_dev_get(pdev);
-+		INIT_WORK(&reprobe->work, bcm4377_reprobe_work);
-+		schedule_work(&reprobe->work);
-+		return 0;
-+	}
-+
- 	iowrite32(BCM4377_BAR0_SLEEP_CONTROL_UNQUIESCE,
- 		  bcm4377->bar0 + BCM4377_BAR0_SLEEP_CONTROL);
- 
+Changes in v3:
+- Rebase on bluetooth-next. Patch 2 sets the quirk after the new
+  platform address check in bcm_setup()
+- Patch 2: shorter subject
+- Patch 1 is unchanged. The comparison with Sasha Finkelstein's channel
+  priority patch is in the v2 thread
+
+Changes in v2:
+- Dropped "Bluetooth: btbcm: clear vendor bits in LE advertising report
+  types" and the revert of 88397423671f. The mask in hci_event.c stays
+  as it is.
+
+v2: https://lore.kernel.org/all/20261105085750.120392-1-dev@deq.rocks/
+v1: https://lore.kernel.org/all/20261104151601.70493-1-dev@deq.rocks/
+
+Andre Eikmeyer (2):
+  Bluetooth: btbcm: raise ACL priority on Apple Broadcom controllers
+  Bluetooth: set the strict duplicate filter quirk on Apple Broadcom
+
+ drivers/bluetooth/Kconfig       |  1 +
+ drivers/bluetooth/btbcm.c       | 71 +++++++++++++++++++++++++++++++++
+ drivers/bluetooth/btbcm.h       |  7 ++++
+ drivers/bluetooth/hci_bcm.c     | 23 +++++++++--
+ drivers/bluetooth/hci_bcm4377.c |  8 ++++
+ 5 files changed, 107 insertions(+), 3 deletions(-)
+
+
+base-commit: f57f78086ab54f3b3122fbaeba2c842ba7bb6d00
