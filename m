@@ -1,65 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.216.248.207
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795785204;
-	b=N5ep/b8f7HdvJTZOg9L0tqCc1jXItiJb9/xiLDeT7ZvnsXZMZ2tMb46YFw+qkZOY8g3d
-	 y/+NChjZjIKRgCp9axjYfSwEmUoAU0i9lJPyg5oVDmPtmCf19glNTwMpfOSHlxUEs856R
-	 0S/tYtIz1AG+h6k+b74uR1OHuCIkYkMBo7NVAyWnWwgGLTcQ9HC6gb9mLFW3H7FnFnufX
-	 BX9dd0o0ARQgM1X0RawRXVxF2DTHcfLlqLxKXEKfHBg+B6Ip9l9AQ82MOnakQkblj2MYe
-	 50Rfr0LModyj94Yh+FJzqgxIqkhn3ayM8BFSx9ojoUU/G7lk759oDazqGmH3SB6EVdQ==
+	t=1795785909;
+	b=OpT6jIh5AOOoiP3VX6MdyyQyMHOglhqaN96CiY/oQNPEUEbgI00upjsuO6kCTVZfScGd
+	 jwI97EFjM58A3W7kAT/J/HzoTCLbKQW0E9GvLBq8u3Hh0d0Fv4l0RI7dwswX3oGPZhDTi
+	 NkohYSyNNpbA536xFwIT7ApUO4/qEYaBoLfDnbkjEpX8pRhRBnY2nxOGfD10eee0/ku6y
+	 xKZBy+qMpiqM7lXtZskOVZ2Zk+iW2/rDDkgD16p3GdvzYeW5ASkZMY+AiX3kEtxlLaZaj
+	 bMQMLD9ImBmchbLRNJGFEi/LUcsoDE+Of8/Mo1quB97nBC1QVIG1pE3qINsKKFAcemw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795785204;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=ecXKaMO8m+L3M1n1GPbEUhGNBTH54VF2vdfloCEyxpA=;
-	b=QZX+yV6uxB0T6ISzGoNEiXMdBfxwReM8FnhYpeKoV4E6CajgMp6aJDnULSInvd0zZbIC
-	 GEQlgh1Z64zOGzG+iPOOXCydrwcUpwZrp2cgOCti1xNFFpSSSYvDu8/ViGmOtB06vIiPF
-	 BusBkv/283ItmnMAhWGYUU0ggZvZ1Jxyp/dZFl/XILIgz3GlTjnLuZhWiUUT3vXqSGG+p
-	 /4G3svkga9CaFbveHhYu9lH2fs0koKmWrbq+FoQBTiNV2KXlQZlI3rQFU0k7NHnn7ZXBa
-	 U8Ve9IQPVtB+G+nRu6U1/NaCjcDKTDJVz0SdiTRxkIyB9EFhVq6ceLKNpRrlkah0Wcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785909;
+	h=DMARC-Filter:From:X-Lima-ML-UUID:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=v3yEbC+AJmlftdTFGRLi1VzGahJ69Ti/aAE4/7WZpZ8=;
+	b=ncYjs95IOm22vJXWPLfzXkIekOVosRA77OWsIW9giV3SRIAaw+WQY1tUYlhOnK0hwlNw
+	 YBUg8aAmafewRk/d0vNxnDnYyVtRB6NVjl+6kY5OgoUFgD7yEnuvstxsMSrdMYbqwkQCn
+	 3YyAb6olG1XlHJtgyxo6KY7+dPeMT/TbzKenmJKcX1SYnE57xo3Twxb1/o1fYgnUaqdUG
+	 qNyvvoI/KDiVGjMnkyyYKemm1j2RqoHTzqwYtL773Q0Z8Zyxd5GANxeT49kx/vPf1Zsa1
+	 XIzdVvB39aGFLFbZ3p3HGZLneuNF3BhnSw0k/iXmgviTHBCh3GdUh0EQmimwSwBJcfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgFpDlK3;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=deq.rocks;
+	spf=none smtp.mailfrom=deq.rocks;
+	dkim=pass header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=XIee0nPO;
+	arc=none smtp.remote-ip=91.216.248.207
+Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CED0606A32D
-	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:13:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A3D606A333
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:25:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55A3D606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgFpDlK3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53401F0089F;
-	Fri, 27 Nov 2026 13:13:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795785204;
-	bh=ecXKaMO8m+L3M1n1GPbEUhGNBTH54VF2vdfloCEyxpA=;
-	h=From:To:Cc:Subject:Date;
-	b=ZgFpDlK3RSqpP+aZw3F7PeD8ohRFc1txch9dzsHYIUWIf+DMx7zM6uRHnpul++7G/
-	 UacJsitJGFCWsZYRz5OnOKNfrq70P8ZV4dim5ONPFaBje9C4qeqzoC5GNNI9TflUxr
-	 CJudKNKkVg56kzx4Eyb034D3LAIIfuRsfv6IiJB8qlNOE1vMEi9Kszsy+6yYYGVNNQ
-	 iBQyZxtP1qQ3DjAUpYtM8AkVe9ac4ToA2wNJzTTKwnu+Xt7eL0T7iVwz6Ck3c1+42e
-	 1/c9hWV6TKchC72BoTNLOI79rli8/baaUm72uQ5UEO+q3Ap3hKCVVZys++YqDff5O+
-	 2mP4EyRchDtQg==
-From: Thorsten Blum <blum@kernel.org>
-To: Sasha Finkelstein <k@chaosmail.tech>,
-	Janne Grunau <j@jannau.net>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Neal Gompa <neal@gompa.dev>,
-	Nick Chan <towinchenmi@gmail.com>
-Cc: Thorsten Blum <blum@kernel.org>,
-	dri-devel@lists.freedesktop.org,
-	asahi@lists.linux.dev
-Subject: [PATCH] drm/panel: summit: Reject out-of-range max brightness values
-Date: Fri, 27 Nov 2026 14:12:59 +0100
-Message-ID: <20261127131258.682952-2-blum@kernel.org>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (2048-bit key, unprotected) header.d=deq.rocks header.i=@deq.rocks header.a=rsa-sha256 header.s=securedbylima-20251205 header.b=XIee0nPO
+From: Andre Eikmeyer <dev@deq.rocks>
+X-Lima-ML-UUID: be76e0bf-39fa-4763-b198-36333ccb8c8d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
+	s=securedbylima-20251205; t=1795785905;
+	bh=jCbGfbLhz0HJs0XbEZQr5LjpS053K2gG8GUfQl41Qr0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=XIee0nPOFMYsVn0LGgyRbwD8r91BOqjTLtTGbqQmsNLRzh8eYtV+hjX+XvGwjd+lv
+	 3KUvI0EfxBWmO6WWZEr6pAmHVwxDOnhkdPu6EqnXv81YHXbEvCXzH6D6Jlj3h+0fHK
+	 a7Wuw5atrgwrygc/xxbVmxua/FcftRx5W//K1a29xiy1d1zTLlhnKg7Y2UNURE310O
+	 Huo1zb/ZTMWF25endityMHWoquAMfRCzNh1oWEVQ0cXUZQiqb49fzZx+9qw5B01oJT
+	 JwuJDH1YOTMk9VLE0FYsK5CKRRcdiFgCnN3PVXg1Hyg6Gavxz5rHSD93A8lVVw1yF5
+	 LFU2hbOFyuLXA==
+To: sven@kernel.org,
+	marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: j@jannau.net,
+	neal@gompa.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andre Eikmeyer <dev@deq.rocks>
+Subject: [PATCH v3 0/3] Bluetooth: hci_bcm4377: resume after ACPI S3 and ASPM
+Date: Fri, 27 Nov 2026 14:24:58 +0100
+Message-ID: <20261127132501.262651-1-dev@deq.rocks>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -69,61 +67,47 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2039; i=blum@kernel.org; h=from:subject; bh=KmT0Qr/2UMIfq+v0t/AvB3pGAm+nPOlQo/hh2qri/ow=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDNmcjbeOa7ikKb7rEJQO/ifYsnubf+SlhSXVIf/nT7vz8 F7grYRDHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCR5t0M/7SClEsc2QSml6c3 uderbXNWLK0oi1n427ar29iu+s9nBYb/wSGZn48sS3PpTV8t5npa89qMKUEXnmUtTVvTPy14Wa8 7EwA=
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
-device_property_read_u32() reads the "max-brightness" property directly
-into the signed int max_brightness field. Therefore, values above
-INT_MAX are interpreted as negative.
+After ACPI S3 the Bluetooth function of the BCM4377 comes back without
+its firmware. Patch 2 probes it again after such a resume.
 
-Read the property into a temporary u32 and validate it before assigning
-it to the signed max_brightness field.
+When the previous controller is still being released, the re-probe
+registers the new one under another index, which runs into the probe
+return check fixed in patch 1. Patch 1 is a fix on its own and goes
+first.
 
-Values above INT_MAX now cause probe to fail with -EINVAL instead of
-registering a backlight with a negative maximum brightness.
+Because of a hardware erratum the driver keeps ASPM disabled on the
+whole link to the Wi-Fi and Bluetooth chip for as long as it is bound,
+which holds the CPU package at PC3. Patch 3 disables ASPM only while
+the firmware boots and restores it once the firmware runs, also after
+the re-probe from patch 2.
 
-Fixes: 40115947b59f ("drm: panel: Add a panel driver for the Summit display")
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
-Found by code inspection and compile-tested only.
+The Wi-Fi function of the same chip needs the same after S3 and goes to
+linux-wireless in "wifi: brcmfmac: pcie: S3 suspend and resume on the
+T2 Mac chips".
 
- drivers/gpu/drm/panel/panel-summit.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Tested on MacBookAir9,1 and MacBookPro15,4.
 
-diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
-index 84435be52424..2d6fb9e08ddb 100644
---- a/drivers/gpu/drm/panel/panel-summit.c
-+++ b/drivers/gpu/drm/panel/panel-summit.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include <linux/backlight.h>
-+#include <linux/limits.h>
- #include <linux/property.h>
- #include <drm/drm_device.h>
- #include <drm/drm_mipi_dsi.h>
-@@ -67,6 +68,7 @@ static int summit_probe(struct mipi_dsi_device *dsi)
- 	struct backlight_properties props = { 0 };
- 	struct device *dev = &dsi->dev;
- 	struct summit_data *s_data;
-+	u32 max_brightness;
- 	int ret;
- 
- 	s_data = devm_drm_panel_alloc(dev, struct summit_data, panel,
-@@ -78,9 +80,14 @@ static int summit_probe(struct mipi_dsi_device *dsi)
- 	mipi_dsi_set_drvdata(dsi, s_data);
- 	s_data->dsi = dsi;
- 
--	ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
-+	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
- 	if (ret)
- 		return ret;
-+
-+	if (max_brightness > INT_MAX)
-+		return dev_err_probe(dev, -EINVAL, "Invalid maximum brightness: %u\n",
-+				     max_brightness);
-+	props.max_brightness = max_brightness;
- 	props.type = BACKLIGHT_RAW;
- 
- 	s_data->bl = devm_backlight_device_register(dev, dev_name(dev),
+Changes in v3:
+- Rebase on bluetooth-next
+- Patch 1: shorter subject, add Sven's Reviewed-by from v1
+- Patch 3: add Sven's Acked-by
+
+Changes in v2:
+- Add patch 3, keep ASPM off only while the firmware boots
+- Patches 1 and 2 are unchanged
+
+v2: https://lore.kernel.org/all/20261111120248.21062-1-dev@deq.rocks/
+v1: https://lore.kernel.org/all/20261107154839.89941-1-dev@deq.rocks/
+
+Andre Eikmeyer (3):
+  Bluetooth: hci_bcm4377: check hci_register_dev() for a negative return
+  Bluetooth: hci_bcm4377: probe again after a resume through firmware
+  Bluetooth: hci_bcm4377: keep ASPM off only while the firmware boots
+
+ drivers/bluetooth/hci_bcm4377.c | 93 +++++++++++++++++++++++++++++----
+ 1 file changed, 83 insertions(+), 10 deletions(-)
+
+
+base-commit: f57f78086ab54f3b3122fbaeba2c842ba7bb6d00
