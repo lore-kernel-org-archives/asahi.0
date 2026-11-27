@@ -1,116 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.97
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795703402;
-	b=0o9EtgW+XNmS8KcdB36ZZg+RfIBl8zAOxDKRzF6N+NhcFnP8iiGEEW3yh+fB8z9f5pFT
-	 Cr+6k03nV+DvPQfX/fxneYFp6K0V1B7oPElq4VwfV1AkpGzBWCP3gowu9djaIXVxV3GLF
-	 kVU+aCWCxOiZOlyhoIo3lAsWTRLpNzsOCXhaeeDuHewm0hUIyH9+bvnKveL5NwEttkTK+
-	 ER/oGA35Y7GTvc4tDmioi18D5ag5tHwkY3bTpZfZFcRfbl8BsUONCOr7tFQ0E1WiMpz/Y
-	 XLkoi+z6Gjqahmy7G1ueI0H0aHerU3gsJX7HxmR3xzoV4f/bltV+1TaIWKKTRal3Ktg==
+	t=1795749254;
+	b=PrL8RRD9a15m8v0KbEynz+YN69i9L4AOqrwTqluXfDrLEn4RiEBWe5MK2VmxtRTBY3Iy
+	 2qxvPCa337+u3AiQLe4NcOUdw6WYRMW72CpVwxkliLlkVpUBRviavoXHc7jjhLgA2l4V+
+	 xHK4sTDMiNctl4mkgffSJJIuMiF2/IE/P56NfMwmA4MLPD6hrsemIcBdC4M5NygoM1Syd
+	 Z2r0FrDzSte5tUQlvCF3Bt1oixlOZMxgG0auUhpq1paEEhK+4ICI9xjShIpHG+/z0dtTp
+	 509rTTEnMIIS6H7YGF2SHGvNgN+/PYVh+2uTfz5w5tTTh3SUjr+Nvq+ZXh+xgOzfFMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795703402;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
-	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=VjqQuEBBQvXUyQLlY4Gl4q1TSfCP6TKWu5ONTcrIr9c=;
-	b=3VM9TyWPiEVtwd+GtQ/kcNRwNFFhzFrn9LL4dQgWMY6wKxbGBPfbViILk+pkGM6Ew1Tl
-	 x6ToIMh/WXSeNsE56vWasvr3dVXTQPBwZ7ZsWX+uP5XWa9UJd0BMdBGOhKq7OhpC0bgGu
-	 xNVhp+/HGLyzk0gH7aZX/y7YrFDAsUThKK4WBvFpuE3YLygq2QeCzWmS2DqTUkqexaxtJ
-	 LI/90QN8GNmgL8p8zQ1WIau74jsJz7vGw/dwsl3KFi+K20aaeuD6raHZk7HT/zo+rNzqL
-	 qC2R6/CsorKWExsY3wEGm3/WYtD2LrXK62k61as8pCKEK0rAT4k8P9qV6mQxrPgKb8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795749254;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:User-Agent:MIME-Version;
+	bh=5ugJPjuyaKFJxRku2cqxFQd5DwZah1E7qey/0WnvGBI=;
+	b=v+au0ennuRuZ2nCKdk7rgeCYRcX6DnjsJcSBZmEyXXLjjMPY3iht3QT7nncRSNLslUw+
+	 JeOklPLifniy0fwsC+vcOpPvFZtwqZoOM7sqT04Bjcev6qaZiCdkZ8AfUw24yddNHh1VM
+	 2UoN2PD9qEnszVPY6WckumnVB7JhbxryVmWCiVG1RJOZt7pUZZKY7jxFJYFXaiQXHf0G1
+	 5kwX0f43l9QGjzw7qrwBPqKdUhr4gTN5DoCB/ZBeNgiEI9NDcVTDEFv7LgGVl0l3Sh0Ko
+	 2+CXeMztsrSs3+HQv0mWgay6h9g+Zpv0xy5rnHlA6V2ScqdL0XSdC3ZE9r8FR411aXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=broadcom.com;
-	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Xo6m8cwr;
-	arc=none smtp.remote-ip=209.85.210.97
-Received: from mail-ot1-f97.google.com (mail-ot1-f97.google.com [209.85.210.97])
+	dmarc=pass header.from=ndufresne.ca;
+	spf=pass smtp.mailfrom=ndufresne.ca;
+	dkim=pass header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=K0PqLJOs;
+	arc=none smtp.remote-ip=209.85.160.174
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543FC606A698
-	for <asahi@lists.linux.dev>; Thu, 26 Nov 2026 14:30:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 543FC606A698
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A15606A326
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 03:14:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7A15606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Xo6m8cwr
-Received: by mail-ot1-f97.google.com with SMTP id 46e09a7af769-85a5455bd3cso3906168a34.3
-        for <asahi@lists.linux.dev>; Thu, 26 Nov 2026 06:30:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=K0PqLJOs
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-537548b811aso61187801cf.3
+        for <asahi@lists.linux.dev>; Thu, 26 Nov 2026 19:14:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20260707.gappssmtp.com; s=20260707; t=1795749253; x=1796354053; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5ugJPjuyaKFJxRku2cqxFQd5DwZah1E7qey/0WnvGBI=;
+        b=K0PqLJOsEWR2n1IOj0kFW+QpDNjw1FytzSVy47yrAmGKCDpKoqBcMZLXqJ1d2ZDR0R
+         7Q8TajQ0hbSCe6xwv958+4DrtAMxJPEEwLMLcwgpmP7bcLIuNBWbaR7Ugy2i/05GJdAJ
+         +1IkndFHcUOWvTUHgrHyaqjHRqP6TdlZKjqBHNl5Xjt055R+cSp7aq7iMgUuhHD5s4BU
+         /3zGYWuoHbwwQRcFgt+Qh1FYiyIy/P2/1ZGCv54SOQqAfoyIQmsAvgQDVqCCQ57phu54
+         DQ9mqJM/fysXKV3OGwC7D1K7tycNn0eTwE3NMOZwjrw5eUZVl87/pijXJBBp5D5Vjx37
+         lxfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795703401; x=1796308201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
+        d=1e100.net; s=20260707; t=1795749253; x=1796354053;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VjqQuEBBQvXUyQLlY4Gl4q1TSfCP6TKWu5ONTcrIr9c=;
-        b=DHBYbUduIDuoRFBeDwol4B1rGs1O9H0WKNyTehbKjGoYNXtMnKJ11TvkwzVKvOh7+g
-         +Z7wgvb3e6F/j98upt6oZc7bTSoYnVPGxqh7PtBKBJg/1C1ACwP8YCWzgWYxMqe0UCX3
-         I0SXy339tzPOTUMTJIV9kA+6p5xwYPT1jWpkh8AM3e+RE1JEFrdGDpJJlcp1FixnfAdK
-         R65sN63ljwVIPHvuoJqZOa/nrAWaKcxx97u+/jP0p45X7U4MS/XkMVaIssgrWfKjTwG+
-         pLWOAfEPk0KTTk5F31/fHIIrY8YlQYn19rc+hi9UTbBfBcx8oja+OAPvT1opkOl8Chjp
-         Glow==
-X-Forwarded-Encrypted: i=1; AL+hErFrst6Du9j+lnIw916Q/Rg1MM+JfKf5bCAwzBtmHlkH0V2or3PD6TsDpP4drg70ZncJmo5cUg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9WvEu0hcPSKrAM/gEQGP1gf8tDK7vIcN1DNQp6NxKsqnxjgMmK
-	1s0xmvyi8U6oA2Jd9MK8hSG7uPceRT4rM9qZmiTGFLjtxnoNWLbm0MKVbPFBrJ9MAQ/2Tlqy4BP
-	1AM6+z/Z/MR1VbDcn2a7Sr/S76HeuD3zYj+EBb7PZ4jF1sSXtqRUK8nbjkGb+FLzun8ZGroky0r
-	5nn0RXuNCqJmVvMjfJR5d8AvgVf1TZMHZDTUt9Wg0LO/iOWZYsqNULYTDymSRM+48fKDlgm0vm+
-	ygLmhYVC6YOFV9x
-X-Gm-Gg: AZFdTZe8cQmoehDC5kcFUutWVsH6bcYnt/jYQ3L0q9vRIqwWUVgRXlGYXg4FfuNwgIt
-	5kZLB0nL4ErmTq9mZtVtR2nCWMbgRqAY/i6FsC50ILweIjcdf5oWOiDJGukjmq6QF5Ul1EfG/Qi
-	GTRyepJlAPZO+fSX79nJaU1YcuJZKfEEbffu0uD6/lkJJjoHtzcsKxAhXqrPezCESbWQcJgRg+n
-	J6RgYAHGS1jHsATRdGdRQtPBSuC/9ljCCYpgOIZdvzg7GaDlJimsjmL98ExhfLrk+ucvRxJ+9ao
-	CEfLDp6SVEonR9dZwqwJTJ3QEBVTzw6hOxo72FonhOt2lsER42/+MgUkJ81mBDxU5bXZa6BIKsI
-	ljLKsHqf4pbvsBcbEz2jeducnJuOtSMnlDtGSHb10Tb71T3QC18OpaC12+829d0XBJy5LmjcXTT
-	TpFePgC6v81c7qkruTPaw7GED/BepBalGMaU9+TmCUwg==
-X-Received: by 2002:a05:6830:4c18:b0:824:e29:e00e with SMTP id 46e09a7af769-863159c069fmr22073246a34.20.1795703401042;
-        Thu, 26 Nov 2026 06:30:01 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-100.dlp.protect.broadcom.com. [144.49.247.100])
-        by smtp-relay.gmail.com with ESMTPS id 46e09a7af769-86389ffc8f8sm1843a34.17.2026.11.26.06.29.59
-        for <asahi@lists.linux.dev>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 Nov 2026 06:30:01 -0800 (PST)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-53639e47be2so133284591cf.3
-        for <asahi@lists.linux.dev>; Thu, 26 Nov 2026 06:29:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1795703399; x=1796308199; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VjqQuEBBQvXUyQLlY4Gl4q1TSfCP6TKWu5ONTcrIr9c=;
-        b=Xo6m8cwrNzmEyLAsm8ClKPglyEFcwPqrSWa+VA+RyI0zjWdIAxBBtYl/rj1ORfjiEF
-         Iqvm6lRObtXbKmV4reNYkN2T4nB8b4pPLACGpLPxG45Tcui4S5QyBEG2KrxDus99Ey3F
-         AmvpQS3BKsglW+qyupPi8nr/bjZjQ8l6wZSKg=
-X-Forwarded-Encrypted: i=1; AL+hErFLoWyDCmlZB51+eys/l0SnOb+3JRDl9dj2bcYwlD1xISnqU3PuN3ic/emeCcmZ2eRzBr38Xw==@lists.linux.dev
-X-Received: by 2002:a05:622a:90c:b0:55c:ec48:199d with SMTP id d75a77b69052e-55d76a904a4mr364421981cf.48.1795703398936;
-        Thu, 26 Nov 2026 06:29:58 -0800 (PST)
-X-Received: by 2002:a05:622a:90c:b0:55c:ec48:199d with SMTP id d75a77b69052e-55d76a904a4mr364421641cf.48.1795703398410;
-        Thu, 26 Nov 2026 06:29:58 -0800 (PST)
-Received: from bld-bun-02.bun.broadcom.net ([192.19.176.227])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788506b0sm181098511cf.17.2026.11.26.06.29.55
+        bh=5ugJPjuyaKFJxRku2cqxFQd5DwZah1E7qey/0WnvGBI=;
+        b=uJMvixLzQyen6K0TC2MwNIoxUXQpq0vnHdPsQ9reFzqRAJizwSOezveE0i6IghZOrg
+         y4beK55Nq2bkO+QfJrH2PumoTib5b6pLgfVYmVc62xenU1HspGG75FoVoD/j4zVnuc07
+         xM1WQB2zg0NqG4vVRO+ns+/MVoCKoxY8aRzDw0SGEM9Y56r7aFDic8/U+kcvMAoRYRP/
+         rlBe0GnWZwg+hSghgcaQ5wigy4pnBCu96f7G39NF81I+kwWvII5vZEVRNd4ScB+DOz6n
+         2OGdep5BpHunBQjGKqFVejsFia7JTwKY3Fzub/ZeK3oND0rTKgZNNP00K4VWolp5nhXx
+         4yNg==
+X-Forwarded-Encrypted: i=1; AL+hErG7Bf6V9DnjnC8Vc6LlbuUIgSOm+XMdK4kVPXFzkzmKaN6eDOGttBkVDiyUzx24whHr+5ivhg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+uO7FGqv/k+rBgqExUM8fATu5n3kgMndlL3TbhiCVtaK24biVb
+	TUx+DSdiAS1Kbr7n2ZrkaEmbB+ZkvdS6TcfKllQqBz7Zc89EOwAU+zJcjuh9FVrXmzrxQA1wTX3
+	pxRZSOwY=
+X-Gm-Gg: AZFdTZe0OFviz+GdCwfijiSiCfsrjvOA70vtrKRs7cyXMXuEaRtdm5KmqaE/Nx4kMhQ
+	gagUZ4mBjG3khpUvGaObCTzfHOrLjocltd3wI+bIukfc/tfmLQNSzmGfIlTieuaBgTcWjJXd7O7
+	5dgcPqGaNMXe5ZZxQtSUJ4p6CN1LWxMma5kbDZVkOTcjb3c4Z3fs4jFvy3IXneD2QShnbmGBxtC
+	9g8DL0v5RwGpYQJhuQrw6VgbaGR3St8OHJhINCOigFqSKxI4LdCSX5PiXy2fY09lCOuLETKssyj
+	3cd6XpXLcCU63htJ1HrpkHHga5SX02E+khnnejHndlcHcIHVIrgtzRyG6tHAgAjmOFOKV8UdtE4
+	37CILnk17iUtrhZ8VHE5RBSpOjGnyaTrlQUnzVMWyIqtk5O1Eogyt+EiaxpzS1BT8oCaaAc9U+O
+	5RS46GMSPmVeFD+XcoGuMAH09rgQp5JWDMjbdGsKuWTB3Xu3grJykN+V8w5FJoqC68g+s2nRl4o
+	UEU06W9itEX0ge7UDXT15chfRCtpQt3w3wtRagI1h7qfl42mdtbr9MX6f0M6N41Q1tKDsKw/1zc
+	S1IJixNLnZ3o70F72w9idRTHHW0owHFTuh5yCApAAgbniVylksqDDvQ=
+X-Received: by 2002:a05:620a:4446:b0:949:70f1:de2f with SMTP id af79cd13be357-949ba8260f2mr3894266285a.8.1795749252644;
+        Thu, 26 Nov 2026 19:14:12 -0800 (PST)
+Received: from ?IPv6:2606:6d00:11:8ec9::5ac? ([2606:6d00:11:8ec9::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb0354a9sm1733363985a.5.2026.11.26.19.14.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 06:29:58 -0800 (PST)
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-To: Andre Eikmeyer <dev@deq.rocks>
-Cc: arend.vanspriel@broadcom.com,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	michael.reeves077@gmail.com,
-	marcan@marcan.st,
-	j@jannau.net,
-	asahi@lists.linux.dev,
-	sebastian.reichel@collabora.com
-Subject: Re: [PATCH v2 5/5] wifi: brcmfmac: pcie: support inband device wake and deep sleep
-Date: Thu, 26 Nov 2026 15:29:42 +0100
-Message-ID: <20261126142942.881504-5-arend.vanspriel@broadcom.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261111120748.23795-6-dev@deq.rocks>
-References: <20261111120748.23795-6-dev@deq.rocks>
+        Thu, 26 Nov 2026 19:14:11 -0800 (PST)
+Message-ID: <1f649c8c2c08c31f1f6ff7d7a17ea02301d89579.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 05/17] media: v4l2-ctrls: validate vp9 tile_rows_log2
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sofus Forstreuter <sofus.c@icloud.com>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa	
+ <neal@gompa.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Heiko
+ Stuebner	 <heiko@sntech.de>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, 	linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Date: Thu, 26 Nov 2026 22:14:10 -0500
+In-Reply-To: <awanusdfmrjYpdHT@m3>
+References: <20261020-avd-v3-0-85cbaa2125d8@icloud.com>
+	 <20261020-avd-v3-5-85cbaa2125d8@icloud.com>
+	 <4c54e652e8fb714600852a3028b892c6a292c6cd.camel@ndufresne.ca>
+	 <awanusdfmrjYpdHT@m3>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-KBWr4qryrDMK+mhbuy3u"
+User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -120,193 +123,65 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-On Wed, 11 Nov 2026 13:07:48 +0100, Andre Eikmeyer <dev@deq.rocks> wrote:
-> The BCM4364 and BCM4377 firmware report inband deep sleep in the PCIe
-> shared flags. The driver only advertises that it has no out-of-band
-> device wake, which leaves deep sleep disabled. The firmware then stays
-> awake and keeps its latency tolerance short enough to hold the package
-> out of PC10.
->
-> Advertise inband device wake when the firmware supports it and follow
-> the handshake of the firmware. The device asks for deep sleep while
-> device wake is deasserted, the host acknowledges it once it has nothing
-> to send, asserts device wake before it uses the rings again and waits
-> for the exit note, and deasserts device wake after 200 ms without ring
-> writes. Hooks around the ring lock cover every host to device ring
-> writer. A system suspend asserts device wake before D3_INFORM and
-> acknowledges no deep sleep request until the resume.
->
-> Tested on a MacBookPro15,1 (BCM4364) and a MacBookAir9,1 (BCM4377). The
-> firmware enters and leaves deep sleep about 40 times a minute at idle
-> with Wi-Fi associated, traffic and downloads work, and the package
-> reaches PC10 without ignoring the latency tolerance of the Wi-Fi port.
->
-> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+--=-KBWr4qryrDMK+mhbuy3u
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch does not apply to wireless-next main: the struct brcmf_pciedev_info hunk
-conflicts with the sig_name/fw_size/skip_reset_vector members added by "wifi:
-brcmfmac: Load signed PCIe firmware images". Please rebase on wireless-next.
+Le mercredi 25 novembre 2026 =C3=A0 10:17 +0100, Sofus Forstreuter a =C3=A9=
+crit=C2=A0:
+> On Tue, Nov 24, 2026 at 05:16:47PM -0500, Nicolas Dufresne wrote:
+> > Le mardi 20 octobre 2026 =C3=A0 11:37 +0200, Sofus Forstreuter a =C3=A9=
+crit=C2=A0:
+> > > Reviewed-by: Neal Gompa <neal@gompa.dev>
+> > > Signed-off-by: Sofus Forstreuter <sofus.c@icloud.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-ctrls-core.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/medi=
+a/v4l2-core/v4l2-ctrls-core.c
+> > > index 922cf74c4eb8..384ff77771ea 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> > > @@ -638,7 +638,7 @@ validate_vp9_frame(struct v4l2_ctrl_vp9_frame *fr=
+ame)
+> > >  =09 * According to the spec, tile_cols_log2 shall be less than or eq=
+ual
+> > >  =09 * to 6.
+> > >  =09 */
+> > > -=09if (frame->tile_cols_log2 > 6)
+> > > +=09if (frame->tile_cols_log2 > 6 || frame->tile_rows_log2 > 2)
+> >=20
+> > Shouldn't this be 6 too? (log2(64)).
+> >=20
+>=20
+> The max for tile_rows_log2 is derived from the spec (6.2.13 Tile info syn=
+tax):
+>=20
+> tile_rows_log2 =3D f(1)
+> if (tile_rows_log2 =3D=3D 1)
+>   tile_rows_log2 +=3D f(1)
+>=20
+> This is also what eg. gstreamer does. I will add that to the commit messa=
+ge.
 
-[...]
+Thanks, note that I was also confusing AV1, my fault for hopping codecs tha=
+t are
+similar but different.
 
-> ---
->  .../broadcom/brcm80211/brcmfmac/commonring.c  |  14 ++
->  .../broadcom/brcm80211/brcmfmac/commonring.h  |   5 +
->  .../broadcom/brcm80211/brcmfmac/pcie.c        | 233 +++++++++++++++++-
->  3 files changed, 249 insertions(+), 3 deletions(-)
+Nicolas
 
-[...]
+--=-KBWr4qryrDMK+mhbuy3u
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -892,17 +918,184 @@ brcmf_pcie_send_mb_data(struct brcmf_pciedev_info *devinfo, u32 htod_mb_data)
+-----BEGIN PGP SIGNATURE-----
 
-[...]
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawj1ggAKCRDZQZRRKWBy
+9DsUAP9PRVkjRHpiRiSLgzM8l9UhjnS0sDzgmwo4BJV1vzvvAgD9FAmOhu7fqhJ0
+E9UOn92W7ZLiKmduKFmpzDXkPI9rEQE=
+=QqIL
+-----END PGP SIGNATURE-----
 
-> +static void brcmf_pcie_ds_send(struct brcmf_pciedev_info *devinfo, u32 data)
-> +{
-> +	mutex_lock(&devinfo->ds_mutex);
-> +	WRITE_ONCE(devinfo->ds_sender, current);
-> +	brcmf_pcie_send_mb_data(devinfo, data);
-> +	WRITE_ONCE(devinfo->ds_sender, NULL);
-> +	mutex_unlock(&devinfo->ds_mutex);
-> +}
-> +
-
-[...]
-
-> +static void brcmf_pcie_ds_wake(struct brcmf_pciedev_info *devinfo)
-> +{
-> +	bool assert = false, wait;
-> +
-> +	if (brcmf_pcie_ds_skip(devinfo))
-> +		return;
-> +
-> +	spin_lock(&devinfo->ds_lock);
-> +	devinfo->ds_active++;
-> +	if (devinfo->ds_state == BRCMF_PCIE_DS_SLEEP) {
-> +		devinfo->ds_state = BRCMF_PCIE_DS_EXIT_WAIT;
-> +		assert = true;
-> +	}
-> +	wait = devinfo->ds_state == BRCMF_PCIE_DS_EXIT_WAIT;
-> +	spin_unlock(&devinfo->ds_lock);
-> +
-> +	if (assert) {
-> +		brcmf_dbg(PCIE, "deep sleep: assert device wake\n");
-> +		brcmf_pcie_ds_send(devinfo, BRCMF_H2D_HOST_DW_ASSERT);
-> +	}
-> +	if (!wait)
-> +		return;
-> +
-> +	/* The exit note arrives through the interrupt thread itself */
-> +	if (devinfo->in_irq) {
-> +		usleep_range(1000, 1100);
-> +		return;
-> +	}
-> +	if (wait_event_timeout(devinfo->ds_wait,
-> +			       READ_ONCE(devinfo->ds_state) !=
-> +			       BRCMF_PCIE_DS_EXIT_WAIT,
-> +			       BRCMF_PCIE_DS_EXIT_TIMEOUT))
-> +		return;
-> +
-> +	brcmf_err(dev_get_drvdata(&devinfo->pdev->dev),
-> +		  "no deep sleep exit after device wake\n");
-> +	spin_lock(&devinfo->ds_lock);
-> +	if (devinfo->ds_state == BRCMF_PCIE_DS_EXIT_WAIT)
-> +		devinfo->ds_state = BRCMF_PCIE_DS_AWAKE;
-> +	spin_unlock(&devinfo->ds_lock);
-> +}
-> +
-
-devinfo->in_irq is a device wide flag that is true whenever the interrupt thread is
-running. Another thread (tx worker, ioctl, flowring worker) that gets here while the
-interrupt thread is running takes this branch, sleeps 1 ms and writes the ring while
-the device is still waking up. Please check that current is the interrupt thread (for
-instance record it like ds_sender) instead of looking at in_irq.
-
-The return value of brcmf_pcie_ds_send() is ignored here and in the ack paths. If the
-write fails, every ring lock waits the full 500 ms for the exit note, or the state
-says sleep while the device is awake. Please handle the failure.
-
-[...]
-
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -1821,6 +2021,10 @@ brcmf_pcie_init_share_ram_info(struct brcmf_pciedev_info *devinfo,
->  		if (shared->flags & BRCMF_PCIE_SHARED_DAR)
->  			host_cap |= BRCMF_HOSTCAP_H2D_DAR;
->  		host_cap |= BRCMF_HOSTCAP_DS_NO_OOB_DW;
-> +		if (shared->flags & BRCMF_PCIE_SHARED_INBAND_DS) {
-> +			host_cap |= BRCMF_HOSTCAP_DS_INBAND_DW;
-> +			devinfo->ds_state = BRCMF_PCIE_DS_ALLOWED;
-> +		}
->
->  		brcmf_pcie_write_tcm32(devinfo, sharedram_addr +
->  				       BRCMF_SHARED_HOST_CAP_OFFSET,
-
-The cover letter says this relies on the mailbox over the control ring, but nothing
-checks mb_via_ctl here. With the shared memory mailbox the wake and ack messages go
-through a different path and I doubt the handshake holds. Please require mb_via_ctl.
-Does the firmware want DS_NO_OOB_DW and DS_INBAND_DW both set? This also enables the
-feature for every other firmware that sets the flag (BCM4378/4387/4388, CYW), which
-were not tested. Please limit it to the tested chips or get it tested on the others.
-
-[...]
-
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -2757,6 +2966,8 @@ brcmf_pcie_remove(struct pci_dev *pdev)
->  		return;
->
->  	devinfo = bus->bus_priv.pcie->devinfo;
-> +	WRITE_ONCE(devinfo->ds_state, BRCMF_PCIE_DS_NONE);
-> +	cancel_delayed_work_sync(&devinfo->ds_deassert_work);
->  	brcmf_pcie_bus_console_read(devinfo, false);
->  	brcmf_pcie_fwcon_timer(devinfo, false);
->
-
-This makes all hooks a no-op but does not wake the device first. At idle the device
-sleeps most of the time, so the ioctls and flowring deletes that brcmf_detach() sends
-after this go to a sleeping device and time out. Also, ds_state is not changed under
-ds_lock, so a thread that passed ds_skip() just before can still call
-mod_delayed_work() after cancel_delayed_work_sync() (tx worker unlock path or the
-interrupt thread exit note), and the work then runs after devinfo is freed. Please
-wake the device before disabling, set NONE under ds_lock, check for it under the lock
-before queueing the work, and cancel the work after the tx worker and interrupt
-handling are stopped.
-
-The series "wifi: brcmfmac: pcie: recover from fatal PCIe errors"
-(https://patchwork.kernel.org/series/1203582/) re-probes the device after a fatal
-PCIe error with device_reprobe(), so brcmf_pcie_remove() then runs on a device that
-just had its link reset and does not answer. Waking the device first would stall
-there, and the ring lock hooks would wait on it while devinfo->state is already
-DOWN. Please make the wake in remove and the ring lock hooks give up when the
-device is not up. Whichever series is applied second will need a rebase.
-
-[...]
-
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -2811,6 +3022,15 @@ static int brcmf_pcie_pm_enter_D3(struct device *dev)
->  	brcmf_pcie_fwcon_timer(devinfo, false);
->  	brcmf_bus_change_state(bus, BRCMF_BUS_DOWN);
->
-> +	if (devinfo->ds_state != BRCMF_PCIE_DS_NONE) {
-> +		spin_lock(&devinfo->ds_lock);
-> +		devinfo->ds_suspend = true;
-> +		spin_unlock(&devinfo->ds_lock);
-> +		cancel_delayed_work_sync(&devinfo->ds_deassert_work);
-> +		brcmf_pcie_ds_wake(devinfo);
-> +		brcmf_pcie_ds_idle(devinfo);
-> +	}
-> +
->  	devinfo->mbdata_completed = false;
->  	brcmf_pcie_send_mb_data(devinfo, BRCMF_H2D_HOST_D3_INFORM);
->
-
-ds_suspend is not cleared when brcmf_pcie_pm_enter_D3() fails further down (the
-WoWL D3 timeout returns -EIO). The PM core does not resume this device then, so no
-deep sleep request is acked anymore and the deassert work never runs again. Please
-clear it on that error path.
-
-Regards,
-Arend
+--=-KBWr4qryrDMK+mhbuy3u--
