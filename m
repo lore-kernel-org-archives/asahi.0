@@ -1,97 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795772393;
-	b=c3b9kQzqoQlvtWhuKMUriLPWjbtskxEj6W+I7iCqvWtrBsc9cNcF1rqa/DyWxd1Ztl3q
-	 62U2pgH66UvIgRO2zuLwWoEcHUOIuR2YW74fh1gO7QHoI3H5ZqdKIINX7bmlFsyo28JVs
-	 mWfE69kNWfADIWpzT08kJAr9zr2p0x04V8DbqGUau2pP8C3IRwKkYK91MyWI/J74YpV6t
-	 bwlcDjf/9kkPgIA++UonpgW3yBVGey3BgpWszQrRAOBJHp0D8ADDz34exmF/ivYBnwUuf
-	 iX2k0XDyChH/BMxnAAU4Dicxt4ycN2TmlHPGzUhM/n0QBKcIM/39m9nnVf/rui9QTaQ==
+	t=1795785204;
+	b=N5ep/b8f7HdvJTZOg9L0tqCc1jXItiJb9/xiLDeT7ZvnsXZMZ2tMb46YFw+qkZOY8g3d
+	 y/+NChjZjIKRgCp9axjYfSwEmUoAU0i9lJPyg5oVDmPtmCf19glNTwMpfOSHlxUEs856R
+	 0S/tYtIz1AG+h6k+b74uR1OHuCIkYkMBo7NVAyWnWwgGLTcQ9HC6gb9mLFW3H7FnFnufX
+	 BX9dd0o0ARQgM1X0RawRXVxF2DTHcfLlqLxKXEKfHBg+B6Ip9l9AQ82MOnakQkblj2MYe
+	 50Rfr0LModyj94Yh+FJzqgxIqkhn3ayM8BFSx9ojoUU/G7lk759oDazqGmH3SB6EVdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795772393;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795785204;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=SVK9o+TEy+mRM7Y9b0GBxL1NkApW4WyeZVqrEHMtafo=;
-	b=MvCzSpKumuzKlJNOObFb8ENuwEqeFaqZiEIOCpgljisj1ATeQGxtAi04MPx0pMtq7ISn
-	 L30fzPrZrUirnLVP0eEH5qznASD97ZpVljzxmY3C0ww3ddI6JHr3B4hJLCLeoDNhnAC8l
-	 B/BW8oa+BLiQDKHJtS1WyphJkRmR78i6cIxIjcbgK7SawEX8mKqWCOj2Yg6K7Jw9ymVU0
-	 2EK1VmSpJQe+QKOZIuMMGHcdAhTRHUfqNUYR4ay5rtDtcA+ul88eOgNxqtKBZJxQ90f8w
-	 vj0Q1uiLTUJhm8FupIxWRZzD3q98ZZFCuf+1Pk6PIJnlQl73oRLtgnuL8H1H/2HQ8nQ==
+	bh=ecXKaMO8m+L3M1n1GPbEUhGNBTH54VF2vdfloCEyxpA=;
+	b=QZX+yV6uxB0T6ISzGoNEiXMdBfxwReM8FnhYpeKoV4E6CajgMp6aJDnULSInvd0zZbIC
+	 GEQlgh1Z64zOGzG+iPOOXCydrwcUpwZrp2cgOCti1xNFFpSSSYvDu8/ViGmOtB06vIiPF
+	 BusBkv/283ItmnMAhWGYUU0ggZvZ1Jxyp/dZFl/XILIgz3GlTjnLuZhWiUUT3vXqSGG+p
+	 /4G3svkga9CaFbveHhYu9lH2fs0koKmWrbq+FoQBTiNV2KXlQZlI3rQFU0k7NHnn7ZXBa
+	 U8Ve9IQPVtB+G+nRu6U1/NaCjcDKTDJVz0SdiTRxkIyB9EFhVq6ceLKNpRrlkah0Wcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dXcl4Pk3;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgFpDlK3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DA0606A31E
-	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 09:39:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51DA0606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CED0606A32D
+	for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 13:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dXcl4Pk3
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48dee593f18so7377431f8f.3
-        for <asahi@lists.linux.dev>; Fri, 27 Nov 2026 01:39:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795772392; x=1796377192; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SVK9o+TEy+mRM7Y9b0GBxL1NkApW4WyeZVqrEHMtafo=;
-        b=dXcl4Pk32cfbMhCrOl8J/p+nK7vgb1c4YBS7G5G8PBLmnUg6P7ML4WMuDiKtmUQ3d8
-         yE8hXrAhCkCDDMrva2KT8788tTdpMZbMYLFfmGNOtK912rIZ7hSPHFD3fIllHLrwh6Zm
-         ePPDcuJb9oks5d3OQ1II5RK0kCF1vUl/Gip1Ro+vB5FvDY3loNbM5Oq3o+dB+GwUeFhb
-         auqacQpEMq2bagu3mB+k4QI8BOinv5q59Ht3ZFR0gYhD5HNujulLfuMvn0Bj1CsO7Lfm
-         OC5/jiyE95UQiUikDriLCKTix00yVjsEvLxkWAxo5sbdUtvijAoxTQm/5zZ8a1+QlPAB
-         Ni2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795772392; x=1796377192;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SVK9o+TEy+mRM7Y9b0GBxL1NkApW4WyeZVqrEHMtafo=;
-        b=ImKs+jurTR4g8RGt/u+wf7EJD8XFWB4aL/NHd60QhVOJOClIfW4+f9yoDxyXJrMbMF
-         iG5z9zUuXSt7F6Rj/DblyRY7CxbiL44p+VElerrfRv3TK0d3y6JAl9Dpapv1nbULbnwg
-         PIGz5dL7rz09YYQxfogOyx+dDUJOZP4GDfaNsx0MTwhRZyyEgdREkvp1NPEDLNNeFoQp
-         PjQDSkBzgRQkOQ54r3IxP2gl486VzKj6hPYuJzJuFERBXH4N2d+uEODYSpNjhwQPaAiI
-         4Z4klIJv14Y7i5U74yuGT4hi5dTBBw/5J0n2WjK262GKKZ65qRuW9Yyf5OiaqIip1Qim
-         ruqw==
-X-Forwarded-Encrypted: i=1; AL+hErFyWUVyhyZu/rmquTLcyhcJOF1IPW++ODQmAO6LchH49h1Z2+JGRAecoXq+EDt8O89NY6SfUg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+VOQP2tJtRlXSvvlt/8/rz6tDjU3YeY+zP+vG/iUFkIJYkdTi1
-	qtr7hWRYfAB0Acfd4fRTbzlpEJaawXiM9L8NMeurcy32x8b5R41UyxZQ
-X-Gm-Gg: AZFdTZdU9F/UmjBwKJfh+xOImL2GcwFjF7iiGxHoCYL2OHauEqBWV4ybqvVgGVWCdqv
-	K5lFK/6aIgadifTeIDvAtN11JnMYaZZLOx1/tBbw92VxAYoGQsH6SkXjbk7zMpnMszAX/37EUYt
-	SQJIfRnHGeGo8W/vG1tHCFCGDeuXDrtxLkEO0OLVUXJsVFy+SHb06RZ8JiRrZ5WyB/xCCtXD4uW
-	wi0mdv2l5BQ2+YvVlLImmvJHJbeWAf6DI03xq79hxX48yJpZaaJAVC7RArmihFNSw5uou7hqRUa
-	3iD9kf1VSOGG8kbbzgjD8De4HOJCHW9h539638IOg3OnK8J4tao8z9BFnQZPrKOQeUDPEY682Bt
-	cAigqoTxh9EYF37RVmmlmpsQpk4+4v6FwREdxgRvCGChBMQ/+m/c4YKlCPKCmt6zlYvZ+SFTXV3
-	kcU/6jagQ2eLYdMd8eQdtBOcMcL660mM1x5uNWVSIaqCOm7eDmWzW0v5ZjOfIexojKmc0d5rELv
-	nmkEcocotHgMF9soHpCet0BfjqzSXiGDL5Kvd7nEAzCVZa2Kckov5ijlvXmMJF8t9PXZVJYs1W2
-	UNlxkl5iNluYCGfCpCLNjFsdCOErcaSD5JhxOz2S0ooR3FUhVpeaCUApfnLQClFnV5nj
-X-Received: by 2002:a5d:5f53:0:b0:4b7:6ea2:54be with SMTP id ffacd0b85a97d-4b76ec0df5fmr25970915f8f.14.1795772391607;
-        Fri, 27 Nov 2026 01:39:51 -0800 (PST)
-Received: from localhost.localdomain ([2a04:ee41:4:b2de:1ac0:4dff:fe0f:3782])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67f204sm55531185f8f.21.2026.11.27.01.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:39:51 -0800 (PST)
-From: Anton Protopopov <a.s.protopopov@gmail.com>
-To: Sven Peter <sven@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZgFpDlK3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53401F0089F;
+	Fri, 27 Nov 2026 13:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795785204;
+	bh=ecXKaMO8m+L3M1n1GPbEUhGNBTH54VF2vdfloCEyxpA=;
+	h=From:To:Cc:Subject:Date;
+	b=ZgFpDlK3RSqpP+aZw3F7PeD8ohRFc1txch9dzsHYIUWIf+DMx7zM6uRHnpul++7G/
+	 UacJsitJGFCWsZYRz5OnOKNfrq70P8ZV4dim5ONPFaBje9C4qeqzoC5GNNI9TflUxr
+	 CJudKNKkVg56kzx4Eyb034D3LAIIfuRsfv6IiJB8qlNOE1vMEi9Kszsy+6yYYGVNNQ
+	 iBQyZxtP1qQ3DjAUpYtM8AkVe9ac4ToA2wNJzTTKwnu+Xt7eL0T7iVwz6Ck3c1+42e
+	 1/c9hWV6TKchC72BoTNLOI79rli8/baaUm72uQ5UEO+q3Ap3hKCVVZys++YqDff5O+
+	 2mP4EyRchDtQg==
+From: Thorsten Blum <blum@kernel.org>
+To: Sasha Finkelstein <k@chaosmail.tech>,
 	Janne Grunau <j@jannau.net>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Dmitry Baryshkov <lumag@kernel.org>,
 	Neal Gompa <neal@gompa.dev>,
-	Robin Murphy <robin.murphy@arm.com>,
-	iommu@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: Anton Protopopov <a.s.protopopov@gmail.com>
-Subject: [PATCH] iommu/apple-dart: Properly check the error
-Date: Fri, 27 Nov 2026 09:51:18 +0000
-Message-ID: <20261127095119.1342988-1-a.s.protopopov@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Nick Chan <towinchenmi@gmail.com>
+Cc: Thorsten Blum <blum@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	asahi@lists.linux.dev
+Subject: [PATCH] drm/panel: summit: Reject out-of-range max brightness values
+Date: Fri, 27 Nov 2026 14:12:59 +0100
+Message-ID: <20261127131258.682952-2-blum@kernel.org>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Post: <mailto:asahi@lists.linux.dev>
@@ -101,37 +69,61 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:asahi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2039; i=blum@kernel.org; h=from:subject; bh=KmT0Qr/2UMIfq+v0t/AvB3pGAm+nPOlQo/hh2qri/ow=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDNmcjbeOa7ikKb7rEJQO/ifYsnubf+SlhSXVIf/nT7vz8 F7grYRDHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCR5t0M/7SClEsc2QSml6c3 uderbXNWLK0oi1n427ar29iu+s9nBYb/wSGZn48sS3PpTV8t5npa89qMKUEXnmUtTVvTPy14Wa8 7EwA=
+X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
-The apple_dart_device_group() function expects pci_device_group()
-(or generic_device_group() for a non-PCI device) to return NULL on
-failure. However, both of them return an error pointer instead of
-NULL. The error pointer then is immediately dereferenced by the
-iommu_group_get_iommudata() function.
+device_property_read_u32() reads the "max-brightness" property directly
+into the signed int max_brightness field. Therefore, values above
+INT_MAX are interpreted as negative.
 
-Check for an error pointer instead of NULL and return the error.
+Read the property into a temporary u32 and validate it before assigning
+it to the signed max_brightness field.
 
-Fixes: f0b636804c7c ("iommu/dart: Clear sid2group entry when a group is freed")
-Signed-off-by: Anton Protopopov <a.s.protopopov@gmail.com>
+Values above INT_MAX now cause probe to fail with -EINVAL instead of
+registering a backlight with a negative maximum brightness.
+
+Fixes: 40115947b59f ("drm: panel: Add a panel driver for the Summit display")
+Signed-off-by: Thorsten Blum <blum@kernel.org>
 ---
+Found by code inspection and compile-tested only.
 
-(Found accidentally, while working on BPF stuff.)
+ drivers/gpu/drm/panel/panel-summit.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- drivers/iommu/apple-dart.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index d8302128b465..36ce5ac39b7b 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -981,8 +981,8 @@ static struct iommu_group *apple_dart_device_group(struct device *dev)
- #endif
- 		group = generic_device_group(dev);
+diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
+index 84435be52424..2d6fb9e08ddb 100644
+--- a/drivers/gpu/drm/panel/panel-summit.c
++++ b/drivers/gpu/drm/panel/panel-summit.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
  
--	res = ERR_PTR(-ENOMEM);
--	if (!group)
-+	res = group;
-+	if (IS_ERR(group))
- 		goto out;
+ #include <linux/backlight.h>
++#include <linux/limits.h>
+ #include <linux/property.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_mipi_dsi.h>
+@@ -67,6 +68,7 @@ static int summit_probe(struct mipi_dsi_device *dsi)
+ 	struct backlight_properties props = { 0 };
+ 	struct device *dev = &dsi->dev;
+ 	struct summit_data *s_data;
++	u32 max_brightness;
+ 	int ret;
  
- 	group_master_cfg = iommu_group_get_iommudata(group);
+ 	s_data = devm_drm_panel_alloc(dev, struct summit_data, panel,
+@@ -78,9 +80,14 @@ static int summit_probe(struct mipi_dsi_device *dsi)
+ 	mipi_dsi_set_drvdata(dsi, s_data);
+ 	s_data->dsi = dsi;
+ 
+-	ret = device_property_read_u32(dev, "max-brightness", &props.max_brightness);
++	ret = device_property_read_u32(dev, "max-brightness", &max_brightness);
+ 	if (ret)
+ 		return ret;
++
++	if (max_brightness > INT_MAX)
++		return dev_err_probe(dev, -EINVAL, "Invalid maximum brightness: %u\n",
++				     max_brightness);
++	props.max_brightness = max_brightness;
+ 	props.type = BACKLIGHT_RAW;
+ 
+ 	s_data->bl = devm_backlight_device_register(dev, dev_name(dev),
